@@ -15,7 +15,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS
     ///     <see cref="IUnconfiguredProjectTasksService.ProjectLoadedInHost"/>.
     /// </summary>
     [Export(typeof(ILoadedInHostListener))]
-    internal class VsSolutionEventListener : OnceInitializedOnceDisposedAsync, IVsSolutionEvents, IVsPrioritizedSolutionEvents, ILoadedInHostListener
+    internal class VsSolutionEventListener : OnceInitialisedOnceDisposedAsync, IVsSolutionEvents, IVsPrioritizedSolutionEvents, ILoadedInHostListener
     {
         private readonly IVsUIService<IVsSolution> _solution;
         private readonly IProjectThreadingService _threadingService;
@@ -31,10 +31,10 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS
 
         public Task StartListeningAsync()
         {
-            return InitializeAsync(CancellationToken.None);
+            return InitialiseAsync(CancellationToken.None);
         }
 
-        protected override async Task InitializeCoreAsync(CancellationToken cancellationToken)
+        protected override async Task InitialiseCoreAsync(CancellationToken cancellationToken)
         {
             await _threadingService.SwitchToUIThread(cancellationToken);
 
@@ -43,9 +43,9 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS
                 throw result.Exception;
         }
 
-        protected override async Task DisposeCoreAsync(bool initialized)
+        protected override async Task DisposeCoreAsync(bool Initialised)
         {
-            if (initialized)
+            if (Initialised)
             {
                 if (_cookie != VSConstants.VSCOOKIE_NIL)
                 {

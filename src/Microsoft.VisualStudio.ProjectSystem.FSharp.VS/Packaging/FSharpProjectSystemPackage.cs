@@ -40,7 +40,7 @@ namespace Microsoft.VisualStudio.Packaging
         {
         }
 
-        protected override async Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
+        protected override async Task InitialiseAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
 
@@ -50,7 +50,7 @@ namespace Microsoft.VisualStudio.Packaging
             Guid selectorGuid = typeof(FSharpProjectSelector).GUID;
             _projectSelectorService.RegisterProjectSelector(ref selectorGuid, new FSharpProjectSelector(), out _projectSelectorCookie);
 
-            await base.InitializeAsync(cancellationToken, progress);
+            await base.InitialiseAsync(cancellationToken, progress);
         }
 
         protected override void Dispose(bool disposing)

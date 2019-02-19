@@ -36,7 +36,7 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
         '   future flexibility (perhaps we want the resource editor to be hostable from Loc Studio, for example), 
         '   and also so that assemblies which contain custom editors only have to reference the DLL with 
         '   ResourceTypeEditor, and not the larger and more arbitrary Microsoft.VisualStudio.Editors.dll.  
-        '   (Note that only the custom editor assembly actually has to reference ResourceTypeEditor – the 
+        '   (Note that only the custom editor assembly actually has to reference ResourceTypeEditor ï¿½ the 
         '   class which the editor edits can specify type names rather than actual types and thus does not 
         '   need a reference either to the ResourceTypeEditor assembly or to the assembly with its custom 
         '   editor.)  We could either create a new DLL or look for an existing DLL with a similar function of 
@@ -50,7 +50,7 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
         '       <Editor(GetType(MyFunkyResourceCustomResourceEditor), GetType(ResourceTypeEditor)), _
         '         Serializable()> _
         '       Public Class MyFunkyResource
-        '   	…
+        '   	ï¿½
         '       End Class
         '   
         '   This associates the MyFunkyResourceCustomResourceEditor custom editor with the .resx-persistable 
@@ -59,9 +59,9 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
         '   
         '   To ensure our pluggable architecture is working, the native types that are supported in the 
         '   resource editor (bitmap, icon, etc.) are all implemented using this same architecture.  We use 
-        '   TypeDescriptor.AddEditorTable in ResourceTypeEditor’s Shared Sub New to associate our intrinsic 
+        '   TypeDescriptor.AddEditorTable in ResourceTypeEditorï¿½s Shared Sub New to associate our intrinsic 
         '   type editors with their corresponding types in the frameworks classes (since we own editors for 
-        '   classes that we do not own, such as Bitmap and therefore can’t place an attribute directly on 
+        '   classes that we do not own, such as Bitmap and therefore canï¿½t place an attribute directly on 
         '   the class).  Note that it is not possible for 3rd parties to use TypeDescriptor.AddEditorTable.  
         '   Since a custom type editor is associated with that resource class that it edits by placing an 
         '   attribute on the resource class, in general a custom resource type editor must be created by the 
@@ -75,13 +75,13 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
         '   there is no actual instance of that type in the .resx file, we would not know to add them to 
         '   the categories list.  To make it possible for programmers to create new resources of such 
         '   custom types, we would need to allow the user to specify new types to add to the categories 
-        '   list.  BrianPe has suggested we create a dialog which searches through the installed SDK’s 
+        '   list.  BrianPe has suggested we create a dialog which searches through the installed SDKï¿½s 
         '   searching for public types with custom resource type editors.  (Note: He says we can steal 
         '   similar code from the toolbox code and modify it for our use probably within a couple of 
         '   days.)  Once a type has been added to the category list, it would persist through multiple 
         '   sessions of using the VS shell until it is explicitly removed.  Once the new type is installed 
         '   in the category list, it would be possible to create a new instance of that resource type in 
-        '   the .resx file using the editor.  The advantage of the dialog is that 3rd parties aren’t 
+        '   the .resx file using the editor.  The advantage of the dialog is that 3rd parties arenï¿½t 
         '   required to register themselves somehow.
 
 
@@ -455,7 +455,7 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
         ''' Returns an image for displaying to the user for this resource.
         ''' </summary>
         ''' <param name="Resource">The IResource instance.  May not be Nothing.  The value of the resource to save.  Must be of the type handled by this ResourceTypeEditor.</param>
-        ''' <param name="background">The background color for this thumbnail. Not used for Bitmaps and Icons since we instead display the resource as a thumbnail.</param>
+        ''' <param name="background">The background Colour for this thumbnail. Not used for Bitmaps and Icons since we instead display the resource as a thumbnail.</param>
         ''' <returns>An image to use as the basis of creating a thumbnail for this resource</returns>
         ''' <remarks>
         ''' This bitmap will be used as
@@ -463,7 +463,7 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
         '''   after the thumbnail image is created).
         ''' Default implementation returns an empty bitmap.
         ''' </remarks>
-        Public Overridable Function GetImageForThumbnail(Resource As IResource, background As Color) As Image
+        Public Overridable Function GetImageForThumbnail(Resource As IResource, background As Colour) As Image
             Return New Bitmap(1, 1)
         End Function
 

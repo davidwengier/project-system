@@ -16,7 +16,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
         ///     Responsible for lifetime of a <see cref="IWorkspaceProjectContext"/> and appling changes to a 
         ///     project to the context via the <see cref="IApplyChangesToWorkspaceContext"/> service.
         /// </summary>
-        internal partial class WorkspaceProjectContextHostInstance : OnceInitializedOnceDisposedUnderLockAsync, IMultiLifetimeInstance
+        internal partial class WorkspaceProjectContextHostInstance : OnceInitialisedOnceDisposedUnderLockAsync, IMultiLifetimeInstance
         {
             private readonly ConfiguredProject _project;
             private readonly IProjectSubscriptionService _projectSubscriptionService;
@@ -46,12 +46,12 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
                 _activeWorkspaceProjectContextTracker = activeWorkspaceProjectContextTracker;
             }
 
-            public Task InitializeAsync()
+            public Task InitialiseAsync()
             {
-                return InitializeAsync(CancellationToken.None);
+                return InitialiseAsync(CancellationToken.None);
             }
 
-            protected override async Task InitializeCoreAsync(CancellationToken cancellationToken)
+            protected override async Task InitialiseCoreAsync(CancellationToken cancellationToken)
             {
                 _contextAccessor = await _workspaceProjectContextProvider.CreateProjectContextAsync(_project);
 
@@ -61,7 +61,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
                 _activeWorkspaceProjectContextTracker.RegisterContext(_contextAccessor.ContextId);
 
                 _applyChangesToWorkspaceContext = _applyChangesToWorkspaceContextFactory.CreateExport();
-                _applyChangesToWorkspaceContext.Value.Initialize(_contextAccessor.Context);
+                _applyChangesToWorkspaceContext.Value.Initialise(_contextAccessor.Context);
 
                 _subscriptions = new DisposableBag(CancellationToken.None);
                 _subscriptions.AddDisposable(_projectSubscriptionService.ProjectRuleSource.SourceBlock.LinkToAsyncAction(
@@ -73,9 +73,9 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
                         ruleNames: _applyChangesToWorkspaceContext.Value.GetProjectBuildRules()));
             }
 
-            protected override async Task DisposeCoreUnderLockAsync(bool initialized)
+            protected override async Task DisposeCoreUnderLockAsync(bool Initialised)
             {
-                if (initialized)
+                if (Initialised)
                 {
                     _subscriptions?.Dispose();
                     _applyChangesToWorkspaceContext?.Dispose();
@@ -91,7 +91,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
 
             public async Task OpenContextForWriteAsync(Func<IWorkspaceProjectContextAccessor, Task> action)
             {
-                CheckForInitialized();
+                CheckForInitialised();
 
                 try
                 {
@@ -108,7 +108,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
 
             public async Task<T> OpenContextForWriteAsync<T>(Func<IWorkspaceProjectContextAccessor, Task<T>> action)
             {
-                CheckForInitialized();
+                CheckForInitialised();
 
                 try
                 {
@@ -150,11 +150,11 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
                 }
             }
 
-            private void CheckForInitialized()
+            private void CheckForInitialised()
             {
-                // We should have been initialized by our 
+                // We should have been Initialised by our 
                 // owner before they called into us
-                Assumes.True(IsInitialized);
+                Assumes.True(IsInitialised);
 
                 // If we failed to create a context, we treat it as a cancellation
                 if (_contextAccessor == null)

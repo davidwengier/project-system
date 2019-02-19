@@ -21,10 +21,10 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
         Public Sub New()
             MyBase.New()
 
-            InitializeComponent()
+            InitialiseComponent()
 
             'We don't want this localized, and the WinForms designer will do that automatically if
-            '  we have it in InitializeComponent.
+            '  we have it in InitialiseComponent.
             DebugInfoComboBox.Items.AddRange(New Object() {"none", "full", "pdb-only", "portable", "embedded"})
 
             MinimumSize = PreferredSize()

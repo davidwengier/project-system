@@ -14,7 +14,7 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
         ''' Constructor.
         ''' </summary>
         Public Sub New()
-            InitializeComponent()
+            InitialiseComponent()
         End Sub
 
         ''' <summary>
@@ -35,7 +35,7 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
             Return False
         End Function
 
-        Private Sub InitializeComponent()
+        Private Sub InitialiseComponent()
             '
             'ApplicationDesignerWindowPaneControl
             '

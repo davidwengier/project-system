@@ -42,7 +42,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.PropertyPages
             }
         }
 
-        public virtual void InitializePropertyPage(PropertyPageViewModel viewModel)
+        public virtual void InitialisePropertyPage(PropertyPageViewModel viewModel)
         {
             _ignoreEvents = true;
             IsDirty = false;

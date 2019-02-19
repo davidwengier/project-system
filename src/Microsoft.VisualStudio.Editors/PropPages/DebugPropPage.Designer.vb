@@ -39,7 +39,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             MyBase.Dispose(disposing)
         End Sub
 
-        <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+        <System.Diagnostics.DebuggerStepThrough()> Private Sub InitialiseComponent()
             Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(DebugPropPage))
             Me.StartActionLabel = New System.Windows.Forms.Label()
             Me.StartActionLabelLine = New System.Windows.Forms.Label()
@@ -81,7 +81,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             '
             Me.StartActionLabelLine.AccessibleRole = System.Windows.Forms.AccessibleRole.Separator
             resources.ApplyResources(Me.StartActionLabelLine, "StartActionLabelLine")
-            Me.StartActionLabelLine.BackColor = System.Drawing.SystemColors.ControlDark
+            Me.StartActionLabelLine.BackColour = System.Drawing.SystemColours.ControlDark
             Me.StartActionLabelLine.Name = "StartActionLabelLine"
             '
             'rbStartProject
@@ -122,7 +122,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             '
             Me.StartOptionsLabelLine.AccessibleRole = System.Windows.Forms.AccessibleRole.Separator
             resources.ApplyResources(Me.StartOptionsLabelLine, "StartOptionsLabelLine")
-            Me.StartOptionsLabelLine.BackColor = System.Drawing.SystemColors.ControlDark
+            Me.StartOptionsLabelLine.BackColour = System.Drawing.SystemColours.ControlDark
             Me.StartOptionsLabelLine.Name = "StartOptionsLabelLine"
             '
             'StartOptionsLabel
@@ -171,7 +171,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             '
             Me.EnableDebuggerLabelLine.AccessibleRole = System.Windows.Forms.AccessibleRole.Separator
             resources.ApplyResources(Me.EnableDebuggerLabelLine, "EnableDebuggerLabelLine")
-            Me.EnableDebuggerLabelLine.BackColor = System.Drawing.SystemColors.ControlDark
+            Me.EnableDebuggerLabelLine.BackColour = System.Drawing.SystemColours.ControlDark
             Me.EnableDebuggerLabelLine.Name = "EnableDebuggerLabelLine"
             '
             'EnableDebuggerLabel

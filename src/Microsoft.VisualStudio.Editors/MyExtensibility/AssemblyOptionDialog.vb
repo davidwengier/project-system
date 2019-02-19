@@ -22,7 +22,7 @@ Namespace Microsoft.VisualStudio.Editors.MyExtensibility
 
         Public Sub New()
             MyBase.New()
-            Me.InitializeComponent()
+            Me.InitialiseComponent()
         End Sub
 #Else
         Inherits DesignerFramework.BaseDialog
@@ -74,7 +74,7 @@ Namespace Microsoft.VisualStudio.Editors.MyExtensibility
         Private Sub New(serviceProvider As IServiceProvider,
                 objects As IList)
             MyBase.New(serviceProvider)
-            InitializeComponent()
+            InitialiseComponent()
 
             F1Keyword = HelpIDs.Dlg_AddMyNamespaceExtensions
 
@@ -119,7 +119,7 @@ Namespace Microsoft.VisualStudio.Editors.MyExtensibility
         Friend WithEvents checkBoxOption As DesignerFramework.WrapCheckBox
         Friend WithEvents buttonNo As Windows.Forms.Button
 
-        Private Sub InitializeComponent()
+        Private Sub InitialiseComponent()
             Dim resources As ComponentResourceManager = New ComponentResourceManager(GetType(AssemblyOptionDialog))
             tableLayoutOverarching = New Windows.Forms.TableLayoutPanel
             labelQuestion = New Windows.Forms.Label
@@ -163,20 +163,20 @@ Namespace Microsoft.VisualStudio.Editors.MyExtensibility
             '
             resources.ApplyResources(buttonYes, "buttonYes")
             buttonYes.Name = "buttonYes"
-            buttonYes.UseVisualStyleBackColor = True
+            buttonYes.UseVisualStyleBackColour = True
             '
             'buttonNo
             '
             buttonNo.DialogResult = Windows.Forms.DialogResult.Cancel
             resources.ApplyResources(buttonNo, "buttonNo")
             buttonNo.Name = "buttonNo"
-            buttonNo.UseVisualStyleBackColor = True
+            buttonNo.UseVisualStyleBackColour = True
             '
             'checkBoxOption
             '
             resources.ApplyResources(checkBoxOption, "checkBoxOption")
             checkBoxOption.Name = "checkBoxOption"
-            checkBoxOption.UseVisualStyleBackColor = True
+            checkBoxOption.UseVisualStyleBackColour = True
             '
             'AssemblyOptionDialog
             '

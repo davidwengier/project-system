@@ -23,7 +23,7 @@
         'It can be modified using the Windows Form Designer.  
         'Do not modify it using the code editor.
         <System.Diagnostics.DebuggerStepThrough()>
-        Private Sub InitializeComponent()
+        Private Sub InitialiseComponent()
             Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(AutoAddImportsExtensionCollisionDialog))
             Me.pnlLayout_ = New System.Windows.Forms.TableLayoutPanel
             Me.txtMain_ = New System.Windows.Forms.Label
@@ -43,7 +43,7 @@
             '
             'txtMain_
             '
-            Me.txtMain_.BackColor = System.Drawing.SystemColors.Control
+            Me.txtMain_.BackColour = System.Drawing.SystemColours.Control
             Me.pnlLayout_.SetColumnSpan(Me.txtMain_, 3)
             Me.txtMain_.Cursor = System.Windows.Forms.Cursors.Arrow
             resources.ApplyResources(Me.txtMain_, "txtMain_")
@@ -54,14 +54,14 @@
             resources.ApplyResources(Me.btnOk_, "btnOk_")
             Me.btnOk_.DialogResult = System.Windows.Forms.DialogResult.OK
             Me.btnOk_.Name = "btnOk_"
-            Me.btnOk_.UseVisualStyleBackColor = True
+            Me.btnOk_.UseVisualStyleBackColour = True
             '
             'btnCancel_
             '
             resources.ApplyResources(Me.btnCancel_, "btnCancel_")
             Me.btnCancel_.DialogResult = System.Windows.Forms.DialogResult.Cancel
             Me.btnCancel_.Name = "btnCancel_"
-            Me.btnCancel_.UseVisualStyleBackColor = True
+            Me.btnCancel_.UseVisualStyleBackColour = True
             '
             'AutoAddImportsExtensionCollisionDialog
             '

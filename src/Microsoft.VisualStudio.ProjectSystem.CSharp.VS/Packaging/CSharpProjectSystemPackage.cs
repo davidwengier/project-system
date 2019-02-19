@@ -42,7 +42,7 @@ namespace Microsoft.VisualStudio.Packaging
         {
         }
 
-        protected override async Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
+        protected override async Task InitialiseAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
             _factory = new MigrateXprojProjectFactory(new ProcessRunner(),

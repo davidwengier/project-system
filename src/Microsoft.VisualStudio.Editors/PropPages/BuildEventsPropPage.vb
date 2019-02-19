@@ -14,12 +14,12 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
         Public Sub New()
             MyBase.New()
 
-            InitializeComponent()
+            InitialiseComponent()
 
             'Opt out of page scaling since we're using AutoScaleMode
             PageRequiresScaling = False
 
-            'Add any initialization after the InitializeComponent() call
+            'Add any initialization after the InitialiseComponent() call
             AddChangeHandlers()
         End Sub
 
@@ -121,11 +121,11 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             Dim frm As New BuildEventCommandLineDialog
             Dim Values() As String = Nothing
 
-            '// Initialize the title text
+            '// Initialise the title text
             frm.SetFormTitleText(WindowTitleText)
 
 
-            '// Initialize the command line
+            '// Initialise the command line
             frm.EventCommandLine = CommandLine
 
             '// Set the page property
@@ -135,7 +135,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             ' VSWhidbey 163859 - help not able to retrieve DTE handle
             frm.DTE = Parent.DTE
 
-            '// Initialize the token values
+            '// Initialise the token values
 
             GetTokenValues(Values, valueHelper)
             frm.SetTokensAndValues(s_tokenNames, Values)

@@ -10,7 +10,7 @@ using Xunit;
 
 namespace Microsoft.VisualStudio.ProjectSystem
 {
-    public class OnceInitializedOnceDisposedUnderLockAsyncTests
+    public class OnceInitialisedOnceDisposedUnderLockAsyncTests
     {
         [Fact]
         public void ExecuteUnderLockAsync_NullAsAction_ThrowsArgumentNullException()
@@ -289,7 +289,7 @@ namespace Microsoft.VisualStudio.ProjectSystem
             var firstRelease = new AsyncManualResetEvent();
             var disposeEntered = new AsyncManualResetEvent();
 
-            ConcreteOnceInitializedOnceDisposedUnderLockAsync instance = null;
+            ConcreteOnceInitialisedOnceDisposedUnderLockAsync instance = null;
 
             Task firstAction() => instance.ExecuteUnderLockAsync(async (ct) =>
             {
@@ -316,7 +316,7 @@ namespace Microsoft.VisualStudio.ProjectSystem
             var firstRelease = new AsyncManualResetEvent();
             var disposeEntered = new AsyncManualResetEvent();
 
-            ConcreteOnceInitializedOnceDisposedUnderLockAsync instance = null;
+            ConcreteOnceInitialisedOnceDisposedUnderLockAsync instance = null;
 
             Task firstAction() => instance.ExecuteUnderLockAsync(async (ct) =>
             {
@@ -396,18 +396,18 @@ namespace Microsoft.VisualStudio.ProjectSystem
             await Task.WhenAll(firstTask, secondTask);
         }
 
-        private static ConcreteOnceInitializedOnceDisposedUnderLockAsync CreateInstance(Func<Task> disposed = null)
+        private static ConcreteOnceInitialisedOnceDisposedUnderLockAsync CreateInstance(Func<Task> disposed = null)
         {
             var threadingService = IProjectThreadingServiceFactory.Create();
 
-            return new ConcreteOnceInitializedOnceDisposedUnderLockAsync(threadingService.JoinableTaskContext, disposed);
+            return new ConcreteOnceInitialisedOnceDisposedUnderLockAsync(threadingService.JoinableTaskContext, disposed);
         }
 
-        private class ConcreteOnceInitializedOnceDisposedUnderLockAsync : OnceInitializedOnceDisposedUnderLockAsync
+        private class ConcreteOnceInitialisedOnceDisposedUnderLockAsync : OnceInitialisedOnceDisposedUnderLockAsync
         {
             private readonly Func<Task> _disposed;
 
-            public ConcreteOnceInitializedOnceDisposedUnderLockAsync(JoinableTaskContextNode joinableTaskContextNode, Func<Task> disposed) 
+            public ConcreteOnceInitialisedOnceDisposedUnderLockAsync(JoinableTaskContextNode joinableTaskContextNode, Func<Task> disposed) 
                 : base(joinableTaskContextNode)
             {
                 if (disposed == null)
@@ -431,12 +431,12 @@ namespace Microsoft.VisualStudio.ProjectSystem
                 return base.ExecuteUnderLockAsync(action, cancellationToken);
             }
 
-            protected override Task DisposeCoreUnderLockAsync(bool initialized)
+            protected override Task DisposeCoreUnderLockAsync(bool Initialised)
             {
                 return _disposed();
             }
 
-            protected override Task InitializeCoreAsync(CancellationToken cancellationToken)
+            protected override Task InitialiseCoreAsync(CancellationToken cancellationToken)
             {
                 return Task.CompletedTask;
             }

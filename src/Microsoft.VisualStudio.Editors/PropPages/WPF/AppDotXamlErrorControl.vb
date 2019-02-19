@@ -14,7 +14,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages.WPF
 
         Public Sub New()
             ' This call is required by the Windows Form Designer.
-            InitializeComponent()
+            InitialiseComponent()
         End Sub
 
         Public Sub New(errorText As String)

@@ -20,7 +20,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
         Private Const RequiredFrameworkVersion As UInteger = &H30005
 
         Public Sub New()
-            InitializeComponent()
+            InitialiseComponent()
             SetLocalizedProperties()
             'Loaded handler will call EnsureXmlUpToDate()
 

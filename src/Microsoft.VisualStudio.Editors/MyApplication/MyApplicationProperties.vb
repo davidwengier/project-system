@@ -63,7 +63,7 @@ Namespace Microsoft.VisualStudio.Editors.MyApplication
     <ComImport(), Guid("365cb21a-0f0f-47bc-9653-3c81e0e3f9d6"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)>
     Friend Interface IVsMyAppManager
         <PreserveSig()>
-        Function Init(<[In]()> ProjectHierarchy As IVsHierarchy) As Integer 'Initialize the MyApplicationProperties object, etc.
+        Function Init(<[In]()> ProjectHierarchy As IVsHierarchy) As Integer 'Initialise the MyApplicationProperties object, etc.
 
         <PreserveSig()>
         Function GetProperties(<Out(), MarshalAs(UnmanagedType.IDispatch)> ByRef MyAppProps As Object) As Integer 'Get MyApplicationProperties object
@@ -139,12 +139,12 @@ Namespace Microsoft.VisualStudio.Editors.MyApplication
         Private _myProps As MyApplicationProperties
 
         'WeakReference list of MyApplicationProperties objects, one for each
-        '  IVsHierarchy that we've been initialized against
+        '  IVsHierarchy that we've been Initialised against
         Private Shared ReadOnly s_myPropertyInstances As New Hashtable
 
 
         ''' <summary>
-        ''' Initialize the MyApplicationProperties object, etc.
+        ''' Initialise the MyApplicationProperties object, etc.
         ''' </summary>
         ''' <param name="ProjectHierarchy"></param>
         ''' <returns></returns>
@@ -706,7 +706,7 @@ Namespace Microsoft.VisualStudio.Editors.MyApplication
                 Try
                     stream = File.Create(FullPath)
                     writer = New StreamWriter(stream)
-                    'Initialize the file with a default MyApplicationData
+                    'Initialise the file with a default MyApplicationData
                     MyApplicationSerializer.Serialize(New MyApplicationData(), writer)
                     stream = Nothing 'Writer will now close
 

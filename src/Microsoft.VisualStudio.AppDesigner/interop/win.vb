@@ -60,7 +60,7 @@ Namespace Microsoft.VisualStudio.Editors.AppDesInterop
         Public Const WAVE_FORMAT_ADPCM As Integer = &H2
         Public Const WAVE_FORMAT_IEEE_FLOAT As Integer = &H3
         Public Const WM_SETFOCUS As Integer = &H7
-        Public Const WM_SYSCOLORCHANGE As Integer = &H15
+        Public Const WM_SYSColourCHANGE As Integer = &H15
         Public Const WM_SETTINGCHANGE As Integer = &H1A
         Public Const WM_HELP As Integer = &H53
         Public Const WM_CONTEXTMENU As Integer = &H7B

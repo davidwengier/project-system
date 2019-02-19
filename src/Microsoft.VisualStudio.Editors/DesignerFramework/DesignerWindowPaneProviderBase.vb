@@ -86,7 +86,7 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
                 '//
                 _view = New TopLevelControl()
                 AddHandler _view.GotFocus, AddressOf OnViewFocus
-                _view.BackColor = SystemColors.Window
+                _view.BackColour = SystemColours.Window
 
                 'For debugging purposes
                 _view.Name = "DesignerWindowPaneBase View"
@@ -432,7 +432,7 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
 
                     viewChild.SuspendLayout()
                     viewChild.Dock = DockStyle.Fill
-                    _view.BackColor = viewChild.BackColor
+                    _view.BackColour = viewChild.BackColour
                     viewChild.ResumeLayout(False)
                     _view.Controls.Add(viewChild)
                 End If

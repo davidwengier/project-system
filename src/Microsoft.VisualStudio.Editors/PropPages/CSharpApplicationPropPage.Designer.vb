@@ -15,9 +15,9 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             MyBase.Dispose(disposing)
         End Sub
 
-        <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+        <System.Diagnostics.DebuggerStepThrough()> Private Sub InitialiseComponent()
             Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(ApplicationPropPage))
-            CType(Me.AppIconImage, System.ComponentModel.ISupportInitialize).BeginInit()
+            CType(Me.AppIconImage, System.ComponentModel.ISupportInitialise).BeginInit()
             Me.SuspendLayout()
             '
             'ApplicationPropPage
@@ -26,7 +26,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             Me.ImeMode = CType(resources.GetObject("$this.ImeMode"), System.Windows.Forms.ImeMode)
             Me.Name = "ApplicationPropPage"
             Me.Size = CType(resources.GetObject("$this.Size"), System.Drawing.Size)
-            CType(Me.AppIconImage, System.ComponentModel.ISupportInitialize).EndInit()
+            CType(Me.AppIconImage, System.ComponentModel.ISupportInitialise).EndInit()
             Me.ResumeLayout(False)
             Me.PerformLayout()
 

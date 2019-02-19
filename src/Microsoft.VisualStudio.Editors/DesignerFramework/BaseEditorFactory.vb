@@ -356,7 +356,7 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
                         End If
                     End If
 
-                    ' Create and initialize our code stream.
+                    ' Create and Initialise our code stream.
 
                     'Create the appropriate designer loader
                     '  Note: there is no formal need to go through DesignerService.CreateDesignerLoader for this, but there's
@@ -373,9 +373,9 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
                     End If
                     DesignerLoader = CType(DesignerLoaderObject, BaseDesignerLoader)
 
-                    'Initialize the sucker
+                    'Initialise the sucker
                     Debug.Assert(_serviceProvider IsNot Nothing)
-                    DesignerLoader.InitializeEx(_serviceProvider, FileName, Hierarchy, ItemId, NewDocData)
+                    DesignerLoader.InitialiseEx(_serviceProvider, FileName, Hierarchy, ItemId, NewDocData)
 
                     'Now slam the two together and make a designer
 
@@ -469,7 +469,7 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
 
 
         ''' <summary>
-        '''     Called by the VS shell when it first initializes us.
+        '''     Called by the VS shell when it first Initialises us.
         ''' </summary>
         Private Function IVsEditorFactory_SetSite(site As IServiceProvider) As Integer Implements IVsEditorFactory.SetSite
             SetSiteInternal(site)
@@ -477,12 +477,12 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
 
 
         ''' <summary>
-        ''' Called by the VS shell when it first initializes us.  
+        ''' Called by the VS shell when it first Initialises us.  
         ''' </summary>
         ''' <param name="Site">The Site that will own this editor factory</param>
         ''' <remarks></remarks>
         Private Sub SetSiteInternal(Site As Object)
-            'This same Site already set?  Or Site not yet initialized (= Nothing)?  If so, NOP.
+            'This same Site already set?  Or Site not yet Initialised (= Nothing)?  If so, NOP.
             If _site Is Site Then
                 Debug.Fail("Why is this EditorFactory site:ed twice?")
                 Exit Sub

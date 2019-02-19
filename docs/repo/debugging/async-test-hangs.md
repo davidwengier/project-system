@@ -160,7 +160,7 @@ Name:        System.RuntimeType
 MethodTable: 7243e89c
 EEClass:     72014fd0
 Size:        28(0x1c) bytes
-Type Name:   Microsoft.VisualStudio.ProjectSystem.OnceInitializedOnceDisposedUnderLockAsyncTests
+Type Name:   Microsoft.VisualStudio.ProjectSystem.OnceInitialisedOnceDisposedUnderLockAsyncTests
 Type MT:     07071d04
 [...]
 ```
@@ -200,7 +200,7 @@ String:      ExecuteUnderLockAsync_AvoidsOverlappingWithDispose
 [...]
 ```
 
-Combining those, points us to the `OnceInitializedOnceDisposedUnderLockAsyncTests.ExecuteUnderLockAsync_AvoidsOverlappingWithDispose` method as the hanging test.
+Combining those, points us to the `OnceInitialisedOnceDisposedUnderLockAsyncTests.ExecuteUnderLockAsync_AvoidsOverlappingWithDispose` method as the hanging test.
 
 Based on what we learned above, we can dig further to figure out where it's hanging:
 
@@ -214,7 +214,7 @@ Based on what we learned above, we can dig further to figure out where it's hang
 
 Statistics:
       MT    Count    TotalSize Class Name
-088fdfb4        1           60 Microsoft.VisualStudio.ProjectSystem.OnceInitializedOnceDisposedUnderLockAsyncTests+<ExecuteUnderLockAsync_AvoidsOverlappingWithDispose>d__9
+088fdfb4        1           60 Microsoft.VisualStudio.ProjectSystem.OnceInitialisedOnceDisposedUnderLockAsyncTests+<ExecuteUnderLockAsync_AvoidsOverlappingWithDispose>d__9
 Total 1 objects
 
 ```
@@ -225,7 +225,7 @@ Dump that first address:
 > !DumpObj /d 036c8440
 ```
 ```
-Name:        Microsoft.VisualStudio.ProjectSystem.OnceInitializedOnceDisposedUnderLockAsyncTests+<ExecuteUnderLockAsync_AvoidsOverlappingWithDispose>d__9
+Name:        Microsoft.VisualStudio.ProjectSystem.OnceInitialisedOnceDisposedUnderLockAsyncTests+<ExecuteUnderLockAsync_AvoidsOverlappingWithDispose>d__9
 MethodTable: 088fdfb4
 EEClass:     083e5d80
 Size:        60(0x3c) bytes

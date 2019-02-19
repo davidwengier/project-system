@@ -52,12 +52,12 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             _serviceProvider = serviceProvider
 
             'This call is required by the Windows Form Designer.
-            InitializeComponent()
+            InitialiseComponent()
 
-            'Ensure we set out colors based on the current theme
+            'Ensure we set out Colours based on the current theme
             OnThemeChanged()
 
-            'Add any initialization after the InitializeComponent() call
+            'Add any initialization after the InitialiseComponent() call
             AddToRunningTable()
 
             ResumeLayout(False) 'False: layout will happen later, not needed here
@@ -131,7 +131,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
         'NOTE: The following procedure is required by the Windows Form Designer
         'It can be modified using the Windows Form Designer.  
         'Do not modify it using the code editor.
-        <DebuggerStepThrough()> Private Sub InitializeComponent()
+        <DebuggerStepThrough()> Private Sub InitialiseComponent()
             SuspendLayout()
 
             '
@@ -254,9 +254,9 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
         ' Currently only used by the Publish page because it isn't a normal page
         Private _manualPageScaling As Boolean = False
 
-        'Backcolor for all property pages
-        <Obsolete("Colors should be retrieved directly from the theming service")>
-        Public Shared ReadOnly PropPageBackColor As Color = SystemColors.Control
+        'BackColour for all property pages
+        <Obsolete("Colours should be retrieved directly from the theming service")>
+        Public Shared ReadOnly PropPageBackColour As Colour = SystemColours.Control
 
         Private _activated As Boolean = True
         Private _inDelayValidation As Boolean
@@ -319,7 +319,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
         End Property
 
         ''' <summary>
-        '''  Return a boolean value that indicates whether or not the control supports the color theming service
+        '''  Return a boolean value that indicates whether or not the control supports the Colour theming service
         ''' </summary>
         ''' <returns></returns>
         Public Overridable ReadOnly Property SupportsTheming() As Boolean
@@ -1383,7 +1383,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
                     End Try
                 End If
 
-                InitializeAllProperties()
+                InitialiseAllProperties()
                 InitPage()
 
                 ScaleWindowToCurrentFont()
@@ -1487,7 +1487,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
 
         ''' <summary>
         ''' List of PropertyControlData structures which the base class uses
-        ''' to read and write property values and initialize the UI.
+        ''' to read and write property values and Initialise the UI.
         ''' </summary>
         ''' <value></value>
         ''' <remarks>This should normally be overridden in the derived class to provide the page's specific list of
@@ -2144,7 +2144,7 @@ NextControl:
                         '
                         If vsProjectBuildSystem IsNot Nothing Then
                             Try
-                                'If m_DeactivateDuringApply = True, then the following may assert about the project being uninitialized.
+                                'If m_DeactivateDuringApply = True, then the following may assert about the project being unInitialised.
                                 '  In reality, it is zombied, and in this scenario the assertion can be ignored.
                                 vsProjectBuildSystem.EndBatchEdit()
                             Catch ex As Exception When Common.ReportWithoutCrash(ex, "ILangPropertyProvideBatchUpdate.EndBatchEdit failed", NameOf(PropPageUserControlBase))
@@ -2344,7 +2344,7 @@ NextControl:
         Protected Overridable Sub InitPage()
             PreInitPage()
 
-            'Initialize all the property values so they are accessible
+            'Initialise all the property values so they are accessible
             'in user callbacks
             For Each _controlData As PropertyControlData In ControlData
                 _controlData.InitPropertyValue()
@@ -2811,10 +2811,10 @@ NextControl:
         End Sub
 
         ''' <summary>
-        ''' Calls Initialize on all PropertyControlData for this page
+        ''' Calls Initialise on all PropertyControlData for this page
         ''' </summary>
         ''' <remarks></remarks>
-        Protected Sub InitializeAllProperties()
+        Protected Sub InitialiseAllProperties()
 #If DEBUG Then
             'Verify that PropertyControlData DISPIDs are unique
             Dim PropIds As New List(Of Integer)
@@ -2827,7 +2827,7 @@ NextControl:
             Next
 #End If
             For Each pcd As PropertyControlData In ControlData
-                pcd.Initialize(Me)
+                pcd.Initialise(Me)
             Next
             ClearIsDirty()
         End Sub
@@ -3141,7 +3141,7 @@ NextControl:
                     Return DialogResult.Cancel
                 End Try
             Else
-                'Not yet created, create, site and initialize
+                'Not yet created, create, site and Initialise
                 Try
                     Page = CType(Activator.CreateInstance(PageType), PropPageUserControlBase)
                     _childPages.Add(PageType, Page)
@@ -3257,7 +3257,7 @@ NextControl:
             'Const BIF_EDITBOX As Integer = &H10                 'Add an editbox to the dialog
             'Const BIF_VALIDATE As Integer = &H20                'Insist on valid result (or CANCEL)
             'Const BIF_NEWDIALOGSTYLE As Integer = &H40          'Use the new dialog layout with the ability to resize
-            '    Caller needs to call OleInitialize() before using this API
+            '    Caller needs to call OleInitialise() before using this API
 
             'Const BIF_USENEWUI As Integer = (BIF_NEWDIALOGSTYLE Or BIF_EDITBOX)
             'Const BIF_BROWSEINCLUDEURLS As Integer = &H80       '    Allow URLs to be displayed or entered. (Requires BIF_USENEWUI)
@@ -3819,7 +3819,7 @@ NextControl:
                     m_ScalingCompleted = False
                     SetDialogFont(PageRequiresScaling)
                 End If
-            ElseIf msg = WM_PALETTECHANGED OrElse msg = WM_SYSCOLORCHANGE OrElse msg = WM_THEMECHANGED Then
+            ElseIf msg = WM_PALETTECHANGED OrElse msg = WM_SYSColourCHANGE OrElse msg = WM_THEMECHANGED Then
                 OnThemeChanged()
             End If
         End Function
@@ -3827,9 +3827,9 @@ NextControl:
         Protected Overridable Sub OnThemeChanged()
             If SupportsTheming Then
                 Dim VsUIShell5 = VsUIShell5Service
-                BackColor = Common.ShellUtil.GetProjectDesignerThemeColor(VsUIShell5, "Background", __THEMEDCOLORTYPE.TCT_Background, SystemColors.Control)
+                BackColour = Common.ShellUtil.GetProjectDesignerThemeColour(VsUIShell5, "Background", __THEMEDColourTYPE.TCT_Background, SystemColours.Control)
             Else
-                BackColor = SystemColors.Control
+                BackColour = SystemColours.Control
             End If
         End Sub
 

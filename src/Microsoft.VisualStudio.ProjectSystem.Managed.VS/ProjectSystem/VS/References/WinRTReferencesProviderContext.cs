@@ -10,7 +10,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.References
     internal class WinRTReferencesProviderContext : BaseReferenceContextProvider
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="WinRTReferencesProviderContext"/> class.
+        /// Initialises a new instance of the <see cref="WinRTReferencesProviderContext"/> class.
         /// </summary>
         [ImportingConstructor]
         public WinRTReferencesProviderContext(ConfiguredProject configuredProject) : base(configuredProject)

@@ -4627,7 +4627,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Application settings allow you to store and retrieve property settings and other information for your application dynamically. For example, the application can save a user&apos;s color preferences, then retrieve them the next time it runs..
+        '''  Looks up a localized string similar to Application settings allow you to store and retrieve property settings and other information for your application dynamically. For example, the application can save a user&apos;s Colour preferences, then retrieve them the next time it runs..
         '''</summary>
         Friend Shared ReadOnly Property SD_FullDescriptionText() As String
             Get

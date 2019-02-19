@@ -222,8 +222,8 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
 
         Public Sub UseCellStyle(dataGridViewCellStyle As DataGridViewCellStyle) Implements IDataGridViewEditingControl.ApplyCellStyleToEditingControl
             Font = dataGridViewCellStyle.Font
-            BackColor = dataGridViewCellStyle.BackColor
-            ForeColor = dataGridViewCellStyle.ForeColor
+            BackColour = dataGridViewCellStyle.BackColour
+            ForeColour = dataGridViewCellStyle.ForeColour
         End Sub
 
         Public Property ValueChanged() As Boolean Implements IDataGridViewEditingControl.EditingControlValueChanged

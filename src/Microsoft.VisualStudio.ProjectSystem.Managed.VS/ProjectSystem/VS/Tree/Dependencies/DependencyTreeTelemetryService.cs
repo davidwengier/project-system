@@ -47,9 +47,9 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies
         }
 
         /// <summary>
-        /// Initialize telemetry state with the set of rules we expect to observe for target framework
+        /// Initialise telemetry state with the set of rules we expect to observe for target framework
         /// </summary>
-        public void InitializeTargetFrameworkRules(ITargetFramework targetFramework, IEnumerable<string> rules)
+        public void InitialiseTargetFrameworkRules(ITargetFramework targetFramework, IEnumerable<string> rules)
         {
             if (_stopTelemetry)
                 return;
@@ -63,7 +63,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies
 
                 foreach (string rule in rules)
                 {
-                    telemetryState.InitializeRule(rule);
+                    telemetryState.InitialiseRule(rule);
                 }
             }
         }
@@ -113,7 +113,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies
 
             if (_projectId == null)
             {
-                await InitializeProjectIdAsync();
+                await InitialiseProjectIdAsync();
             }
 
             if (hasUnresolvedDependency)
@@ -137,7 +137,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies
 
             bool ObservedAllRules() => _telemetryStates.All(state => state.Value.ObservedAllRules());
 
-            async Task InitializeProjectIdAsync()
+            async Task InitialiseProjectIdAsync()
             {
                 Guid projectGuild = await _safeProjectGuidService.GetProjectGuidAsync();
                 if (!projectGuild.Equals(Guid.Empty))
@@ -164,7 +164,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies
         {
             private readonly ConcurrentDictionary<string, bool> _observedRules = new ConcurrentDictionary<string, bool>(StringComparers.RuleNames);
 
-            internal void InitializeRule(string rule) =>
+            internal void InitialiseRule(string rule) =>
                 _observedRules.TryAdd(rule, false);
 
             internal void ObserveRule(string rule) =>

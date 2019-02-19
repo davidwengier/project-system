@@ -24,7 +24,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.NuGet
     /// <summary>
     ///     Watches for writes to the project.assets.json, triggering a evaluation if it changes.
     /// </summary>
-    internal class ProjectAssetFileWatcher : OnceInitializedOnceDisposedAsync, IVsFreeThreadedFileChangeEvents2
+    internal class ProjectAssetFileWatcher : OnceInitialisedOnceDisposedAsync, IVsFreeThreadedFileChangeEvents2
     {
         private static readonly TimeSpan s_notifyDelay = TimeSpan.FromMilliseconds(100);
 
@@ -72,7 +72,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.NuGet
         [AppliesTo(ProjectCapability.DotNet)]
         internal void Load()
         {
-            InitializeAsync();
+            InitialiseAsync();
         }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.NuGet
         /// </summary>
         internal async Task DataFlow_ChangedAsync(IProjectVersionedValue<Tuple<IProjectTreeSnapshot, IProjectSubscriptionUpdate>> dataFlowUpdate)
         {
-            await InitializeAsync();
+            await InitialiseAsync();
 
             IProjectTreeSnapshot treeSnapshot = dataFlowUpdate.Value.Item1;
             IProjectTree newTree = treeSnapshot.Tree;
@@ -109,9 +109,9 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.NuGet
         }
 
         /// <summary>
-        /// Initialize the watcher.
+        /// Initialise the watcher.
         /// </summary>
-        protected override async Task InitializeCoreAsync(CancellationToken cancellationToken)
+        protected override async Task InitialiseCoreAsync(CancellationToken cancellationToken)
         {
             // Explicitly get back to the thread pool for the rest of this method so we don't tie up the UI thread;
             await TaskScheduler.Default;
@@ -134,9 +134,9 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.NuGet
                 });
         }
 
-        protected override async Task DisposeCoreAsync(bool initialized)
+        protected override async Task DisposeCoreAsync(bool Initialised)
         {
-            if (initialized)
+            if (Initialised)
             {
                 _taskDelayScheduler?.Dispose();
                 _treeWatcher.Dispose();

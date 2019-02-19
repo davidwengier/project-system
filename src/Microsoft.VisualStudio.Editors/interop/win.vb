@@ -60,7 +60,7 @@ Namespace Microsoft.VisualStudio.Editors.Interop
         Friend Const WAVE_FORMAT_ADPCM As Integer = &H2
         Friend Const WAVE_FORMAT_IEEE_FLOAT As Integer = &H3
         Friend Const WM_SETFOCUS As Integer = &H7
-        Friend Const WM_SYSCOLORCHANGE As Integer = &H15
+        Friend Const WM_SYSColourCHANGE As Integer = &H15
         Friend Const WM_SETTINGCHANGE As Integer = &H1A
         Friend Const WM_HELP As Integer = &H53
         Friend Const WM_CONTEXTMENU As Integer = &H7B

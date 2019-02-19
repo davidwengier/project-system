@@ -23,7 +23,7 @@
         'It can be modified using the Windows Form Designer.  
         'Do not modify it using the code editor.
         <System.Diagnostics.DebuggerStepThrough()>
-        Private Sub InitializeComponent()
+        Private Sub InitialiseComponent()
             Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(AutoAddImportsCollisionDialog))
             Me.m_layoutPanel = New System.Windows.Forms.TableLayoutPanel
             Me.m_lblImportsAnyways = New System.Windows.Forms.Label
@@ -61,20 +61,20 @@
             Me.m_layoutPanel.SetColumnSpan(Me.m_cancelButton, 2)
             Me.m_cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel
             Me.m_cancelButton.Name = "m_cancelButton"
-            Me.m_cancelButton.UseVisualStyleBackColor = True
+            Me.m_cancelButton.UseVisualStyleBackColour = True
             '
             'm_rbQualifyCurrentLine
             '
             resources.ApplyResources(Me.m_rbQualifyCurrentLine, "m_rbQualifyCurrentLine")
             Me.m_rbQualifyCurrentLine.Name = "m_rbQualifyCurrentLine"
-            Me.m_rbQualifyCurrentLine.UseVisualStyleBackColor = True
+            Me.m_rbQualifyCurrentLine.UseVisualStyleBackColour = True
             '
             'm_okButton
             '
             resources.ApplyResources(Me.m_okButton, "m_okButton")
             Me.m_okButton.DialogResult = System.Windows.Forms.DialogResult.OK
             Me.m_okButton.Name = "m_okButton"
-            Me.m_okButton.UseVisualStyleBackColor = True
+            Me.m_okButton.UseVisualStyleBackColour = True
             '
             'm_lblMain
             '
@@ -96,7 +96,7 @@
             Me.m_rbImportsAnyways.Checked = True
             Me.m_rbImportsAnyways.Name = "m_rbImportsAnyways"
             Me.m_rbImportsAnyways.TabStop = True
-            Me.m_rbImportsAnyways.UseVisualStyleBackColor = True
+            Me.m_rbImportsAnyways.UseVisualStyleBackColour = True
             '
             'AutoAddImportsCollisionDialog
             '

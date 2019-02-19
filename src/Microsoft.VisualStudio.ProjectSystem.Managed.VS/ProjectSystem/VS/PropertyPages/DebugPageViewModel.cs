@@ -601,7 +601,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.PropertyPages
         /// called. It looks for changes and applies them to the UI as needed. Switching profiles
         /// will also cause this to change as the active profile is stored in the profiles snapshot.
         /// </summary>
-        internal virtual void InitializeDebugTargetsCore(ILaunchSettings profiles)
+        internal virtual void InitialiseDebugTargetsCore(ILaunchSettings profiles)
         {
             IWritableLaunchSettings newSettings = profiles.ToWritableLaunchSettings();
 
@@ -674,7 +674,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.PropertyPages
         /// <summary>
         /// The initialization entry point for the page It also hooks into debug provider so that it can update when the profile changes
         /// </summary>
-        protected void InitializePropertyPage()
+        protected void InitialisePropertyPage()
         {
             if (_debugProfileProviderLink == null)
             {
@@ -682,7 +682,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.PropertyPages
                 _debugProfileProviderLink = profileProvider.SourceBlock.LinkToAsyncAction(OnLaunchSettingsChanged);
 
                 // We need to get the set of UI providers, if any.
-                InitializeUIProviders();
+                InitialiseUIProviders();
             }
         }
 
@@ -693,13 +693,13 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.PropertyPages
                 await ProjectThreadingService.SwitchToUIThread();
             }
 
-            InitializeDebugTargetsCore(profiles);
+            InitialiseDebugTargetsCore(profiles);
         }
 
         /// <summary>
-        /// initializes the collection of UI providers.
+        /// Initialises the collection of UI providers.
         /// </summary>
-        private void InitializeUIProviders()
+        private void InitialiseUIProviders()
         {
             // We need to get the set of UI providers, if any.
             _uiProviders = new OrderPrecedenceImportCollection<ILaunchSettingsUIProvider>(ImportOrderPrecedenceComparer.PreferenceOrder.PreferredComesFirst, Project);
@@ -736,10 +736,10 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.PropertyPages
             }
         }
 
-        public override Task Initialize()
+        public override Task Initialise()
         {
-            // Initialize the page
-            InitializePropertyPage();
+            // Initialise the page
+            InitialisePropertyPage();
             return System.Threading.Tasks.Task.CompletedTask;
         }
 
@@ -764,7 +764,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.PropertyPages
         {
             get
             {
-                return LazyInitializer.EnsureInitialized(ref _addEnvironmentVariableRowCommand, () =>
+                return LazyInitialiser.EnsureInitialised(ref _addEnvironmentVariableRowCommand, () =>
                     new DelegateCommand((state) =>
                     {
                         var newRow = new NameValuePair(PropertyPageResources.EnvVariableNameWatermark, PropertyPageResources.EnvVariableValueWatermark, EnvironmentVariables);
@@ -781,7 +781,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.PropertyPages
         {
             get
             {
-                return LazyInitializer.EnsureInitialized(ref _removeEnvironmentVariableRowCommand, () =>
+                return LazyInitialiser.EnsureInitialised(ref _removeEnvironmentVariableRowCommand, () =>
                     new DelegateCommand(state =>
                     {
                         int oldIndex = EnvironmentVariablesRowSelectedIndex;
@@ -797,7 +797,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.PropertyPages
         {
             get
             {
-                return LazyInitializer.EnsureInitialized(ref _browseDirectoryCommand, () =>
+                return LazyInitialiser.EnsureInitialised(ref _browseDirectoryCommand, () =>
                     new DelegateCommand(state =>
                     {
                         using (var dialog = new System.Windows.Forms.FolderBrowserDialog())
@@ -822,7 +822,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.PropertyPages
         {
             get
             {
-                return LazyInitializer.EnsureInitialized(ref _browseExecutableCommand, () =>
+                return LazyInitialiser.EnsureInitialised(ref _browseExecutableCommand, () =>
                     new DelegateCommand(state =>
                     {
                         using (var dialog = new System.Windows.Forms.OpenFileDialog())
@@ -858,7 +858,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.PropertyPages
         {
             get
             {
-                return LazyInitializer.EnsureInitialized(ref _newProfileCommand, () =>
+                return LazyInitialiser.EnsureInitialised(ref _newProfileCommand, () =>
                  new DelegateCommand(state =>
                  {
                      var dialog = new GetProfileNameDialog(Project.Services.ExportProvider.GetExportedValue<SVsServiceProvider>(),
@@ -891,7 +891,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.PropertyPages
         {
             get
             {
-                return LazyInitializer.EnsureInitialized(ref _deleteProfileCommand, () =>
+                return LazyInitialiser.EnsureInitialised(ref _deleteProfileCommand, () =>
                     new DelegateCommand(state =>
                     {
                         IWritableLaunchProfile profileToRemove = SelectedDebugProfile;

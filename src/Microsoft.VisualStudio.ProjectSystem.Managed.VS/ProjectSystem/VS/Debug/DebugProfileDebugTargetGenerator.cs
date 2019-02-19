@@ -62,7 +62,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Debug
         {
             get
             {
-                EnsureInitialized();
+                EnsureInitialised();
                 return _publicBlock;
             }
         }
@@ -79,7 +79,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Debug
                 new DebugProfileEnumValuesGenerator(LaunchSettingProvider, ProjectThreadingService));
 
 
-        protected override void Initialize()
+        protected override void Initialise()
         {
             IPropagatorBlock<ILaunchSettings, IProjectVersionedValue<IReadOnlyList<IEnumValue>>> debugProfilesBlock = DataflowBlockSlim.CreateTransformBlock<ILaunchSettings, IProjectVersionedValue<IReadOnlyList<IEnumValue>>>(
                 update =>

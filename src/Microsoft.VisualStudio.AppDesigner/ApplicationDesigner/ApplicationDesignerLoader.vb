@@ -43,15 +43,15 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
 #End If
 
         ''' <summary>
-        ''' Initialize the designer loader. This is called just after begin load, so we should
+        ''' Initialise the designer loader. This is called just after begin load, so we should
         ''' have a loader host here.
         ''' This is the place where we add services!
         ''' NOTE: Remember to call RemoveService on any service object we don't own, when the Loader is disposed
         '''  Otherwise, the service container will dispose those objects. 
         ''' </summary>
         ''' <remarks></remarks>
-        Protected Overrides Sub Initialize()
-            MyBase.Initialize()
+        Protected Overrides Sub Initialise()
+            MyBase.Initialise()
 
             Dim callback As ServiceCreatorCallback = New ServiceCreatorCallback(AddressOf OnCreateService)
             LoaderHost.AddService(GetType(WindowPaneProviderService), callback)
@@ -81,7 +81,7 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
         End Function
 
         ''' <summary>
-        ''' This method is called to initialize the designer loader with the text
+        ''' This method is called to Initialise the designer loader with the text
         ''' buffer to read from and a service provider through which we
         ''' can ask for services.
         ''' </summary>
@@ -90,10 +90,10 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
         ''' <param name="ItemId"></param>
         ''' <param name="punkDocData"></param>
         ''' <remarks></remarks>
-        Public Sub InitializeEx(ServiceProvider As Shell.ServiceProvider, Hierarchy As IVsHierarchy, ItemId As UInteger, punkDocData As Object)
+        Public Sub InitialiseEx(ServiceProvider As Shell.ServiceProvider, Hierarchy As IVsHierarchy, ItemId As UInteger, punkDocData As Object)
 
             If m_DocDataService IsNot Nothing Then
-                Debug.Fail("InitializeEx() should only be called once!")
+                Debug.Fail("InitialiseEx() should only be called once!")
                 Return
             End If
 
@@ -130,7 +130,7 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
         End Sub
 
         ''' <summary>
-        ''' Initializes the designer.  We are not file bsed, so not much to do
+        ''' Initialises the designer.  We are not file bsed, so not much to do
         ''' </summary>
         ''' <param name="serializationManager"></param>
         ''' <remarks>

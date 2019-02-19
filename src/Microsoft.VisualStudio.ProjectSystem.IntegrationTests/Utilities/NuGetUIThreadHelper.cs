@@ -11,7 +11,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS
     internal class NuGetUIThreadHelper
     {
         /// <summary>
-        /// Initially it will be null and will be initialized to CPS JTF when there is CPS
+        /// Initially it will be null and will be Initialised to CPS JTF when there is CPS
         /// based project is being created.
         /// </summary>
         private static Lazy<JoinableTaskFactory> _joinableTaskFactory;
@@ -20,7 +20,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS
         /// Returns the static instance of JoinableTaskFactory set by SetJoinableTaskFactoryFromService.
         /// If this has not been set yet the shell JTF will be used.
         /// During MEF composition some components will immediately call into the thread helper before
-        /// it can be initialized. For this reason we need to fall back to the default shell JTF
+        /// it can be Initialised. For this reason we need to fall back to the default shell JTF
         /// to provide basic threading support.
         /// </summary>
         public static JoinableTaskFactory JoinableTaskFactory

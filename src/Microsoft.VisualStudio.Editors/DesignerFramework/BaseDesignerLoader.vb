@@ -417,13 +417,13 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
         End Sub
 
         ''' <summary>
-        ''' Initialize the designer loader. This is called just after begin load, so we should
+        ''' Initialise the designer loader. This is called just after begin load, so we should
         ''' have a loader host here.
         ''' This is the place where we add services!
         ''' </summary>
         ''' <remarks></remarks>
-        Protected Overrides Sub Initialize()
-            MyBase.Initialize()
+        Protected Overrides Sub Initialise()
+            MyBase.Initialise()
 
             'In order to get free check-out behavior, we use the new VSIP class DesignerDocDataService.
             '  We pass it our punkDocData, and it wraps it with a new DocData class.  This DocData
@@ -444,16 +444,16 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
             LoaderHost.AddService(GetType(IVsHierarchy), VsHierarchy)
         End Sub
 
-        '/ <include file='doc\VSDDesignerLoader.uex' path='docs/doc[@for="VSDDesignerLoader.IVSMDDesignerLoader.Initialize"]/*' />
+        '/ <include file='doc\VSDDesignerLoader.uex' path='docs/doc[@for="VSDDesignerLoader.IVSMDDesignerLoader.Initialise"]/*' />
         '/ <devdoc>
-        '/     This method is called to initialize the designer loader with the text
+        '/     This method is called to Initialise the designer loader with the text
         '/     buffer to read from and a service provider through which we
         '/     can ask for services.
         '/ </devdoc>
-        Friend Overridable Sub InitializeEx(ServiceProvider As Shell.ServiceProvider, moniker As String, Hierarchy As IVsHierarchy, ItemId As UInteger, punkDocData As Object)
+        Friend Overridable Sub InitialiseEx(ServiceProvider As Shell.ServiceProvider, moniker As String, Hierarchy As IVsHierarchy, ItemId As UInteger, punkDocData As Object)
 
             If m_DocData IsNot Nothing Then
-                Debug.Fail("BaseDesignerLoader.InitializeEx() should only be called once!")
+                Debug.Fail("BaseDesignerLoader.InitialiseEx() should only be called once!")
                 Return
             End If
 
@@ -545,8 +545,8 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
             End If
         End Sub
 
-        ' Notifies client when the buffer is initialized with data either by a call to the methods:
-        ' IVsPersistDocData::LoadDocData, IPersistStream::Load, IVsTextBuffer::InitializeContent, IPersistFile::Load, or
+        ' Notifies client when the buffer is Initialised with data either by a call to the methods:
+        ' IVsPersistDocData::LoadDocData, IPersistStream::Load, IVsTextBuffer::InitialiseContent, IPersistFile::Load, or
         ' IPersistFile::InitNew. This event is also fired if the text buffer executes a reload of its file in response to
         ' an IVsTextBufferDataEvents::OnFileChanged event, as when a file is edited outside of the environment.
         Public Function OnLoadCompleted(fReload As Integer) As Integer Implements IVsTextBufferDataEvents.OnLoadCompleted
@@ -801,8 +801,8 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
         Private Function OnAfterAttributeChangeEx(docCookie As UInteger, attributes As UInteger, hierOld As IVsHierarchy, itemidOld As UInteger, pszMkDocumentOld As String, hierNew As IVsHierarchy, itemidNew As UInteger, pszMkDocumentNew As String) As Integer _
             Implements IVsRunningDocTableEvents2.OnAfterAttributeChangeEx
 
-            ' if we don't have our cookie yet and a document is being initialized, see if it's ours
-            If (_docCookie = 0) AndAlso ((attributes And __VSRDTATTRIB3.RDTA_DocumentInitialized) <> 0) AndAlso (_moniker.Length > 0) Then
+            ' if we don't have our cookie yet and a document is being Initialised, see if it's ours
+            If (_docCookie = 0) AndAlso ((attributes And __VSRDTATTRIB3.RDTA_DocumentInitialised) <> 0) AndAlso (_moniker.Length > 0) Then
                 Dim moniker As String = GetDocumentMoniker(docCookie)
 
                 If PathEquals(_moniker, moniker) Then

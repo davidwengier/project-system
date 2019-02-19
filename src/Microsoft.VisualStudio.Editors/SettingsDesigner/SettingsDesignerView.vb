@@ -155,7 +155,7 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
             SuspendLayout()
 
             'This call is required by the Windows Form Designer.
-            InitializeComponent()
+            InitialiseComponent()
 
             _settingsTableLayoutPanel.SuspendLayout()
 
@@ -236,16 +236,16 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
         'NOTE: The following procedure is required by the Windows Form Designer
         'It can be modified using the Windows Form Designer.  
         'Do not modify it using the code editor.
-        Private Sub InitializeComponent()
+        Private Sub InitialiseComponent()
             Dim resources As ComponentResourceManager = New ComponentResourceManager(GetType(SettingsDesignerView))
             _settingsGridView = New SettingsGridView
-            BackColor = ShellUtil.GetVSColor(__VSSYSCOLOREX3.VSCOLOR_THREEDFACE, Drawing.SystemColors.ButtonFace, UseVSTheme:=False)
+            BackColour = ShellUtil.GetVSColour(__VSSYSColourEX3.VSColour_THREEDFACE, Drawing.SystemColours.ButtonFace, UseVSTheme:=False)
             _descriptionLinkLabel = New VSThemedLinkLabel
             _dataGridViewTextBoxColumn1 = New DataGridViewTextBoxColumn
             _dataGridViewComboBoxColumn1 = New DataGridViewComboBoxColumn
             _dataGridViewComboBoxColumn2 = New DataGridViewComboBoxColumn
             _settingsTableLayoutPanel = New TableLayoutPanel
-            CType(_settingsGridView, ISupportInitialize).BeginInit()
+            CType(_settingsGridView, ISupportInitialise).BeginInit()
             _settingsTableLayoutPanel.SuspendLayout()
             SuspendLayout()
             '
@@ -254,7 +254,7 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
             resources.ApplyResources(_settingsGridView, "m_SettingsGridView")
             _settingsGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None
             _settingsGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None
-            _settingsGridView.BackgroundColor = ShellUtil.GetVSColor(__VSSYSCOLOREX3.VSCOLOR_THREEDFACE, Drawing.SystemColors.ButtonFace, UseVSTheme:=False)
+            _settingsGridView.BackgroundColour = ShellUtil.GetVSColour(__VSSYSColourEX3.VSColour_THREEDFACE, Drawing.SystemColours.ButtonFace, UseVSTheme:=False)
             _settingsGridView.ClipboardCopyMode = DataGridViewClipboardCopyMode.Disable
             _settingsGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
             _settingsGridView.Columns.Add(_dataGridViewTextBoxColumn1)
@@ -321,7 +321,7 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
             Name = "SettingsDesignerView"
             Padding = New Padding(0)
             resources.ApplyResources(Me, "$this")
-            CType(_settingsGridView, ISupportInitialize).EndInit()
+            CType(_settingsGridView, ISupportInitialise).EndInit()
             _settingsTableLayoutPanel.ResumeLayout(False)
             ResumeLayout(False)
 
@@ -437,7 +437,7 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
             _toolbarPanel.SetToolbar(VsUIShell, Constants.MenuConstants.GUID_SETTINGSDESIGNER_MenuGroup, Constants.MenuConstants.IDM_VS_TOOLBAR_Settings)
             _toolbarPanel.BringToFront()
 
-            _descriptionLinkLabel.SetThemedColor(TryCast(VsUIShell, IVsUIShell5), supportsTheming:=False)
+            _descriptionLinkLabel.SetThemedColour(TryCast(VsUIShell, IVsUIShell5), supportsTheming:=False)
 
         End Sub
 
@@ -485,7 +485,7 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
 
 
         ''' <summary>
-        ''' Initialize the fonts in the resource editor from the environment (or from the resx file,
+        ''' Initialise the fonts in the resource editor from the environment (or from the resx file,
         '''   if hard-coded there).
         ''' </summary>
         ''' <remarks></remarks>
@@ -910,7 +910,7 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
         Private Sub UpdateComboBoxCell(CellToUpdate As DataGridViewComboBoxCell)
             If CellToUpdate Is _settingsGridView.CurrentCell AndAlso _settingsGridView.EditingControl IsNot Nothing Then
                 If Not DBNull.Value.Equals(CellToUpdate.Value) Then
-                    CellToUpdate.InitializeEditingControl(CellToUpdate.RowIndex, CellToUpdate.Value, CellToUpdate.Style)
+                    CellToUpdate.InitialiseEditingControl(CellToUpdate.RowIndex, CellToUpdate.Value, CellToUpdate.Style)
                 End If
             End If
         End Sub

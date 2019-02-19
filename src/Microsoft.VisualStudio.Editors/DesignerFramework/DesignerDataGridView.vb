@@ -40,8 +40,8 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
         ''' </summary>
         ''' <remarks></remarks>
         Public Sub New()
-            BackColor = SystemColors.Window
-            ForeColor = SystemColors.WindowText
+            BackColour = SystemColours.Window
+            ForeColour = SystemColours.WindowText
             ' Make sure the row headers have enough space to display the glyphs in HDPI
             RowHeadersWidth = DpiHelper.LogicalToDeviceUnitsX(RowHeadersWidth)
         End Sub

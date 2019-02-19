@@ -18,9 +18,9 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
 
         Friend Sub New()
             ' This call is required by the Windows Form Designer.
-            InitializeComponent()
+            InitialiseComponent()
 
-            ' Add any initialization after the InitializeComponent() call.
+            ' Add any initialization after the InitialiseComponent() call.
             IconGlyph.Image = SystemIcons.Error.ToBitmap()
 
             ' A label used for determining the preferred size of the text in the textbox

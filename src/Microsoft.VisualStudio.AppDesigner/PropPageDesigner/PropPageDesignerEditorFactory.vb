@@ -91,7 +91,7 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
                     End If
 
                     DesignerLoader = CType(DesignerService.CreateDesignerLoader(GetType(PropPageDesignerLoader).AssemblyQualifiedName), PropPageDesignerLoader)
-                    DesignerLoader.InitializeEx(_siteProvider, Hierarchy, ItemId, DocData)
+                    DesignerLoader.InitialiseEx(_siteProvider, Hierarchy, ItemId, DocData)
 
                     Dim OleProvider As IServiceProvider = CType(_siteProvider.GetService(GetType(IServiceProvider)), IServiceProvider)
                     Dim Designer As IVSMDDesigner = DesignerService.CreateDesigner(OleProvider, DesignerLoader)
@@ -200,7 +200,7 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
         ''' <param name="Site"></param>
         ''' <remarks></remarks>
         Public Function SetSite(Site As IServiceProvider) As Integer Implements IVsEditorFactory.SetSite
-            'This same Site already set?  Or Site not yet initialized (= Nothing)?  If so, NOP.
+            'This same Site already set?  Or Site not yet Initialised (= Nothing)?  If so, NOP.
             If _site Is Site Then
                 Exit Function
             End If

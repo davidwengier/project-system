@@ -8,7 +8,7 @@
             MyBase.New()
 
             ' This call is required by the Component Designer.
-            InitializeComponent()
+            InitialiseComponent()
 
         End Sub
 
@@ -30,19 +30,19 @@
         ' It can be modified using the Component Designer.  Do not modify it
         ' using the code editor.
         <System.Diagnostics.DebuggerStepThrough()>
-        Private Sub InitializeComponent()
-            Dim CenterPanel As System.Windows.Forms.TableLayoutPanel
+        Private Sub InitialiseComponent()
+            Dim CentrePanel As System.Windows.Forms.TableLayoutPanel
             Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(SpecialFileCustomView))
             Me.LinkLabel = New VSThemedLinkLabel()
-            CenterPanel = New System.Windows.Forms.TableLayoutPanel()
-            CenterPanel.SuspendLayout()
+            CentrePanel = New System.Windows.Forms.TableLayoutPanel()
+            CentrePanel.SuspendLayout()
             Me.SuspendLayout()
             '
-            'CenterPanel
+            'CentrePanel
             '
-            resources.ApplyResources(CenterPanel, "CenterPanel")
-            CenterPanel.Controls.Add(Me.LinkLabel, 1, 0)
-            CenterPanel.Name = "CenterPanel"
+            resources.ApplyResources(CentrePanel, "CentrePanel")
+            CentrePanel.Controls.Add(Me.LinkLabel, 1, 0)
+            CentrePanel.Name = "CentrePanel"
             '
             'LinkLabel
             '
@@ -51,11 +51,11 @@
             '
             'SpecialFileCustomView
             '
-            Me.Controls.Add(CenterPanel)
+            Me.Controls.Add(CentrePanel)
             Me.Name = "SpecialFileCustomView"
             resources.ApplyResources(Me, "$this")
-            CenterPanel.ResumeLayout(False)
-            CenterPanel.PerformLayout()
+            CentrePanel.ResumeLayout(False)
+            CentrePanel.PerformLayout()
             Me.ResumeLayout(False)
 
         End Sub

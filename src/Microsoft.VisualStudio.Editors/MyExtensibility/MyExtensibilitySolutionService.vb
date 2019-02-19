@@ -190,7 +190,7 @@ Namespace Microsoft.VisualStudio.Editors.MyExtensibility
 
         ''' ;ExtensibilitySettings
         ''' <summary>
-        ''' Lazy-initialized My Extensibility settings containing information about extension templates.
+        ''' Lazy-Initialised My Extensibility settings containing information about extension templates.
         ''' </summary>
         Private ReadOnly Property ExtensibilitySettings() As MyExtensibilitySettings
             Get
@@ -216,7 +216,7 @@ Namespace Microsoft.VisualStudio.Editors.MyExtensibility
         ''' If needed, notify the given project's My Extensibility service that a reference has been added or removed.
         ''' </summary>
         ''' <remarks>
-        ''' The compiler will initialize a My Extensibility project service when a reference is added or removed.
+        ''' The compiler will Initialise a My Extensibility project service when a reference is added or removed.
         ''' After that, the project service will listen to reference added or removed event itself (to avoid ZIP problem).
         ''' Therefore, if a project service already exists, do not notify it.
         ''' </remarks>

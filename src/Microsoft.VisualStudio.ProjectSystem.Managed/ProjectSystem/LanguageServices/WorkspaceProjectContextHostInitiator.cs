@@ -36,7 +36,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
         [ProjectAutoLoad(startAfter: ProjectLoadCheckpoint.AfterLoadInitialConfiguration, completeBy: ProjectLoadCheckpoint.ProjectFactoryCompleted)]
 #pragma warning restore RS0030
         [AppliesTo(ProjectCapability.DotNetLanguageService)]
-        public Task InitializeAsync()
+        public Task InitialiseAsync()
         {
             // While we want make sure it's loaded before PrioritizedProjectLoadedInHost, 
             // we don't want to block project factory completion on its load, so fire and forget

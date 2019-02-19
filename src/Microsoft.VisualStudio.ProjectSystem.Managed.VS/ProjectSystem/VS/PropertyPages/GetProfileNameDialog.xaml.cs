@@ -20,7 +20,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.PropertyPages
         public GetProfileNameDialog(SVsServiceProvider sp, IProjectThreadingService threadingService, string suggestedName, Predicate<string> validator)
             : base()// Pass help topic to base if there is one
         {
-            InitializeComponent();
+            InitialiseComponent();
             DataContext = this;
             ProfileName = suggestedName;
             _validator = validator;

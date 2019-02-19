@@ -30,7 +30,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices.Handlers
 
             var handler = new AdditionalFilesItemHandler(project);
             if (context != null)
-                handler.Initialize(context);
+                handler.Initialise(context);
 
             return handler;
         }

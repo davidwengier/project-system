@@ -1386,7 +1386,7 @@ Namespace Microsoft.VisualStudio.Editors.SettingsGlobalObjects
             ' is defined, otherwise bad things will happen when you try to build the virtual type.
             _typeResolver.ReferenceAssembly(builder.BaseType.Assembly().GetName())
 
-            builder.InitializeFromType(_typeResolver, ccu.Namespaces(0))
+            builder.InitialiseFromType(_typeResolver, ccu.Namespaces(0))
 
             ' next add the special shared property that gets the single instance -- note that this property
             '   was originally in the CodeCompileUnit we got back, but we removed it while scrubbing

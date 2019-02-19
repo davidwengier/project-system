@@ -51,15 +51,15 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
 #Region "Base class overrides"
 
         ''' <summary>
-        ''' Initialize the designer loader. This is called just after begin load, so we should
+        ''' Initialise the designer loader. This is called just after begin load, so we should
         ''' have a loader host here.
         ''' This is the place where we add services!
         ''' NOTE: Remember to call RemoveService on any service object we don't own, when the Loader is disposed
         '''  Otherwise, the service container will dispose those objects.
         ''' </summary>
         ''' <remarks></remarks>
-        Protected Overrides Sub Initialize()
-            MyBase.Initialize()
+        Protected Overrides Sub Initialise()
+            MyBase.Initialise()
 
             Dim projectItem As EnvDTE.ProjectItem = DTEUtils.ProjectItemFromItemId(VsHierarchy, ProjectItemid)
 
@@ -104,15 +104,15 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
         End Sub
 
         ''' <summary>
-        ''' Initialize this instance
+        ''' Initialise this instance
         ''' </summary>
         ''' <param name="ServiceProvider"></param>
         ''' <param name="Hierarchy">Hierarchy (project) for item to load</param>
         ''' <param name="ItemId">ItemId in Hierarchy to load</param>
         ''' <param name="punkDocData">Document data to load</param>
         ''' <remarks></remarks>
-        Friend Overrides Sub InitializeEx(ServiceProvider As ServiceProvider, moniker As String, Hierarchy As IVsHierarchy, ItemId As UInteger, punkDocData As Object)
-            MyBase.InitializeEx(ServiceProvider, moniker, Hierarchy, ItemId, punkDocData)
+        Friend Overrides Sub InitialiseEx(ServiceProvider As ServiceProvider, moniker As String, Hierarchy As IVsHierarchy, ItemId As UInteger, punkDocData As Object)
+            MyBase.InitialiseEx(ServiceProvider, moniker, Hierarchy, ItemId, punkDocData)
 
             _serviceProvider = ServiceProvider
 

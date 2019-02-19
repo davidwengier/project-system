@@ -31,7 +31,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
         End Sub
 
         <System.Diagnostics.DebuggerStepThrough()>
-        Private Sub InitializeComponent()
+        Private Sub InitialiseComponent()
             Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ReferencePathsPropPage))
             Me.FolderLabel = New System.Windows.Forms.Label
             Me.Folder = New System.Windows.Forms.TextBox

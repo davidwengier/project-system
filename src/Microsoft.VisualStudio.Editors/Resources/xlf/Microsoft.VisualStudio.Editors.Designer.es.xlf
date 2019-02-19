@@ -2201,8 +2201,8 @@ El nuevo valor del archivo app.config es '{1}'
         <note />
       </trans-unit>
       <trans-unit id="SD_FullDescriptionText">
-        <source>Application settings allow you to store and retrieve property settings and other information for your application dynamically. For example, the application can save a user's color preferences, then retrieve them the next time it runs.</source>
-        <target state="translated">La configuración de la aplicación permite almacenar y recuperar de forma dinámica la configuración de propiedades y otra información de la aplicación. Por ejemplo, la aplicación puede guardar las preferencias de color de un usuario y recuperarlas la próxima vez que se ejecute.</target>
+        <source>Application settings allow you to store and retrieve property settings and other information for your application dynamically. For example, the application can save a user's Colour preferences, then retrieve them the next time it runs.</source>
+        <target state="translated">La configuración de la aplicación permite almacenar y recuperar de forma dinámica la configuración de propiedades y otra información de la aplicación. Por ejemplo, la aplicación puede guardar las preferencias de Colour de un usuario y recuperarlas la próxima vez que se ejecute.</target>
         <note />
       </trans-unit>
       <trans-unit id="SD_LinkPartOfDescriptionText">

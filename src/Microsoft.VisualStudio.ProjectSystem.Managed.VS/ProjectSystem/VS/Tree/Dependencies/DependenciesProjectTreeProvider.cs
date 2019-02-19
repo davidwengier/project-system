@@ -54,7 +54,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies
         private IImmutableDictionary<string, IPropertyPagesCatalog> _namedCatalogs;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DependenciesProjectTreeProvider"/> class.
+        /// Initialises a new instance of the <see cref="DependenciesProjectTreeProvider"/> class.
         /// </summary>
         [ImportingConstructor]
         public DependenciesProjectTreeProvider(
@@ -311,12 +311,12 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies
         /// <summary>
         /// Generates the original references directory tree.
         /// </summary>
-        protected override void Initialize()
+        protected override void Initialise()
         {
 #pragma warning disable RS0030 // symbol LoadedProject is banned
             using (UnconfiguredProjectAsynchronousTasksService.LoadedProject())
             {
-                base.Initialize();
+                base.Initialise();
 
                 // this.IsApplicable may take a project lock, so we can't do it inline with this method
                 // which is holding a private lock.  It turns out that doing it asynchronously isn't a problem anyway,
@@ -567,7 +567,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies
         protected class MyConfiguredProjectExports : ConfiguredProjectExports
         {
             /// <summary>
-            /// Initializes a new instance of the <see cref="MyConfiguredProjectExports"/> class.
+            /// Initialises a new instance of the <see cref="MyConfiguredProjectExports"/> class.
             /// </summary>
             [ImportingConstructor]
             protected MyConfiguredProjectExports(ConfiguredProject configuredProject)

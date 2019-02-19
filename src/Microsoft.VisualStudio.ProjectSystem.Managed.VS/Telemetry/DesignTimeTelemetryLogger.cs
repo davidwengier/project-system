@@ -25,7 +25,7 @@ namespace Microsoft.VisualStudio.Telemetry
 
         public string Parameters { get; set; }
 
-        public void Initialize(IEventSource eventSource)
+        public void Initialise(IEventSource eventSource)
         {
             eventSource.TargetStarted += TargetStarted;
             eventSource.TargetFinished += TargetFinished;

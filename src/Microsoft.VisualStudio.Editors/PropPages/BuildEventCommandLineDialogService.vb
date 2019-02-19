@@ -27,18 +27,18 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             Dim i As Integer
             Dim Count As Integer
 
-            '// Initialize the title text
+            '// Initialise the title text
             frm.SetFormTitleText(WindowText)
 
-            '// Initialize the command line
+            '// Initialise the command line
             frm.EventCommandLine = OriginalCommandLine
 
-            '// Initialize helpTopicID
+            '// Initialise helpTopicID
             If HelpID IsNot Nothing Then
                 frm.HelpTopic = HelpID
             End If
 
-            '// Initialize the token values
+            '// Initialise the token values
             Count = MacroProvider.GetCount()
 
             Dim Names(Count - 1) As String

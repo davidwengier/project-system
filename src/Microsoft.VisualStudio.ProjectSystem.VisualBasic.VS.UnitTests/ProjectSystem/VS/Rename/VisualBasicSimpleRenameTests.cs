@@ -128,7 +128,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Rename
             using (var ws = new AdhocWorkspace())
             {
                 var projectId = ProjectId.CreateNewId();
-                Solution solution = ws.AddSolution(InitializeWorkspace(projectId, newFilePath, sourceCode, language));
+                Solution solution = ws.AddSolution(InitialiseWorkspace(projectId, newFilePath, sourceCode, language));
                 Project project = (from d in solution.Projects where d.Id == projectId select d).FirstOrDefault();
 
                 var environmentOptionsFactory = IEnvironmentOptionsFactory.Implement((string category, string page, string property, bool defaultValue) => { return true; });

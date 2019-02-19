@@ -23,7 +23,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
     ///     <see cref="ApplyProjectEvaluationAsync(IProjectVersionedValue{IProjectSubscriptionUpdate}, bool, CancellationToken)"/>.
     /// </remarks>
     [Export(typeof(IApplyChangesToWorkspaceContext))]
-    internal class ApplyChangesToWorkspaceContext : OnceInitializedOnceDisposed, IApplyChangesToWorkspaceContext
+    internal class ApplyChangesToWorkspaceContext : OnceInitialisedOnceDisposed, IApplyChangesToWorkspaceContext
     {
         private const string ProjectBuildRuleName = CompilerCommandLineArgs.SchemaName;
         private readonly ConfiguredProject _project;
@@ -48,23 +48,23 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
             get;
         }
 
-        public void Initialize(IWorkspaceProjectContext context)
+        public void Initialise(IWorkspaceProjectContext context)
         {
             Requires.NotNull(context, nameof(context));
 
             if (_context != null)
-                throw new InvalidOperationException("Already initialized.");
+                throw new InvalidOperationException("Already Initialised.");
 
             _context = context;
 
-            EnsureInitialized();
+            EnsureInitialised();
         }
 
         public async Task ApplyProjectBuildAsync(IProjectVersionedValue<IProjectSubscriptionUpdate> update, bool isActiveContext, CancellationToken cancellationToken)
         {
             Requires.NotNull(update, nameof(update));
 
-            VerifyInitializedAndNotDisposed();
+            VerifyInitialisedAndNotDisposed();
 
             IProjectChangeDescription projectChange = update.Value.ProjectChanges[ProjectBuildRuleName];
 
@@ -82,7 +82,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
         {
             Requires.NotNull(update, nameof(update));
 
-            VerifyInitializedAndNotDisposed();
+            VerifyInitialisedAndNotDisposed();
 
             IComparable version = GetConfiguredProjectVersion(update);
 
@@ -91,7 +91,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
 
         public IEnumerable<string> GetProjectEvaluationRules()
         {
-            VerifyInitializedAndNotDisposed();
+            VerifyInitialisedAndNotDisposed();
 
             return _handlers.Select(e => e.Value)
                             .OfType<IProjectEvaluationHandler>()
@@ -102,7 +102,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
 
         public IEnumerable<string> GetProjectBuildRules()
         {
-            VerifyInitializedAndNotDisposed();
+            VerifyInitialisedAndNotDisposed();
 
             return new string[] { ProjectBuildRuleName };
         }
@@ -121,14 +121,14 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
             _handlers = null;
         }
 
-        protected override void Initialize()
+        protected override void Initialise()
         {
             _handlers = _workspaceContextHandlerFactories.Select(h => h.CreateExport())
                                                          .ToArray();
 
             foreach (ExportLifetimeContext<IWorkspaceContextHandler> handler in _handlers)
             {
-                handler.Value.Initialize(_context);
+                handler.Value.Initialise(_context);
             }
         }
 
@@ -209,15 +209,15 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
             return update.DataSourceVersions[ProjectDataSources.ConfiguredProjectVersion];
         }
 
-        private void VerifyInitializedAndNotDisposed()
+        private void VerifyInitialisedAndNotDisposed()
         {
             VerifyNotDisposed();
-            VerifyInitialized();
+            VerifyInitialised();
         }
 
-        private void VerifyInitialized()
+        private void VerifyInitialised()
         {
-            Verify.Operation(IsInitialized, "Must call Initialize(IWorkspaceProjectContext) first.");
+            Verify.Operation(IsInitialised, "Must call Initialise(IWorkspaceProjectContext) first.");
         }
 
         private void VerifyNotDisposed()

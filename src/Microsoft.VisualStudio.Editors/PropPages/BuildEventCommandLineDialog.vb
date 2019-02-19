@@ -21,9 +21,9 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             MyBase.New()
 
             'This call is required by the Windows Form Designer.
-            InitializeComponent()
+            InitialiseComponent()
 
-            'Add any initialization after the InitializeComponent() call
+            'Add any initialization after the InitialiseComponent() call
 
             'Apply Vista Theme to list view
             Common.DTEUtils.ApplyListViewThemeStyles(TokenList.Handle)
@@ -144,13 +144,13 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
         End Sub
 
         Private Sub BuildEventCommandLineDialog_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-            InitializeControlLocations()
+            InitialiseControlLocations()
 
             '// Never let them resize to something smaller than the default form size
             MinimumSize = Size
         End Sub
 
-        Private Function InitializeControlLocations() As Boolean
+        Private Function InitialiseControlLocations() As Boolean
             ShowCollapsedForm()
         End Function
 

@@ -32,7 +32,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             MyBase.Dispose(disposing)
         End Sub
 
-        <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+        <System.Diagnostics.DebuggerStepThrough()> Private Sub InitialiseComponent()
             Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(AdvBuildSettingsPropPage))
             Me.lblLanguageVersion = New System.Windows.Forms.Label()
             Me.lblReportCompilerErrors = New System.Windows.Forms.Label()
@@ -150,7 +150,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             'outputLineLabel
             '
             resources.ApplyResources(Me.outputLineLabel, "outputLineLabel")
-            Me.outputLineLabel.BackColor = System.Drawing.SystemColors.ControlDark
+            Me.outputLineLabel.BackColour = System.Drawing.SystemColours.ControlDark
             Me.outputLineLabel.Name = "outputLineLabel"
             '
             'generalTableLayoutPanel
@@ -169,7 +169,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             'generalLineLabel
             '
             resources.ApplyResources(Me.generalLineLabel, "generalLineLabel")
-            Me.generalLineLabel.BackColor = System.Drawing.SystemColors.ControlDark
+            Me.generalLineLabel.BackColour = System.Drawing.SystemColours.ControlDark
             Me.generalLineLabel.Name = "generalLineLabel"
             '
             'chkOverflow

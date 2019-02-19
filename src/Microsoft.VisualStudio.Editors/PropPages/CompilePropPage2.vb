@@ -59,9 +59,9 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             MyBase.New()
 
             'This call is required by the Windows Form Designer.
-            InitializeComponent()
+            InitialiseComponent()
 
-            'Add any initialization after the InitializeComponent() call
+            'Add any initialization after the InitialiseComponent() call
             _notifyError = My.Resources.Microsoft_VisualStudio_Editors_Designer.PPG_Compile_Notification_Error
             _notifyNone = My.Resources.Microsoft_VisualStudio_Editors_Designer.PPG_Compile_Notification_None
             _notifyWarning = My.Resources.Microsoft_VisualStudio_Editors_Designer.PPG_Compile_Notification_Warning
@@ -193,7 +193,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             Dim NotifyColumn As DataGridViewComboBoxColumn = CType(WarningsGridView.Columns.Item(NotifyColumnIndex), DataGridViewComboBoxColumn)
             If _enabled AndAlso DisableAllWarningsCheckBox.CheckState = CheckState.Unchecked AndAlso WarningsAsErrorCheckBox.CheckState = CheckState.Unchecked Then
                 For Each column As DataGridViewColumn In WarningsGridView.Columns
-                    column.DefaultCellStyle.BackColor = WarningsGridView.DefaultCellStyle.BackColor
+                    column.DefaultCellStyle.BackColour = WarningsGridView.DefaultCellStyle.BackColour
                 Next
                 If IndeterminateWarningsState Then
                     ' If we don't set the current cell to nothing, changing the read-only mode may
@@ -204,7 +204,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
                 WarningsGridView.Enabled = True
             Else
                 For Each column As DataGridViewColumn In WarningsGridView.Columns
-                    column.DefaultCellStyle.BackColor = BackColor
+                    column.DefaultCellStyle.BackColour = BackColour
                 Next
                 WarningsGridView.Enabled = False
             End If
@@ -758,8 +758,8 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
 
         Private Sub WarningsGridView_EditingControlShowing(sender As Object, e As DataGridViewEditingControlShowingEventArgs) Handles WarningsGridView.EditingControlShowing
             With e.CellStyle
-                .BackColor = WarningsGridView.BackgroundColor
-                .ForeColor = WarningsGridView.ForeColor
+                .BackColour = WarningsGridView.BackgroundColour
+                .ForeColour = WarningsGridView.ForeColour
             End With
         End Sub
 

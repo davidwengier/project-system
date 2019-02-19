@@ -9,7 +9,7 @@
         'It can be modified using the Windows Form Designer.  
         'Do not modify it using the code editor.
         <System.Diagnostics.DebuggerStepThrough()>
-        Private Sub InitializeComponent()
+        Private Sub InitialiseComponent()
             components = New System.ComponentModel.Container()
         End Sub
 

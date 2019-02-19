@@ -69,14 +69,14 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             MyBase.New()
 
             'This call is required by the Windows Form Designer.
-            InitializeComponent()
+            InitialiseComponent()
 
             ' Scale buttons
             addSplitButton.Size = DpiHelper.LogicalToDeviceUnits(addSplitButton.Size)
             RemoveReference.Size = DpiHelper.LogicalToDeviceUnits(RemoveReference.Size)
             UpdateReferences.Size = DpiHelper.LogicalToDeviceUnits(UpdateReferences.Size)
 
-            'Add any initialization after the InitializeComponent() call
+            'Add any initialization after the InitialiseComponent() call
             AddChangeHandlers()
             PageRequiresScaling = False
 
@@ -125,7 +125,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
 
         ''' <summary>
         ''' The designer host of this page
-        ''' NOTE: we currently get the designer host from the propertyPageDesignerView, it is a workaround. The right solution should be the parent page pass in the right serviceProvider when it creates/initializes this page
+        ''' NOTE: we currently get the designer host from the propertyPageDesignerView, it is a workaround. The right solution should be the parent page pass in the right serviceProvider when it creates/Initialises this page
         ''' </summary>
         Private ReadOnly Property DesignerHost() As IDesignerHost
             Get
@@ -657,7 +657,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             '  import.
             Dim CurrentListMap As New Dictionary(Of String, Boolean)
 
-            'Initialize CurrentListMap to include keys from everything currently
+            'Initialise CurrentListMap to include keys from everything currently
             '  in the listbox.  We'll next mark as true only those that the compiler
             '  and project actually know about.
             For Each cItem As String In ImportList.Items
@@ -818,7 +818,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             EnableReferenceGroup()
             EnableImportGroup()
 
-            ' make the import-panel act as if it lost focus so that the selected-row color
+            ' make the import-panel act as if it lost focus so that the selected-row Colour
             '   of the Imports CheckedListBox does not look like it is focused
             '
             ImportPanel_Leave(Me, EventArgs.Empty)
@@ -1327,9 +1327,9 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
         Private Delegate Sub RestoreImportListSelectionDelegate()
 
         ''' <summary>
-        ''' In order to see the blue selection color, we need to restore the selection of the CheckedListBox when
+        ''' In order to see the blue selection Colour, we need to restore the selection of the CheckedListBox when
         ''' focus comes into the control. When focus leaves the control, we remove the selection so that the
-        ''' blue selection color is not shown [when it shows, it's visually confusing as to whether or not the control
+        ''' blue selection Colour is not shown [when it shows, it's visually confusing as to whether or not the control
         ''' still has focus].
         ''' </summary>
         ''' <param name="sender"></param>
@@ -1364,9 +1364,9 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
         End Sub
 
         ''' <summary>
-        ''' In order to hide the blue selection color, we need to cache and remove the selection of the CheckedListBox when
+        ''' In order to hide the blue selection Colour, we need to cache and remove the selection of the CheckedListBox when
         ''' focus leaves the control. When focus comes back into the control, we restore the selection so that the
-        ''' blue selection color is shown.
+        ''' blue selection Colour is shown.
         ''' </summary>
         ''' <param name="sender"></param>
         ''' <param name="e"></param>

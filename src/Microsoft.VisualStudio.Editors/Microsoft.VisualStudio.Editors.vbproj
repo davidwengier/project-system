@@ -578,8 +578,8 @@
     <None Include="Docs\app-designer-visual-spec-1-detail1.png" />
     <None Include="Docs\app-designer-visual-spec-1-detail2.png" />
     <None Include="Docs\custom_vs_system3.png" />
-    <None Include="Docs\CustomColorRenames.txt" />
-    <None Include="Docs\CustomColors.txt" />
+    <None Include="Docs\CustomColourRenames.txt" />
+    <None Include="Docs\CustomColours.txt" />
     <None Include="Docs\Project Designer Architecture Visual.png" />
     <None Include="Docs\Project Designer Architecture.png" />
     <None Include="Docs\Project Designer Architecture.vsd" />

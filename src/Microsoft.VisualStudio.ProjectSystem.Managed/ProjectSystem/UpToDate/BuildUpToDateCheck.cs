@@ -21,7 +21,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.UpToDate
     [AppliesTo(ProjectCapability.DotNet + "+ !" + ProjectCapabilities.SharedAssetsProject)]
     [Export(typeof(IBuildUpToDateCheckProvider))]
     [ExportMetadata("BeforeDrainCriticalTasks", true)]
-    internal sealed class BuildUpToDateCheck : OnceInitializedOnceDisposed, IBuildUpToDateCheckProvider
+    internal sealed class BuildUpToDateCheck : OnceInitialisedOnceDisposed, IBuildUpToDateCheckProvider
     {
         private const string CopyToOutputDirectory = "CopyToOutputDirectory";
         private const string PreserveNewest = "PreserveNewest";
@@ -107,10 +107,10 @@ namespace Microsoft.VisualStudio.ProjectSystem.UpToDate
         [AppliesTo(ProjectCapability.DotNet + "+ !" + ProjectCapabilities.SharedAssetsProject)]
         internal void Load()
         {
-            EnsureInitialized();
+            EnsureInitialised();
         }
 
-        protected override void Initialize()
+        protected override void Initialise()
         {
             _link = ProjectDataSources.SyncLinkTo(
                 _configuredProject.Services.ProjectSubscription.JointRuleSource.SourceBlock.SyncLinkOptions(DataflowOption.WithRuleNames(ProjectPropertiesSchemas)),
@@ -670,7 +670,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.UpToDate
 
             var sw = Stopwatch.StartNew();
 
-            EnsureInitialized();
+            EnsureInitialised();
 
             LogLevel requestedLogLevel = await _projectSystemOptions.GetFastUpToDateLoggingLevelAsync(cancellationToken);
             var logger = new BuildUpToDateCheckLogger(logWriter, requestedLogLevel, _configuredProject.UnconfiguredProject.FullPath);

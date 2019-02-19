@@ -46,7 +46,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
 
         Protected Overrides Sub PostInitPage()
             MyBase.PostInitPage()
-            InitializeLicensing()
+            InitialiseLicensing()
         End Sub
 
         Private Shared Function GetUnconfiguredProject(hierarchy As IVsHierarchy) As UnconfiguredProject
@@ -72,9 +72,9 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             MyBase.New()
 
             'This call is required by the Windows Form Designer.
-            InitializeComponent()
+            InitialiseComponent()
 
-            'Add any initialization after the InitializeComponent() call
+            'Add any initialization after the InitialiseComponent() call
 
             AddChangeHandlers()
 
@@ -93,7 +93,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
         ''' <see cref="TryGetNonCommonPropertyValue" /> will get the property if it is set even if it is empty, but because the empty properties 
         ''' are ignored elsewhere, they are ignored here.
         ''' </summary>
-        Private Sub InitializeLicensing()
+        Private Sub InitialiseLicensing()
             GetProjectsAndProvider()
             Dim PackageLicenseFileSet = TryCast(TryGetNonCommonPropertyValue(GetPropertyDescriptor("PackageLicenseFile")), String)
             If (PackageLicenseFileSet IsNot Nothing AndAlso PackageLicenseFileSet IsNot "") Then

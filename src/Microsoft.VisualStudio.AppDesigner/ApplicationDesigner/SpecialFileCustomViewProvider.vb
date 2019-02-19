@@ -101,7 +101,7 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
         Public Overrides Sub CreateView()
             If _view Is Nothing Then
                 Dim NewView As New SpecialFileCustomView
-                NewView.LinkLabel.SetThemedColor(_designerPanel.VsUIShell5)
+                NewView.LinkLabel.SetThemedColour(_designerPanel.VsUIShell5)
                 NewView.SetSite(Me)
 
                 _view = NewView
@@ -122,7 +122,7 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
         Private Sub DesignerView_ThemeChanged(sender As Object, args As EventArgs) Handles _designerView.ThemeChanged
             If _view IsNot Nothing Then
                 Dim View As SpecialFileCustomView = CType(_view, SpecialFileCustomView)
-                View.LinkLabel.SetThemedColor(_designerPanel.VsUIShell5)
+                View.LinkLabel.SetThemedColour(_designerPanel.VsUIShell5)
             End If
         End Sub
 

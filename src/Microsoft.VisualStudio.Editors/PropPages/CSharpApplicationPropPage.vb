@@ -17,9 +17,9 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
         Public Sub New()
             MyBase.New()
 
-            InitializeComponent()
+            InitialiseComponent()
 
-            'Add any initialization after the InitializeComponent() call
+            'Add any initialization after the InitialiseComponent() call
             AddChangeHandlers()
         End Sub
 

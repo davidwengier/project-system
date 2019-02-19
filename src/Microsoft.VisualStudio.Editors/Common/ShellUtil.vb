@@ -19,50 +19,50 @@ Namespace Microsoft.VisualStudio.Editors.Common
 
 
         ''' <summary>
-        ''' Gets a color from the shell's color service.  If for some reason this fails, returns the supplied
-        '''   default color.
+        ''' Gets a Colour from the shell's Colour service.  If for some reason this fails, returns the supplied
+        '''   default Colour.
         ''' </summary>
-        ''' <param name="VsUIShell">The IVsUIShell interface that must also implement IVsUIShell2 (if not, or if Nothing, default color is returned)</param>
-        ''' <param name="VsSysColorIndex">The color index to look up.</param>
-        ''' <param name="DefaultColor">The default color to return if the call fails.</param>
+        ''' <param name="VsUIShell">The IVsUIShell interface that must also implement IVsUIShell2 (if not, or if Nothing, default Colour is returned)</param>
+        ''' <param name="VsSysColourIndex">The Colour index to look up.</param>
+        ''' <param name="DefaultColour">The default Colour to return if the call fails.</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Shared Function GetColor(VsUIShell As IVsUIShell, VsSysColorIndex As __VSSYSCOLOREX, DefaultColor As Color) As Color
-            Return GetColor(TryCast(VsUIShell, IVsUIShell2), VsSysColorIndex, DefaultColor)
+        Public Shared Function GetColour(VsUIShell As IVsUIShell, VsSysColourIndex As __VSSYSColourEX, DefaultColour As Colour) As Colour
+            Return GetColour(TryCast(VsUIShell, IVsUIShell2), VsSysColourIndex, DefaultColour)
         End Function
 
 
         ''' <summary>
-        ''' Gets a color from the shell's color service.  If for some reason this fails, returns the supplied
-        '''   default color.
+        ''' Gets a Colour from the shell's Colour service.  If for some reason this fails, returns the supplied
+        '''   default Colour.
         ''' </summary>
-        ''' <param name="VsUIShell2">The IVsUIShell2 interface to use (if Nothing, default color is returned)</param>
-        ''' <param name="VsSysColorIndex">The color index to look up.</param>
-        ''' <param name="DefaultColor">The default color to return if the call fails.</param>
+        ''' <param name="VsUIShell2">The IVsUIShell2 interface to use (if Nothing, default Colour is returned)</param>
+        ''' <param name="VsSysColourIndex">The Colour index to look up.</param>
+        ''' <param name="DefaultColour">The default Colour to return if the call fails.</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Shared Function GetColor(VsUIShell2 As IVsUIShell2, VsSysColorIndex As __VSSYSCOLOREX, DefaultColor As Color) As Color
+        Public Shared Function GetColour(VsUIShell2 As IVsUIShell2, VsSysColourIndex As __VSSYSColourEX, DefaultColour As Colour) As Colour
             If VsUIShell2 IsNot Nothing Then
                 Dim abgrValue As UInteger
-                Dim Hr As Integer = VsUIShell2.GetVSSysColorEx(VsSysColorIndex, abgrValue)
+                Dim Hr As Integer = VsUIShell2.GetVSSysColourEx(VsSysColourIndex, abgrValue)
                 If VSErrorHandler.Succeeded(Hr) Then
-                    Return COLORREFToColor(abgrValue)
+                    Return ColourREFToColour(abgrValue)
                 End If
             End If
 
-            Debug.Fail("Unable to get color from the shell, using a predetermined default color instead." & vbCrLf & "Color Index = " & VsSysColorIndex & ", Default Color = &h" & Hex(DefaultColor.ToArgb))
-            Return DefaultColor
+            Debug.Fail("Unable to get Colour from the shell, using a predetermined default Colour instead." & vbCrLf & "Colour Index = " & VsSysColourIndex & ", Default Colour = &h" & Hex(DefaultColour.ToArgb))
+            Return DefaultColour
         End Function
 
 
         ''' <summary>
-        ''' Converts a COLORREF value (as UInteger) to System.Drawing.Color
+        ''' Converts a ColourREF value (as UInteger) to System.Drawing.Colour
         ''' </summary>
-        ''' <param name="abgrValue">The UInteger COLORREF value</param>
-        ''' <returns>The System.Drawing.Color equivalent.</returns>
+        ''' <param name="abgrValue">The UInteger ColourREF value</param>
+        ''' <returns>The System.Drawing.Colour equivalent.</returns>
         ''' <remarks></remarks>
-        Private Shared Function COLORREFToColor(abgrValue As UInteger) As Color
-            Return Color.FromArgb(CInt(abgrValue And &HFFUI), CInt((abgrValue And &HFF00UI) >> 8), CInt((abgrValue And &HFF0000UI) >> 16))
+        Private Shared Function ColourREFToColour(abgrValue As UInteger) As Colour
+            Return Colour.FromArgb(CInt(abgrValue And &HFFUI), CInt((abgrValue And &HFF00UI) >> 8), CInt((abgrValue And &HFF0000UI) >> 16))
         End Function
 
 
@@ -383,7 +383,7 @@ Namespace Microsoft.VisualStudio.Editors.Common
             If rdt Is Nothing Then Throw New ArgumentNullException(NameOf(rdt))
 
             '
-            ' Initialize out parameters...
+            ' Initialise out parameters...
             '
             readLocks = 0
             editLocks = 0
@@ -753,31 +753,31 @@ Namespace Microsoft.VisualStudio.Editors.Common
         End Function
 
         ''' <summary>
-        ''' Gets VS color from the shell's color service.  If for some reason this fails or <paramref name="UseVSTheme"/> is False, returns the supplied
-        ''' default color.
+        ''' Gets VS Colour from the shell's Colour service.  If for some reason this fails or <paramref name="UseVSTheme"/> is False, returns the supplied
+        ''' default Colour.
         ''' </summary>
-        ''' <param name="VsSysColorIndex"></param>
-        ''' <param name="DefaultColor"></param>
-        ''' <param name="UseVSTheme">Whether to use VS Shell to map the right color or just use the default one.</param>
+        ''' <param name="VsSysColourIndex"></param>
+        ''' <param name="DefaultColour"></param>
+        ''' <param name="UseVSTheme">Whether to use VS Shell to map the right Colour or just use the default one.</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Shared Function GetVSColor(VsSysColorIndex As __VSSYSCOLOREX3, DefaultColor As Color, Optional UseVSTheme As Boolean = True) As Color
+        Public Shared Function GetVSColour(VsSysColourIndex As __VSSYSColourEX3, DefaultColour As Colour, Optional UseVSTheme As Boolean = True) As Colour
             If Not UseVSTheme Then
-                Return DefaultColor
+                Return DefaultColour
             End If
             ' VBPackage.Instance cannot be Nothing
             Dim VsUIShell2 As IVsUIShell2 = DirectCast(Shell.Package.GetGlobalService(GetType(SVsUIShell)), IVsUIShell2)
 
             If VsUIShell2 IsNot Nothing Then
                 Dim abgrValue As UInteger
-                Dim Hr As Integer = VsUIShell2.GetVSSysColorEx(VsSysColorIndex, abgrValue)
+                Dim Hr As Integer = VsUIShell2.GetVSSysColourEx(VsSysColourIndex, abgrValue)
                 If VSErrorHandler.Succeeded(Hr) Then
-                    Return ColorTranslator.FromWin32(CType(abgrValue, Integer))
+                    Return ColourTranslator.FromWin32(CType(abgrValue, Integer))
                 End If
             End If
 
-            Debug.Fail("Unable to get color from the shell, using a predetermined default color instead." & vbCrLf & "Color Index = " & VsSysColorIndex & ", Default Color = &h" & Hex(DefaultColor.ToArgb))
-            Return DefaultColor
+            Debug.Fail("Unable to get Colour from the shell, using a predetermined default Colour instead." & vbCrLf & "Colour Index = " & VsSysColourIndex & ", Default Colour = &h" & Hex(DefaultColour.ToArgb))
+            Return DefaultColour
         End Function
 
     End Class

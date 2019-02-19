@@ -15,7 +15,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.Properties
         public string PropertyName { get; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ExportInterceptingPropertyValueProviderAttribute"/> class.
+        /// Initialises a new instance of the <see cref="ExportInterceptingPropertyValueProviderAttribute"/> class.
         /// </summary>
         public ExportInterceptingPropertyValueProviderAttribute(string propertyName, ExportInterceptingPropertyValueProviderFile file)
             : base(GetFile(file), typeof(IInterceptingPropertyValueProvider))

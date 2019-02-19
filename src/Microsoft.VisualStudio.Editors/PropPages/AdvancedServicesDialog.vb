@@ -47,7 +47,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
         End Function
 
         Public Sub New()
-            InitializeComponent()
+            InitialiseComponent()
 
             'Opt out of page scaling since we're using AutoScaleMode
             PageRequiresScaling = False

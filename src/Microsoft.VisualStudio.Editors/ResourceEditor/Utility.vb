@@ -30,10 +30,10 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
         ''' <param name="DrawBorder">Whether or not to draw a border around the image</param>
         ''' <param name="SelectionBorderWidth">The width of the selection border to be drawn (ignored if DrawBorder=False)</param>
         ''' <param name="BorderWidth">The width of the border (ignored if DrawBorder=False)</param>
-        ''' <param name="ImageListTransparentColor">The TransparentColor property of the ImageList that this will be used for.  This is required to get the selection border drawing to work properly.</param>
+        ''' <param name="ImageListTransparentColour">The TransparentColour property of the ImageList that this will be used for.  This is required to get the selection border drawing to work properly.</param>
         ''' <returns>The drawn thumbnail image</returns>
         ''' <remarks></remarks>
-        Public Function CreateThumbnail(SourceImage As Image, ThumbnailSize As Size, DrawBorder As Boolean, BorderWidth As Integer, SelectionBorderWidth As Integer, ImageListTransparentColor As Color) As Bitmap
+        Public Function CreateThumbnail(SourceImage As Image, ThumbnailSize As Size, DrawBorder As Boolean, BorderWidth As Integer, SelectionBorderWidth As Integer, ImageListTransparentColour As Colour) As Bitmap
             If SourceImage Is Nothing Then
                 Debug.Fail("SourceImage can't be nothing")
                 Return Nothing
@@ -55,18 +55,18 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
 
                 If DrawBorder Then
                     'We use a trick to get the ListView to draw a selection border around our image (it doesn't
-                    '  do that normally).  Everything in the image that is of the transparent color set into the 
+                    '  do that normally).  Everything in the image that is of the transparent Colour set into the 
                     '  ImageList will be drawn non-dithered when the ListViewItem is drawn.  Everything else is
-                    '  dithered.  We draw the background of thumbnail with this transparent color, so it is non-dithered.
+                    '  dithered.  We draw the background of thumbnail with this transparent Colour, so it is non-dithered.
                     '  Around that, we draw a single-pixel visible border.  Around this (width = SelectionBorderWidth), we
-                    '  draw a color that is just a single unit off from being the same as the ImageList's transparent color.
+                    '  draw a Colour that is just a single unit off from being the same as the ImageList's transparent Colour.
                     '  Thus, when the ListViewImage is selected, it is dithered and looks like a selection rectangle.  When
-                    '  it is not selected, the eye can't tell it apart from the transparent color.
-                    Dim AlmostTransparent As Color
-                    If ImageListTransparentColor.R > 128 Then
-                        AlmostTransparent = Color.FromArgb(ImageListTransparentColor.R - 1, ImageListTransparentColor.G, ImageListTransparentColor.B)
+                    '  it is not selected, the eye can't tell it apart from the transparent Colour.
+                    Dim AlmostTransparent As Colour
+                    If ImageListTransparentColour.R > 128 Then
+                        AlmostTransparent = Colour.FromArgb(ImageListTransparentColour.R - 1, ImageListTransparentColour.G, ImageListTransparentColour.B)
                     Else
-                        AlmostTransparent = Color.FromArgb(ImageListTransparentColor.R + 1, ImageListTransparentColor.G, ImageListTransparentColor.B)
+                        AlmostTransparent = Colour.FromArgb(ImageListTransparentColour.R + 1, ImageListTransparentColour.G, ImageListTransparentColour.B)
                     End If
 
                     'First draw the "selection rectangle" area (actually, we draw the whole rect,
@@ -91,16 +91,16 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
                 '  the original aspect ratio inside the specified size.  Do not resize to a larger size.
                 Dim ScaledBitmapSize As Size = ScaleSizeProportionally(SourceImage.Size, ImageRect.Size, OnlyScaleDownward:=True)
 
-                'Center the image inside the given bounds
-                Dim CenteredBitmapRect As New Rectangle(
+                'Centre the image inside the given bounds
+                Dim CentreedBitmapRect As New Rectangle(
                     ImageRect.X + (ImageRect.Width - ScaledBitmapSize.Width) \ 2,
                     ImageRect.Y + (ImageRect.Height - ScaledBitmapSize.Height) \ 2,
                     ScaledBitmapSize.Width,
                     ScaledBitmapSize.Height)
-                Debug.Assert(Rectangle.Intersect(CenteredBitmapRect, ImageRect).Equals(CenteredBitmapRect),
-                    "CenteredBitmapRect should be entirely within ImageRect")
+                Debug.Assert(Rectangle.Intersect(CentreedBitmapRect, ImageRect).Equals(CentreedBitmapRect),
+                    "CentreedBitmapRect should be entirely within ImageRect")
 
-                ThumbnailGraphics.DrawImage(SourceImage, CenteredBitmapRect)
+                ThumbnailGraphics.DrawImage(SourceImage, CentreedBitmapRect)
 
                 Return Thumbnail
             End Using
@@ -160,9 +160,9 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
             'Start with a standard set of invalidate file path characters
             Static InvalidChars As Char()
 
-            'Initialize InvalidChars (once)
-            Static InvalidCharsInitialized As Boolean = False
-            If Not InvalidCharsInitialized Then
+            'Initialise InvalidChars (once)
+            Static InvalidCharsInitialised As Boolean = False
+            If Not InvalidCharsInitialised Then
                 'Merge Path.InvalidPathChars with additional invalid characters that Visual Studio doesn't like
                 Dim BadVisualStudioChars() As Char = {"/"c, "?"c, ":"c, "&"c, "\"c, "*"c, """"c, "<"c, ">"c, "|"c, "#"c, "%"c}
                 Dim InvalidPathChars As Char() = Path.GetInvalidFileNameChars()
@@ -171,7 +171,7 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
                 BadVisualStudioChars.CopyTo(InvalidChars, 0)
                 InvalidPathChars.CopyTo(InvalidChars, BadVisualStudioChars.Length)
 
-                InvalidCharsInitialized = True
+                InvalidCharsInitialised = True
             End If
 
             'Main loop - replace each invalid character with an underscore

@@ -6,7 +6,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS
 {
     /// <summary>
     /// This class is here only to remember whether this is a newly created project or not. CPS will import INewProjectInitializationProvider and Call
-    /// InitializeNewProject for new projects. Just set a bool to remember this state.
+    /// InitialiseNewProject for new projects. Just set a bool to remember this state.
     /// 
     /// </summary>
     [AppliesTo(ProjectCapability.DotNet)]
@@ -20,7 +20,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS
         }
 
         public bool WasNewlyCreated { get; private set; }
-        public void InitializeNewProject()
+        public void InitialiseNewProject()
         {
             WasNewlyCreated = true;
         }

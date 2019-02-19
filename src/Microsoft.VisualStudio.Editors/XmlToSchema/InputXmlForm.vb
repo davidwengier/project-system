@@ -17,7 +17,7 @@ Namespace Microsoft.VisualStudio.Editors.XmlToSchema
         Public Sub New(project As EnvDTE.Project, projectPath As String, schemaFileName As String)
             MyBase.New(Nothing)
 
-            InitializeComponent()
+            InitialiseComponent()
             _project = project
             _projectPath = projectPath
             _schemaFileName = Path.GetFileNameWithoutExtension(schemaFileName)

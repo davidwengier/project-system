@@ -22,7 +22,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
         End Sub
 
         <System.Diagnostics.DebuggerStepThrough()>
-        Private Sub InitializeComponent()
+        Private Sub InitialiseComponent()
             Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(UnusedReferencePropPage))
             Me.ColHdr_Type = New System.Windows.Forms.ColumnHeader("")
             Me.ColHdr_Path = New System.Windows.Forms.ColumnHeader("")
@@ -45,7 +45,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             '
             resources.ApplyResources(Me.UnusedReferenceList, "UnusedReferenceList")
             Me.UnusedReferenceList.AutoArrange = False
-            Me.UnusedReferenceList.BackColor = System.Drawing.SystemColors.Window
+            Me.UnusedReferenceList.BackColour = System.Drawing.SystemColours.Window
             Me.UnusedReferenceList.CheckBoxes = True
             Me.UnusedReferenceList.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColHdr_RefName, Me.ColHdr_Type, Me.ColHdr_Version, Me.ColHdr_CopyLocal, Me.ColHdr_Path})
             Me.UnusedReferenceList.FullRowSelect = True

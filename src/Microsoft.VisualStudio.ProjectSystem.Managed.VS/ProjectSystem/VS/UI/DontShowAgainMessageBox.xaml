@@ -6,7 +6,7 @@
         x:ClassModifier="internal" 
         ShowInTaskbar="False"
         ResizeMode="NoResize"
-        WindowStartupLocation="CenterOwner"                    
+        WindowStartupLocation="CentreOwner"                    
         Title="{Binding Path=DialogCaption, Mode=OneWay}"
         Width="500" SizeToContent="Height">
     <Window.Resources>
@@ -53,7 +53,7 @@
                     <Run Text="{Binding Path=LearnMoreText, Mode=OneWay}" />
                 </Hyperlink>
             </TextBlock>
-            <CheckBox Margin="6,20,0,0" x:Name="DontShowAgainCheckBox" Grid.Row="2" Grid.ColumnSpan="2" VerticalAlignment="Center" IsChecked="{Binding Path=CheckboxState}" Content="{Binding Path=CheckboxText, Mode=OneWay}" />
+            <CheckBox Margin="6,20,0,0" x:Name="DontShowAgainCheckBox" Grid.Row="2" Grid.ColumnSpan="2" VerticalAlignment="Centre" IsChecked="{Binding Path=CheckboxState}" Content="{Binding Path=CheckboxText, Mode=OneWay}" />
             <Button Grid.Row="3" x:Uid="okButton" Margin="6,10,6,6" Padding="4,4,4,4" MinHeight="23" MinWidth="105" HorizontalAlignment="Right" IsDefault="True" Click="OK_Click" Content="{Binding Path=OkButtonText, Mode=OneWay}"/>
         </Grid>
     </Grid>

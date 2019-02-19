@@ -34,7 +34,7 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
                                                     GetType(UShort),
                                                     GetType(UInteger),
                                                     GetType(ULong),
-                                                    GetType(Drawing.Color),
+                                                    GetType(Drawing.Colour),
                                                     GetType(Drawing.Font),
                                                     GetType(Drawing.Point),
                                                     GetType(Drawing.Size),

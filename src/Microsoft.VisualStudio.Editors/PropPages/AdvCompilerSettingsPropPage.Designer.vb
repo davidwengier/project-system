@@ -37,7 +37,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             MyBase.Dispose(disposing)
         End Sub
 
-        <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+        <System.Diagnostics.DebuggerStepThrough()> Private Sub InitialiseComponent()
             Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(AdvCompilerSettingsPropPage))
             Me.OptimizationsLabel = New System.Windows.Forms.Label
             Me.RemoveIntegerChecks = New System.Windows.Forms.CheckBox
@@ -132,7 +132,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             '
             Me.OptimizationsSeparatorLabel.AccessibleRole = System.Windows.Forms.AccessibleRole.Separator
             resources.ApplyResources(Me.OptimizationsSeparatorLabel, "OptimizationsSeparatorLabel")
-            Me.OptimizationsSeparatorLabel.BackColor = System.Drawing.SystemColors.ControlDark
+            Me.OptimizationsSeparatorLabel.BackColour = System.Drawing.SystemColours.ControlDark
             Me.OptimizationsSeparatorLabel.Name = "OptimizationsSeparatorLabel"
             '
             'CompilationConstantsLabel
@@ -144,7 +144,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             '
             Me.ConstantsSeparatorLabel.AccessibleRole = System.Windows.Forms.AccessibleRole.Separator
             resources.ApplyResources(Me.ConstantsSeparatorLabel, "ConstantsSeparatorLabel")
-            Me.ConstantsSeparatorLabel.BackColor = System.Drawing.SystemColors.ControlDark
+            Me.ConstantsSeparatorLabel.BackColour = System.Drawing.SystemColours.ControlDark
             Me.ConstantsSeparatorLabel.Name = "ConstantsSeparatorLabel"
             '
             'GenerateSerializationAssembliesLabel

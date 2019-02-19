@@ -2201,7 +2201,7 @@ app.config 文件中的新值为“{1}”
         <note />
       </trans-unit>
       <trans-unit id="SD_FullDescriptionText">
-        <source>Application settings allow you to store and retrieve property settings and other information for your application dynamically. For example, the application can save a user's color preferences, then retrieve them the next time it runs.</source>
+        <source>Application settings allow you to store and retrieve property settings and other information for your application dynamically. For example, the application can save a user's Colour preferences, then retrieve them the next time it runs.</source>
         <target state="translated">应用程序设置允许动态存储和检索应用程序的属性设置和其他信息。例如，应用程序可以保存用户的颜色首选项，然后在下次运行时检索它们。</target>
         <note />
       </trans-unit>

@@ -10,7 +10,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.References
     internal class SharedProjectReferencesProviderContext : BaseReferenceContextProvider
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="SharedProjectReferencesProviderContext"/> class.
+        /// Initialises a new instance of the <see cref="SharedProjectReferencesProviderContext"/> class.
         /// </summary>
         [ImportingConstructor]
         public SharedProjectReferencesProviderContext(ConfiguredProject configuredProject) : base(configuredProject)

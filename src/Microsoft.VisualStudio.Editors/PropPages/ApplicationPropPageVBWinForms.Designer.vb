@@ -37,7 +37,7 @@
 
         Private _components As System.ComponentModel.IContainer
 
-        <System.Diagnostics.DebuggerNonUserCode()> Private Sub InitializeComponent()
+        <System.Diagnostics.DebuggerNonUserCode()> Private Sub InitialiseComponent()
             Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ApplicationPropPageVBWinForms))
             Me.TopHalfLayoutPanel = New System.Windows.Forms.TableLayoutPanel
             Me.AssemblyNameLabel = New System.Windows.Forms.Label
@@ -72,7 +72,7 @@
             Me.ViewCodeButton = New System.Windows.Forms.Button
             Me.overarchingTableLayoutPanel = New System.Windows.Forms.TableLayoutPanel
             Me.TopHalfLayoutPanel.SuspendLayout()
-            CType(Me.IconPicturebox, System.ComponentModel.ISupportInitialize).BeginInit()
+            CType(Me.IconPicturebox, System.ComponentModel.ISupportInitialise).BeginInit()
             Me.TableLayoutPanel1.SuspendLayout()
             Me.WindowsAppGroupBox.SuspendLayout()
             Me.BottomHalfLayoutPanel.SuspendLayout()
@@ -303,7 +303,7 @@
             Me.Name = "ApplicationPropPageVBWinForms"
             Me.TopHalfLayoutPanel.ResumeLayout(False)
             Me.TopHalfLayoutPanel.PerformLayout()
-            CType(Me.IconPicturebox, System.ComponentModel.ISupportInitialize).EndInit()
+            CType(Me.IconPicturebox, System.ComponentModel.ISupportInitialise).EndInit()
             Me.TableLayoutPanel1.ResumeLayout(False)
             Me.TableLayoutPanel1.PerformLayout()
             Me.WindowsAppGroupBox.ResumeLayout(False)

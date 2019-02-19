@@ -43,7 +43,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Xproj
         public class GlobalJsonSetup
         {
             /// <summary>
-            /// Initializes the <see cref="GlobalJsonRemover"/> if not already initialized. This method assumes that it will be called
+            /// Initialises the <see cref="GlobalJsonRemover"/> if not already Initialised. This method assumes that it will be called
             /// from the UI thread, and will throw if this isn't true.
             /// </summary>
             /// <returns>True if the remover was set up for the first time. False otherwise.</returns>

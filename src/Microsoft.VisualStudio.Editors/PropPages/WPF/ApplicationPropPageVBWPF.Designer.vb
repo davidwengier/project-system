@@ -32,7 +32,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages.WPF
         Private _components As System.ComponentModel.IContainer
 
         <System.Diagnostics.DebuggerNonUserCode()>
-        Private Sub InitializeComponent()
+        Private Sub InitialiseComponent()
             Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ApplicationPropPageVBWPF))
             Me.TopHalfLayoutPanel = New System.Windows.Forms.TableLayoutPanel
             Me.ButtonsLayoutPanel = New System.Windows.Forms.TableLayoutPanel
@@ -62,7 +62,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages.WPF
             Me.ShutdownModeComboBox = New System.Windows.Forms.ComboBox
             Me.TopHalfLayoutPanel.SuspendLayout()
             Me.ButtonsLayoutPanel.SuspendLayout()
-            CType(Me.IconPicturebox, System.ComponentModel.ISupportInitialize).BeginInit()
+            CType(Me.IconPicturebox, System.ComponentModel.ISupportInitialise).BeginInit()
             Me.overarchingTableLayoutPanel.SuspendLayout()
             Me.WindowsAppGroupBox.SuspendLayout()
             Me.BottomHalfLayoutPanel.SuspendLayout()
@@ -106,7 +106,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages.WPF
             '
             resources.ApplyResources(Me.ViewUACSettingsButton, "ViewUACSettingsButton")
             Me.ViewUACSettingsButton.Name = "ViewUACSettingsButton"
-            Me.ViewUACSettingsButton.UseVisualStyleBackColor = True
+            Me.ViewUACSettingsButton.UseVisualStyleBackColour = True
             '
             'AssemblyNameLabel
             '
@@ -254,7 +254,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages.WPF
             Me.TopHalfLayoutPanel.PerformLayout()
             Me.ButtonsLayoutPanel.ResumeLayout(False)
             Me.ButtonsLayoutPanel.PerformLayout()
-            CType(Me.IconPicturebox, System.ComponentModel.ISupportInitialize).EndInit()
+            CType(Me.IconPicturebox, System.ComponentModel.ISupportInitialise).EndInit()
             Me.overarchingTableLayoutPanel.ResumeLayout(False)
             Me.overarchingTableLayoutPanel.PerformLayout()
             Me.WindowsAppGroupBox.ResumeLayout(False)

@@ -10,6 +10,6 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS
     /// </summary>
     internal interface IDotNetCoreProjectCompatibilityDetector
     {
-        Task InitializeAsync();
+        Task InitialiseAsync();
     }
 }

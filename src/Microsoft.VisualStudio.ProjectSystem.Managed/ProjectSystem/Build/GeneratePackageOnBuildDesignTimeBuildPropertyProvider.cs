@@ -15,7 +15,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.Build
     internal class GeneratePackageOnBuildDesignTimeBuildPropertyProvider : StaticGlobalPropertiesProviderBase
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="TargetFrameworkGlobalBuildPropertyProvider"/> class.
+        /// Initialises a new instance of the <see cref="TargetFrameworkGlobalBuildPropertyProvider"/> class.
         /// </summary>
         [ImportingConstructor]
         internal GeneratePackageOnBuildDesignTimeBuildPropertyProvider(IProjectService projectService)

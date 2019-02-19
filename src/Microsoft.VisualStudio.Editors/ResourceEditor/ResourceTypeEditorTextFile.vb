@@ -189,12 +189,12 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
         ''' Returns an image for displaying to the user for this resource.
         ''' </summary>
         ''' <param name="Resource">The IResource instance.  May not be Nothing.  The value of the resource to save.  Must be of the type handled by this ResourceTypeEditor.</param>
-        ''' <param name="background">The background color for this thumbnail</param>
+        ''' <param name="background">The background Colour for this thumbnail</param>
         ''' <returns>An image to use as the basis of creating a thumbnail for this resource</returns>
         ''' <remarks>
         ''' For files, we have exactly two thumbnails - one for text files, one for binary files
         ''' </remarks>
-        Public Overrides Function GetImageForThumbnail(Resource As IResource, background As Color) As Image
+        Public Overrides Function GetImageForThumbnail(Resource As IResource, background As Colour) As Image
             ValidateResourceValue(Resource, TextFileValueType)
             If s_thumbnailForTextFile Is Nothing Then
                 s_thumbnailForTextFile = Common.GetImageFromImageService(KnownMonikers.TextFile, 48, 48, background)

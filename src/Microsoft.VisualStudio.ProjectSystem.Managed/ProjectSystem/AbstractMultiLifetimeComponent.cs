@@ -12,11 +12,11 @@ namespace Microsoft.VisualStudio.ProjectSystem
     ///     An <see langword="abstract"/> base class that simplifies the lifetime of 
     ///     a component that is loaded and unloaded multiple times.
     /// </summary>
-    internal abstract class AbstractMultiLifetimeComponent<T> : OnceInitializedOnceDisposedAsync
+    internal abstract class AbstractMultiLifetimeComponent<T> : OnceInitialisedOnceDisposedAsync
         where T : class, IMultiLifetimeInstance
     {
         private readonly object _lock = new object();
-        private TaskCompletionSource<(T instance, JoinableTask initializeAsyncTask)> _instanceTaskSource = new TaskCompletionSource<(T instance, JoinableTask initializeAsyncTask)>(TaskCreationOptions.RunContinuationsAsynchronously);
+        private TaskCompletionSource<(T instance, JoinableTask InitialiseAsyncTask)> _instanceTaskSource = new TaskCompletionSource<(T instance, JoinableTask InitialiseAsyncTask)>(TaskCreationOptions.RunContinuationsAsynchronously);
 
         protected AbstractMultiLifetimeComponent(JoinableTaskContextNode joinableTaskContextNode)
              : base(joinableTaskContextNode)
@@ -43,43 +43,43 @@ namespace Microsoft.VisualStudio.ProjectSystem
             // Wait until LoadAsync has been called, force switching to thread-pool in case
             // there's already someone waiting for us on the UI thread.
 #pragma warning disable RS0030 // Do not used banned APIs
-            (T instance, JoinableTask initializeAsyncTask) = await _instanceTaskSource.Task.WithCancellation(cancellationToken)
+            (T instance, JoinableTask InitialiseAsyncTask) = await _instanceTaskSource.Task.WithCancellation(cancellationToken)
                                                                                            .ConfigureAwait(false);
 #pragma warning restore RS0030
 
-            // Now join Instance.InitializeAsync so that if someone is waiting on the UI thread for us, 
+            // Now join Instance.InitialiseAsync so that if someone is waiting on the UI thread for us, 
             // the instance is allowed to switch to that thread to complete if needed.
-            await initializeAsyncTask.JoinAsync(cancellationToken);
+            await InitialiseAsyncTask.JoinAsync(cancellationToken);
 
             return instance;
         }
 
         public async Task LoadAsync()
         {
-            await InitializeAsync();
+            await InitialiseAsync();
 
             await LoadCoreAsync();
         }
 
         public async Task LoadCoreAsync()
         {
-            JoinableTask initializeAsyncTask;
+            JoinableTask InitialiseAsyncTask;
 
             lock (_lock)
             {
                 if (!_instanceTaskSource.Task.IsCompleted)
                 {
-                    (T instance, JoinableTask initializeAsyncTask) result = CreateInitializedInstanceAsync();
+                    (T instance, JoinableTask InitialiseAsyncTask) result = CreateInitialisedInstanceAsync();
                     _instanceTaskSource.SetResult(result);
                 }
 
                 Assumes.True(_instanceTaskSource.Task.IsCompleted);
 
                 // Should throw TaskCanceledException if already cancelled in Dispose
-                (_, initializeAsyncTask) = _instanceTaskSource.Task.GetAwaiter().GetResult();
+                (_, InitialiseAsyncTask) = _instanceTaskSource.Task.GetAwaiter().GetResult();
             }
 
-            await initializeAsyncTask;
+            await InitialiseAsyncTask;
         }
 
         public Task UnloadAsync()
@@ -91,7 +91,7 @@ namespace Microsoft.VisualStudio.ProjectSystem
                 {
                     // Should throw TaskCanceledException if already cancelled in Dispose
                     (instance, _) = _instanceTaskSource.Task.GetAwaiter().GetResult();
-                    _instanceTaskSource = new TaskCompletionSource<(T instance, JoinableTask initializeAsyncTask)>(TaskCreationOptions.RunContinuationsAsynchronously);
+                    _instanceTaskSource = new TaskCompletionSource<(T instance, JoinableTask InitialiseAsyncTask)>(TaskCreationOptions.RunContinuationsAsynchronously);
                 }
             }
 
@@ -103,7 +103,7 @@ namespace Microsoft.VisualStudio.ProjectSystem
             return Task.CompletedTask;
         }
 
-        protected override async Task DisposeCoreAsync(bool initialized)
+        protected override async Task DisposeCoreAsync(bool Initialised)
         {
             await UnloadAsync();
 
@@ -113,7 +113,7 @@ namespace Microsoft.VisualStudio.ProjectSystem
             }
         }
 
-        protected override Task InitializeCoreAsync(CancellationToken cancellationToken)
+        protected override Task InitialiseCoreAsync(CancellationToken cancellationToken)
         {
             return Task.CompletedTask;
         }
@@ -123,13 +123,13 @@ namespace Microsoft.VisualStudio.ProjectSystem
         /// </summary>
         protected abstract T CreateInstance();
 
-        private (T instance, JoinableTask initializeAsyncTask) CreateInitializedInstanceAsync()
+        private (T instance, JoinableTask InitialiseAsyncTask) CreateInitialisedInstanceAsync()
         {
             T instance = CreateInstance();
 
-            JoinableTask initializeAsyncTask = JoinableFactory.RunAsync(instance.InitializeAsync);
+            JoinableTask InitialiseAsyncTask = JoinableFactory.RunAsync(instance.InitialiseAsync);
 
-            return (instance, initializeAsyncTask);
+            return (instance, InitialiseAsyncTask);
         }
     }
 }

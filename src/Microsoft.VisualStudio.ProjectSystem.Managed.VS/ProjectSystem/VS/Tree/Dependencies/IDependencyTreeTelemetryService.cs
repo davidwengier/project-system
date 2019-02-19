@@ -13,9 +13,9 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies
     internal interface IDependencyTreeTelemetryService
     {
         /// <summary>
-        /// Initialize telemetry state with the set of rules we expect to observe for target framework
+        /// Initialise telemetry state with the set of rules we expect to observe for target framework
         /// </summary>
-        void InitializeTargetFrameworkRules(ITargetFramework targetFramework, IEnumerable<string> rules);
+        void InitialiseTargetFrameworkRules(ITargetFramework targetFramework, IEnumerable<string> rules);
 
         /// <summary>
         /// Indicate that a set of rules has been observed in either an Evaluation or Design Time pass.

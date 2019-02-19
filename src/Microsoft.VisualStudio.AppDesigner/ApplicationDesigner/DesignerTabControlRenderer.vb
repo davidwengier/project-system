@@ -33,24 +33,24 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
         '              |                                 |
         '              +---------------------------------+
 
-#Region "Colors"
+#Region "Colours"
 
         ' Background of the entire control 
-        Private _controlBackgroundColor As Color
+        Private _controlBackgroundColour As Colour
 
         ' Tab button foreground/background 
-        Private _buttonForegroundColor As Color
-        Private _buttonBackgroundColor As Color
-        Private _buttonBorderColor As Color
+        Private _buttonForegroundColour As Colour
+        Private _buttonBackgroundColour As Colour
+        Private _buttonBorderColour As Colour
 
         ' Tab button selected foreground/background 
-        Private _selectedButtonForegroundColor As Color
-        Private _selectedButtonBackgroundColor As Color
-        Private _selectedButtonBorderColor As Color
+        Private _selectedButtonForegroundColour As Colour
+        Private _selectedButtonBackgroundColour As Colour
+        Private _selectedButtonBorderColour As Colour
 
         ' Tab button hover foreground/background
-        Private _hoverButtonForegroundColor As Color
-        Private _hoverButtonBackgroundColor As Color
+        Private _hoverButtonForegroundColour As Colour
+        Private _hoverButtonBackgroundColour As Colour
 
 #End Region
 
@@ -137,8 +137,8 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
         ''' The service provider to use when querying for services related to hosting this control
         '''   instead of the Visual Studio shell.
         ''' Default is Nothing.  If not set, then behavior will be independent of the Visual Studio
-        '''   shell (e.g., colors will default to system or fallback colors instead of using the
-        '''   shell's color service). 
+        '''   shell (e.g., Colours will default to system or fallback Colours instead of using the
+        '''   shell's Colour service). 
         ''' </summary>
         ''' <value></value>
         ''' <remarks></remarks>
@@ -239,49 +239,49 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
             Try
                 _creatingGDIObjects = True
 
-                'Get Colors from the shell
+                'Get Colours from the shell
                 Dim VsUIShell As IVsUIShell5 = VsUIShell5Service
 
-                'NOTE: The defaults given here are the system colors.  Since this control is not currently
-                '  being used outside of Visual Studio, this is okay because we don't expect to fail to get colors from the
-                '  color service.  If we make the control available as a stand-alone component, we would need to add logic to
+                'NOTE: The defaults given here are the system Colours.  Since this control is not currently
+                '  being used outside of Visual Studio, this is okay because we don't expect to fail to get Colours from the
+                '  Colour service.  If we make the control available as a stand-alone component, we would need to add logic to
                 '  do the right thing when not hosted inside Visual Studio, and change according to the theme.
 
 
-                _controlBackgroundColor = Common.ShellUtil.GetProjectDesignerThemeColor(VsUIShell, "Background", __THEMEDCOLORTYPE.TCT_Background, SystemColors.Window)
+                _controlBackgroundColour = Common.ShellUtil.GetProjectDesignerThemeColour(VsUIShell, "Background", __THEMEDColourTYPE.TCT_Background, SystemColours.Window)
 
-                _buttonForegroundColor = Common.ShellUtil.GetProjectDesignerThemeColor(VsUIShell, "CategoryTab", __THEMEDCOLORTYPE.TCT_Foreground, SystemColors.WindowText)
-                _buttonBackgroundColor = Common.ShellUtil.GetProjectDesignerThemeColor(VsUIShell, "CategoryTab", __THEMEDCOLORTYPE.TCT_Background, SystemColors.Window)
-                _buttonBorderColor = _buttonForegroundColor
+                _buttonForegroundColour = Common.ShellUtil.GetProjectDesignerThemeColour(VsUIShell, "CategoryTab", __THEMEDColourTYPE.TCT_Foreground, SystemColours.WindowText)
+                _buttonBackgroundColour = Common.ShellUtil.GetProjectDesignerThemeColour(VsUIShell, "CategoryTab", __THEMEDColourTYPE.TCT_Background, SystemColours.Window)
+                _buttonBorderColour = _buttonForegroundColour
 
-                _selectedButtonForegroundColor = Common.ShellUtil.GetProjectDesignerThemeColor(VsUIShell, "SelectedCategoryTab", __THEMEDCOLORTYPE.TCT_Foreground, SystemColors.HighlightText)
-                _selectedButtonBackgroundColor = Common.ShellUtil.GetProjectDesignerThemeColor(VsUIShell, "SelectedCategoryTab", __THEMEDCOLORTYPE.TCT_Background, SystemColors.Highlight)
-                _selectedButtonBorderColor = _selectedButtonForegroundColor
+                _selectedButtonForegroundColour = Common.ShellUtil.GetProjectDesignerThemeColour(VsUIShell, "SelectedCategoryTab", __THEMEDColourTYPE.TCT_Foreground, SystemColours.HighlightText)
+                _selectedButtonBackgroundColour = Common.ShellUtil.GetProjectDesignerThemeColour(VsUIShell, "SelectedCategoryTab", __THEMEDColourTYPE.TCT_Background, SystemColours.Highlight)
+                _selectedButtonBorderColour = _selectedButtonForegroundColour
 
-                _hoverButtonForegroundColor = Common.ShellUtil.GetProjectDesignerThemeColor(VsUIShell, "MouseOverCategoryTab", __THEMEDCOLORTYPE.TCT_Foreground, SystemColors.HighlightText)
-                _hoverButtonBackgroundColor = Common.ShellUtil.GetProjectDesignerThemeColor(VsUIShell, "MouseOverCategoryTab", __THEMEDCOLORTYPE.TCT_Background, SystemColors.HotTrack)
+                _hoverButtonForegroundColour = Common.ShellUtil.GetProjectDesignerThemeColour(VsUIShell, "MouseOverCategoryTab", __THEMEDColourTYPE.TCT_Foreground, SystemColours.HighlightText)
+                _hoverButtonBackgroundColour = Common.ShellUtil.GetProjectDesignerThemeColour(VsUIShell, "MouseOverCategoryTab", __THEMEDColourTYPE.TCT_Background, SystemColours.HotTrack)
 
                 'Get GDI objects
-                _controlBackgroundBrush = New SolidBrush(_controlBackgroundColor)
+                _controlBackgroundBrush = New SolidBrush(_controlBackgroundColour)
 
-                _buttonBackgroundBrush = New SolidBrush(_buttonBackgroundColor)
-                _buttonBorderPen = New Pen(_buttonBorderColor) With {
+                _buttonBackgroundBrush = New SolidBrush(_buttonBackgroundColour)
+                _buttonBorderPen = New Pen(_buttonBorderColour) With {
                     .DashStyle = DashStyle.Dash
                 }
 
-                _selectedButtonBackgroundBrush = New SolidBrush(_selectedButtonBackgroundColor)
-                _selectedButtonBorderPen = New Pen(_selectedButtonBorderColor) With {
+                _selectedButtonBackgroundBrush = New SolidBrush(_selectedButtonBackgroundColour)
+                _selectedButtonBorderPen = New Pen(_selectedButtonBorderColour) With {
                     .DashStyle = DashStyle.Dash
                 }
 
-                _hoverButtonBackgroundBrush = New SolidBrush(_hoverButtonBackgroundColor)
-                _hoverButtonBorderPen = New Pen(_buttonBorderColor) With {
+                _hoverButtonBackgroundBrush = New SolidBrush(_hoverButtonBackgroundColour)
+                _hoverButtonBorderPen = New Pen(_buttonBorderColour) With {
                     .DashStyle = DashStyle.Dash
                 }
 
 
                 If ForceUpdate Then
-                    'Colors may have changed, need to update state.  Also, the gradient brushes are
+                    'Colours may have changed, need to update state.  Also, the gradient brushes are
                     '  created in UpdateCacheState (because they depend on button sizes), so we need
                     '  to create them, too
                     _owner.Invalidate()
@@ -517,7 +517,7 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
             CreateGDIObjects()
 
             If Not _gradientBrushesCreated Then
-                Debug.Fail("PERF/FLICKER WARNING: ProjectDesignerTabRenderer.RenderBackground() called before fully initialized")
+                Debug.Fail("PERF/FLICKER WARNING: ProjectDesignerTabRenderer.RenderBackground() called before fully Initialised")
                 Exit Sub
             End If
 
@@ -541,16 +541,16 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
             CreateGDIObjects()
 
             Dim backgroundBrush As Brush = _buttonBackgroundBrush
-            Dim foregroundColor As Color = _buttonForegroundColor ' TextRenderer.DrawText takes a color over a brush 
+            Dim foregroundColour As Colour = _buttonForegroundColour ' TextRenderer.DrawText takes a Colour over a brush 
             Dim borderPen As Pen = _buttonBorderPen
 
             If IsSelected Then
                 backgroundBrush = _selectedButtonBackgroundBrush
-                foregroundColor = _selectedButtonForegroundColor
+                foregroundColour = _selectedButtonForegroundColour
                 borderPen = _selectedButtonBorderPen
             ElseIf IsHovered Then
                 backgroundBrush = _hoverButtonBackgroundBrush
-                foregroundColor = _hoverButtonForegroundColor
+                foregroundColour = _hoverButtonForegroundColour
                 borderPen = _hoverButtonBorderPen
             End If
 
@@ -599,7 +599,7 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
             End If
 
             Dim textRect As New Rectangle(ButtonTextLeftOffset, 0, button.Width - ButtonTextLeftOffset, button.Height)
-            TextRenderer.DrawText(g, button.TextWithDirtyIndicator, button.Font, textRect, foregroundColor, TextFormatFlags.Left Or TextFormatFlags.SingleLine Or TextFormatFlags.VerticalCenter)
+            TextRenderer.DrawText(g, button.TextWithDirtyIndicator, button.Font, textRect, foregroundColour, TextFormatFlags.Left Or TextFormatFlags.SingleLine Or TextFormatFlags.VerticalCentre)
         End Sub 'RenderButton 
 
 #End Region

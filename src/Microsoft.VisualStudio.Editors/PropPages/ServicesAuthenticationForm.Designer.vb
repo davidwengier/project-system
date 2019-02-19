@@ -28,7 +28,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
         End Sub
 
         <System.Diagnostics.DebuggerStepThrough()>
-        Private Sub InitializeComponent()
+        Private Sub InitialiseComponent()
             Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ServicesAuthenticationForm))
             Me.InnerTableLayoutPanel = New System.Windows.Forms.TableLayoutPanel
             Me.AuthenticationServiceUrlLabel = New System.Windows.Forms.Label
@@ -104,13 +104,13 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             resources.ApplyResources(Me.OKButton, "OKButton")
             Me.OKButton.DialogResult = System.Windows.Forms.DialogResult.OK
             Me.OKButton.Name = "OKButton"
-            Me.OKButton.UseVisualStyleBackColor = True
+            Me.OKButton.UseVisualStyleBackColour = True
             '
             'Cancel
             '
             resources.ApplyResources(Me.Cancel, "Cancel")
             Me.Cancel.Name = "Cancel"
-            Me.Cancel.UseVisualStyleBackColor = True
+            Me.Cancel.UseVisualStyleBackColour = True
             '
             'TableLayoutPanel1
             '

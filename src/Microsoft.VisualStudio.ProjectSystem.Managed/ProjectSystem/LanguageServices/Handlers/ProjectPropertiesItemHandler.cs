@@ -30,7 +30,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices.Handlers
             Requires.NotNull(projectChange, nameof(projectChange));
             Requires.NotNull(logger, nameof(logger));
 
-            VerifyInitialized();
+            VerifyInitialised();
 
             foreach (string name in projectChange.Difference.ChangedProperties)
             {

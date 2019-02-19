@@ -16,7 +16,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.PropertyPages
 
         protected WpfBasedPropertyPage()
         {
-            InitializeComponent();
+            InitialiseComponent();
         }
 
         protected abstract PropertyPageViewModel CreatePropertyPageViewModel();
@@ -41,8 +41,8 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.PropertyPages
 
             _viewModel = CreatePropertyPageViewModel();
             _viewModel.Project = UnconfiguredProject;
-            await _viewModel.Initialize();
-            _control.InitializePropertyPage(_viewModel);
+            await _viewModel.Initialise();
+            _control.InitialisePropertyPage(_viewModel);
         }
 
         protected override Task<int> OnApply()

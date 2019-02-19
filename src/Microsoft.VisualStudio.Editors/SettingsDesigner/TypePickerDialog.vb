@@ -31,7 +31,7 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
             _projectItemid = ItemId
 
             'This call is required by the Windows Form Designer.
-            InitializeComponent()
+            InitialiseComponent()
 
             If Not s_previousSize.IsEmpty Then
                 Size = New Size(Math.Min(CInt(MinimumSize.Width * 1.5), s_previousSize.Width),
@@ -39,7 +39,7 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
 
             End If
 
-            'Add any initialization after the InitializeComponent() call
+            'Add any initialization after the InitialiseComponent() call
             _typeTreeView = New TypeTV With {
                 .AccessibleName = My.Resources.Microsoft_VisualStudio_Editors_Designer.SD_SelectATypeTreeView_AccessibleName,
                 .Dock = DockStyle.Fill
@@ -56,7 +56,7 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
             MyBase.New()
 
             'This call is required by the Windows Form Designer.
-            InitializeComponent()
+            InitialiseComponent()
         End Sub
 
         'Form overrides dispose to clean up the component list.
@@ -82,7 +82,7 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
         'NOTE: The following procedure is required by the Windows Form Designer
         'It can be modified using the Windows Form Designer.  
         'Do not modify it using the code editor.
-        <DebuggerNonUserCode()> Private Sub InitializeComponent()
+        <DebuggerNonUserCode()> Private Sub InitialiseComponent()
             Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(TypePickerDialog))
             _typeTextBox = New TextBox
             _cancelButton = New Button
@@ -443,9 +443,9 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
                 PathSeparator = "."
                 Sorted = True
 
-                Dim assemblyImage As Bitmap = GetManifestBitmapTransparent("assembly.bmp", Color.FromArgb(255, 0, 255))
-                Dim namespaceImage As Bitmap = GetManifestBitmapTransparent("namespace.bmp", Color.FromArgb(255, 0, 255))
-                Dim objectImage As Bitmap = GetManifestBitmapTransparent("object.bmp", Color.FromArgb(255, 0, 255))
+                Dim assemblyImage As Bitmap = GetManifestBitmapTransparent("assembly.bmp", Colour.FromArgb(255, 0, 255))
+                Dim namespaceImage As Bitmap = GetManifestBitmapTransparent("namespace.bmp", Colour.FromArgb(255, 0, 255))
+                Dim objectImage As Bitmap = GetManifestBitmapTransparent("object.bmp", Colour.FromArgb(255, 0, 255))
 
                 Dim treeViewIcons As ImageList = New ImageList()
                 treeViewIcons.Images.Add(assemblyImage)

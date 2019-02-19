@@ -34,7 +34,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.PropertyPages
             WatermarkVerticalAlignmentPropertyName,
             typeof(VerticalAlignment),
             typeof(WatermarkTextBox),
-            new PropertyMetadata(VerticalAlignment.Center));
+            new PropertyMetadata(VerticalAlignment.Centre));
 
         public VerticalAlignment WatermarkVerticalAlignment
         {

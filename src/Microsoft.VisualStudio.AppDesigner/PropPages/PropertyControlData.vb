@@ -23,7 +23,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
 
 
 #If DEBUG Then
-        Private _isInitialized As Boolean
+        Private _isInitialised As Boolean
 #End If
 
         'The DISPID that corresponds to the property in the project.  It is important that this DISPID match the actual
@@ -319,7 +319,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
         ''' <remarks></remarks>
         Protected ReadOnly Property CommonPropertiesObject() As Object
             Get
-                Debug.Assert(m_PropPage IsNot Nothing, "PropertyControlData not initialized?")
+                Debug.Assert(m_PropPage IsNot Nothing, "PropertyControlData not Initialised?")
                 Return m_PropPage.CommonPropertiesObject
             End Get
         End Property
@@ -338,7 +338,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
         ''' </remarks>
         Public Overridable ReadOnly Property RawPropertiesObjects() As Object()
             Get
-                Debug.Assert(m_PropPage IsNot Nothing, "PropertyControlData not initialized?")
+                Debug.Assert(m_PropPage IsNot Nothing, "PropertyControlData not Initialised?")
                 Debug.Assert(m_PropPage.m_Objects IsNot Nothing)
                 Return m_PropPage.m_Objects
             End Get
@@ -354,7 +354,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
         ''' <remarks></remarks>
         Public Overridable ReadOnly Property ExtendedPropertiesObjects() As Object()
             Get
-                Debug.Assert(m_PropPage IsNot Nothing, "PropertyControlData not initialized?")
+                Debug.Assert(m_PropPage IsNot Nothing, "PropertyControlData not Initialised?")
                 Debug.Assert(m_PropPage.m_ExtendedObjects IsNot Nothing, "Extended objects array is Nothing")
                 Return m_PropPage.m_ExtendedObjects
             End Get
@@ -558,7 +558,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
         Public ReadOnly Property IsIndeterminate() As Boolean
             Get
 #If DEBUG Then
-                Debug.Assert(_isInitialized, "Why are we checking if the property is indeterminate before the value is initialized!?")
+                Debug.Assert(_isInitialised, "Why are we checking if the property is indeterminate before the value is Initialised!?")
 #End If
                 Return (InitialValue Is s_indeterminateValue)
             End Get
@@ -574,7 +574,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
         Public ReadOnly Property IsMissing() As Boolean
             Get
 #If DEBUG Then
-                Debug.Assert(_isInitialized, "Why are we checking if the property is missing before the value is initialized!?")
+                Debug.Assert(_isInitialised, "Why are we checking if the property is missing before the value is Initialised!?")
 #End If
                 Return InitialValue Is s_missingValue
             End Get
@@ -730,14 +730,14 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
         ''' Sets up the property descriptor by searching for the property in the objects passed to us.
         ''' </summary>
         ''' <remarks></remarks>
-        Public Overridable Sub Initialize(PropertyPage As PropPageUserControlBase)
+        Public Overridable Sub Initialise(PropertyPage As PropPageUserControlBase)
             Debug.Assert(PropertyPage IsNot Nothing)
             m_Initializing = True
-            Common.Switches.TracePDPerfBegin("Property Initialize: " & PropertyName)
+            Common.Switches.TracePDPerfBegin("Property Initialise: " & PropertyName)
             Try
                 m_PropPage = PropertyPage
                 If IsUserPersisted Then
-                    Common.Switches.TracePDProperties(TraceLevel.Info, "PropertyControlData.Initialize(" & PropertyName & "): User-persisted")
+                    Common.Switches.TracePDProperties(TraceLevel.Info, "PropertyControlData.Initialise(" & PropertyName & "): User-persisted")
                     PropDesc = GetUserDefinedPropertyDescriptor()
                     Debug.Assert(PropDesc IsNot Nothing, "Call to GetUserDefinedPropertyDescriptor() returned Nothing for a user-persisted property.  Did you forget to override GetUserDefinedPropertyDescriptor()?")
 
@@ -752,7 +752,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
                     '  place for dealing with properties.
                     PropDesc = m_PropPage.m_ObjectsPropertyDescriptorsArray(0)(PropertyName)
                     If PropDesc IsNot Nothing Then
-                        Common.Switches.TracePDProperties(TraceLevel.Info, "PropertyControlData.Initialize(" & PropertyName & "): Property found")
+                        Common.Switches.TracePDProperties(TraceLevel.Info, "PropertyControlData.Initialise(" & PropertyName & "): Property found")
 
                         ' If the property page is backed by CPS project properties, use special wrapper for descriptor
                         If CpsPropertyDescriptorWrapper.IsAnyCpsComponent(m_PropPage.m_Objects) Then
@@ -767,7 +767,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
                         If m_PropPage.m_CommonPropertyDescriptors IsNot Nothing Then
                             PropDesc = m_PropPage.m_CommonPropertyDescriptors.Item(PropertyName)
                             If PropDesc IsNot Nothing Then
-                                Common.Switches.TracePDProperties(TraceLevel.Info, "PropertyControlData.Initialize(" & PropertyName & "): Common property (not found in SetObjects objects, but found on the project object)")
+                                Common.Switches.TracePDProperties(TraceLevel.Info, "PropertyControlData.Initialise(" & PropertyName & "): Common property (not found in SetObjects objects, but found on the project object)")
                                 IsCommonProperty = True
                             End If
                         End If
@@ -775,16 +775,16 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
                 End If
 
                 If PropDesc Is Nothing Then
-                    Common.Switches.TracePDProperties(TraceLevel.Info, "PropertyControlData.Initialize(" & PropertyName & "): ** Not found, will be disabled **")
+                    Common.Switches.TracePDProperties(TraceLevel.Info, "PropertyControlData.Initialise(" & PropertyName & "): ** Not found, will be disabled **")
                 End If
-                Common.Switches.TracePDPerfEnd("Property Initialize: " & PropertyName)
+                Common.Switches.TracePDPerfEnd("Property Initialise: " & PropertyName)
             Finally
                 m_Initializing = False
             End Try
         End Sub
 
         ''' <summary>
-        ''' Initializes the value for the property by getting the value from the project system
+        ''' Initialises the value for the property by getting the value from the project system
         ''' </summary>
         ''' <remarks></remarks>
         Public Overridable Sub InitPropertyValue()
@@ -792,7 +792,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             Dim Value As Object = Nothing
             Dim AllValues As Object() = Nothing
             Dim Handled As Boolean
-            Dim SaveInitialized As Boolean = m_Initializing
+            Dim SaveInitialised As Boolean = m_Initializing
 
             Debug.Assert(Not m_Initializing, "Unhandled state")
             Common.Switches.TracePDPerfBegin("InitPropertyValue: " & PropertyName)
@@ -836,10 +836,10 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
                 SetInitialValues(Value, AllValues)
                 Common.Switches.TracePDPerfEnd("InitPropertyValue: " & PropertyName)
             Finally
-                m_Initializing = SaveInitialized
+                m_Initializing = SaveInitialised
             End Try
 #If DEBUG Then
-            _isInitialized = True
+            _isInitialised = True
 #End If
         End Sub
 
@@ -850,7 +850,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
         Public Overridable Sub InitPropertyUI()
             Dim value As Object
             Dim Handled As Boolean
-            Dim SaveInitialized As Boolean = m_Initializing
+            Dim SaveInitialised As Boolean = m_Initializing
             Common.Switches.TracePDPerfBegin("InitPropertyUI: " & PropertyName)
             Debug.Assert(Not m_Initializing, "Unhandled state")
 
@@ -926,7 +926,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
 
                 Common.Switches.TracePDPerfEnd("InitPropertyUI: " & PropertyName)
             Finally
-                m_Initializing = SaveInitialized
+                m_Initializing = SaveInitialised
             End Try
         End Sub
 
@@ -2205,7 +2205,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
 
             'Most properties are stored in the project file, so that's what we return by default.
             If m_PropPage Is Nothing OrElse m_PropPage.DTEProject Is Nothing OrElse m_PropPage.m_ObjectsPropertyDescriptorsArray Is Nothing OrElse m_PropPage.m_ExtendedObjects Is Nothing Then
-                Debug.Fail("PropertyControlData.FilesToCheckOut: can't determine files to check out because of an uninitialized field")
+                Debug.Fail("PropertyControlData.FilesToCheckOut: can't determine files to check out because of an unInitialised field")
             Else
                 'CONSIDER: we should be allowing multiple of these flags to be set at once
                 If (Flags And ControlDataFlags.PersistedInProjectUserFile) <> 0 Then

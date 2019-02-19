@@ -167,7 +167,7 @@ Namespace Microsoft.Internal.Performance
         End Function 'SubKeyExist
 
 #If Codemarkers_IncludeAppEnum Then
-        ' Check the registry and, if appropriate, loads and initializes the code markers dll.
+        ' Check the registry and, if appropriate, loads and Initialises the code markers dll.
         ' Must be used only if your code is called from outside of VS.
         Public Sub InitPerformanceDll(iApp As Integer, strRegRoot As String)
             If strRegRoot = Nothing Then
@@ -190,7 +190,7 @@ Namespace Microsoft.Internal.Performance
         End Sub 'InitPerformanceDll
 
         ' Opposite of InitPerformanceDLL. Call it when your app does not need the code markers dll.
-        Public Sub UninitializePerformanceDLL(iApp As Integer)
+        Public Sub UnInitialisePerformanceDLL(iApp As Integer)
 
             Dim fUsingTestDll as Boolean? = fShouldUseTestDll ' reset which DLL we should use (needed for unit testing)
             fShouldUseTestDll = null ' reset which DLL we should use (needed for unit testing)
@@ -207,7 +207,7 @@ Namespace Microsoft.Internal.Performance
                 NativeMethods.DeleteAtom(atom)
             End If
             Try
-                If fUsingTestDll.HasValue Then  ' If it doesn't have a value, then we've never initialized the DLL.
+                If fUsingTestDll.HasValue Then  ' If it doesn't have a value, then we've never Initialised the DLL.
                     If fUsingTestDll.Value Then
                         NativeMethods.TestDllUnInitPerf(iApp)
                     Else
@@ -217,7 +217,7 @@ Namespace Microsoft.Internal.Performance
             Catch ex As DllNotFoundException
                 ' Swallow the exception
             End Try
-        End Sub 'UninitializePerformanceDLL
+        End Sub 'UnInitialisePerformanceDLL
 #End If 'Codemarkers_IncludeAppEnum
 
     End Class 'ManagedCodeMarkers

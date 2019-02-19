@@ -28,7 +28,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.Debug
     [Export(typeof(ILaunchSettingsProvider))]
     [Export(typeof(ILaunchSettingsProvider2))]
     [AppliesTo(ProjectCapability.LaunchProfiles)]
-    internal class LaunchSettingsProvider : OnceInitializedOnceDisposed, ILaunchSettingsProvider2
+    internal class LaunchSettingsProvider : OnceInitialisedOnceDisposed, ILaunchSettingsProvider2
     {
         private readonly UnconfiguredProject _project;
         private readonly ActiveConfiguredProject<AppDesignerFolderSpecialFileProvider> _appDesignerSpecialFileProvider;
@@ -139,7 +139,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.Debug
         {
             get
             {
-                EnsureInitialized();
+                EnsureInitialised();
                 return _changedSourceBlock;
             }
         }
@@ -153,7 +153,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.Debug
         {
             get
             {
-                EnsureInitialized();
+                EnsureInitialised();
                 return _currentSnapshot;
             }
             protected set
@@ -172,7 +172,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.Debug
         /// 1, Changes to the launchsettings.json file on disk
         /// 2. Changes to the ActiveDebugProfile property in the .user file
         /// </summary>
-        protected override void Initialize()
+        protected override void Initialise()
         {
             // Create our broadcast block for subscribers to get new ILaunchProfiles Information
             _broadcastBlock = DataflowBlockSlim.CreateBroadcastBlock<ILaunchSettings>();

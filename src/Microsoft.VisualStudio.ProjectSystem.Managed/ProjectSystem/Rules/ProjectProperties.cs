@@ -15,7 +15,7 @@ namespace Microsoft.VisualStudio.ProjectSystem
     internal partial class ProjectProperties : StronglyTypedPropertyAccess
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ProjectProperties"/> class.
+        /// Initialises a new instance of the <see cref="ProjectProperties"/> class.
         /// </summary>
         [ImportingConstructor]
         public ProjectProperties([Import] ConfiguredProject configuredProject)
@@ -24,7 +24,7 @@ namespace Microsoft.VisualStudio.ProjectSystem
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ProjectProperties"/> class.
+        /// Initialises a new instance of the <see cref="ProjectProperties"/> class.
         /// </summary>
         public ProjectProperties(ConfiguredProject configuredProject, string file, string itemType, string itemName)
             : base(configuredProject, file, itemType, itemName)
@@ -32,7 +32,7 @@ namespace Microsoft.VisualStudio.ProjectSystem
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ProjectProperties"/> class.
+        /// Initialises a new instance of the <see cref="ProjectProperties"/> class.
         /// </summary>
         public ProjectProperties(ConfiguredProject configuredProject, IProjectPropertiesContext projectPropertiesContext)
             : base(configuredProject, projectPropertiesContext)
@@ -40,7 +40,7 @@ namespace Microsoft.VisualStudio.ProjectSystem
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ProjectProperties"/> class.
+        /// Initialises a new instance of the <see cref="ProjectProperties"/> class.
         /// </summary>
         public ProjectProperties(ConfiguredProject configuredProject, UnconfiguredProject project)
             : base(configuredProject, project)

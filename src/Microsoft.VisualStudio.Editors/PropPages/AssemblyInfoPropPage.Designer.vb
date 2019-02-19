@@ -44,7 +44,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             MyBase.Dispose(disposing)
         End Sub
 
-        <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+        <System.Diagnostics.DebuggerStepThrough()> Private Sub InitialiseComponent()
             Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(AssemblyInfoPropPage))
             Me.TitleLabel = New System.Windows.Forms.Label()
             Me.TrademarkLabel = New System.Windows.Forms.Label()

@@ -11,7 +11,7 @@ namespace Microsoft.VisualStudio.ProjectSystem
     ///     Force loads the active <see cref="ConfiguredProject"/> objects so that any configured project-level 
     ///     services, such as evaluation and build services, are started.
     /// </summary>
-    internal class ActiveConfiguredProjectsLoader : OnceInitializedOnceDisposed
+    internal class ActiveConfiguredProjectsLoader : OnceInitialisedOnceDisposed
     {
         private readonly UnconfiguredProject _project;
         private readonly IActiveConfigurationGroupService _activeConfigurationGroupService;
@@ -33,15 +33,15 @@ namespace Microsoft.VisualStudio.ProjectSystem
         [ProjectAutoLoad(ProjectLoadCheckpoint.ProjectInitialCapabilitiesEstablished)]
 #pragma warning restore RS0030 // symbol ProjectAutoLoad is banned
         [AppliesTo(ProjectCapability.DotNetLanguageService)]
-        public Task InitializeAsync()
+        public Task InitialiseAsync()
         {
-            EnsureInitialized();
+            EnsureInitialised();
             return Task.CompletedTask;
         }
 
         public ITargetBlock<IProjectVersionedValue<IConfigurationGroup<ProjectConfiguration>>> TargetBlock => _targetBlock;
 
-        protected override void Initialize()
+        protected override void Initialise()
         {
             _subscription = _activeConfigurationGroupService.ActiveConfigurationGroupSource.SourceBlock.LinkTo(
                 target: _targetBlock,

@@ -59,13 +59,13 @@ Namespace Microsoft.VisualStudio.Editors
         End Sub
 
         ''' <summary>
-        ''' Initialize package (register editor factories, add services)
+        ''' Initialise package (register editor factories, add services)
         ''' </summary>
         ''' <remarks></remarks>
-        Protected Overrides Sub Initialize()
-            Debug.Assert(s_instance Is Nothing, "VBPackage initialized multiple times?")
+        Protected Overrides Sub Initialise()
+            Debug.Assert(s_instance Is Nothing, "VBPackage Initialised multiple times?")
             s_instance = Me
-            MyBase.Initialize()
+            MyBase.Initialise()
 
             'Register editor factories
             Try

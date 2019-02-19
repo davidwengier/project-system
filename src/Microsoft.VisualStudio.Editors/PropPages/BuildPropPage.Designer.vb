@@ -53,7 +53,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             MyBase.Dispose(disposing)
         End Sub
 
-        <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+        <System.Diagnostics.DebuggerStepThrough()> Private Sub InitialiseComponent()
             Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(BuildPropPage))
             Me.lblConditionalCompilationSymbols = New System.Windows.Forms.Label()
             Me.txtConditionalCompilationSymbols = New System.Windows.Forms.TextBox()
@@ -281,7 +281,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             '
             Me.outputLineLabel.AccessibleRole = System.Windows.Forms.AccessibleRole.Separator
             resources.ApplyResources(Me.outputLineLabel, "outputLineLabel")
-            Me.outputLineLabel.BackColor = System.Drawing.SystemColors.ControlDark
+            Me.outputLineLabel.BackColour = System.Drawing.SystemColours.ControlDark
             Me.outputLineLabel.Name = "outputLineLabel"
             '
             'outputLabel
@@ -301,7 +301,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             '
             Me.generalLineLabel.AccessibleRole = System.Windows.Forms.AccessibleRole.Separator
             resources.ApplyResources(Me.generalLineLabel, "generalLineLabel")
-            Me.generalLineLabel.BackColor = System.Drawing.SystemColors.ControlDark
+            Me.generalLineLabel.BackColour = System.Drawing.SystemColours.ControlDark
             Me.generalLineLabel.Name = "generalLineLabel"
             '
             'generalLabel
@@ -321,7 +321,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             '
             Me.treatWarningsAsErrorsLineLabel.AccessibleRole = System.Windows.Forms.AccessibleRole.Separator
             resources.ApplyResources(Me.treatWarningsAsErrorsLineLabel, "treatWarningsAsErrorsLineLabel")
-            Me.treatWarningsAsErrorsLineLabel.BackColor = System.Drawing.SystemColors.ControlDark
+            Me.treatWarningsAsErrorsLineLabel.BackColour = System.Drawing.SystemColours.ControlDark
             Me.treatWarningsAsErrorsLineLabel.Name = "treatWarningsAsErrorsLineLabel"
             '
             'treatWarningsAsErrorsLabel
@@ -341,7 +341,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             '
             Me.errorsAndWarningsLineLabel.AccessibleRole = System.Windows.Forms.AccessibleRole.Separator
             resources.ApplyResources(Me.errorsAndWarningsLineLabel, "errorsAndWarningsLineLabel")
-            Me.errorsAndWarningsLineLabel.BackColor = System.Drawing.SystemColors.ControlDark
+            Me.errorsAndWarningsLineLabel.BackColour = System.Drawing.SystemColours.ControlDark
             Me.errorsAndWarningsLineLabel.Name = "errorsAndWarningsLineLabel"
             '
             'errorsAndWarningsLabel

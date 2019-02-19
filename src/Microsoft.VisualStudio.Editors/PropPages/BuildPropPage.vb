@@ -39,9 +39,9 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             MyBase.New()
 
             'This call is required by the Windows Form Designer.
-            InitializeComponent()
+            InitialiseComponent()
 
-            'Add any initialization after the InitializeComponent() call
+            'Add any initialization after the InitialiseComponent() call
             AddChangeHandlers()
 
             'Opt out of page scaling since we're using AutoScaleMode
@@ -536,7 +536,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
                 txtXMLDocumentationFile.Enabled = True
 
                 If Trim(txtXMLDocumentationFile.Text) = "" Then
-                    '// The textbox is empty so initialize it
+                    '// The textbox is empty so Initialise it
                     Dim stOutputPath As String
                     Dim stAssemblyName As String
                     Dim obj As Object = Nothing

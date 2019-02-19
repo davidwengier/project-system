@@ -52,7 +52,7 @@ Namespace Microsoft.VisualStudio.Editors.MyExtensibility
             End If
             assemblyFullName = IIf(assemblyFullName Is Nothing, String.Empty, assemblyFullName.Trim())
 
-            InitializeProjectKindSettings(projectTypeID, project)
+            InitialiseProjectKindSettings(projectTypeID, project)
 
             If _extensionInfos.ContainsKey(projectTypeID) Then
                 Debug.Assert(_extensionInfos(projectTypeID) IsNot Nothing, "Corruped m_ExtensionInfos!")
@@ -92,7 +92,7 @@ Namespace Microsoft.VisualStudio.Editors.MyExtensibility
                 Return Nothing
             End If
 
-            InitializeProjectKindSettings(projectTypeID, project)
+            InitialiseProjectKindSettings(projectTypeID, project)
 
             Dim result As New List(Of MyExtensionTemplate)
 
@@ -134,7 +134,7 @@ Namespace Microsoft.VisualStudio.Editors.MyExtensibility
             End If
             assemblyName = NormalizeAssemblyFullName(assemblyName)
 
-            InitializeProjectKindSettings(projectTypeID, project)
+            InitialiseProjectKindSettings(projectTypeID, project)
 
             If Not _extensionInfos.ContainsKey(projectTypeID) Then
                 Exit Sub
@@ -219,18 +219,18 @@ Namespace Microsoft.VisualStudio.Editors.MyExtensibility
             End If
         End Function
 
-        ''' ;InitializeProjectKindSettings
+        ''' ;InitialiseProjectKindSettings
         ''' <summary>
         ''' If this project kind has not been queried
         ''' - query VSCore for project item templates with custom data
         ''' - parse the custom data to add extension templates to mapping
         ''' </summary>
-        Private Sub InitializeProjectKindSettings(projectTypeID As String, project As Project)
+        Private Sub InitialiseProjectKindSettings(projectTypeID As String, project As Project)
             If project Is Nothing Then
                 Exit Sub
             End If
 
-            If _extensionInfos.ContainsKey(projectTypeID) Then ' Settings for this project kind already initialized
+            If _extensionInfos.ContainsKey(projectTypeID) Then ' Settings for this project kind already Initialised
                 Exit Sub
             End If
 
@@ -243,7 +243,7 @@ Namespace Microsoft.VisualStudio.Editors.MyExtensibility
             Dim templatesWithCustomData As Templates = Nothing
             Try
                 templatesWithCustomData = solution3.GetProjectItemTemplates(projectTypeID, CUSTOM_DATA_SIGNATURE)
-            Catch ex As Exception When ReportWithoutCrash(ex, NameOf(InitializeProjectKindSettings), NameOf(MyExtensibilitySettings))
+            Catch ex As Exception When ReportWithoutCrash(ex, NameOf(InitialiseProjectKindSettings), NameOf(MyExtensibilitySettings))
                 ' Ignore exceptions.
             End Try
             If templatesWithCustomData Is Nothing OrElse templatesWithCustomData.Count = 0 Then

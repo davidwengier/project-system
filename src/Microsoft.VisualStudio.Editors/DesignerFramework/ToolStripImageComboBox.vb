@@ -360,7 +360,7 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
 
                 e.DrawBackground()
 
-                'Center text vertically (but don't draw it yet)
+                'Centre text vertically (but don't draw it yet)
                 Dim TextSize As Size = e.Graphics.MeasureString(Item.Text, Item.Font, New Point(0, 0), StringFormat.GenericDefault).ToSize()
                 Dim TextTop As Integer = e.Bounds.Top + (e.Bounds.Height - TextSize.Height) \ 2
                 Dim TextLeft As Integer = e.Bounds.Left + CellPaddingXPixels
@@ -375,7 +375,7 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
                 End If
 
                 'Draw the text
-                Using Brush As New SolidBrush(e.ForeColor)
+                Using Brush As New SolidBrush(e.ForeColour)
                     e.Graphics.DrawString(Item.Text, Item.Font, Brush, TextLeft, TextTop)
                 End Using
 

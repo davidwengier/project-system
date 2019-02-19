@@ -41,9 +41,9 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             MyBase.New()
 
             'This call is required by the Windows Form Designer.
-            InitializeComponent()
+            InitialiseComponent()
 
-            'Add any initialization after the InitializeComponent() call
+            'Add any initialization after the InitialiseComponent() call
             AddChangeHandlers()
 
             'support sorting
@@ -103,8 +103,8 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
 #Region "Private Methods "
         ''' <summary>
         ''' ;InitDialog
-        ''' Initialize proppage for use on a PropPageHostDialog: 
-        ''' Initialize proppage variables and install custom dialog event handlers.
+        ''' Initialise proppage for use on a PropPageHostDialog: 
+        ''' Initialise proppage variables and install custom dialog event handlers.
         ''' </summary>
         ''' <remarks></remarks>
         Private Sub InitDialog()
@@ -519,7 +519,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
 
 
         ''' <summary>
-        '''  We need initialize the dialog when it pops up (every time)
+        '''  We need Initialise the dialog when it pops up (every time)
         ''' </summary>
         ''' <param name="sender">Event args</param>
         ''' <param name="e">Event args</param>

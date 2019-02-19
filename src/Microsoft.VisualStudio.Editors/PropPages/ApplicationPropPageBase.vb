@@ -395,7 +395,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
                     Dim bitmap As Bitmap = New Bitmap(size.Width, size.Height, iconBitmap.PixelFormat)
                     Using bitmapGraphics As Graphics = Graphics.FromImage(bitmap)
                         bitmapGraphics.InterpolationMode = InterpolationMode.HighQualityBicubic
-                        bitmapGraphics.Clear(Color.Transparent)
+                        bitmapGraphics.Clear(Colour.Transparent)
 
                         bitmapGraphics.DrawImage(iconBitmap, 0, 0, size.Width, size.Height)
                     End Using

@@ -39,7 +39,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Interop
             ref Guid rguid);
 
         [PreserveSig]
-        int Initialize();  // called after main initialization and before command executing and entering main loop
+        int Initialise();  // called after main initialization and before command executing and entering main loop
     }
 
     [Flags]
@@ -177,7 +177,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Interop
         LoadUserExtensions              = -8586,    // VT_BOOL. Tells PkgDef management and Extension Manager API whether to load User extensions.
         //          This property is calculated based on the security logic of extension management and user preferrences.
         LoadedUserExtensions            = -8587,    // SafeArray of BSTRs. List of folders that were searched for enabled user extensions.
-        //                     These are the essentially the user extensions that were enabled when the appid initialized.
+        //                     These are the essentially the user extensions that were enabled when the appid Initialised.
         AllowLoadingAllPackages         = -8588,    // VT_BOOL. Each APPID specifies through this property if it allows loading ALL Visual Studio Packages
         //          without PLK checking. Default is FALSE.
 
@@ -202,7 +202,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Interop
         VSAPROPID_AppBrandName = -8602,    // VT_BSTR. The localized full brand name of the application, including SKU information. E.g. "Microsoft Visual Studio Professional 2012 RC" or "Microsoft Visual Studio Express 2012 RC for Windows 8"
         VSAPROPID_AppShortBrandName = -8603,    // VT_BSTR. A short version of VSAPROPID_AppBrandName, less than 32 chars. E.g. "VS Pro 2012 RC" or "VS Express 2012 RC for Win8"
         VSAPROPID_SKUInfo = -8604,    // VT_BSTR. A localized text describing the current SKU (name, year, release type, etc). E.g. "Ultimate 2012 RC" or "Express 2012 RC for Web"
-        VSAPROPID_GuidDefaultColorTheme = -8605,    // GUID representing the color theme that should be used by default for the appid. If unimplemented by the appid, or if the theme does not exist when the appid is launched, the default light theme is chosen.
+        VSAPROPID_GuidDefaultColourTheme = -8605,    // GUID representing the Colour theme that should be used by default for the appid. If unimplemented by the appid, or if the theme does not exist when the appid is launched, the default light theme is chosen.
         VSAPROPID_ActivityLogServiceObject = -8606,    // VT_UNKNOWN. IUnknown the free thread activity log service object.
         VSAPROPID_AppUpdateIcon = -8607,    // VT_INT_PTR - HICON for SM_CXICON x SM_CYICON app update icon.
         VSAPROPID_AppUpdateSmallIcon = -8608,    // VT_INT_PTR - HICON for SM_CXSMICON x SM_CYSMICON app update icon.

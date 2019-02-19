@@ -23,7 +23,7 @@
         'It can be modified using the Windows Form Designer.  
         'Do not modify it using the code editor.
         <System.Diagnostics.DebuggerStepThrough()>
-        Private Sub InitializeComponent()
+        Private Sub InitialiseComponent()
             Me.components = New System.ComponentModel.Container
             Dim _imageList1 As System.Windows.Forms.ImageList
             Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(InputXmlForm))
@@ -47,14 +47,14 @@
             ColumnHeader2 = New System.Windows.Forms.ColumnHeader
             TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel
             TableLayoutPanel1.SuspendLayout()
-            CType(Me._picutreBox, System.ComponentModel.ISupportInitialize).BeginInit()
+            CType(Me._picutreBox, System.ComponentModel.ISupportInitialise).BeginInit()
             Me.FlowLayoutPanel1.SuspendLayout()
             Me.SuspendLayout()
             '
             '_imageList1
             '
             _imageList1.ImageStream = CType(resources.GetObject("_imageList1.ImageStream"), System.Windows.Forms.ImageListStreamer)
-            _imageList1.TransparentColor = System.Drawing.Color.Black
+            _imageList1.TransparentColour = System.Drawing.Colour.Black
             _imageList1.Images.SetKeyName(0, "openHS.bmp")
             _imageList1.Images.SetKeyName(1, "EditCodeHS.bmp")
             _imageList1.Images.SetKeyName(2, "WebInsertHyperlinkHS.bmp")
@@ -62,10 +62,10 @@
             '_cancelButton
             '
             resources.ApplyResources(_cancelButton, "_cancelButton")
-            _cancelButton.BackColor = System.Drawing.SystemColors.ButtonFace
+            _cancelButton.BackColour = System.Drawing.SystemColours.ButtonFace
             _cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel
             _cancelButton.Name = "_cancelButton"
-            _cancelButton.UseVisualStyleBackColor = True
+            _cancelButton.UseVisualStyleBackColour = True
             '
             'ColumnHeader1
             '
@@ -106,11 +106,11 @@
             resources.ApplyResources(Me._addAsTextButton, "_addAsTextButton")
             Me._addAsTextButton.ImageList = _imageList1
             Me._addAsTextButton.Name = "_addAsTextButton"
-            Me._addAsTextButton.UseVisualStyleBackColor = True
+            Me._addAsTextButton.UseVisualStyleBackColour = True
             '
             '_picutreBox
             '
-            Me._picutreBox.BackColor = System.Drawing.SystemColors.Window
+            Me._picutreBox.BackColour = System.Drawing.SystemColours.Window
             resources.ApplyResources(Me._picutreBox, "_picutreBox")
             Me._picutreBox.Name = "_picutreBox"
             Me._picutreBox.TabStop = False
@@ -118,7 +118,7 @@
             'Label1
             '
             resources.ApplyResources(Me.Label1, "Label1")
-            Me.Label1.BackColor = System.Drawing.SystemColors.Window
+            Me.Label1.BackColour = System.Drawing.SystemColours.Window
             TableLayoutPanel1.SetColumnSpan(Me.Label1, 2)
             Me.Label1.Name = "Label1"
             '
@@ -127,14 +127,14 @@
             resources.ApplyResources(Me._addFromFileButton, "_addFromFileButton")
             Me._addFromFileButton.ImageList = _imageList1
             Me._addFromFileButton.Name = "_addFromFileButton"
-            Me._addFromFileButton.UseVisualStyleBackColor = True
+            Me._addFromFileButton.UseVisualStyleBackColour = True
             '
             '_addFromWebButton
             '
             resources.ApplyResources(Me._addFromWebButton, "_addFromWebButton")
             Me._addFromWebButton.ImageList = _imageList1
             Me._addFromWebButton.Name = "_addFromWebButton"
-            Me._addFromWebButton.UseVisualStyleBackColor = True
+            Me._addFromWebButton.UseVisualStyleBackColour = True
             '
             'FlowLayoutPanel1
             '
@@ -147,15 +147,15 @@
             '_okButton
             '
             resources.ApplyResources(Me._okButton, "_okButton")
-            Me._okButton.BackColor = System.Drawing.SystemColors.ButtonFace
+            Me._okButton.BackColour = System.Drawing.SystemColours.ButtonFace
             Me._okButton.DialogResult = System.Windows.Forms.DialogResult.OK
             Me._okButton.Name = "_okButton"
-            Me._okButton.UseVisualStyleBackColor = True
+            Me._okButton.UseVisualStyleBackColour = True
             '
             '_imageList2
             '
             Me._imageList2.ImageStream = CType(resources.GetObject("_imageList2.ImageStream"), System.Windows.Forms.ImageListStreamer)
-            Me._imageList2.TransparentColor = System.Drawing.Color.Black
+            Me._imageList2.TransparentColour = System.Drawing.Colour.Black
             Me._imageList2.Images.SetKeyName(0, "XmlSchema.bmp")
             '
             '_xmlFileDialog
@@ -178,7 +178,7 @@
             Me.ShowInTaskbar = False
             TableLayoutPanel1.ResumeLayout(False)
             TableLayoutPanel1.PerformLayout()
-            CType(Me._picutreBox, System.ComponentModel.ISupportInitialize).EndInit()
+            CType(Me._picutreBox, System.ComponentModel.ISupportInitialise).EndInit()
             Me.FlowLayoutPanel1.ResumeLayout(False)
             Me.FlowLayoutPanel1.PerformLayout()
             Me.ResumeLayout(False)

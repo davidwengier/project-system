@@ -28,7 +28,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             AcademicStudent = 2100
             'AcademicStudentMSDNAA = 2200
             'AcademicTeaching = 2300
-            'AcademicEnterprise = AcademicTeaching  ' OBSOLETTE, use AcademicTeaching
+            'AcademiCentreprise = AcademicTeaching  ' OBSOLETTE, use AcademicTeaching
             AcademicProfessional = AcademicStudent ' OBSOLETTE, use AcademicStudent
             ' Book                  = 2400,  ' OBSOLETTE
             DownloadTrial = 2500

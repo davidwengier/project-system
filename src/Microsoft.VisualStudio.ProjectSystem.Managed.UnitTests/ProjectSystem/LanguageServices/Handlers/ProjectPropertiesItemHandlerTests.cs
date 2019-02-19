@@ -162,7 +162,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices.Handlers
 
             var handler = new ProjectPropertiesItemHandler(project);
             if (context != null)
-                handler.Initialize(context);
+                handler.Initialise(context);
 
             return handler;
         }

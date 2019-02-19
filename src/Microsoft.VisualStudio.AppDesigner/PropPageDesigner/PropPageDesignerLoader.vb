@@ -26,8 +26,8 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
         '''   Dispose.
         ''' </summary>
         ''' <remarks></remarks>
-        Protected Overrides Sub Initialize()
-            MyBase.Initialize()
+        Protected Overrides Sub Initialise()
+            MyBase.Initialise()
 
             'Add our ComponentSerializationService so that the basic designer will give us automatic Undo/Redo
             Dim SerializationService As New PropertyPageSerializationService(LoaderHost)
@@ -40,7 +40,7 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
 
 
         ''' <summary>
-        ''' This method is called to initialize the designer loader with the text
+        ''' This method is called to Initialise the designer loader with the text
         ''' buffer to read from and a service provider through which we
         ''' can ask for services.
         ''' </summary>
@@ -49,7 +49,7 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
         ''' <param name="ItemId"></param>
         ''' <param name="punkDocData"></param>
         ''' <remarks></remarks>
-        Public Sub InitializeEx(ServiceProvider As Shell.ServiceProvider, Hierarchy As IVsHierarchy, ItemId As UInteger, punkDocData As Object)
+        Public Sub InitialiseEx(ServiceProvider As Shell.ServiceProvider, Hierarchy As IVsHierarchy, ItemId As UInteger, punkDocData As Object)
 
             If punkDocData Is Nothing Then
                 Debug.Fail("Docdata must be supplied")
@@ -82,7 +82,7 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
         End Sub
 
         ''' <summary>
-        ''' Initializes the designer.  We are not file based, so not much to do
+        ''' Initialises the designer.  We are not file based, so not much to do
         ''' </summary>
         ''' <param name="serializationManager"></param>
         ''' <remarks>

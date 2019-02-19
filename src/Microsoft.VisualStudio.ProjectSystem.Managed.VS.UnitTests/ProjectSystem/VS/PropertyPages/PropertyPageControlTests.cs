@@ -30,7 +30,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.PropertyPages
         {
             var ppvm = new Mock<PropertyPageViewModel>();
             ppvm.Setup(m => m.Save()).ReturnsAsync(VSConstants.S_OK);
-            ppvm.Setup(m => m.Initialize()).Returns(new Task(() => { }));
+            ppvm.Setup(m => m.Initialise()).Returns(new Task(() => { }));
             ppvm.CallBase = true;
 
             var ppc = new Mock<PropertyPageControl>(MockBehavior.Loose)
@@ -38,7 +38,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.PropertyPages
                 CallBase = true
             };
 
-            ppc.Object.InitializePropertyPage(ppvm.Object);
+            ppc.Object.InitialisePropertyPage(ppvm.Object);
             ppc.Object.IsDirty = true;
             int result = ppc.Object.Apply().Result;
 

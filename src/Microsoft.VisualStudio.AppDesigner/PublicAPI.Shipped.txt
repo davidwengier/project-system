@@ -66,7 +66,7 @@ Const Microsoft.VisualStudio.Editors.AppDesInterop.Win32Constant.WM_RBUTTONUP = 
 Const Microsoft.VisualStudio.Editors.AppDesInterop.Win32Constant.WM_SETFOCUS = 7 -> Integer
 Const Microsoft.VisualStudio.Editors.AppDesInterop.Win32Constant.WM_SETTINGCHANGE = 26 -> Integer
 Const Microsoft.VisualStudio.Editors.AppDesInterop.Win32Constant.WM_SYSCHAR = 262 -> Integer
-Const Microsoft.VisualStudio.Editors.AppDesInterop.Win32Constant.WM_SYSCOLORCHANGE = 21 -> Integer
+Const Microsoft.VisualStudio.Editors.AppDesInterop.Win32Constant.WM_SYSColourCHANGE = 21 -> Integer
 Const Microsoft.VisualStudio.Editors.AppDesInterop.Win32Constant.WM_SYSCOMMAND = 274 -> Integer
 Const Microsoft.VisualStudio.Editors.AppDesInterop.Win32Constant.WM_SYSKEYDOWN = 260 -> Integer
 Const Microsoft.VisualStudio.Editors.AppDesInterop.Win32Constant.WM_SYSKEYUP = 261 -> Integer
@@ -142,7 +142,7 @@ Microsoft.VisualStudio.Editors.ApplicationDesigner.ApplicationDesignerEditorFact
 Microsoft.VisualStudio.Editors.ApplicationDesigner.ApplicationDesignerEditorFactory.New() -> Void
 Microsoft.VisualStudio.Editors.ApplicationDesigner.ApplicationDesignerEditorFactory.SetSite(Site As Microsoft.VisualStudio.OLE.Interop.IServiceProvider) -> Integer
 Microsoft.VisualStudio.Editors.ApplicationDesigner.ApplicationDesignerLoader
-Microsoft.VisualStudio.Editors.ApplicationDesigner.ApplicationDesignerLoader.InitializeEx(ServiceProvider As Microsoft.VisualStudio.Shell.ServiceProvider, Hierarchy As Microsoft.VisualStudio.Shell.Interop.IVsHierarchy, ItemId As UInteger, punkDocData As Object) -> Void
+Microsoft.VisualStudio.Editors.ApplicationDesigner.ApplicationDesignerLoader.InitialiseEx(ServiceProvider As Microsoft.VisualStudio.Shell.ServiceProvider, Hierarchy As Microsoft.VisualStudio.Shell.Interop.IVsHierarchy, ItemId As UInteger, punkDocData As Object) -> Void
 Microsoft.VisualStudio.Editors.ApplicationDesigner.ApplicationDesignerLoader.New() -> Void
 Microsoft.VisualStudio.Editors.ApplicationDesigner.ApplicationDesignerPanel
 Microsoft.VisualStudio.Editors.ApplicationDesigner.ApplicationDesignerPanel.ActualGuid() -> System.Guid
@@ -529,7 +529,7 @@ Microsoft.VisualStudio.Editors.PropertyPages.PropPageUserControlBase.GetProperty
 Microsoft.VisualStudio.Editors.PropertyPages.PropPageUserControlBase.GetRelativeDirectoryPath(BasePath As String, DirectoryPath As String) -> String
 Microsoft.VisualStudio.Editors.PropertyPages.PropPageUserControlBase.GetRelativeFilePath(BasePath As String, FilePath As String) -> String
 Microsoft.VisualStudio.Editors.PropertyPages.PropPageUserControlBase.GetServiceFromPropertyPageSite(ServiceType As System.Type) -> Object
-Microsoft.VisualStudio.Editors.PropertyPages.PropPageUserControlBase.InitializeAllProperties() -> Void
+Microsoft.VisualStudio.Editors.PropertyPages.PropPageUserControlBase.InitialiseAllProperties() -> Void
 Microsoft.VisualStudio.Editors.PropertyPages.PropPageUserControlBase.IsActivated() -> Boolean
 Microsoft.VisualStudio.Editors.PropertyPages.PropPageUserControlBase.IsAnyPropertyDirty() -> Boolean
 Microsoft.VisualStudio.Editors.PropertyPages.PropPageUserControlBase.IsConfigurationSpecificPage() -> Boolean
@@ -717,7 +717,7 @@ Microsoft.VisualStudio.Editors.PropPageDesigner.PropPageDesignerEditorFactory.Ma
 Microsoft.VisualStudio.Editors.PropPageDesigner.PropPageDesignerEditorFactory.New() -> Void
 Microsoft.VisualStudio.Editors.PropPageDesigner.PropPageDesignerEditorFactory.SetSite(Site As Microsoft.VisualStudio.OLE.Interop.IServiceProvider) -> Integer
 Microsoft.VisualStudio.Editors.PropPageDesigner.PropPageDesignerLoader
-Microsoft.VisualStudio.Editors.PropPageDesigner.PropPageDesignerLoader.InitializeEx(ServiceProvider As Microsoft.VisualStudio.Shell.ServiceProvider, Hierarchy As Microsoft.VisualStudio.Shell.Interop.IVsHierarchy, ItemId As UInteger, punkDocData As Object) -> Void
+Microsoft.VisualStudio.Editors.PropPageDesigner.PropPageDesignerLoader.InitialiseEx(ServiceProvider As Microsoft.VisualStudio.Shell.ServiceProvider, Hierarchy As Microsoft.VisualStudio.Shell.Interop.IVsHierarchy, ItemId As UInteger, punkDocData As Object) -> Void
 Microsoft.VisualStudio.Editors.PropPageDesigner.PropPageDesignerLoader.New() -> Void
 Microsoft.VisualStudio.Editors.PropPageDesigner.PropPageDesignerRootComponent
 Microsoft.VisualStudio.Editors.PropPageDesigner.PropPageDesignerRootComponent.Hierarchy() -> Microsoft.VisualStudio.Shell.Interop.IVsHierarchy
@@ -804,7 +804,7 @@ Overridable Microsoft.VisualStudio.Editors.PropertyPages.PropertyControlData.Get
 Overridable Microsoft.VisualStudio.Editors.PropertyPages.PropertyControlData.GetControlValue() -> Object
 Overridable Microsoft.VisualStudio.Editors.PropertyPages.PropertyControlData.GetPropertyValueNative(Extender As Object) -> Object
 Overridable Microsoft.VisualStudio.Editors.PropertyPages.PropertyControlData.GetUserDefinedPropertyDescriptor() -> System.ComponentModel.PropertyDescriptor
-Overridable Microsoft.VisualStudio.Editors.PropertyPages.PropertyControlData.Initialize(PropertyPage As Microsoft.VisualStudio.Editors.PropertyPages.PropPageUserControlBase) -> Void
+Overridable Microsoft.VisualStudio.Editors.PropertyPages.PropertyControlData.Initialise(PropertyPage As Microsoft.VisualStudio.Editors.PropertyPages.PropPageUserControlBase) -> Void
 Overridable Microsoft.VisualStudio.Editors.PropertyPages.PropertyControlData.InitPropertyUI() -> Void
 Overridable Microsoft.VisualStudio.Editors.PropertyPages.PropertyControlData.InitPropertyValue() -> Void
 Overridable Microsoft.VisualStudio.Editors.PropertyPages.PropertyControlData.OnPropertyChanged(OldValue As Object, NewValue As Object) -> Void
@@ -912,7 +912,7 @@ Overrides Microsoft.VisualStudio.Editors.AppDesDesignerFramework.ErrorControl.Te
 Overrides Microsoft.VisualStudio.Editors.ApplicationDesigner.ApplicationDesignerLoader.Dispose() -> Void
 Overrides Microsoft.VisualStudio.Editors.ApplicationDesigner.ApplicationDesignerPanel.Dispose(disposing As Boolean) -> Void
 Overrides Microsoft.VisualStudio.Editors.ApplicationDesigner.ApplicationDesignerPanel.OnLayout(levent As System.Windows.Forms.LayoutEventArgs) -> Void
-Overrides Microsoft.VisualStudio.Editors.ApplicationDesigner.ApplicationDesignerRootDesigner.Initialize(component As System.ComponentModel.IComponent) -> Void
+Overrides Microsoft.VisualStudio.Editors.ApplicationDesigner.ApplicationDesignerRootDesigner.Initialise(component As System.ComponentModel.IComponent) -> Void
 Overrides Microsoft.VisualStudio.Editors.ApplicationDesigner.ApplicationDesignerView.OnItemClick(item As Microsoft.VisualStudio.Editors.ApplicationDesigner.ProjectDesignerTabButton, reactivatePage As Boolean) -> Void
 Overrides Microsoft.VisualStudio.Editors.ApplicationDesigner.ApplicationDesignerView.OnItemClick(item As Microsoft.VisualStudio.Editors.ApplicationDesigner.ProjectDesignerTabButton) -> Void
 Overrides Microsoft.VisualStudio.Editors.ApplicationDesigner.ApplicationDesignerWindowPane.EditorView() -> Object
@@ -1035,8 +1035,8 @@ Shared Microsoft.VisualStudio.Editors.PropPageDesigner.PropPageDesignerEditorFac
 Shared Microsoft.VisualStudio.Editors.PropPageDesigner.PropPageDesignerEditorFactory.EditorGuid() -> System.Guid
 Shared Microsoft.VisualStudio.Editors.PropPageDesigner.PropPageDesignerRootDesigner.CommitAnyPendingChanges() -> Void
 Shared Microsoft.VisualStudio.Editors.VBPackageUtils.PackageInstance(GetService As Microsoft.VisualStudio.Editors.VBPackageUtils.getServiceDelegate) -> Microsoft.VisualStudio.Editors.IVBPackage
-Shared ReadOnly Microsoft.VisualStudio.Editors.PropertyPages.PropPageUserControlBase.PropPageBackColor -> System.Drawing.Color
+Shared ReadOnly Microsoft.VisualStudio.Editors.PropertyPages.PropPageUserControlBase.PropPageBackColour -> System.Drawing.Colour
 VSThemedLinkLabel
 VSThemedLinkLabel.New() -> Void
-VSThemedLinkLabel.SetThemedColor(vsUIShell5 As Microsoft.VisualStudio.Shell.Interop.IVsUIShell5, supportsTheming As Boolean) -> Void
-VSThemedLinkLabel.SetThemedColor(vsUIShell5 As Microsoft.VisualStudio.Shell.Interop.IVsUIShell5) -> Void
+VSThemedLinkLabel.SetThemedColour(vsUIShell5 As Microsoft.VisualStudio.Shell.Interop.IVsUIShell5, supportsTheming As Boolean) -> Void
+VSThemedLinkLabel.SetThemedColour(vsUIShell5 As Microsoft.VisualStudio.Shell.Interop.IVsUIShell5) -> Void

@@ -27,9 +27,9 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
         ''' <remarks></remarks>
         Public Sub New(Provider As IServiceProvider, Description As String)
             If Provider IsNot Nothing Then
-                Initialize(DirectCast(Provider.GetService(GetType(IDesignerHost)), IDesignerHost), Description)
+                Initialise(DirectCast(Provider.GetService(GetType(IDesignerHost)), IDesignerHost), Description)
             Else
-                Initialize(Nothing, Description)
+                Initialise(Nothing, Description)
             End If
         End Sub
 
@@ -40,7 +40,7 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
         ''' <param name="Description"></param>
         ''' <remarks></remarks>
         Public Sub New(DesignerHost As IDesignerHost, Description As String)
-            Initialize(DesignerHost, Description)
+            Initialise(DesignerHost, Description)
         End Sub
 
         ''' <summary>
@@ -49,7 +49,7 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
         ''' <param name="DesignerHost"></param>
         ''' <param name="Description"></param>
         ''' <remarks></remarks>
-        Private Sub Initialize(DesignerHost As IDesignerHost, Description As String)
+        Private Sub Initialise(DesignerHost As IDesignerHost, Description As String)
             If DesignerHost IsNot Nothing Then
                 _transaction = DesignerHost.CreateTransaction(Description)
             End If

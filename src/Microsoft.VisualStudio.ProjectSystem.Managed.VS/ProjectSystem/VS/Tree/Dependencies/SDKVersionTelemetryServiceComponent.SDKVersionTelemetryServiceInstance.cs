@@ -11,7 +11,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies
 {
     internal partial class SDKVersionTelemetryServiceComponent
     {
-        internal class SDKVersionTelemetryServiceInstance : OnceInitializedOnceDisposedAsync, IMultiLifetimeInstance
+        internal class SDKVersionTelemetryServiceInstance : OnceInitialisedOnceDisposedAsync, IMultiLifetimeInstance
         {
             private readonly IUnconfiguredProjectVsServices _projectVsServices;
             private readonly ISafeProjectGuidService _projectGuidService;
@@ -32,7 +32,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies
                 _unconfiguredProjectTasksService = unconfiguredProjectTasksService;
             }
 
-            protected override Task InitializeCoreAsync(CancellationToken cancellationToken)
+            protected override Task InitialiseCoreAsync(CancellationToken cancellationToken)
             {
                 // Do not block initialization on reporting the sdk version. It is possible to deadlock.
                 _projectVsServices.ThreadingService.RunAndForget(async () =>
@@ -61,7 +61,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies
                 return Task.CompletedTask;
             }
 
-            protected override Task DisposeCoreAsync(bool initialized) => Task.CompletedTask;
+            protected override Task DisposeCoreAsync(bool Initialised) => Task.CompletedTask;
 
             private async Task<string> GetProjectIdAsync()
             {
@@ -69,9 +69,9 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies
                 return projectGuid == Guid.Empty ? null : projectGuid.ToString();
             }
 
-            public Task InitializeAsync()
+            public Task InitialiseAsync()
             {
-                return InitializeAsync(CancellationToken.None);
+                return InitialiseAsync(CancellationToken.None);
             }
         }
     }

@@ -23,10 +23,10 @@ Namespace Microsoft.VisualStudio.Editors.Common
 
     Friend Module Utils
 
-        'The transparent color used for all bitmaps in the resource editor is lime (R=0, G=255, B=0).
-        '  Any pixels of this color will be converted to transparent if StandardTransparentColor
+        'The transparent Colour used for all bitmaps in the resource editor is lime (R=0, G=255, B=0).
+        '  Any pixels of this Colour will be converted to transparent if StandardTransparentColour
         '  is passed to GetManifestBitmap
-        Public ReadOnly StandardTransparentColor As Color = Color.Lime
+        Public ReadOnly StandardTransparentColour As Colour = Colour.Lime
 
 
         ' The maximal amount of files that can be added at one shot. (copied from other VS features)
@@ -158,13 +158,13 @@ Namespace Microsoft.VisualStudio.Editors.Common
         ''' Retrieves a transparent copy of a given bitmap from the manifest resources.
         ''' </summary>
         ''' <param name="BitmapID">Name of the bitmap resource (not including the assembly name, e.g. "Link.bmp")</param>
-        ''' <param name="TransparentColor">The color that represents transparent in the bitmap</param>
+        ''' <param name="TransparentColour">The Colour that represents transparent in the bitmap</param>
         ''' <returns>The retrieved transparent bitmap</returns>
         ''' <remarks>Throws an internal exception if the bitmap cannot be found or loaded.</remarks>
-        Public Function GetManifestBitmapTransparent(BitmapID As String, TransparentColor As Color) As Bitmap
+        Public Function GetManifestBitmapTransparent(BitmapID As String, TransparentColour As Colour) As Bitmap
             Dim Bitmap As Bitmap = GetManifestBitmap(BitmapID)
             If Bitmap IsNot Nothing Then
-                Bitmap.MakeTransparent(TransparentColor)
+                Bitmap.MakeTransparent(TransparentColour)
                 Return Bitmap
             Else
                 Debug.Fail("Couldn't find internal resource")
@@ -180,7 +180,7 @@ Namespace Microsoft.VisualStudio.Editors.Common
         ''' <returns>The retrieved transparent bitmap</returns>
         ''' <remarks>Throws an internal exception if the bitmap cannot be found or loaded.</remarks>
         Public Function GetManifestBitmapTransparent(BitmapID As String) As Bitmap
-            Return GetManifestBitmapTransparent(BitmapID, StandardTransparentColor)
+            Return GetManifestBitmapTransparent(BitmapID, StandardTransparentColour)
         End Function
 
 
@@ -206,7 +206,7 @@ Namespace Microsoft.VisualStudio.Editors.Common
             Throw New Package.InternalException(String.Format(My.Resources.Microsoft_VisualStudio_Editors_Designer.RSE_Err_Unexpected_NoResource_1Arg, ImageID))
         End Function
 
-        Public Function GetImageFromImageService(imageMoniker As ImageMoniker, width As Integer, height As Integer, background As Color) As Image
+        Public Function GetImageFromImageService(imageMoniker As ImageMoniker, width As Integer, height As Integer, background As Colour) As Image
             If (ImageService IsNot Nothing) Then
                 Dim attributes As New Imaging.Interop.ImageAttributes With {
                     .StructSize = Marshal.SizeOf(GetType(Imaging.Interop.ImageAttributes)),
@@ -216,7 +216,7 @@ Namespace Microsoft.VisualStudio.Editors.Common
                     .LogicalHeight = height
                 }
 
-                Dim backgroundValue As UInteger = ConvertColorToUInteger(background)
+                Dim backgroundValue As UInteger = ConvertColourToUInteger(background)
                 attributes.Background = backgroundValue
 
                 Dim flags As _ImageAttributesFlags = _ImageAttributesFlags.IAF_RequiredFlags Or _ImageAttributesFlags.IAF_Background
@@ -235,8 +235,8 @@ Namespace Microsoft.VisualStudio.Editors.Common
             Return Nothing
         End Function
 
-        Private Function ConvertColorToUInteger(color As Color) As UInteger
-            Return (CType(color.A, UInteger) << 24 Or CType(color.R, UInteger) << 16 Or CType(color.G, UInteger) << 8 Or CType(color.B, UInteger))
+        Private Function ConvertColourToUInteger(Colour As Colour) As UInteger
+            Return (CType(Colour.A, UInteger) << 24 Or CType(Colour.R, UInteger) << 16 Or CType(Colour.G, UInteger) << 8 Or CType(Colour.B, UInteger))
         End Function
 
         Private ReadOnly Property ImageService() As IVsImageService2
@@ -1027,11 +1027,11 @@ Namespace Microsoft.VisualStudio.Editors.Common
         End Function
 
         '''<summary>
-        ''' We use this function to map one color in the image to another color
+        ''' We use this function to map one Colour in the image to another Colour
         '''</summary>
         ''' <returns>a new image
         ''' </returns>
-        Friend Function MapBitmapColor(unmappedBitmap As Image, originalColor As Color, newColor As Color) As Image
+        Friend Function MapBitmapColour(unmappedBitmap As Image, originalColour As Colour, newColour As Colour) As Image
             Dim mappedBitmap As Bitmap
 
             Try
@@ -1040,19 +1040,19 @@ Namespace Microsoft.VisualStudio.Editors.Common
                 Using g As Graphics = Graphics.FromImage(mappedBitmap)
                     Dim size As Size = unmappedBitmap.Size
                     Dim r As Rectangle = New Rectangle(New Point(0, 0), size)
-                    Dim colorMaps As ColorMap() = New ColorMap(0) {}
+                    Dim ColourMaps As ColourMap() = New ColourMap(0) {}
 
-                    colorMaps(0) = New ColorMap With {
-                        .OldColor = originalColor,
-                        .NewColor = newColor
+                    ColourMaps(0) = New ColourMap With {
+                        .OldColour = originalColour,
+                        .NewColour = newColour
                     }
 
                     Dim imageAttributes As Drawing.Imaging.ImageAttributes = New Drawing.Imaging.ImageAttributes()
-                    imageAttributes.SetRemapTable(colorMaps, ColorAdjustType.Bitmap)
+                    imageAttributes.SetRemapTable(ColourMaps, ColourAdjustType.Bitmap)
 
                     g.DrawImage(unmappedBitmap, r, 0, 0, size.Width, size.Height, GraphicsUnit.Pixel, imageAttributes)
                 End Using
-            Catch e As Exception When ReportWithoutCrash(e, NameOf(MapBitmapColor), NameOf(Utils))
+            Catch e As Exception When ReportWithoutCrash(e, NameOf(MapBitmapColour), NameOf(Utils))
                 ' fall-back is to use the unmapped bitmap
                 Return unmappedBitmap
             End Try

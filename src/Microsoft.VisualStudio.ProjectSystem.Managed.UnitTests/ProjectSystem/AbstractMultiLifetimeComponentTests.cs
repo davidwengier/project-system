@@ -73,17 +73,17 @@ namespace Microsoft.VisualStudio.ProjectSystem
         }
 
         [Fact]
-        public async Task LoadAsync_Initializes()
+        public async Task LoadAsync_Initialises()
         {
             var component = CreateInstance();
 
             await component.LoadAsync();
 
-            Assert.True(component.IsInitialized);
+            Assert.True(component.IsInitialised);
         }
 
         [Fact]
-        public async Task LoadAsync_InitializesUnderlyingInstance()
+        public async Task LoadAsync_InitialisesUnderlyingInstance()
         {
             var component = CreateInstance();
 
@@ -91,7 +91,7 @@ namespace Microsoft.VisualStudio.ProjectSystem
 
             var result = await component.WaitForLoadedAsync();
 
-            Assert.True(result.IsInitialized);
+            Assert.True(result.IsInitialised);
         }
 
         [Fact]

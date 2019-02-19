@@ -20,10 +20,10 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
         'It can be modified using the Windows Form Designer.  
         'Do not modify it using the code editor.
         <System.Diagnostics.DebuggerStepThrough()>
-        Private Sub InitializeComponent()
+        Private Sub InitialiseComponent()
             Me.IconGlyph = New System.Windows.Forms.PictureBox
             Me.ErrorText = New System.Windows.Forms.TextBox
-            CType(Me.IconGlyph, System.ComponentModel.ISupportInitialize).BeginInit()
+            CType(Me.IconGlyph, System.ComponentModel.ISupportInitialise).BeginInit()
             Me.SuspendLayout()
             '
             'IconGlyph
@@ -31,7 +31,7 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
             Me.IconGlyph.Location = New System.Drawing.Point(17, 17)
             Me.IconGlyph.Name = "IconGlyph"
             Me.IconGlyph.Size = New System.Drawing.Size(32, 32)
-            Me.IconGlyph.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
+            Me.IconGlyph.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CentreImage
             Me.IconGlyph.TabIndex = 0
             Me.IconGlyph.TabStop = False
             '
@@ -40,7 +40,7 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
             Me.ErrorText.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                         Or System.Windows.Forms.AnchorStyles.Left) _
                         Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.ErrorText.BackColor = System.Drawing.SystemColors.Control
+            Me.ErrorText.BackColour = System.Drawing.SystemColours.Control
             Me.ErrorText.BorderStyle = System.Windows.Forms.BorderStyle.None
             Me.ErrorText.Location = New System.Drawing.Point(66, 17)
             Me.ErrorText.Multiline = True
@@ -59,7 +59,7 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
             Me.Name = "ErrorControl"
             Me.Padding = New System.Windows.Forms.Padding(17)
             Me.Size = New System.Drawing.Size(170, 64)
-            CType(Me.IconGlyph, System.ComponentModel.ISupportInitialize).EndInit()
+            CType(Me.IconGlyph, System.ComponentModel.ISupportInitialise).EndInit()
             Me.ResumeLayout(False)
             Me.PerformLayout()
 

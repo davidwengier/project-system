@@ -18,7 +18,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.Configuration
     internal abstract class BaseProjectConfigurationDimensionProvider : IProjectConfigurationDimensionsProvider3
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="BaseProjectConfigurationDimensionProvider"/> class.
+        /// Initialises a new instance of the <see cref="BaseProjectConfigurationDimensionProvider"/> class.
         /// </summary>
         /// <param name="projectAccessor">Lock service for the project file.</param>
         /// <param name="dimensionName">Name of the dimension.</param>

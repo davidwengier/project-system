@@ -15,10 +15,10 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
 
     Friend Module Utils
 
-        'The transparent color used for all bitmaps in the resource editor is lime (R=0, G=255, B=0).
-        '  Any pixels of this color will be converted to transparent if StandardTransparentColor
+        'The transparent Colour used for all bitmaps in the resource editor is lime (R=0, G=255, B=0).
+        '  Any pixels of this Colour will be converted to transparent if StandardTransparentColour
         '  is passed to GetManifestBitmap
-        Public ReadOnly StandardTransparentColor As Color = Color.Lime
+        Public ReadOnly StandardTransparentColour As Colour = Colour.Lime
 
         Public VBPackageInstance As IVBPackage = Nothing
 
@@ -97,14 +97,14 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
         ''' Retrieves a transparent copy of a given bitmap from the manifest resources.
         ''' </summary>
         ''' <param name="BitmapID">Name of the bitmap resource (not including the assembly name, e.g. "Link.bmp")</param>
-        ''' <param name="TransparentColor">The color that represents transparent in the bitmap</param>
+        ''' <param name="TransparentColour">The Colour that represents transparent in the bitmap</param>
         ''' <param name="assembly">Name of the assembly containing the bitmap resource</param>
         ''' <returns>The retrieved transparent bitmap</returns>
         ''' <remarks>Throws an internal exception if the bitmap cannot be found or loaded.</remarks>
-        Public Function GetManifestBitmapTransparent(BitmapID As String, ByRef TransparentColor As Color, Optional assembly As Assembly = Nothing) As Bitmap
+        Public Function GetManifestBitmapTransparent(BitmapID As String, ByRef TransparentColour As Colour, Optional assembly As Assembly = Nothing) As Bitmap
             Dim Bitmap As Bitmap = GetManifestBitmap(BitmapID, assembly)
             If Bitmap IsNot Nothing Then
-                Bitmap.MakeTransparent(TransparentColor)
+                Bitmap.MakeTransparent(TransparentColour)
                 Return Bitmap
             Else
                 Debug.Fail("Couldn't find internal resource")
@@ -121,7 +121,7 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
         ''' <returns>The retrieved transparent bitmap</returns>
         ''' <remarks>Throws an internal exception if the bitmap cannot be found or loaded.</remarks>
         Public Function GetManifestBitmapTransparent(BitmapID As String, Optional ByRef assembly As Assembly = Nothing) As Bitmap
-            Return GetManifestBitmapTransparent(BitmapID, StandardTransparentColor, assembly)
+            Return GetManifestBitmapTransparent(BitmapID, StandardTransparentColour, assembly)
         End Function
 
         ''' <summary>

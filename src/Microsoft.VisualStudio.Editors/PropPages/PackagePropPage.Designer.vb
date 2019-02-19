@@ -15,7 +15,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             MyBase.Dispose(disposing)
         End Sub
 
-        <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+        <System.Diagnostics.DebuggerStepThrough()> Private Sub InitialiseComponent()
             Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(PackagePropPage))
             Me.TableLayoutPanel = New System.Windows.Forms.TableLayoutPanel()
             Me.GeneratePackageOnBuild = New System.Windows.Forms.CheckBox()
@@ -131,14 +131,14 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             '
             resources.ApplyResources(Me.GeneratePackageOnBuild, "GeneratePackageOnBuild")
             Me.GeneratePackageOnBuild.Name = "GeneratePackageOnBuild"
-            Me.GeneratePackageOnBuild.UseVisualStyleBackColor = True
+            Me.GeneratePackageOnBuild.UseVisualStyleBackColour = True
             '
             'PackageRequireLicenseAcceptance
             '
             resources.ApplyResources(Me.PackageRequireLicenseAcceptance, "PackageRequireLicenseAcceptance")
             Me.TableLayoutPanel.SetColumnSpan(Me.PackageRequireLicenseAcceptance, 2)
             Me.PackageRequireLicenseAcceptance.Name = "PackageRequireLicenseAcceptance"
-            Me.PackageRequireLicenseAcceptance.UseVisualStyleBackColor = True
+            Me.PackageRequireLicenseAcceptance.UseVisualStyleBackColour = True
             '
             'PackageIdLabel
             '
@@ -219,7 +219,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             '
             Me.LicenseLineLabel.AccessibleRole = System.Windows.Forms.AccessibleRole.Separator
             resources.ApplyResources(Me.LicenseLineLabel, "LicenseLineLabel")
-            Me.LicenseLineLabel.BackColor = System.Drawing.SystemColors.ControlDark
+            Me.LicenseLineLabel.BackColour = System.Drawing.SystemColours.ControlDark
             Me.LicenseLineLabel.Name = "LicenseLineLabel"
             '
             'LicenseUrlWarning

@@ -55,7 +55,7 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
 
 
         ''' <summary>
-        ''' Initializes a new instance of ResourcePropertyDescriptor.
+        ''' Initialises a new instance of ResourcePropertyDescriptor.
         ''' </summary>
         ''' <param name="Name">The name of the property.</param>
         ''' <param name="Type">The type of the property.</param>

@@ -37,7 +37,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices.Handlers
             Requires.NotNull(removed, nameof(removed));
             Requires.NotNull(logger, nameof(logger));
 
-            VerifyInitialized();
+            VerifyInitialised();
 
             foreach (CommandLineSourceFile additionalFile in removed.AdditionalFiles)
             {

@@ -35,7 +35,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices.Handlers
             Requires.NotNull(removed, nameof(removed));
             Requires.NotNull(logger, nameof(logger));
 
-            VerifyInitialized();
+            VerifyInitialised();
 
             foreach (Lazy<Action<string, BuildOptions, BuildOptions>, IOrderPrecedenceMetadataView> value in CommandLineNotifications)
             {

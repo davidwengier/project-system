@@ -4,7 +4,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
     Partial Class ApplicationPropPageVBBase
 
         <System.Diagnostics.DebuggerStepThrough()>
-        Private Sub InitializeComponent()
+        Private Sub InitialiseComponent()
             Me.SuspendLayout()
             '
             'ApplicationPropPageVBBase

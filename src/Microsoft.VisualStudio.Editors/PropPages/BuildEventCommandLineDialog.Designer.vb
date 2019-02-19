@@ -29,7 +29,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             MyBase.Dispose(disposing)
         End Sub
 
-        <System.Diagnostics.DebuggerNonUserCode()> Private Sub InitializeComponent()
+        <System.Diagnostics.DebuggerNonUserCode()> Private Sub InitialiseComponent()
             Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(BuildEventCommandLineDialog))
             Me.InsertButton = New System.Windows.Forms.Button()
             Me.OKButton = New System.Windows.Forms.Button()

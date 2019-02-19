@@ -10,7 +10,7 @@
     Title="{Binding DialogCaption}"
     HasHelpButton="False"
     ShowInTaskbar="False"
-    WindowStartupLocation="CenterOwner"
+    WindowStartupLocation="CentreOwner"
     SizeToContent="Height"
     Loaded="GetProfileNameDialogWindow_Loaded"
     ResizeMode="NoResize"

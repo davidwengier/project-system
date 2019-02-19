@@ -41,7 +41,7 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
         Private _uiShell5Service As IVsUIShell5
 
         ''' <summary>
-        '''  Listen for font/color changes from the shell
+        '''  Listen for font/Colour changes from the shell
         ''' </summary>
         ''' <remarks></remarks>
         Private WithEvents _broadcastMessageEventsHelper As Common.ShellUtil.BroadcastMessageEventsHelper
@@ -57,9 +57,9 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
             SuspendLayout()
             Try
                 ' This call is required by the Component Designer.
-                InitializeComponent()
+                InitialiseComponent()
 
-                Initialize()
+                Initialise()
             Finally
                 ResumeLayout()
             End Try
@@ -88,7 +88,7 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
         ' It can be modified using the Component Designer.  Do not modify it
         ' using the code editor.
         '<System.Diagnostics.DebuggerNonUserCode()> 
-        Private Sub InitializeComponent()
+        Private Sub InitialiseComponent()
             SuspendLayout()
             _components = New System.ComponentModel.Container
 
@@ -104,7 +104,7 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
         ''' Initialization
         ''' </summary>
         ''' <remarks></remarks>
-        Private Sub Initialize()
+        Private Sub Initialise()
             _hostingPanel = New Panel With {
                 .Visible = True,
                 .Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Bottom Or AnchorStyles.Right,
@@ -113,7 +113,7 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
                 .AccessibleName = My.Resources.Designer.APPDES_HostingPanelName
             }
 
-            'Add any initialization after the InitializeComponent() call
+            'Add any initialization after the InitialiseComponent() call
             '
             Name = "DesignerTabControl"
             Padding = New Padding(0)
@@ -132,7 +132,7 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
         ''' <remarks></remarks>
         Private Sub SetUpOverflowButton()
             'Note: the renderer will position the button, so we don't need to.
-            OverflowButton = New ImageButton("Microsoft.VisualStudio.Editors.ApplicationDesigner.OverflowImage", Color.Lime)
+            OverflowButton = New ImageButton("Microsoft.VisualStudio.Editors.ApplicationDesigner.OverflowImage", Colour.Lime)
             With OverflowButton
                 .Name = "OverflowButton"
                 .Text = ""
@@ -150,8 +150,8 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
         ''' The service provider to use when querying for services related to hosting this control
         '''   instead of the Visual Studio shell.
         ''' Default is Nothing.  If not set, then behavior will be independent of the Visual Studio
-        '''   shell (e.g., colors will default to system or fallback colors instead of using the
-        '''   shell's color service). 
+        '''   shell (e.g., Colours will default to system or fallback Colours instead of using the
+        '''   shell's Colour service). 
         ''' </summary>
         ''' <value></value>
         ''' <remarks></remarks>
@@ -217,7 +217,7 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
         ''' </summary>
         ''' <remarks></remarks>
         Private Sub OnGotServiceProvider()
-            'We now should have access to the color provider service
+            'We now should have access to the Colour provider service
             OnThemeChanged()
 
             If _broadcastMessageEventsHelper IsNot Nothing Then
@@ -230,14 +230,14 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
         End Sub
 
         Protected Overridable Sub OnThemeChanged()
-            'Update our themed colors
+            'Update our themed Colours
             Dim VsUIShell5 = VsUIShell5Service
-            _hostingPanel.BackColor = Common.ShellUtil.GetProjectDesignerThemeColor(VsUIShell5Service, "Background", __THEMEDCOLORTYPE.TCT_Background, SystemColors.Window)
+            _hostingPanel.BackColour = Common.ShellUtil.GetProjectDesignerThemeColour(VsUIShell5Service, "Background", __THEMEDColourTYPE.TCT_Background, SystemColours.Window)
 
-            'Update our system colors
+            'Update our system Colours
             Dim VsUIShell2 = VsUIShell2Service
-            OverflowButton.FlatAppearance.BorderColor = Common.ShellUtil.GetColor(VsUIShell2, __VSSYSCOLOREX.VSCOLOR_COMMANDBAR_BORDER, SystemColors.WindowFrame)
-            OverflowButton.FlatAppearance.MouseOverBackColor = Common.ShellUtil.GetColor(VsUIShell2, __VSSYSCOLOREX.VSCOLOR_COMMANDBAR_HOVER, SystemColors.Highlight)
+            OverflowButton.FlatAppearance.BorderColour = Common.ShellUtil.GetColour(VsUIShell2, __VSSYSColourEX.VSColour_COMMANDBAR_BORDER, SystemColours.WindowFrame)
+            OverflowButton.FlatAppearance.MouseOverBackColour = Common.ShellUtil.GetColour(VsUIShell2, __VSSYSColourEX.VSColour_COMMANDBAR_HOVER, SystemColours.Highlight)
 
             'Force the renderer to recreate its GDI objects
             _renderer.CreateGDIObjects(True)
@@ -539,7 +539,7 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
         ''' <param name="e"></param>
         ''' <remarks></remarks>
         Private Sub OverflowButton_Click(sender As Object, e As EventArgs) Handles OverflowButton.Click
-            'Set up to use VS colors
+            'Set up to use VS Colours
             If _serviceProvider IsNot Nothing Then
                 Dim uiSvc As IUIService = DirectCast(_serviceProvider.GetService(GetType(IUIService)), IUIService)
                 'Set up the menu font and toolstrip renderer
@@ -554,11 +554,11 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
                         _overflowMenu.Font = NewFont
                     End If
 
-                    Dim CommandBarTextActiveColor As Color = DirectCast(uiSvc.Styles("CommandBarTextActive"), Color)
-                    _overflowMenu.ForeColor = CommandBarTextActiveColor
+                    Dim CommandBarTextActiveColour As Colour = DirectCast(uiSvc.Styles("CommandBarTextActive"), Colour)
+                    _overflowMenu.ForeColour = CommandBarTextActiveColour
 
-                    Dim CommandBarMenuBackgroundGradientEndColor As Color = DirectCast(uiSvc.Styles("CommandBarMenuBackgroundGradientEnd"), Color)
-                    _overflowMenu.BackColor = CommandBarMenuBackgroundGradientEndColor
+                    Dim CommandBarMenuBackgroundGradientEndColour As Colour = DirectCast(uiSvc.Styles("CommandBarMenuBackgroundGradientEnd"), Colour)
+                    _overflowMenu.BackColour = CommandBarMenuBackgroundGradientEndColour
 
                 End If
             End If
@@ -619,7 +619,7 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
         End Sub
 
         ''' <summary>
-        ''' We've gotta tell the renderer whenever the system colors change...
+        ''' We've gotta tell the renderer whenever the system Colours change...
         ''' </summary>
         ''' <param name="msg"></param>
         ''' <param name="wparam"></param>
@@ -627,7 +627,7 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
         ''' <remarks></remarks>
         Private Sub OnBroadcastMessageEventsHelperBroadcastMessage(msg As UInteger, wParam As IntPtr, lParam As IntPtr) Handles _broadcastMessageEventsHelper.BroadcastMessage
             Select Case msg
-                Case AppDesInterop.Win32Constant.WM_PALETTECHANGED, AppDesInterop.Win32Constant.WM_SYSCOLORCHANGE, AppDesInterop.Win32Constant.WM_THEMECHANGED
+                Case AppDesInterop.Win32Constant.WM_PALETTECHANGED, AppDesInterop.Win32Constant.WM_SYSColourCHANGE, AppDesInterop.Win32Constant.WM_THEMECHANGED
                     OnThemeChanged()
             End Select
         End Sub
@@ -655,14 +655,14 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
                 FlatStyle = FlatStyle.Flat
                 FlatAppearance.BorderSize = 0 'No border until the mouse is over it
                 TabStop = True
-                BackColor = Color.Transparent 'Need to let gradients show through the image when not hovered over
+                BackColour = Colour.Transparent 'Need to let gradients show through the image when not hovered over
             End Sub
 
-            Public Sub New(ImageResourceId As String, TransparentColor As Color)
+            Public Sub New(ImageResourceId As String, TransparentColour As Colour)
                 Me.New()
 
                 'Get the image and make it transparent
-                Dim Image As Image = Common.GetManifestBitmapTransparent(ImageResourceId, TransparentColor, GetType(ProjectDesignerTabControl).Assembly)
+                Dim Image As Image = Common.GetManifestBitmapTransparent(ImageResourceId, TransparentColour, GetType(ProjectDesignerTabControl).Assembly)
                 MyBase.Image = Image
             End Sub
 
@@ -676,7 +676,7 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
 
                 'No border unless the mouse is over the button
                 FlatAppearance.BorderSize = 1
-                BackColor = FlatAppearance.MouseOverBackColor
+                BackColour = FlatAppearance.MouseOverBackColour
             End Sub
 
 
@@ -690,7 +690,7 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
 
                 'No border unless the mouse is over the button
                 FlatAppearance.BorderSize = 0
-                BackColor = Color.Transparent
+                BackColour = Colour.Transparent
             End Sub
 
         End Class

@@ -55,7 +55,7 @@ Add Service Reference                                                       | �
 Add Web Reference                                                           | ●        | 
 Add Data Source                                                             | ●        | 16.x
 DataSet Designer                                                            | ●        | 16.x
-"Initialize Interactive Window with Project"                                | ●        | ● (15.8) | Only when targeting .NET Framework.
+"Initialise Interactive Window with Project"                                | ●        | ● (15.8) | Only when targeting .NET Framework.
 Class Diagrams                                                              | ●        | ● (15.8) |
 Code Analysis                                                               | ●        | 
 Code Metrics                                                                | ●        | ◖ (15.8) ● (16.0 Preview 1) | 15.8 added support for Code Metrics when targeting .NET Framework. 16.0 will add support for Code Metrics when targeting all frameworks.

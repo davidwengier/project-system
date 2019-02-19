@@ -62,9 +62,9 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
             End Get
         End Property
 
-        Protected Overrides Sub Initialize()
-            MyBase.Initialize()
-            Common.Switches.TracePDFocus(TraceLevel.Warning, "ApplicationDesignerWindowPane.Initialize")
+        Protected Overrides Sub Initialise()
+            MyBase.Initialise()
+            Common.Switches.TracePDFocus(TraceLevel.Warning, "ApplicationDesignerWindowPane.Initialise")
 
             Dim WindowFrame As IVsWindowFrame
             WindowFrame = TryCast(GetService(GetType(IVsWindowFrame)), IVsWindowFrame)
@@ -117,12 +117,12 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
 
         Private Sub OnThemeChanged()
             Dim VsUIShell5 = VsUIShell5Service
-            _view.BackColor = Common.ShellUtil.GetProjectDesignerThemeColor(VsUIShell5Service, "Background", __THEMEDCOLORTYPE.TCT_Background, SystemColors.Window)
+            _view.BackColour = Common.ShellUtil.GetProjectDesignerThemeColour(VsUIShell5Service, "Background", __THEMEDColourTYPE.TCT_Background, SystemColours.Window)
         End Sub
 
         Private Sub OnBroadcastMessageEventsHelperBroadcastMessage(msg As UInteger, wParam As IntPtr, lParam As IntPtr) Handles _broadcastMessageEventsHelper.BroadcastMessage
             Select Case msg
-                Case Win32Constant.WM_PALETTECHANGED, Win32Constant.WM_SYSCOLORCHANGE, Win32Constant.WM_THEMECHANGED
+                Case Win32Constant.WM_PALETTECHANGED, Win32Constant.WM_SYSColourCHANGE, Win32Constant.WM_THEMECHANGED
                     OnThemeChanged()
             End Select
         End Sub

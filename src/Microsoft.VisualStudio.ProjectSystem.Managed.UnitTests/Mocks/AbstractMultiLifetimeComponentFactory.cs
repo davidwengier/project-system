@@ -28,9 +28,9 @@ namespace Microsoft.VisualStudio.ProjectSystem
                 return new MultiLifetimeInstance();
             }
 
-            public new bool IsInitialized
+            public new bool IsInitialised
             {
-                get { return base.IsInitialized; }
+                get { return base.IsInitialised; }
             }
 
             public new Task<MultiLifetimeInstance> WaitForLoadedAsync(CancellationToken cancellationToken = default)
@@ -40,7 +40,7 @@ namespace Microsoft.VisualStudio.ProjectSystem
 
             public class MultiLifetimeInstance : IMultiLifetimeInstance
             {
-                public bool IsInitialized
+                public bool IsInitialised
                 {
                     get;
                     private set;
@@ -52,9 +52,9 @@ namespace Microsoft.VisualStudio.ProjectSystem
                     private set;
                 }
 
-                public Task InitializeAsync()
+                public Task InitialiseAsync()
                 {
-                    IsInitialized = true;
+                    IsInitialised = true;
 
                     return Task.CompletedTask;
                 }

@@ -23,7 +23,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages.WPF
         'It can be modified using the Windows Form Designer.  
         'Do not modify it using the code editor.
         <System.Diagnostics.DebuggerStepThrough()>
-        Private Sub InitializeComponent()
+        Private Sub InitialiseComponent()
             Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel
             Me.EditXamlButton = New System.Windows.Forms.Button
             Me.ErrorControl = New Microsoft.VisualStudio.Editors.DesignerFramework.ErrorControl
@@ -66,7 +66,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages.WPF
             Me.EditXamlButton.Size = New System.Drawing.Size(67, 23)
             Me.EditXamlButton.TabIndex = 1
             Me.EditXamlButton.Text = "&Edit XAML"
-            Me.EditXamlButton.UseVisualStyleBackColor = True
+            Me.EditXamlButton.UseVisualStyleBackColour = True
             '
             'AppDotXamlErrorControl
             '

@@ -77,8 +77,8 @@ Namespace Microsoft.VisualStudio.Editors
         Public Const DS_FIXEDSYS As Integer = &H8
         Public Const DS_NOFAILCREATE As Integer = &H10
         Public Const DS_CONTROL As Integer = &H400
-        Public Const DS_CENTER As Integer = &H800
-        Public Const DS_CENTERMOUSE As Integer = &H1000
+        Public Const DS_Centre As Integer = &H800
+        Public Const DS_CentreMOUSE As Integer = &H1000
         Public Const DS_CONTEXTHELP As Integer = &H2000
 
 

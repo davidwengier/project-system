@@ -9,41 +9,41 @@ Imports Microsoft.VisualStudio.Shell.Interop
 Public Class VSThemedLinkLabel
     Inherits LinkLabel
 
-    Private _vsThemedLinkColor As Color
-    Private _vsThemedLinkColorHover As Color
+    Private _vsThemedLinkColour As Colour
+    Private _vsThemedLinkColourHover As Colour
 
     Public Sub New()
         MyBase.New()
 
-        _vsThemedLinkColor = LinkColor
-        _vsThemedLinkColorHover = LinkColor
+        _vsThemedLinkColour = LinkColour
+        _vsThemedLinkColourHover = LinkColour
 
     End Sub
 
-    Public Sub SetThemedColor(vsUIShell5 As IVsUIShell5)
-        SetThemedColor(vsUIShell5, supportsTheming:=True)
+    Public Sub SetThemedColour(vsUIShell5 As IVsUIShell5)
+        SetThemedColour(vsUIShell5, supportsTheming:=True)
     End Sub
 
-    Public Sub SetThemedColor(vsUIShell5 As IVsUIShell5, supportsTheming As Boolean)
+    Public Sub SetThemedColour(vsUIShell5 As IVsUIShell5, supportsTheming As Boolean)
         If supportsTheming Then
-            _vsThemedLinkColorHover = ShellUtil.GetEnvironmentThemeColor(vsUIShell5, "PanelHyperlinkHover", __THEMEDCOLORTYPE.TCT_Background, SystemColors.HotTrack)
-            _vsThemedLinkColor = ShellUtil.GetEnvironmentThemeColor(vsUIShell5, "PanelHyperlink", __THEMEDCOLORTYPE.TCT_Background, SystemColors.HotTrack)
-            ActiveLinkColor = ShellUtil.GetEnvironmentThemeColor(vsUIShell5, "PanelHyperlinkPressed", __THEMEDCOLORTYPE.TCT_Background, SystemColors.HotTrack)
+            _vsThemedLinkColourHover = ShellUtil.GetEnvironmentThemeColour(vsUIShell5, "PanelHyperlinkHover", __THEMEDColourTYPE.TCT_Background, SystemColours.HotTrack)
+            _vsThemedLinkColour = ShellUtil.GetEnvironmentThemeColour(vsUIShell5, "PanelHyperlink", __THEMEDColourTYPE.TCT_Background, SystemColours.HotTrack)
+            ActiveLinkColour = ShellUtil.GetEnvironmentThemeColour(vsUIShell5, "PanelHyperlinkPressed", __THEMEDColourTYPE.TCT_Background, SystemColours.HotTrack)
         Else
-            _vsThemedLinkColorHover = SystemColors.HotTrack
-            _vsThemedLinkColor = SystemColors.HotTrack
-            ActiveLinkColor = SystemColors.HotTrack
+            _vsThemedLinkColourHover = SystemColours.HotTrack
+            _vsThemedLinkColour = SystemColours.HotTrack
+            ActiveLinkColour = SystemColours.HotTrack
         End If
 
-        LinkColor = _vsThemedLinkColor
+        LinkColour = _vsThemedLinkColour
         LinkBehavior = LinkBehavior.HoverUnderline
     End Sub
 
     Private Sub VsThemedLinkLabel_MouseEnter(sender As Object, e As EventArgs) Handles MyBase.MouseEnter
-        LinkColor = _vsThemedLinkColorHover
+        LinkColour = _vsThemedLinkColourHover
     End Sub
 
     Private Sub VsThemedLinkLabel_MouseLeave(sender As Object, e As EventArgs) Handles MyBase.MouseLeave
-        LinkColor = _vsThemedLinkColor
+        LinkColour = _vsThemedLinkColour
     End Sub
 End Class

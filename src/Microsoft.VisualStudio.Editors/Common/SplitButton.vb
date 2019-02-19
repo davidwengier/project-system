@@ -38,7 +38,7 @@ Namespace Microsoft.VisualStudio.Editors.Common
             Dim g = pevent.Graphics
 
             Dim bounds = New Rectangle(0, 0, Width, Height)
-            Dim FormatFlags = TextFormatFlags.HorizontalCenter Or TextFormatFlags.VerticalCenter
+            Dim FormatFlags = TextFormatFlags.HorizontalCentre Or TextFormatFlags.VerticalCentre
 
             ButtonRenderer.DrawButton(g, bounds, State)
 
@@ -98,12 +98,12 @@ Namespace Microsoft.VisualStudio.Editors.Common
             End If
 
             If Not String.IsNullOrEmpty(Text) Then
-                Dim foreColor = SystemColors.ControlText
+                Dim foreColour = SystemColours.ControlText
                 If Not Enabled Then
-                    foreColor = SystemColors.GrayText
+                    foreColour = SystemColours.GrayText
                 End If
 
-                TextRenderer.DrawText(g, Text, Font, bounds, foreColor, FormatFlags)
+                TextRenderer.DrawText(g, Text, Font, bounds, foreColour, FormatFlags)
             End If
 
             If Focused Then

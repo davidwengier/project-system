@@ -21,7 +21,7 @@ namespace Microsoft.VisualStudio.Threading.Tasks
         private readonly CancellationToken _superToken;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="CancellationSeries"/>.
+        /// Initialises a new instance of <see cref="CancellationSeries"/>.
         /// </summary>
         /// <param name="token">An optional cancellation token that, when cancelled, cancels the last
         /// issued token and causes any subsequent tokens to be issued in a cancelled state.</param>

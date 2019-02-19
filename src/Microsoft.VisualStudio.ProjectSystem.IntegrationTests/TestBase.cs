@@ -8,7 +8,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Microsoft.VisualStudio.ProjectSystem.VS
 {
-    [TestClass] // AssemblyInitialize won't be found without it
+    [TestClass] // AssemblyInitialise won't be found without it
     public abstract class TestBase : VisualStudioHostTest
     {
         private static string _hiveName;
@@ -44,8 +44,8 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS
             TryShutdownVisualStudioInstance();
         }
 
-        [AssemblyInitialize]
-        public static void Initialize(TestContext context)
+        [AssemblyInitialise]
+        public static void Initialise(TestContext context)
         {
             _hiveName = GetVsHiveName(context);
 

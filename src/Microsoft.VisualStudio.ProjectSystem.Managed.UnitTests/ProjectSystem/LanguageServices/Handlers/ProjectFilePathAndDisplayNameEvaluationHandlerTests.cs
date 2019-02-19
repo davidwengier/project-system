@@ -128,7 +128,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices.Handlers
 
             var handler = new ProjectFilePathAndDisplayNameEvaluationHandler(project, implicitlyActiveDimensionProvider);
             if (context != null)
-                handler.Initialize(context);
+                handler.Initialise(context);
 
             return handler;
         }

@@ -10,7 +10,7 @@ Namespace Microsoft.VisualStudio.Editors.AddImports
         Public Sub New([namespace] As String, identifier As String, minimallyQualifiedName As String, callBack As IVBAddImportsDialogHelpCallback, isp As IServiceProvider)
             MyBase.New(isp)
             _helpCallBack = callBack
-            InitializeComponent()
+            InitialiseComponent()
             SuspendLayout()
             Try
                 SetNavigationInfo(m_okButton, m_cancelButton, m_rbQualifyCurrentLine)

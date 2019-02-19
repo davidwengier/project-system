@@ -35,7 +35,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
         End Sub
 
         <System.Diagnostics.DebuggerStepThrough()>
-        Private Sub InitializeComponent()
+        Private Sub InitialiseComponent()
             Me._components = New System.ComponentModel.Container
             Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ReferencePropPage))
             Me.ReferenceListLabel = New System.Windows.Forms.Label
@@ -83,7 +83,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             'ReferenceList
             '
             Me.ReferenceList.AutoArrange = False
-            Me.ReferenceList.BackColor = System.Drawing.SystemColors.Window
+            Me.ReferenceList.BackColour = System.Drawing.SystemColours.Window
             Me.ReferenceList.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColHdr_RefName, Me.ColHdr_Type, Me.ColHdr_Version, Me.ColHdr_CopyLocal, Me.ColHdr_Path})
             Me.ReferencePageTableLayoutPanel.SetColumnSpan(Me.ReferenceList, 2)
             resources.ApplyResources(Me.ReferenceList, "ReferenceList")
@@ -279,25 +279,25 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             '
             'ReferencePageSplitContainer
             '
-            Me.ReferencePageSplitContainer.BackColor = System.Drawing.SystemColors.Control
+            Me.ReferencePageSplitContainer.BackColour = System.Drawing.SystemColours.Control
             Me.ReferencePageSplitContainer.AccessibleRole = System.Windows.Forms.AccessibleRole.Separator
             resources.ApplyResources(Me.ReferencePageSplitContainer, "ReferencePageSplitContainer")
             Me.ReferencePageSplitContainer.Name = "ReferencePageSplitContainer"
             '
             'ReferencePageSplitContainer.Panel1
             '
-            Me.ReferencePageSplitContainer.Panel1.BackColor = System.Drawing.SystemColors.Control
+            Me.ReferencePageSplitContainer.Panel1.BackColour = System.Drawing.SystemColours.Control
             Me.ReferencePageSplitContainer.Panel1.Controls.Add(Me.ReferencePageTableLayoutPanel)
             '
             'ReferencePageSplitContainer.Panel2
             '
-            Me.ReferencePageSplitContainer.Panel2.BackColor = System.Drawing.SystemColors.Control
+            Me.ReferencePageSplitContainer.Panel2.BackColour = System.Drawing.SystemColours.Control
             Me.ReferencePageSplitContainer.Panel2.Controls.Add(Me.addUserImportTableLayoutPanel)
             '
             'ReferencePropPage
             '
             resources.ApplyResources(Me, "$this")
-            Me.BackColor = System.Drawing.SystemColors.Control
+            Me.BackColour = System.Drawing.SystemColours.Control
             Me.Controls.Add(Me.ReferencePageSplitContainer)
             Me.MinimumSize = New System.Drawing.Size(538, 480)
             Me.Name = "ReferencePropPage"

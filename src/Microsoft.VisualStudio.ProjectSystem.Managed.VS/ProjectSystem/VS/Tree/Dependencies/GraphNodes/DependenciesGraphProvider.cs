@@ -32,7 +32,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies.GraphNodes
     [Export(typeof(DependenciesGraphProvider))]
     [Export(typeof(IDependenciesGraphBuilder))]
     [AppliesTo(ProjectCapability.DependenciesTree)]
-    internal sealed class DependenciesGraphProvider : OnceInitializedOnceDisposedAsync, IGraphProvider, IDependenciesGraphBuilder
+    internal sealed class DependenciesGraphProvider : OnceInitialisedOnceDisposedAsync, IGraphProvider, IDependenciesGraphBuilder
     {
         /// <summary>The set of commands this provider supports.</summary>
         private static readonly GraphCommand[] s_commands =
@@ -67,12 +67,12 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies.GraphNodes
                 ImportOrderPrecedenceComparer.PreferenceOrder.PreferredComesLast);
         }
 
-        protected override async Task InitializeCoreAsync(CancellationToken cancellationToken)
+        protected override async Task InitialiseCoreAsync(CancellationToken cancellationToken)
         {
             _iconCache = await GraphIconCache.CreateAsync(_serviceProvider);
         }
 
-        protected override Task DisposeCoreAsync(bool initialized)
+        protected override Task DisposeCoreAsync(bool Initialised)
         {
             return Task.CompletedTask;
         }
@@ -89,7 +89,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies.GraphNodes
             {
                 try
                 {
-                    await InitializeAsync();
+                    await InitialiseAsync();
 
                     foreach (Lazy<IDependenciesGraphActionHandler, IOrderPrecedenceMetadataView> handler in _graphActionHandlers)
                     {
@@ -126,7 +126,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies.GraphNodes
             GraphNode parentNode,
             IDependencyViewModel viewModel)
         {
-            Assumes.True(IsInitialized);
+            Assumes.True(IsInitialised);
 
             string modelId = viewModel.OriginalModel == null ? viewModel.Caption : viewModel.OriginalModel.Id;
             GraphNodeId newNodeId = GetGraphNodeId(projectPath, parentNode, modelId);
@@ -140,7 +140,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies.GraphNodes
         {
             Requires.NotNull(viewModel.OriginalModel, nameof(viewModel.OriginalModel));
 
-            Assumes.True(IsInitialized);
+            Assumes.True(IsInitialised);
 
             GraphNodeId newNodeId = GetTopLevelGraphNodeId(projectPath, viewModel.OriginalModel.GetTopLevelId());
             return DoAddGraphNode(newNodeId, graphContext, projectPath, parentNode: null, viewModel);
@@ -185,7 +185,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies.GraphNodes
             string modelId,
             GraphNode parentNode)
         {
-            Assumes.True(IsInitialized);
+            Assumes.True(IsInitialised);
 
             GraphNodeId id = GetGraphNodeId(projectPath, parentNode, modelId);
             GraphNode nodeToRemove = graphContext.Graph.Nodes.Get(id);

@@ -45,7 +45,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices.Handlers
 
             var handler = new DynamicItemHandler(project);
             if (context != null)
-                handler.Initialize(context);
+                handler.Initialise(context);
 
             return handler;
         }

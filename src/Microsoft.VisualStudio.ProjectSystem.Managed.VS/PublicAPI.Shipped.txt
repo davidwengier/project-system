@@ -101,7 +101,7 @@ Microsoft.VisualStudio.ProjectSystem.VS.Extensibility.IProjectExportProvider.Get
 Microsoft.VisualStudio.ProjectSystem.VS.Interop.IVsAppId
 Microsoft.VisualStudio.ProjectSystem.VS.Interop.IVsAppId.GetGuidProperty(int propid, out System.Guid guid) -> int
 Microsoft.VisualStudio.ProjectSystem.VS.Interop.IVsAppId.GetProperty(int propid, out object pvar) -> int
-Microsoft.VisualStudio.ProjectSystem.VS.Interop.IVsAppId.Initialize() -> int
+Microsoft.VisualStudio.ProjectSystem.VS.Interop.IVsAppId.Initialise() -> int
 Microsoft.VisualStudio.ProjectSystem.VS.Interop.IVsAppId.SetGuidProperty(int propid, ref System.Guid rguid) -> int
 Microsoft.VisualStudio.ProjectSystem.VS.Interop.IVsAppId.SetProperty(int propid, object var) -> int
 Microsoft.VisualStudio.ProjectSystem.VS.Interop.IVsAppId.SetSite(Microsoft.VisualStudio.OLE.Interop.IServiceProvider pSP) -> int
@@ -225,7 +225,7 @@ Microsoft.VisualStudio.ProjectSystem.VS.Interop.VSAPropID.VSAPROPID_EnableOfflin
 Microsoft.VisualStudio.ProjectSystem.VS.Interop.VSAPropID.VSAPROPID_EnablePrivateGalleries = -8600 -> Microsoft.VisualStudio.ProjectSystem.VS.Interop.VSAPropID
 Microsoft.VisualStudio.ProjectSystem.VS.Interop.VSAPropID.VSAPROPID_EnableSamples = -8598 -> Microsoft.VisualStudio.ProjectSystem.VS.Interop.VSAPropID
 Microsoft.VisualStudio.ProjectSystem.VS.Interop.VSAPropID.VSAPROPID_GenericTheme = -8595 -> Microsoft.VisualStudio.ProjectSystem.VS.Interop.VSAPropID
-Microsoft.VisualStudio.ProjectSystem.VS.Interop.VSAPropID.VSAPROPID_GuidDefaultColorTheme = -8605 -> Microsoft.VisualStudio.ProjectSystem.VS.Interop.VSAPropID
+Microsoft.VisualStudio.ProjectSystem.VS.Interop.VSAPropID.VSAPROPID_GuidDefaultColourTheme = -8605 -> Microsoft.VisualStudio.ProjectSystem.VS.Interop.VSAPropID
 Microsoft.VisualStudio.ProjectSystem.VS.Interop.VSAPropID.VSAPROPID_InIsolationMode = -8626 -> Microsoft.VisualStudio.ProjectSystem.VS.Interop.VSAPropID
 Microsoft.VisualStudio.ProjectSystem.VS.Interop.VSAPropID.VSAPROPID_InstallationNickname = -8640 -> Microsoft.VisualStudio.ProjectSystem.VS.Interop.VSAPropID
 Microsoft.VisualStudio.ProjectSystem.VS.Interop.VSAPropID.VSAPROPID_IsolationInstallationId = -8628 -> Microsoft.VisualStudio.ProjectSystem.VS.Interop.VSAPropID
@@ -418,7 +418,7 @@ Microsoft.VisualStudio.ProjectSystem.VS.Properties.AbstractProjectConfigurationP
 Microsoft.VisualStudio.ProjectSystem.VS.Properties.AbstractProjectConfigurationProperties.WarningLevel.set -> void
 Microsoft.VisualStudio.ProjectSystem.VS.PropertyPages.GetProfileNameDialog
 Microsoft.VisualStudio.ProjectSystem.VS.PropertyPages.GetProfileNameDialog.GetProfileNameDialog(Microsoft.VisualStudio.Shell.SVsServiceProvider sp, Microsoft.VisualStudio.ProjectSystem.IProjectThreadingService threadingService, string suggestedName, System.Predicate<string> validator) -> void
-Microsoft.VisualStudio.ProjectSystem.VS.PropertyPages.GetProfileNameDialog.InitializeComponent() -> void
+Microsoft.VisualStudio.ProjectSystem.VS.PropertyPages.GetProfileNameDialog.InitialiseComponent() -> void
 Microsoft.VisualStudio.ProjectSystem.VS.PropertyPages.GetProfileNameDialog.ProfileName.get -> string
 Microsoft.VisualStudio.ProjectSystem.VS.PropertyPages.GetProfileNameDialog.ProfileName.set -> void
 Microsoft.VisualStudio.ProjectSystem.VS.PropertyPages.ProfileCommandNames

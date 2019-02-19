@@ -25,7 +25,7 @@ namespace Microsoft.VisualStudio.ProjectSystem
             });
 
             var loader = CreateInstance(project, out ProjectValueDataSource<IConfigurationGroup<ProjectConfiguration>> source);
-            await loader.InitializeAsync();
+            await loader.InitialiseAsync();
 
             // Change the active configurations
             await source.SendAndCompleteAsync(configurationGroups, loader.TargetBlock);
@@ -47,7 +47,7 @@ namespace Microsoft.VisualStudio.ProjectSystem
             });
 
             var loader = CreateInstance(project, tasksService, out ProjectValueDataSource<IConfigurationGroup<ProjectConfiguration>> source);
-            await loader.InitializeAsync();
+            await loader.InitialiseAsync();
 
             var configurationGroups = IConfigurationGroupFactory.CreateFromConfigurationNames("Debug|AnyCPU");
 
@@ -59,7 +59,7 @@ namespace Microsoft.VisualStudio.ProjectSystem
         }
 
         [Fact]
-        public async Task InitializeAsync_CanNotInitializeTwice()
+        public async Task InitialiseAsync_CanNotInitialiseTwice()
         {
             var results = new List<string>();
             var project = UnconfiguredProjectFactory.ImplementLoadConfiguredProjectAsync(configuration =>
@@ -71,8 +71,8 @@ namespace Microsoft.VisualStudio.ProjectSystem
 
             var loader = CreateInstance(project, out var source);
 
-            await loader.InitializeAsync();
-            await loader.InitializeAsync();
+            await loader.InitialiseAsync();
+            await loader.InitialiseAsync();
 
             var configurationGroups = IConfigurationGroupFactory.CreateFromConfigurationNames("Debug|AnyCPU");
 
@@ -84,7 +84,7 @@ namespace Microsoft.VisualStudio.ProjectSystem
 
 
         [Fact]
-        public void Dispose_WhenNotInitialized_DoesNotThrow()
+        public void Dispose_WhenNotInitialised_DoesNotThrow()
         {
             var project = UnconfiguredProjectFactory.Create();
 
@@ -95,7 +95,7 @@ namespace Microsoft.VisualStudio.ProjectSystem
         }
 
         [Fact]
-        public async Task Dispose_WhenInitialized_DisposesSubscription()
+        public async Task Dispose_WhenInitialised_DisposesSubscription()
         {
             int callCount = 0;
             UnconfiguredProject project = UnconfiguredProjectFactory.ImplementLoadConfiguredProjectAsync(configuration =>
@@ -106,7 +106,7 @@ namespace Microsoft.VisualStudio.ProjectSystem
             });
 
             var loader = CreateInstance(project, out ProjectValueDataSource<IConfigurationGroup<ProjectConfiguration>> source);
-            await loader.InitializeAsync();
+            await loader.InitialiseAsync();
             loader.Dispose();
 
             var configurationGroups = IConfigurationGroupFactory.CreateFromConfigurationNames("Debug|AnyCPU");

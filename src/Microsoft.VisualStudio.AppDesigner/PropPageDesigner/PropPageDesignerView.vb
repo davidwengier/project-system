@@ -49,9 +49,9 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
             Text = "Property Page Designer View"    ' For Debug
 
             'This call is required by the Windows Form Designer.
-            InitializeComponent()
+            InitialiseComponent()
 
-            'Add any initialization after the InitializeComponent() call
+            'Add any initialization after the InitialiseComponent() call
 
             ' Scale the width of the Configuration/Platform combo boxes
             ConfigurationComboBox.Width = DpiHelper.LogicalToDeviceUnitsX(ConfigurationComboBox.Width)
@@ -80,7 +80,7 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
         'NOTE: The following procedure is required by the Windows Form Designer
         'It can be modified using the Windows Form Designer.  
         'Do not modify it using the code editor.
-        <DebuggerNonUserCode()> Private Sub InitializeComponent()
+        <DebuggerNonUserCode()> Private Sub InitialiseComponent()
             Dim resources As ComponentResourceManager = New ComponentResourceManager(GetType(PropPageDesignerView))
             ConfigurationComboBox = New ComboBox
             PlatformLabel = New Label
@@ -209,8 +209,8 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
         Private _loadedPage As OleInterop.IPropertyPage
         Private _loadedPageSite As PropertyPageSite
 
-        'True once we have been initialized completely.
-        Private _fInitialized As Boolean = False
+        'True once we have been Initialised completely.
+        Private _fInitialised As Boolean = False
 
         'If true, we ignore the selected index changed event
         Private _ignoreSelectedIndexChanged As Boolean = False
@@ -253,7 +253,7 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
         'True iff the property page is hosted through native SetParent and not as a Windows Form child control
         Private _isNativeHostedPropertyPage As Boolean
 
-        'Listen for font/color changes from the shell
+        'Listen for font/Colour changes from the shell
         Private WithEvents _broadcastMessageEventsHelper As ShellUtil.BroadcastMessageEventsHelper
 
 #Region "Constructor"
@@ -491,7 +491,7 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
             'UpdatePageSize() 
 
             _needToCheckForModeChanges = False
-            _fInitialized = True
+            _fInitialised = True
 
             If _undoEngine Is Nothing Then
                 _undoEngine = DirectCast(GetService(GetType(UndoEngine)), UndoEngine)
@@ -540,17 +540,17 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
         Private Sub OnThemeChanged()
             Dim VsUIShell5 = VsUIShell5Service
             If TypeOf PropPage Is PropPageBase AndAlso CType(PropPage, PropPageBase).SupportsTheming Then
-                BackColor = ShellUtil.GetProjectDesignerThemeColor(VsUIShell5Service, "Background", __THEMEDCOLORTYPE.TCT_Background, SystemColors.Control)
+                BackColour = ShellUtil.GetProjectDesignerThemeColour(VsUIShell5Service, "Background", __THEMEDColourTYPE.TCT_Background, SystemColours.Control)
             Else
-                BackColor = SystemColors.Control
+                BackColour = SystemColours.Control
             End If
 
-            ConfigurationPanel.BackColor = BackColor
-            PropertyPagePanel.BackColor = BackColor
+            ConfigurationPanel.BackColour = BackColour
+            PropertyPagePanel.BackColour = BackColour
         End Sub
 
         ''' <summary>
-        ''' We've gotta tell the renderer whenever the system colors change...
+        ''' We've gotta tell the renderer whenever the system Colours change...
         ''' </summary>
         ''' <param name="msg"></param>
         ''' <param name="wparam"></param>
@@ -558,7 +558,7 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
         ''' <remarks></remarks>
         Private Sub OnBroadcastMessageEventsHelperBroadcastMessage(msg As UInteger, wParam As IntPtr, lParam As IntPtr) Handles _broadcastMessageEventsHelper.BroadcastMessage
             Select Case msg
-                Case Win32Constant.WM_PALETTECHANGED, Win32Constant.WM_SYSCOLORCHANGE, Win32Constant.WM_THEMECHANGED
+                Case Win32Constant.WM_PALETTECHANGED, Win32Constant.WM_SYSColourCHANGE, Win32Constant.WM_THEMECHANGED
                     OnThemeChanged()
             End Select
         End Sub
@@ -619,10 +619,10 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
                     'Me.MinimumSize = GetMaxSize()
 
                     ' Dev10 Bug 905047
-                    ' Explicitly initialize the UI cue state so that focus and keyboard cues work.
+                    ' Explicitly Initialise the UI cue state so that focus and keyboard cues work.
                     ' We need to do this explicitly since this UI isn't a dialog (where the state
-                    ' would have been automatically initialized)
-                    InitializeStateOfUICues()
+                    ' would have been automatically Initialised)
+                    InitialiseStateOfUICues()
 
                     ' It is a managed control, we should update AutoScrollMinSize
                     If PropertyPagePanel.Controls.Count > 0 Then
@@ -977,7 +977,7 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
         Private Sub SelectedConfigurationOrPlatformIndexChanged(sender As Object, e As EventArgs) _
                         Handles ConfigurationComboBox.SelectedIndexChanged, PlatformComboBox.SelectedIndexChanged, PlatformComboBox.SelectedIndexChanged
 
-            If _fInitialized AndAlso Not _ignoreSelectedIndexChanged Then
+            If _fInitialised AndAlso Not _ignoreSelectedIndexChanged Then
                 Debug.Assert(IsConfigPage)
                 If IsConfigPage Then
                     'Notify the ConfigurationState of the change.  It will in turn notify us via SelectedConfigurationChanged
@@ -1061,7 +1061,7 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
         ''' </summary>
         ''' <remarks></remarks>
         Private Sub CheckForModeChanges()
-            If _configurationState IsNot Nothing AndAlso _fInitialized AndAlso _needToCheckForModeChanges Then
+            If _configurationState IsNot Nothing AndAlso _fInitialised AndAlso _needToCheckForModeChanges Then
                 _configurationState.CheckForModeChanges()
                 _needToCheckForModeChanges = False
             End If
@@ -1627,9 +1627,9 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
 
                 If activated Then
                     ' When an existing page is reactivated (i.e. switching back from something else),
-                    ' reinitialize the ui cue state (This is like reopening a dialog where the state
-                    ' is reinitialized)
-                    InitializeStateOfUICues()
+                    ' reInitialise the ui cue state (This is like reopening a dialog where the state
+                    ' is reInitialised)
+                    InitialiseStateOfUICues()
                 End If
             End If
             If activated AndAlso _rootDesigner IsNot Nothing Then
@@ -1675,7 +1675,7 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
                 isSetFocusMessage = True
             End If
 
-            If isSetFocusMessage AndAlso _fInitialized Then
+            If isSetFocusMessage AndAlso _fInitialised Then
                 ' NOTE: we stop auto-scroll to the active control when the whole view gets Focus, so we won't change the scrollbar position when the user switches between application and editors in the VS
                 '  We should auto-scroll to the position when the page is just loaded.
                 '  We should still scroll to the right view when focus is moving within the page.
@@ -1779,12 +1779,12 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
             End If
         End Function
 
-        Private Sub InitializeStateOfUICues()
+        Private Sub InitialiseStateOfUICues()
 
-            ' Passing UIS_INITIALIZE lets the OS decide what the initial state of the cue
+            ' Passing UIS_Initialise lets the OS decide what the initial state of the cue
             ' (whether they are hidden or not).  The cue flags are being bit shifted since
             ' WM_UPDATEUISTATE expects them in the hi order word of the wParam
-            Dim updateUIStateWParam As Integer = NativeMethods.UIS_INITIALIZE Or
+            Dim updateUIStateWParam As Integer = NativeMethods.UIS_Initialise Or
                                                  NativeMethods.UISF_HIDEFOCUS << 16 Or
                                                  NativeMethods.UISF_HIDEACCEL << 16
 

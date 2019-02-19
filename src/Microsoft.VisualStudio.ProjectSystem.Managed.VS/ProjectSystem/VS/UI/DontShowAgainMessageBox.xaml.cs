@@ -15,7 +15,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.UI
         {
             _userNotificationServices = userNotificationServices;
 
-            InitializeComponent();
+            InitialiseComponent();
 
             DataContext = this;
             DialogCaption = caption;

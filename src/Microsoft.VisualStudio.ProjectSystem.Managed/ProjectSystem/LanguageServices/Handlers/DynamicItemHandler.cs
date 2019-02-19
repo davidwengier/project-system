@@ -38,7 +38,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices.Handlers
             Requires.NotNull(projectChange, nameof(projectChange));
             Requires.NotNull(logger, nameof(logger));
 
-            VerifyInitialized();
+            VerifyInitialised();
 
             IProjectChangeDiff difference = HandlerServices.NormalizeRenames(projectChange.Difference);
 

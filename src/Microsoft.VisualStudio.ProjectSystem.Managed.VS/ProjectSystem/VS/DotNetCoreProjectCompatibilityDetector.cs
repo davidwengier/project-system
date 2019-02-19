@@ -93,11 +93,11 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS
         private VersionCompatibilityData _curVersionCompatibilityData;
         private IVsSolution _vsSolution;
 
-        public async Task InitializeAsync()
+        public async Task InitialiseAsync()
         {
             await _threadHandling.Value.SwitchToUIThread();
 
-            // Initialize our cache file
+            // Initialise our cache file
             string appDataFolder = await _shellUtilitiesHelper.Value.GetLocalAppDataFolderAsync(_vsShellService);
             if (appDataFolder != null)
             {

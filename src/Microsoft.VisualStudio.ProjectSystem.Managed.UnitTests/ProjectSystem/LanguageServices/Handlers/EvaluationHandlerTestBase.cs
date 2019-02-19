@@ -60,7 +60,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices.Handlers
         }
 
         [Fact]
-        public void Handle_WhenNotInitialized_ThrowsInvalidOperation()
+        public void Handle_WhenNotInitialised_ThrowsInvalidOperation()
         {
             var handler = CreateInstance();
             var projectChange = IProjectChangeDescriptionFactory.Create();
@@ -73,17 +73,17 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices.Handlers
         }
 
         [Fact]
-        public void Initialize_WhenAlreadyInitialized_ThrowsInvalidOperation()
+        public void Initialise_WhenAlreadyInitialised_ThrowsInvalidOperation()
         {
             var handler = CreateInstance();
 
             var workspaceContext = IWorkspaceProjectContextMockFactory.Create();
 
-            handler.Initialize(workspaceContext);
+            handler.Initialise(workspaceContext);
 
             Assert.Throws<InvalidOperationException>(() =>
             {
-                handler.Initialize(workspaceContext);
+                handler.Initialise(workspaceContext);
             });
         }
 

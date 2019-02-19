@@ -9,7 +9,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Automation
 {
     [Export(typeof(VisualBasicNamespaceImportsList))]
     [AppliesTo(ProjectCapability.VisualBasic)]
-    internal class VisualBasicNamespaceImportsList : OnceInitializedOnceDisposed
+    internal class VisualBasicNamespaceImportsList : OnceInitialisedOnceDisposed
     {
         private readonly IActiveConfiguredProjectSubscriptionService _activeConfiguredProjectSubscriptionService;
 
@@ -60,7 +60,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Automation
         [AppliesTo(ProjectCapability.VisualBasic)]
         internal Task OnProjectFactoryCompletedAsync()
         {
-            EnsureInitialized();
+            EnsureInitialised();
             return Task.CompletedTask;
         }
 
@@ -157,7 +157,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Automation
             }
         }
 
-        protected override void Initialize()
+        protected override void Initialise()
         {
             _list = new List<string>();
 

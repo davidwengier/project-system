@@ -46,7 +46,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             MyBase.Dispose(disposing)
         End Sub
 
-        <System.Diagnostics.DebuggerNonUserCode()> Private Sub InitializeComponent()
+        <System.Diagnostics.DebuggerNonUserCode()> Private Sub InitialiseComponent()
             Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(CompilePropPage2))
             Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
             Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
@@ -83,7 +83,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             Me.buildOutputTableLayoutPanel.SuspendLayout()
             Me.CompileOptionsGroupBox.SuspendLayout()
             Me.CompileOptionsTableLayoutPanel.SuspendLayout()
-            CType(Me.WarningsGridView, System.ComponentModel.ISupportInitialize).BeginInit()
+            CType(Me.WarningsGridView, System.ComponentModel.ISupportInitialise).BeginInit()
             Me.SuspendLayout()
             '
             'BuildOutputPathLabel
@@ -161,7 +161,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             '
             Me.AdvancedCompileOptionsLabelLine.AccessibleRole = System.Windows.Forms.AccessibleRole.Graphic
             resources.ApplyResources(Me.AdvancedCompileOptionsLabelLine, "AdvancedCompileOptionsLabelLine")
-            Me.AdvancedCompileOptionsLabelLine.BackColor = System.Drawing.SystemColors.ControlDark
+            Me.AdvancedCompileOptionsLabelLine.BackColour = System.Drawing.SystemColours.ControlDark
             Me.CompileOptionsTableLayoutPanel.SetColumnSpan(Me.AdvancedCompileOptionsLabelLine, 2)
             Me.AdvancedCompileOptionsLabelLine.Name = "AdvancedCompileOptionsLabelLine"
             '
@@ -253,7 +253,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             Me.WarningsGridView.AllowUserToResizeRows = False
             resources.ApplyResources(Me.WarningsGridView, "WarningsGridView")
             Me.WarningsGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
-            Me.WarningsGridView.BackgroundColor = System.Drawing.SystemColors.Window
+            Me.WarningsGridView.BackgroundColour = System.Drawing.SystemColours.Window
             Me.WarningsGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
             Me.WarningsGridView.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.ConditionColumn, Me.NotificationColumn})
             Me.CompileOptionsTableLayoutPanel.SetColumnSpan(Me.WarningsGridView, 2)
@@ -312,7 +312,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             Me.CompileOptionsGroupBox.PerformLayout()
             Me.CompileOptionsTableLayoutPanel.ResumeLayout(False)
             Me.CompileOptionsTableLayoutPanel.PerformLayout()
-            CType(Me.WarningsGridView, System.ComponentModel.ISupportInitialize).EndInit()
+            CType(Me.WarningsGridView, System.ComponentModel.ISupportInitialise).EndInit()
             Me.ResumeLayout(False)
 
         End Sub

@@ -37,7 +37,7 @@ Namespace Microsoft.VisualStudio.Editors.XmlIntellisense
 
         '--------------------------------------------------------------------------
         ' New:
-        '   Initialize the class.
+        '   Initialise the class.
         '--------------------------------------------------------------------------
         Friend Sub New(Container As IServiceContainer, SchemaService As XmlSchemaService)
             _container = Container
@@ -118,7 +118,7 @@ Namespace Microsoft.VisualStudio.Editors.XmlIntellisense
         Private ReadOnly _data As XmlIntellisenseSchemasData
         '--------------------------------------------------------------------------
         ' New:
-        '   Initialize the class.
+        '   Initialise the class.
         '--------------------------------------------------------------------------
         Friend Sub New(Container As IServiceContainer, SchemaService As XmlSchemaService, ProjectGuid As Guid)
             _data = New XmlIntellisenseSchemasData With {
@@ -915,7 +915,7 @@ Namespace Microsoft.VisualStudio.Editors.XmlIntellisense
 
         '--------------------------------------------------------------------------
         ' New:
-        '   Initialize a list containing all possible declarations.
+        '   Initialise a list containing all possible declarations.
         '--------------------------------------------------------------------------
         Public Sub New(
             AllMembers As IndexedMembers
@@ -926,7 +926,7 @@ Namespace Microsoft.VisualStudio.Editors.XmlIntellisense
 
         '--------------------------------------------------------------------------
         ' New:
-        '   Initialize a list containing the specified members.
+        '   Initialise a list containing the specified members.
         '--------------------------------------------------------------------------
         Public Sub New(
             AllMembers As IndexedMembers,
@@ -939,7 +939,7 @@ Namespace Microsoft.VisualStudio.Editors.XmlIntellisense
 
         '--------------------------------------------------------------------------
         ' New:
-        '   Initialize a list containing declarations found by starting with a
+        '   Initialise a list containing declarations found by starting with a
         '   previous list and following the specified axis from that point.
         '--------------------------------------------------------------------------
         Private Sub New(

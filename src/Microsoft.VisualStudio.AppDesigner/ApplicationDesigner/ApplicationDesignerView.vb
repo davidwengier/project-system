@@ -40,7 +40,7 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
             MyBase.New()
 
             'This call is required by the Windows Form Designer.
-            InitializeComponent()
+            InitialiseComponent()
         End Sub
 
         'Required by the Windows Form Designer
@@ -50,7 +50,7 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
         'It can be modified using the Windows Form Designer.  
         'Do not modify it using the code editor.
 
-        <DebuggerStepThrough()> Private Sub InitializeComponent()
+        <DebuggerStepThrough()> Private Sub InitialiseComponent()
             '
             'ApplicationDesignerView
             '
@@ -84,7 +84,7 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
         Private _dteProject As Project 'Project's DTE object
         Private _specialFiles As IVsProjectSpecialFiles
 
-        'Set to true when the application designer window pane has completely initialized the application designer view
+        'Set to true when the application designer window pane has completely Initialised the application designer view
         Private _initializationComplete As Boolean
 
         '*** Monitor Selection
@@ -102,7 +102,7 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
         Private _lastProjectDesignerDirtyState As Boolean
 
         'True if SetFrameDirtyIndicator has already been called at least once
-        Private _projectDesignerDirtyStateInitialized As Boolean
+        Private _projectDesignerDirtyStateInitialised As Boolean
 
         'Cookie for IVsRunningDocumentTableEvents
         Private _rdtEventsCookie As UInteger
@@ -134,11 +134,11 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
 
             SetSite(serviceProvider)
 
-            'PERF: Set font before InitializeComponent so we don't cause unnecessary layouts (needs the site first)
+            'PERF: Set font before InitialiseComponent so we don't cause unnecessary layouts (needs the site first)
             _fontChangeWatcher = New Common.ShellUtil.FontChangeMonitor(Me, Me, True)
 
             'This call is required by the Windows Form Designer.
-            InitializeComponent()
+            InitialiseComponent()
 
 #If DEBUG Then
             AddHandler HostingPanel.Layout, AddressOf HostingPanel_Layout
@@ -884,7 +884,7 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
             Dim OldOrder As New ArrayList(DesignerPanels.Length) '(Of ApplicationDesignerPanel)
             Dim NewOrder As New ArrayList(DesignerPanels.Length) '(Of ApplicationDesignerPanel)
 
-            'Initialize OldOrder
+            'Initialise OldOrder
             OldOrder.AddRange(DesignerPanels)
 
             'First in the new order come the pages found in DesiredOrder, in exactly that order
@@ -938,7 +938,7 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
         Private Sub SetSite(serviceProvider As IServiceProvider)
             _serviceProvider = serviceProvider
 
-            'Set the provider into the base tab control so it can get access to fonts and colors
+            'Set the provider into the base tab control so it can get access to fonts and Colours
             MyBase.ServiceProvider = _serviceProvider
         End Sub
 
@@ -1254,7 +1254,7 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
 
         Protected Overrides Sub OnThemeChanged()
             Dim VsUIShell5 = VsUIShell5Service
-            BackColor = Common.ShellUtil.GetProjectDesignerThemeColor(VsUIShell5, "Background", __THEMEDCOLORTYPE.TCT_Background, Drawing.SystemColors.Window)
+            BackColour = Common.ShellUtil.GetProjectDesignerThemeColour(VsUIShell5, "Background", __THEMEDColourTYPE.TCT_Background, Drawing.SystemColours.Window)
 
             MyBase.OnThemeChanged()
         End Sub
@@ -1310,7 +1310,7 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
 
 
         ''' <summary>
-        ''' Calls when the application designer window pane has completely initialized the application designer view (the
+        ''' Calls when the application designer window pane has completely Initialised the application designer view (the
         '''   ApplicationDesignerWindowPane controls initialization and population of the view).
         ''' </summary>
         ''' <remarks></remarks>
@@ -1479,7 +1479,7 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
         ''' <param name="Dirty">If true, the asterisk is added, if false, it is removed.</param>
         ''' <remarks></remarks>
         Private Sub SetFrameDirtyIndicator(Dirty As Boolean)
-            If Not _projectDesignerDirtyStateInitialized OrElse _lastProjectDesignerDirtyState <> Dirty Then
+            If Not _projectDesignerDirtyStateInitialised OrElse _lastProjectDesignerDirtyState <> Dirty Then
                 Dim Frame As IVsWindowFrame = WindowFrame
                 If Frame IsNot Nothing Then
                     'VSFPROPID_OverrideDirtyState - this is a tri-state property.  If Empty, we get default behavior.  True/False
@@ -1487,7 +1487,7 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
                     Dim newState As Object = Dirty
                     Frame.SetProperty(__VSFPROPID2.VSFPROPID_OverrideDirtyState, newState)
                     _lastProjectDesignerDirtyState = Dirty
-                    _projectDesignerDirtyStateInitialized = True
+                    _projectDesignerDirtyStateInitialised = True
                 End If
             End If
         End Sub

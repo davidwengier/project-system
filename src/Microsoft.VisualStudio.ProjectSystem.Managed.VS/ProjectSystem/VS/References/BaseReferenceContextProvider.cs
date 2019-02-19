@@ -22,7 +22,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.References
         private readonly Lazy<Lazy<IVsReferenceManagerUserAsync, IVsReferenceManagerUserComponentMetadataView>> _nextHandler;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BaseReferenceContextProvider"/> class.
+        /// Initialises a new instance of the <see cref="BaseReferenceContextProvider"/> class.
         /// </summary>
         [ImportingConstructor]
         public BaseReferenceContextProvider(ConfiguredProject configuredProject)
@@ -102,7 +102,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.References
         #endregion
 
         /// <summary>
-        /// Contains the constants used for order precedence metadata on the exports of initialized provider contexts.
+        /// Contains the constants used for order precedence metadata on the exports of Initialised provider contexts.
         /// </summary>
         /// <remarks>
         /// Higher numbers appear earlier in the Reference Manager.

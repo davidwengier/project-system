@@ -9,7 +9,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Rename
     {
         protected abstract string ProjectFileExtension { get; }
 
-        protected SolutionInfo InitializeWorkspace(ProjectId projectId, string fileName, string code, string language)
+        protected SolutionInfo InitialiseWorkspace(ProjectId projectId, string fileName, string code, string language)
         {
             var solutionId = SolutionId.CreateNewId();
             var documentId = DocumentId.CreateNewId(projectId);

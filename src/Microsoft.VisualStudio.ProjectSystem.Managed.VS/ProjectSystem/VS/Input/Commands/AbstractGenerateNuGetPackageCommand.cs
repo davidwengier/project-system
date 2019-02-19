@@ -55,14 +55,14 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Input.Commands
 
         private async Task<bool> IsReadyToBuildAsync()
         {
-            // Ensure build manager is initialized.
-            await EnsureBuildManagerInitializedAsync();
+            // Ensure build manager is Initialised.
+            await EnsureBuildManagerInitialisedAsync();
 
             ErrorHandler.ThrowOnFailure(_buildManager.QueryBuildManagerBusy(out int busy));
             return busy == 0;
         }
 
-        private async Task EnsureBuildManagerInitializedAsync()
+        private async Task EnsureBuildManagerInitialisedAsync()
         {
             // Switch to UI thread for querying the build manager service.
             await _threadingService.SwitchToUIThread();

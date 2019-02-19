@@ -72,7 +72,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices.Handlers
         private readonly UnconfiguredProject _project;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="AbstractEvaluationCommandLineHandler"/> class with the specified project.
+        ///     Initialises a new instance of the <see cref="AbstractEvaluationCommandLineHandler"/> class with the specified project.
         /// </summary>
         /// <exception cref="ArgumentNullException">
         ///     <paramref name="project"/> is <see langword="null"/>.

@@ -24,11 +24,11 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
             MyBase.New()
 
             'This call is required by the Windows Form Designer. 
-            InitializeComponent()
+            InitialiseComponent()
 
-            'Add any initialization after the InitializeComponent() call 
-            _previewPanel.BackColor = ShellUtil.GetVSColor(Shell.Interop.__VSSYSCOLOREX3.VSCOLOR_WINDOW, SystemColors.Window, UseVSTheme:=False)
-            BackColor = ShellUtil.GetVSColor(Shell.Interop.__VSSYSCOLOREX3.VSCOLOR_WINDOW, SystemColors.Window, UseVSTheme:=False)
+            'Add any initialization after the InitialiseComponent() call 
+            _previewPanel.BackColour = ShellUtil.GetVSColour(Shell.Interop.__VSSYSColourEX3.VSColour_WINDOW, SystemColours.Window, UseVSTheme:=False)
+            BackColour = ShellUtil.GetVSColour(Shell.Interop.__VSSYSColourEX3.VSColour_WINDOW, SystemColours.Window, UseVSTheme:=False)
             _editControls = New Control() {_valueTextBox, _valueComboBox}
             EditControl = _valueTextBox
         End Sub
@@ -53,7 +53,7 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
         Private WithEvents _showEditorButton As ComboBoxDotDotDotButton
         Private WithEvents _valueComboBox As ComboBox
         Private WithEvents _previewPanel As Panel
-        <DebuggerStepThrough()> Private Sub InitializeComponent()
+        <DebuggerStepThrough()> Private Sub InitialiseComponent()
 
             Dim resources As ComponentResourceManager = New ComponentResourceManager(GetType(TypeEditorHostControl))
             _valueTextBox = New TypeEditorHostControlTextBox
@@ -71,10 +71,10 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
             'ShowEditorButton
             '
             resources.ApplyResources(_showEditorButton, "ShowEditorButton")
-            _showEditorButton.BackColor = ShellUtil.GetVSColor(Shell.Interop.__VSSYSCOLOREX3.VSCOLOR_THREEDFACE,
-                                                                        SystemColors.ButtonFace, UseVSTheme:=False)
+            _showEditorButton.BackColour = ShellUtil.GetVSColour(Shell.Interop.__VSSYSColourEX3.VSColour_THREEDFACE,
+                                                                        SystemColours.ButtonFace, UseVSTheme:=False)
             _showEditorButton.Name = "ShowEditorButton"
-            _showEditorButton.UseVisualStyleBackColor = False
+            _showEditorButton.UseVisualStyleBackColour = False
             '
             'PreviewPanel
             '
@@ -253,7 +253,7 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
         Private Sub PreviewPanel_Paint(sender As Object, e As PaintEventArgs) Handles _previewPanel.Paint
             If Not _typeEditor Is Nothing Then
                 If _typeEditor.GetPaintValueSupported Then
-                    Using ForegroundPen As New Pen(ForeColor)
+                    Using ForegroundPen As New Pen(ForeColour)
                         Dim DrawRect As New Rectangle(1, 1, _previewPanel.ClientRectangle.Width - 4, _previewPanel.ClientRectangle.Height - 4)
                         If Value IsNot Nothing Then
                             _typeEditor.PaintValue(Value, e.Graphics, DrawRect)
@@ -917,7 +917,7 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
                     Case PaintStyles.DotDotDot
                         Dim drawRect As Rectangle = ClientRectangle
                         drawRect.Offset(FlatAppearance.BorderSize, 0)
-                        TextRenderer.DrawText(pevent.Graphics, DotDotDotString, Font, drawRect, ForeColor)
+                        TextRenderer.DrawText(pevent.Graphics, DotDotDotString, Font, drawRect, ForeColour)
                     Case PaintStyles.DropDown
                         If ComboBoxRenderer.IsSupported Then
                             Dim drawstyle As VisualStyles.ComboBoxState

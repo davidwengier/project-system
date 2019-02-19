@@ -20,7 +20,7 @@ Namespace Microsoft.VisualStudio.Editors.OptionPages
 
             _generalOptions = New GeneralOptions(serviceProvider)
 
-            InitializeComponent()
+            InitialiseComponent()
 
             Dim binding = New Binding() With {
                 .Source = _generalOptions,

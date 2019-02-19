@@ -19,7 +19,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.Build
         private readonly ConfiguredProject _configuredProject;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TargetFrameworkGlobalBuildPropertyProvider"/> class.
+        /// Initialises a new instance of the <see cref="TargetFrameworkGlobalBuildPropertyProvider"/> class.
         /// </summary>
         [ImportingConstructor]
         internal TargetFrameworkGlobalBuildPropertyProvider(IProjectService projectService, ConfiguredProject configuredProject)

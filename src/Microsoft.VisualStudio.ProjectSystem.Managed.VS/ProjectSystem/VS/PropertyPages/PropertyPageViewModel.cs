@@ -33,7 +33,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.PropertyPages
             }
         }
 
-        public abstract Task Initialize();
+        public abstract Task Initialise();
         public abstract Task<int> Save();
 
         protected virtual void OnPropertyChanged(string propertyName, bool suppressInvalidation = false)

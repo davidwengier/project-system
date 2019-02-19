@@ -119,8 +119,8 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages.WPF
         ''' </summary>
         ''' <remarks></remarks>
         Shared Sub New()
-            InitializeApplicationTypes()
-            InitializeShutdownModeValues()
+            InitialiseApplicationTypes()
+            InitialiseShutdownModeValues()
 
             s_noneText = My.Resources.Microsoft_VisualStudio_Editors_Designer.PPG_ComboBoxSelect_None
 
@@ -136,9 +136,9 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages.WPF
             MyBase.New()
 
             'This call is required by the Windows Form Designer.
-            InitializeComponent()
+            InitialiseComponent()
 
-            'Add any initialization after the InitializeComponent() call
+            'Add any initialization after the InitialiseComponent() call
 
             SetCommonControls()
             AddChangeHandlers()
@@ -384,10 +384,10 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages.WPF
         Private Shared ReadOnly s_applicationTypes As New List(Of ApplicationTypeInfo)
 
         ''' <summary>
-        ''' Initialize the application types applicable to this page (logic is in the base class)
+        ''' Initialise the application types applicable to this page (logic is in the base class)
         ''' </summary>
         ''' <remarks></remarks>
-        Private Shared Sub InitializeApplicationTypes()
+        Private Shared Sub InitialiseApplicationTypes()
             '   Note: WPF application page does not support NT service or Web control application types
             s_applicationTypes.Add(New ApplicationTypeInfo(ApplicationTypes.WindowsApp, My.Resources.Microsoft_VisualStudio_Editors_Designer.PPG_WindowsApp_WPF, True))
             s_applicationTypes.Add(New ApplicationTypeInfo(ApplicationTypes.WindowsClassLib, My.Resources.Microsoft_VisualStudio_Editors_Designer.PPG_WindowsClassLib_WPF, True))
@@ -1400,7 +1400,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages.WPF
         Private Shared ReadOnly s_shutdownModes As New List(Of ShutdownMode)
         Private Shared s_defaultShutdownMode As ShutdownMode
 
-        Private Shared Sub InitializeShutdownModeValues()
+        Private Shared Sub InitialiseShutdownModeValues()
             'This order affects the order in the combobox
             s_defaultShutdownMode = New ShutdownMode("OnLastWindowClose", My.Resources.Microsoft_VisualStudio_Editors_Designer.PPG_WPFApp_ShutdownMode_OnLastWindowClose)
             s_shutdownModes.Add(s_defaultShutdownMode)

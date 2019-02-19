@@ -89,7 +89,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices.Handlers
 
             var handler = new MetadataReferenceItemHandler(project);
             if (context != null)
-                handler.Initialize(context);
+                handler.Initialise(context);
 
             return handler;
         }

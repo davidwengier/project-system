@@ -119,7 +119,7 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
 
             SuspendLayout()
 
-            InitializeComponent()
+            InitialiseComponent()
             _pageNameLabel.Visible = Common.IsScreenReaderRunning()
 
             ResumeLayout(False)
@@ -305,7 +305,7 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
 
                                     'Is this file already opened in the specific editor we want to open it in?  If so, we will not be able to open it
                                     '  as a nested document window.
-                                    Dim hr As Integer = VsUIShellOpenDocument.IsSpecificDocumentViewOpen(VsUIHierarchy, ItemId, MkDocument, (EditorGuid), PhysicalView, CUInt(__VSIDOFLAGS2.IDO_IncludeUninitializedFrames), OpenHierarchy, OpenItemId, OpenWindowFrame, fOpen)
+                                    Dim hr As Integer = VsUIShellOpenDocument.IsSpecificDocumentViewOpen(VsUIHierarchy, ItemId, MkDocument, (EditorGuid), PhysicalView, CUInt(__VSIDOFLAGS2.IDO_IncludeUnInitialisedFrames), OpenHierarchy, OpenItemId, OpenWindowFrame, fOpen)
                                     Debug.Assert(VSErrorHandler.Succeeded(hr), "Unexpected failure from VsUIShellOpenDocument.IsSpecificDocumentViewOpen")
                                     If VSErrorHandler.Succeeded(hr) Then
                                         If fOpen <> 0 Then
@@ -526,7 +526,7 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
                 Common.Switches.TracePDPerfBegin("Setting ApplicationDesignerPanel.Visible = True")
                 Visible = True
 
-                'Because of the way we've initialized things so that the panel is not visible until
+                'Because of the way we've Initialised things so that the panel is not visible until
                 '  after the window frame is activated, the focus on the window pane control will have
                 '  already happened (see DesignerWindowPaneBase.View_GotFocus), and trying to forward 
                 '  the focus to the actual child controls of the pane may have failed because a parent
@@ -1070,10 +1070,10 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
 #End Region
 
         '''<summary>
-        ''' Initialize layout...
+        ''' Initialise layout...
         '''</summary>
         <DebuggerStepThrough()>
-        Private Sub InitializeComponent()
+        Private Sub InitialiseComponent()
             _pageHostingPanel = New Panel
             _pageNameLabel = New Label
             SuspendLayout()

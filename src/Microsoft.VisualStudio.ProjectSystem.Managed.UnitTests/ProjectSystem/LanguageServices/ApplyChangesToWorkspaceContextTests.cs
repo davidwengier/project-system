@@ -18,7 +18,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
     public class ApplyChangesToWorkspaceContextTests
     {
         [Fact]
-        public async Task DisposeAsync_WhenNotInitialized_DoesNotThrow()
+        public async Task DisposeAsync_WhenNotInitialised_DoesNotThrow()
         {
             var applyChangesToWorkspace = CreateInstance();
 
@@ -28,11 +28,11 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
         }
 
         [Fact]
-        public async Task DisposeAsync_WhenInitializedWithNoHandlers_DoesNotThrow()
+        public async Task DisposeAsync_WhenInitialisedWithNoHandlers_DoesNotThrow()
         {
             var applyChangesToWorkspace = CreateInstance();
             var context = IWorkspaceProjectContextMockFactory.Create();
-            applyChangesToWorkspace.Initialize(context);
+            applyChangesToWorkspace.Initialise(context);
 
             await applyChangesToWorkspace.DisposeAsync();
 
@@ -48,7 +48,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
             var applyChangesToWorkspace = CreateInstance(handlers: handler);
             var context = IWorkspaceProjectContextMockFactory.Create();
 
-            applyChangesToWorkspace.Initialize(context);
+            applyChangesToWorkspace.Initialise(context);
 
             await applyChangesToWorkspace.DisposeAsync();
 
@@ -56,46 +56,46 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
         }
 
         [Fact]
-        public void Initialize_NullAsContext_ThrowsArgumentNull()
+        public void Initialise_NullAsContext_ThrowsArgumentNull()
         {
             var applyChangesToWorkspace = CreateInstance();
 
             Assert.Throws<ArgumentNullException>("context", () =>
             {
-                applyChangesToWorkspace.Initialize(null);
+                applyChangesToWorkspace.Initialise(null);
             });
         }
 
         [Fact]
-        public void Initialize_WhenAlreadyInitialized_ThrowsInvalidOperation()
+        public void Initialise_WhenAlreadyInitialised_ThrowsInvalidOperation()
         {
             var applyChangesToWorkspace = CreateInstance();
             var context = IWorkspaceProjectContextMockFactory.Create();
 
-            applyChangesToWorkspace.Initialize(context);
+            applyChangesToWorkspace.Initialise(context);
 
             Assert.Throws<InvalidOperationException>(() =>
             {
-                applyChangesToWorkspace.Initialize(context);
+                applyChangesToWorkspace.Initialise(context);
             });
         }
 
         [Fact]
-        public void Initialize_InitializesHandlers()
+        public void Initialise_InitialisesHandlers()
         {
             IWorkspaceProjectContext result = null;
-            var handler = IWorkspaceContextHandlerFactory.ImplementInitialize((c) => { result = c; });
+            var handler = IWorkspaceContextHandlerFactory.ImplementInitialise((c) => { result = c; });
 
             var applyChangesToWorkspace = CreateInstance(handlers: handler);
             var context = IWorkspaceProjectContextMockFactory.Create();
 
-            applyChangesToWorkspace.Initialize(context);
+            applyChangesToWorkspace.Initialise(context);
 
             Assert.Same(context, result);
         }
 
         [Fact]
-        public void GetProjectEvaluationRules_WhenNotInitialized_ThrowsInvalidOperation()
+        public void GetProjectEvaluationRules_WhenNotInitialised_ThrowsInvalidOperation()
         {
             var applyChangesToWorkspace = CreateInstance();
 
@@ -106,7 +106,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
         }
 
         [Fact]
-        public void GetDesignTimeRules_WhenNotInitialized_ThrowsInvalidOperation()
+        public void GetDesignTimeRules_WhenNotInitialised_ThrowsInvalidOperation()
         {
             var applyChangesToWorkspace = CreateInstance();
 
@@ -117,7 +117,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
         }
 
         [Fact]
-        public async Task ApplyProjectEvaluationAsync_WhenNotInitialized_ThrowsInvalidOperation()
+        public async Task ApplyProjectEvaluationAsync_WhenNotInitialised_ThrowsInvalidOperation()
         {
             var applyChangesToWorkspace = CreateInstance();
 
@@ -130,7 +130,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
         }
 
         [Fact]
-        public async Task ApplyProjectBuildAsync_WhenNotInitialized_ThrowsInvalidOperation()
+        public async Task ApplyProjectBuildAsync_WhenNotInitialised_ThrowsInvalidOperation()
         {
             var applyChangesToWorkspace = CreateInstance();
 
@@ -143,7 +143,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
         }
 
         [Fact]
-        public async Task Initialize_WhenDisposed_ThrowsObjectDisposed()
+        public async Task Initialise_WhenDisposed_ThrowsObjectDisposed()
         {
             var applyChangesToWorkspace = CreateInstance();
 
@@ -152,7 +152,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
             var context = IWorkspaceProjectContextMockFactory.Create();
             Assert.Throws<ObjectDisposedException>(() =>
             {
-                applyChangesToWorkspace.Initialize(context);
+                applyChangesToWorkspace.Initialise(context);
             });
         }
 
@@ -220,7 +220,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
             var handler1 = IEvaluationHandlerFactory.ImplementProjectEvaluationRule("Rule1");
             var handler2 = IEvaluationHandlerFactory.ImplementProjectEvaluationRule("Rule2");
 
-            var applyChangesToWorkspace = CreateInitializedInstance(handlers: new[] { handler1, handler2 });
+            var applyChangesToWorkspace = CreateInitialisedInstance(handlers: new[] { handler1, handler2 });
 
             var result = applyChangesToWorkspace.GetProjectEvaluationRules();
 
@@ -230,7 +230,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
         [Fact]
         public void GetDesignTimeRules_ReturnsCompilerCommandLineArgs()
         {
-            var applyChangesToWorkspace = CreateInitializedInstance();
+            var applyChangesToWorkspace = CreateInitialisedInstance();
 
             var result = applyChangesToWorkspace.GetProjectBuildRules();
 
@@ -243,7 +243,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
             int callCount = 0;
             var handler = IEvaluationHandlerFactory.ImplementHandle("RuleName", (version, description, isActiveContext, logger) => { callCount++; });
 
-            var applyChangesToWorkspace = CreateInitializedInstance(handlers: new[] { handler });
+            var applyChangesToWorkspace = CreateInitialisedInstance(handlers: new[] { handler });
 
             var update = IProjectVersionedValueFactory.FromJson(
 @"{
@@ -267,7 +267,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
             int callCount = 0;
             var handler = ICommandLineHandlerFactory.ImplementHandle((version, added, removed, isActiveContext, logger) => { callCount++; });
 
-            var applyChangesToWorkspace = CreateInitializedInstance(handlers: new[] { handler });
+            var applyChangesToWorkspace = CreateInitialisedInstance(handlers: new[] { handler });
 
             var update = IProjectVersionedValueFactory.FromJson(
 @"{
@@ -295,7 +295,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
                 result = (version, description, isActiveContext, logger);
             });
 
-            var applyChangesToWorkspace = CreateInitializedInstance(handlers: new[] { handler });
+            var applyChangesToWorkspace = CreateInitialisedInstance(handlers: new[] { handler });
 
             var update = IProjectVersionedValueFactory.FromJson(version: 2,
 @"{
@@ -327,7 +327,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
 
             var parser = ICommandLineParserServiceFactory.CreateCSharp();
 
-            var applyChangesToWorkspace = CreateInitializedInstance(commandLineParser: parser, handlers: new[] { handler });
+            var applyChangesToWorkspace = CreateInitialisedInstance(commandLineParser: parser, handlers: new[] { handler });
 
             var update = IProjectVersionedValueFactory.FromJson(version: 2,
 @"{
@@ -367,7 +367,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
                 callCount++;
             });
 
-            var applyChangesToWorkspace = CreateInitializedInstance(handlers: new[] { handler1, handler2 });
+            var applyChangesToWorkspace = CreateInitialisedInstance(handlers: new[] { handler1, handler2 });
 
             var update = IProjectVersionedValueFactory.FromJson(
 @"{
@@ -409,7 +409,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
                 callCount++;
             });
 
-            var applyChangesToWorkspace = CreateInitializedInstance(handlers: new[] { handler1, handler2 });
+            var applyChangesToWorkspace = CreateInitialisedInstance(handlers: new[] { handler1, handler2 });
 
             var update = IProjectVersionedValueFactory.FromJson(
 @"{
@@ -437,7 +437,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
             int callCount = 0;
             var handler = ICommandLineHandlerFactory.ImplementHandle((version, added, removed, isActiveContext, logger) => { callCount++; });
 
-            var applyChangesToWorkspace = CreateInitializedInstance(handlers: new[] { handler });
+            var applyChangesToWorkspace = CreateInitialisedInstance(handlers: new[] { handler });
 
             var update = IProjectVersionedValueFactory.FromJson(
 @"{
@@ -466,7 +466,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
             int callCount = 0;
             var handler = IEvaluationHandlerFactory.ImplementHandle("RuleName", (version, description, isActiveContext, logger) => { callCount++; });
 
-            var applyChangesToWorkspace = CreateInitializedInstance(handlers: new[] { handler });
+            var applyChangesToWorkspace = CreateInitialisedInstance(handlers: new[] { handler });
 
             var update = IProjectVersionedValueFactory.FromJson(
 @"{
@@ -492,7 +492,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
         [Fact]
         public async Task ApplyProjectBuildAsync_WhenDesignTimeBuildFails_SetsLastDesignTimeBuildSucceededToFalse()
         {
-            var applyChangesToWorkspace = CreateInitializedInstance(out var context);
+            var applyChangesToWorkspace = CreateInitialisedInstance(out var context);
             context.LastDesignTimeBuildSucceeded = true;
 
             var update = IProjectVersionedValueFactory.FromJson(
@@ -517,7 +517,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
         [Fact]
         public async Task ApplyProjectBuildAsync_AfterFailingDesignTimeBuildSucceeds_SetsLastDesignTimeBuildSucceededToTrue()
         {
-            var applyChangesToWorkspace = CreateInitializedInstance(out var context);
+            var applyChangesToWorkspace = CreateInitialisedInstance(out var context);
 
             var update = IProjectVersionedValueFactory.FromJson(
 @"{
@@ -538,17 +538,17 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
             Assert.True(context.LastDesignTimeBuildSucceeded);
         }
 
-        private static ApplyChangesToWorkspaceContext CreateInitializedInstance(ConfiguredProject project = null, ICommandLineParserService commandLineParser = null, IProjectLogger logger = null, params IWorkspaceContextHandler[] handlers)
+        private static ApplyChangesToWorkspaceContext CreateInitialisedInstance(ConfiguredProject project = null, ICommandLineParserService commandLineParser = null, IProjectLogger logger = null, params IWorkspaceContextHandler[] handlers)
         {
-            return CreateInitializedInstance(out _, project, commandLineParser, logger, handlers);
+            return CreateInitialisedInstance(out _, project, commandLineParser, logger, handlers);
         }
 
-        private static ApplyChangesToWorkspaceContext CreateInitializedInstance(out IWorkspaceProjectContext context, ConfiguredProject project = null, ICommandLineParserService commandLineParser = null, IProjectLogger logger = null, params IWorkspaceContextHandler[] handlers)
+        private static ApplyChangesToWorkspaceContext CreateInitialisedInstance(out IWorkspaceProjectContext context, ConfiguredProject project = null, ICommandLineParserService commandLineParser = null, IProjectLogger logger = null, params IWorkspaceContextHandler[] handlers)
         {
             var applyChangesToWorkspace = CreateInstance(project, commandLineParser, logger, handlers);
             context = IWorkspaceProjectContextMockFactory.Create();
 
-            applyChangesToWorkspace.Initialize(context);
+            applyChangesToWorkspace.Initialise(context);
 
             return applyChangesToWorkspace;
         }

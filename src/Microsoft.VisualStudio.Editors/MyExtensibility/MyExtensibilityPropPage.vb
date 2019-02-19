@@ -26,7 +26,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
         Inherits UserControl
 
         Public Sub New()
-            Me.InitializeComponent()
+            Me.InitialiseComponent()
         End Sub
 #Else
         Inherits PropPageUserControlBase
@@ -84,11 +84,11 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
         Public Sub New()
             MyBase.New()
 
-            InitializeComponent()
+            InitialiseComponent()
 
             PageRequiresScaling = False
 
-            linkLabelHelp.SetThemedColor(VsUIShell5Service, SupportsTheming)
+            linkLabelHelp.SetThemedColour(VsUIShell5Service, SupportsTheming)
         End Sub
 
 #Region "Event handlers"
@@ -221,7 +221,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
         Friend WithEvents buttonRemove As Button
         Friend WithEvents buttonAdd As Button
 
-        Private Sub InitializeComponent()
+        Private Sub InitialiseComponent()
             Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MyExtensibilityPropPage))
             tableLayoutOverarching = New TableLayoutPanel
             labelDescription = New Label
@@ -273,7 +273,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             DataGridViewExtensions.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
             DataGridViewExtensions.AllowUserToAddRows = False
             DataGridViewExtensions.CellBorderStyle = DataGridViewCellBorderStyle.None
-            DataGridViewExtensions.BackgroundColor = Drawing.SystemColors.Window
+            DataGridViewExtensions.BackgroundColour = Drawing.SystemColours.Window
             DataGridViewExtensions.AllowUserToResizeRows = False
             '
             'colHeaderExtensionName
@@ -299,13 +299,13 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             '
             resources.ApplyResources(buttonRemove, "buttonRemove")
             buttonRemove.Name = "buttonRemove"
-            buttonRemove.UseVisualStyleBackColor = True
+            buttonRemove.UseVisualStyleBackColour = True
             '
             'buttonAdd
             '
             resources.ApplyResources(buttonAdd, "buttonAdd")
             buttonAdd.Name = "buttonAdd"
-            buttonAdd.UseVisualStyleBackColor = True
+            buttonAdd.UseVisualStyleBackColour = True
             '
             'MyExtensibilityPropPage
             '

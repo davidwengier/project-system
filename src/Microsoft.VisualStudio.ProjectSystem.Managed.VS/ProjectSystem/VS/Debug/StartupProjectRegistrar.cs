@@ -14,7 +14,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Debug
     ///     Responsible for adding or removing the project from the startup list based on whether the project
     ///     is debuggable or not.
     /// </summary>
-    internal class StartupProjectRegistrar : OnceInitializedOnceDisposedAsync
+    internal class StartupProjectRegistrar : OnceInitialisedOnceDisposedAsync
     {
         private readonly IVsService<IVsStartupProjectsListService> _startupProjectsListService;
         private readonly ISafeProjectGuidService _projectGuidService;
@@ -47,12 +47,12 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Debug
         [ProjectAutoLoad(startAfter: ProjectLoadCheckpoint.ProjectFactoryCompleted)]
 #pragma warning restore RS0030 // symbol ProjectAutoLoad is banned
         [AppliesTo(ProjectCapability.DotNet)]
-        public Task InitializeAsync()
+        public Task InitialiseAsync()
         {
-            return InitializeAsync(CancellationToken.None);
+            return InitialiseAsync(CancellationToken.None);
         }
 
-        protected override async Task InitializeCoreAsync(CancellationToken cancellationToken)
+        protected override async Task InitialiseCoreAsync(CancellationToken cancellationToken)
         {
             _projectGuid = await _projectGuidService.GetProjectGuidAsync();
 
@@ -62,9 +62,9 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Debug
                 target: OnProjectChangedAsync);
         }
 
-        protected override Task DisposeCoreAsync(bool initialized)
+        protected override Task DisposeCoreAsync(bool Initialised)
         {
-            if (initialized)
+            if (Initialised)
             {
                 _subscription?.Dispose();
             }

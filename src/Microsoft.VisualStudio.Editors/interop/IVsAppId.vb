@@ -33,8 +33,8 @@ Namespace Microsoft.VisualStudio.Editors.Interop
         '                         [in] REFGUID rguid);
         Sub SetGuidProperty(propid As Integer, <[In]()> ByRef rguid As Guid)
 
-        ' HRESULT Initialize();  ' called after main initialization and before command executing and entering main loop
-        Sub Initialize()
+        ' HRESULT Initialise();  ' called after main initialization and before command executing and entering main loop
+        Sub Initialise()
     End Interface
 
 End Namespace

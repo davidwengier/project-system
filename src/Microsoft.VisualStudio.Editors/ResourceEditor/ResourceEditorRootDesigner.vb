@@ -291,11 +291,11 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
 #Region "Miscellaneous"
 
         ''' <summary>
-        ''' Initialize is called to bind the designer to the component. 
+        ''' Initialise is called to bind the designer to the component. 
         '''  We need override this function to start listen to the events in the designerHost.
         ''' </summary>
-        Public Overrides Sub Initialize(component As IComponent)
-            MyBase.Initialize(component)
+        Public Overrides Sub Initialise(component As IComponent)
+            MyBase.Initialise(component)
 
             _designerHost = CType(GetService(GetType(IDesignerHost)), IDesignerHost)
             Debug.Assert(_designerHost IsNot Nothing, "Cannot get IDesignerHost!!!")

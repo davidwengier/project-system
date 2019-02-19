@@ -17,7 +17,7 @@ Microsoft.VisualStudio.Editors.ApplicationDesigner.ApplicationDesignerEditorFact
 Microsoft.VisualStudio.Editors.ApplicationDesigner.ApplicationDesignerEditorFactory.New() -> Void (forwarded, contained in Microsoft.VisualStudio.AppDesigner)
 Microsoft.VisualStudio.Editors.ApplicationDesigner.ApplicationDesignerEditorFactory.SetSite(Site As Microsoft.VisualStudio.OLE.Interop.IServiceProvider) -> Integer (forwarded, contained in Microsoft.VisualStudio.AppDesigner)
 Microsoft.VisualStudio.Editors.ApplicationDesigner.ApplicationDesignerLoader (forwarded, contained in Microsoft.VisualStudio.AppDesigner)
-Microsoft.VisualStudio.Editors.ApplicationDesigner.ApplicationDesignerLoader.InitializeEx(ServiceProvider As Microsoft.VisualStudio.Shell.ServiceProvider, Hierarchy As Microsoft.VisualStudio.Shell.Interop.IVsHierarchy, ItemId As UInteger, punkDocData As Object) -> Void (forwarded, contained in Microsoft.VisualStudio.AppDesigner)
+Microsoft.VisualStudio.Editors.ApplicationDesigner.ApplicationDesignerLoader.InitialiseEx(ServiceProvider As Microsoft.VisualStudio.Shell.ServiceProvider, Hierarchy As Microsoft.VisualStudio.Shell.Interop.IVsHierarchy, ItemId As UInteger, punkDocData As Object) -> Void (forwarded, contained in Microsoft.VisualStudio.AppDesigner)
 Microsoft.VisualStudio.Editors.ApplicationDesigner.ApplicationDesignerLoader.New() -> Void (forwarded, contained in Microsoft.VisualStudio.AppDesigner)
 Microsoft.VisualStudio.Editors.ApplicationDesigner.ApplicationDesignerPanel (forwarded, contained in Microsoft.VisualStudio.AppDesigner)
 Microsoft.VisualStudio.Editors.ApplicationDesigner.ApplicationDesignerPanel.ActualGuid() -> System.Guid (forwarded, contained in Microsoft.VisualStudio.AppDesigner)
@@ -370,7 +370,7 @@ Microsoft.VisualStudio.Editors.PropPageDesigner.PropPageDesignerEditorFactory.Ma
 Microsoft.VisualStudio.Editors.PropPageDesigner.PropPageDesignerEditorFactory.New() -> Void (forwarded, contained in Microsoft.VisualStudio.AppDesigner)
 Microsoft.VisualStudio.Editors.PropPageDesigner.PropPageDesignerEditorFactory.SetSite(Site As Microsoft.VisualStudio.OLE.Interop.IServiceProvider) -> Integer (forwarded, contained in Microsoft.VisualStudio.AppDesigner)
 Microsoft.VisualStudio.Editors.PropPageDesigner.PropPageDesignerLoader (forwarded, contained in Microsoft.VisualStudio.AppDesigner)
-Microsoft.VisualStudio.Editors.PropPageDesigner.PropPageDesignerLoader.InitializeEx(ServiceProvider As Microsoft.VisualStudio.Shell.ServiceProvider, Hierarchy As Microsoft.VisualStudio.Shell.Interop.IVsHierarchy, ItemId As UInteger, punkDocData As Object) -> Void (forwarded, contained in Microsoft.VisualStudio.AppDesigner)
+Microsoft.VisualStudio.Editors.PropPageDesigner.PropPageDesignerLoader.InitialiseEx(ServiceProvider As Microsoft.VisualStudio.Shell.ServiceProvider, Hierarchy As Microsoft.VisualStudio.Shell.Interop.IVsHierarchy, ItemId As UInteger, punkDocData As Object) -> Void (forwarded, contained in Microsoft.VisualStudio.AppDesigner)
 Microsoft.VisualStudio.Editors.PropPageDesigner.PropPageDesignerLoader.New() -> Void (forwarded, contained in Microsoft.VisualStudio.AppDesigner)
 Microsoft.VisualStudio.Editors.PropPageDesigner.PropPageDesignerRootComponent (forwarded, contained in Microsoft.VisualStudio.AppDesigner)
 Microsoft.VisualStudio.Editors.PropPageDesigner.PropPageDesignerRootComponent.Hierarchy() -> Microsoft.VisualStudio.Shell.Interop.IVsHierarchy (forwarded, contained in Microsoft.VisualStudio.AppDesigner)
@@ -550,7 +550,7 @@ Microsoft.VisualStudio.Editors.PropertyPages.PropPageUserControlBase.GetProperty
 Microsoft.VisualStudio.Editors.PropertyPages.PropPageUserControlBase.GetRelativeDirectoryPath(BasePath As String, DirectoryPath As String) -> String (forwarded, contained in Microsoft.VisualStudio.AppDesigner)
 Microsoft.VisualStudio.Editors.PropertyPages.PropPageUserControlBase.GetRelativeFilePath(BasePath As String, FilePath As String) -> String (forwarded, contained in Microsoft.VisualStudio.AppDesigner)
 Microsoft.VisualStudio.Editors.PropertyPages.PropPageUserControlBase.GetServiceFromPropertyPageSite(ServiceType As System.Type) -> Object (forwarded, contained in Microsoft.VisualStudio.AppDesigner)
-Microsoft.VisualStudio.Editors.PropertyPages.PropPageUserControlBase.InitializeAllProperties() -> Void (forwarded, contained in Microsoft.VisualStudio.AppDesigner)
+Microsoft.VisualStudio.Editors.PropertyPages.PropPageUserControlBase.InitialiseAllProperties() -> Void (forwarded, contained in Microsoft.VisualStudio.AppDesigner)
 Microsoft.VisualStudio.Editors.PropertyPages.PropPageUserControlBase.IsActivated() -> Boolean (forwarded, contained in Microsoft.VisualStudio.AppDesigner)
 Microsoft.VisualStudio.Editors.PropertyPages.PropPageUserControlBase.IsAnyPropertyDirty() -> Boolean (forwarded, contained in Microsoft.VisualStudio.AppDesigner)
 Microsoft.VisualStudio.Editors.PropertyPages.PropPageUserControlBase.IsCSProject() -> Boolean (forwarded, contained in Microsoft.VisualStudio.AppDesigner)
@@ -928,7 +928,7 @@ Overridable Microsoft.VisualStudio.Editors.PropertyPages.PropertyControlData.Get
 Overridable Microsoft.VisualStudio.Editors.PropertyPages.PropertyControlData.GetUserDefinedPropertyDescriptor() -> System.ComponentModel.PropertyDescriptor (forwarded, contained in Microsoft.VisualStudio.AppDesigner)
 Overridable Microsoft.VisualStudio.Editors.PropertyPages.PropertyControlData.InitPropertyUI() -> Void (forwarded, contained in Microsoft.VisualStudio.AppDesigner)
 Overridable Microsoft.VisualStudio.Editors.PropertyPages.PropertyControlData.InitPropertyValue() -> Void (forwarded, contained in Microsoft.VisualStudio.AppDesigner)
-Overridable Microsoft.VisualStudio.Editors.PropertyPages.PropertyControlData.Initialize(PropertyPage As Microsoft.VisualStudio.Editors.PropertyPages.PropPageUserControlBase) -> Void (forwarded, contained in Microsoft.VisualStudio.AppDesigner)
+Overridable Microsoft.VisualStudio.Editors.PropertyPages.PropertyControlData.Initialise(PropertyPage As Microsoft.VisualStudio.Editors.PropertyPages.PropPageUserControlBase) -> Void (forwarded, contained in Microsoft.VisualStudio.AppDesigner)
 Overridable Microsoft.VisualStudio.Editors.PropertyPages.PropertyControlData.MultiValueGetDelegate.BeginInvoke(control As System.Windows.Forms.Control, prop As System.ComponentModel.PropertyDescriptor, ByRef Values As Object(), DelegateCallback As System.AsyncCallback, DelegateAsyncState As Object) -> System.IAsyncResult (forwarded, contained in Microsoft.VisualStudio.AppDesigner)
 Overridable Microsoft.VisualStudio.Editors.PropertyPages.PropertyControlData.MultiValueGetDelegate.EndInvoke(ByRef Values As Object(), DelegateAsyncResult As System.IAsyncResult) -> Boolean (forwarded, contained in Microsoft.VisualStudio.AppDesigner)
 Overridable Microsoft.VisualStudio.Editors.PropertyPages.PropertyControlData.MultiValueGetDelegate.Invoke(control As System.Windows.Forms.Control, prop As System.ComponentModel.PropertyDescriptor, ByRef Values As Object()) -> Boolean (forwarded, contained in Microsoft.VisualStudio.AppDesigner)
@@ -958,7 +958,7 @@ Overridable Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGe
 Overrides Microsoft.VisualStudio.Editors.ApplicationDesigner.ApplicationDesignerLoader.Dispose() -> Void (forwarded, contained in Microsoft.VisualStudio.AppDesigner)
 Overrides Microsoft.VisualStudio.Editors.ApplicationDesigner.ApplicationDesignerPanel.Dispose(disposing As Boolean) -> Void (forwarded, contained in Microsoft.VisualStudio.AppDesigner)
 Overrides Microsoft.VisualStudio.Editors.ApplicationDesigner.ApplicationDesignerPanel.OnLayout(levent As System.Windows.Forms.LayoutEventArgs) -> Void (forwarded, contained in Microsoft.VisualStudio.AppDesigner)
-Overrides Microsoft.VisualStudio.Editors.ApplicationDesigner.ApplicationDesignerRootDesigner.Initialize(component As System.ComponentModel.IComponent) -> Void (forwarded, contained in Microsoft.VisualStudio.AppDesigner)
+Overrides Microsoft.VisualStudio.Editors.ApplicationDesigner.ApplicationDesignerRootDesigner.Initialise(component As System.ComponentModel.IComponent) -> Void (forwarded, contained in Microsoft.VisualStudio.AppDesigner)
 Overrides Microsoft.VisualStudio.Editors.ApplicationDesigner.ApplicationDesignerView.OnItemClick(item As Microsoft.VisualStudio.Editors.ApplicationDesigner.ProjectDesignerTabButton) -> Void (forwarded, contained in Microsoft.VisualStudio.AppDesigner)
 Overrides Microsoft.VisualStudio.Editors.ApplicationDesigner.ApplicationDesignerView.OnItemClick(item As Microsoft.VisualStudio.Editors.ApplicationDesigner.ProjectDesignerTabButton, reactivatePage As Boolean) -> Void (forwarded, contained in Microsoft.VisualStudio.AppDesigner)
 Overrides Microsoft.VisualStudio.Editors.ApplicationDesigner.ApplicationDesignerWindowPane.EditorView() -> Object (forwarded, contained in Microsoft.VisualStudio.AppDesigner)
@@ -1073,6 +1073,6 @@ Shared My.Resources.GeneralOptionPageResources.General_FastUpToDateCheck_LogLeve
 Shared My.Resources.GeneralOptionPageResources.General_FastUpToDateCheck_Title() -> String
 Shared My.Resources.GeneralOptionPageResources.General_UsePreviewSdk() -> String
 Shared My.Resources.GeneralOptionPageResources.ResourceManager() -> System.Resources.ResourceManager
-Shared ReadOnly Microsoft.VisualStudio.Editors.PropertyPages.PropPageUserControlBase.PropPageBackColor -> System.Drawing.Color (forwarded, contained in Microsoft.VisualStudio.AppDesigner)
+Shared ReadOnly Microsoft.VisualStudio.Editors.PropertyPages.PropPageUserControlBase.PropPageBackColour -> System.Drawing.Colour (forwarded, contained in Microsoft.VisualStudio.AppDesigner)
 XamlGeneratedNamespace.GeneratedInternalTypeHelper
 XamlGeneratedNamespace.GeneratedInternalTypeHelper.New() -> Void

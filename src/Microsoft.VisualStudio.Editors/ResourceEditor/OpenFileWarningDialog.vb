@@ -19,9 +19,9 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
             MyBase.New(ServiceProvider)
 
             'This call is required by the Windows Form Designer.
-            InitializeComponent()
+            InitialiseComponent()
 
-            'Add any initialization after the InitializeComponent() call
+            'Add any initialization after the InitialiseComponent() call
             alwaysCheckCheckBox.Checked = True
             messageLabel.Text = String.Format(messageLabel.Text, fileName)
             messageLabel.PerformLayout()
@@ -83,7 +83,7 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
         'It can be modified using the Windows Form Designer.  
         'Do not modify it using the code editor.
         <DebuggerStepThrough()>
-        Private Sub InitializeComponent()
+        Private Sub InitialiseComponent()
             Dim resources As ComponentModel.ComponentResourceManager = New ComponentModel.ComponentResourceManager(GetType(OpenFileWarningDialog))
             dialogLayoutPanel = New Windows.Forms.TableLayoutPanel
             alwaysCheckCheckBox = New Windows.Forms.CheckBox

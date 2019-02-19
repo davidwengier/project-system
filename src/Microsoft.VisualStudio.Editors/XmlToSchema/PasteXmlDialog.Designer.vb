@@ -24,7 +24,7 @@ Namespace Microsoft.VisualStudio.Editors.XmlToSchema
         'It can be modified using the Windows Form Designer.  
         'Do not modify it using the code editor.
         <System.Diagnostics.DebuggerStepThrough()>
-        Private Sub InitializeComponent()
+        Private Sub InitialiseComponent()
             Dim okButton As System.Windows.Forms.Button
             Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(PasteXmlDialog))
             Dim cancelButton As System.Windows.Forms.Button

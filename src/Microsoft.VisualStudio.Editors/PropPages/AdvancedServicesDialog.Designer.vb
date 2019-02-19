@@ -23,7 +23,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             End Try
         End Sub
 
-        Private Sub InitializeComponent()
+        Private Sub InitialiseComponent()
             Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(AdvancedServicesDialog))
             Me.RoleServiceCacheTimeoutLabel = New System.Windows.Forms.Label
             Me.TimeQuantity = New System.Windows.Forms.NumericUpDown
@@ -33,7 +33,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             Me.HonorServerCookieExpirationCheckbox = New System.Windows.Forms.CheckBox
             Me.SavePasswordHashLocallyCheckbox = New System.Windows.Forms.CheckBox
             Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel
-            CType(Me.TimeQuantity, System.ComponentModel.ISupportInitialize).BeginInit()
+            CType(Me.TimeQuantity, System.ComponentModel.ISupportInitialise).BeginInit()
             Me.TableLayoutPanel1.SuspendLayout()
             Me.SuspendLayout()
             '
@@ -67,21 +67,21 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             resources.ApplyResources(Me.UseCustomConnectionStringCheckBox, "UseCustomConnectionStringCheckBox")
             Me.TableLayoutPanel1.SetColumnSpan(Me.UseCustomConnectionStringCheckBox, 3)
             Me.UseCustomConnectionStringCheckBox.Name = "UseCustomConnectionStringCheckBox"
-            Me.UseCustomConnectionStringCheckBox.UseVisualStyleBackColor = True
+            Me.UseCustomConnectionStringCheckBox.UseVisualStyleBackColour = True
             '
             'HonorServerCookieExpirationCheckbox
             '
             resources.ApplyResources(Me.HonorServerCookieExpirationCheckbox, "HonorServerCookieExpirationCheckbox")
             Me.TableLayoutPanel1.SetColumnSpan(Me.HonorServerCookieExpirationCheckbox, 3)
             Me.HonorServerCookieExpirationCheckbox.Name = "HonorServerCookieExpirationCheckbox"
-            Me.HonorServerCookieExpirationCheckbox.UseVisualStyleBackColor = True
+            Me.HonorServerCookieExpirationCheckbox.UseVisualStyleBackColour = True
             '
             'SavePasswordHashLocallyCheckbox
             '
             resources.ApplyResources(Me.SavePasswordHashLocallyCheckbox, "SavePasswordHashLocallyCheckbox")
             Me.TableLayoutPanel1.SetColumnSpan(Me.SavePasswordHashLocallyCheckbox, 3)
             Me.SavePasswordHashLocallyCheckbox.Name = "SavePasswordHashLocallyCheckbox"
-            Me.SavePasswordHashLocallyCheckbox.UseVisualStyleBackColor = True
+            Me.SavePasswordHashLocallyCheckbox.UseVisualStyleBackColour = True
             '
             'TableLayoutPanel1
             '
@@ -101,7 +101,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
             Me.Controls.Add(Me.TableLayoutPanel1)
             Me.Name = "AdvancedServicesDialog"
-            CType(Me.TimeQuantity, System.ComponentModel.ISupportInitialize).EndInit()
+            CType(Me.TimeQuantity, System.ComponentModel.ISupportInitialise).EndInit()
             Me.TableLayoutPanel1.ResumeLayout(False)
             Me.TableLayoutPanel1.PerformLayout()
             Me.ResumeLayout(False)

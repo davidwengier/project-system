@@ -28,12 +28,12 @@ namespace Microsoft.VisualStudio.Telemetry
         public static readonly string TreeUpdatedUnresolvedProject = BuildPropertyName(TelemetryEventName.TreeUpdatedUnresolved, "Project");
 
         /// <summary>
-        ///     Indicates whether seen all rules initialized when the dependency tree is updated with all resolved dependencies.
+        ///     Indicates whether seen all rules Initialised when the dependency tree is updated with all resolved dependencies.
         /// </summary>
         public static readonly string TreeUpdatedResolvedObservedAllRules = BuildPropertyName(TelemetryEventName.TreeUpdatedResolved, "ObservedAllRules");
 
         /// <summary>
-        ///      Indicates whether seen all rules initialized when the dependency tree is updated with unresolved dependencies.
+        ///      Indicates whether seen all rules Initialised when the dependency tree is updated with unresolved dependencies.
         /// </summary>
         public static readonly string TreeUpdatedUnresolvedObservedAllRules = BuildPropertyName(TelemetryEventName.TreeUpdatedUnresolved, "ObservedAllRules");
 

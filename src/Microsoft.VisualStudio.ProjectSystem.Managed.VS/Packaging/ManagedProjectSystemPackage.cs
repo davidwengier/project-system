@@ -46,7 +46,7 @@ namespace Microsoft.VisualStudio.Packaging
         {
         }
 
-        protected override async Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
+        protected override async Task InitialiseAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
@@ -62,7 +62,7 @@ namespace Microsoft.VisualStudio.Packaging
             // Need to use the CPS export provider to get the dotnet compatibility detector
             Lazy<IProjectServiceAccessor> projectServiceAccessor = componentModel.DefaultExportProvider.GetExport<IProjectServiceAccessor>();
             _dotNetCoreCompatibilityDetector = projectServiceAccessor.Value.GetProjectService().Services.ExportProvider.GetExport<IDotNetCoreProjectCompatibilityDetector>().Value;
-            await _dotNetCoreCompatibilityDetector.InitializeAsync();
+            await _dotNetCoreCompatibilityDetector.InitialiseAsync();
 
 #if DEBUG
             DebuggerTraceListener.RegisterTraceListener();

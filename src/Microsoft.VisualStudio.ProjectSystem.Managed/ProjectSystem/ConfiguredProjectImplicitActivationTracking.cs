@@ -16,7 +16,7 @@ namespace Microsoft.VisualStudio.ProjectSystem
     ///     Provides an implementation of <see cref="IConfiguredProjectActivationTracking"/> that is based on the results of <see cref="IActiveConfigurationGroupService"/>.
     /// </summary>
     [Export(typeof(IConfiguredProjectImplicitActivationTracking))]
-    internal class ConfiguredProjectImplicitActivationTracking : OnceInitializedOnceDisposed, IConfiguredProjectImplicitActivationTracking
+    internal class ConfiguredProjectImplicitActivationTracking : OnceInitialisedOnceDisposed, IConfiguredProjectImplicitActivationTracking
     {
         private readonly ConfiguredProject _project;
         private readonly IProjectAsynchronousTasksService _tasksService;
@@ -48,7 +48,7 @@ namespace Microsoft.VisualStudio.ProjectSystem
         [AppliesTo(ProjectCapability.DotNet)]
         public void Load()
         {
-            EnsureInitialized();
+            EnsureInitialised();
         }
 
         public ITargetBlock<IProjectVersionedValue<IConfigurationGroup<ProjectConfiguration>>> TargetBlock => _targetBlock;
@@ -57,7 +57,7 @@ namespace Microsoft.VisualStudio.ProjectSystem
         {
             get
             {
-                EnsureInitialized();
+                EnsureInitialised();
 
                 return _isImplicitlyActiveSource.Task.Status == TaskStatus.RanToCompletion;
             }
@@ -67,13 +67,13 @@ namespace Microsoft.VisualStudio.ProjectSystem
         {
             get
             {
-                EnsureInitialized();
+                EnsureInitialised();
 
                 return _isImplicitlyActiveSource.Task;
             }
         }
 
-        protected override void Initialize()
+        protected override void Initialise()
         {
             _subscription = _activeConfigurationGroupService.ActiveConfigurationGroupSource.SourceBlock.LinkTo(
                 target: _targetBlock,

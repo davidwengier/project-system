@@ -39,7 +39,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
         Private ReadOnly _authenticationModeStringValues As String()
         Private ReadOnly _noneText As String
         Private _myType As String
-        Private ReadOnly _startupObjectLabelText As String 'This one is in the form's resx when initialized
+        Private ReadOnly _startupObjectLabelText As String 'This one is in the form's resx when Initialised
         Private ReadOnly _startupFormLabelText As String 'This one we pull from resources
 
         'This is the (cached) MyApplication.MyApplicationProperties object returned by the project system
@@ -92,9 +92,9 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             MyBase.New()
 
             'This call is required by the Windows Form Designer.
-            InitializeComponent()
+            InitialiseComponent()
 
-            'Add any initialization after the InitializeComponent() call
+            'Add any initialization after the InitialiseComponent() call
             SetCommonControls()
             AddChangeHandlers()
 
@@ -141,7 +141,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
                     ' Custom sub main must come before MainForm, because it will ASSERT on the enable frameowrk checkbox
                     ' StartupObject must be kept after MainForm, because it needs the main form name...
                     ' MyApplication should be kept before all other MyAppDISPIDs properties to make sure that everyting in there
-                    ' is initialized correctly...
+                    ' is Initialised correctly...
                     Dim datalist As List(Of PropertyControlData) = New List(Of PropertyControlData)
 
                     Dim data As PropertyControlData = New PropertyControlData(VBProjPropId.VBPROJPROPID_MyApplication, Const_MyApplication, Nothing, AddressOf MyApplicationSet, AddressOf MyApplicationGet, ControlDataFlags.UserHandledEvents)

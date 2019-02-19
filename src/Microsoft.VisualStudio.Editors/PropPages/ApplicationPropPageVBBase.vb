@@ -56,7 +56,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
         Public Sub New()
             MyBase.New()
 
-            InitializeComponent()
+            InitialiseComponent()
 
             IconBrowseText = My.Resources.Microsoft_VisualStudio_Editors_Designer.PPG_BrowseText
         End Sub

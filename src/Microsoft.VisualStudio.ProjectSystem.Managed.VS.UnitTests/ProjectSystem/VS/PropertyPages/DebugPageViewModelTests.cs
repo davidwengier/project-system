@@ -93,7 +93,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.PropertyPages
             };
 
             var viewModel = CreateViewModel(viewModelData);
-            await viewModel.Object.Initialize();
+            await viewModel.Object.Initialise();
             Assert.False(viewModel.Object.HasProfiles);
             Assert.False(viewModel.Object.IsProfileSelected);
             Assert.False(viewModel.Object.SupportsExecutable);
@@ -129,7 +129,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.PropertyPages
             };
 
             var viewModel = CreateViewModel(viewModelData);
-            await viewModel.Object.Initialize();
+            await viewModel.Object.Initialise();
             await viewModelData.FirstSnapshotComplete.Task;
 
             Assert.True(viewModel.Object.HasProfiles);

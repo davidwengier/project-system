@@ -131,7 +131,7 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
             VSErrorHandler.ThrowOnFailure(ProjectHierarchy.GetProperty(VSITEMID.ROOT, __VSHPROPID.VSHPROPID_ConfigurationProvider, ConfigProvider))
             _vsCfgProvider = DirectCast(ConfigProvider, IVsCfgProvider2)
 
-            'Initialize m_SimplifiedConfigModeLastKnownValue
+            'Initialise m_SimplifiedConfigModeLastKnownValue
             _simplifiedConfigModeLastKnownValue = IsSimplifiedConfigMode
 
             AdviseEventHandling()

@@ -35,7 +35,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.Utilities
         private ImmutableHashSet<IDisposable> _disposables = ImmutableHashSet.Create<IDisposable>();
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DisposableBag"/> class.
+        /// Initialises a new instance of the <see cref="DisposableBag"/> class.
         /// </summary>
         internal DisposableBag(CancellationToken cancellationToken = default)
         {

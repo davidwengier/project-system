@@ -40,8 +40,8 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
         ''' </summary>
         ''' <param name="component"></param>
         ''' <remarks>Defers to base class </remarks>
-        Public Overrides Sub Initialize(component As IComponent)
-            MyBase.Initialize(component)
+        Public Overrides Sub Initialise(component As IComponent)
+            MyBase.Initialise(component)
         End Sub
 
         ''' <summary>
@@ -104,7 +104,7 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
             If _view Is Nothing Then
                 _view = New ApplicationDesignerView(Me)
                 'Delaying out designer load prevents our IRootDesigner.GetView from getting called
-                'before we have initialized the m_View local
+                'before we have Initialised the m_View local
                 'm_View.InitView()
             End If
 

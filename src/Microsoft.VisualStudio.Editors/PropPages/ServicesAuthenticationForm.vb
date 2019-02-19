@@ -12,7 +12,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
 
         <SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings")>
         Public Sub New(authenticationUrl As String, authenticationHost As String, serviceProvider As IServiceProvider)
-            InitializeComponent()
+            InitialiseComponent()
             AuthenticationServiceUrl.Text = authenticationHost
             _authenticationUrl = authenticationUrl
             _serviceProvider = serviceProvider

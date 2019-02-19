@@ -15,7 +15,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
     Partial Friend Class ReferencePathsPropPage
         Inherits PropPageUserControlBase
 
-        ' We map colors for all bitmap buttons on the page, because the default one is too dark in high-contrast mode, and it is difficult to know whether it is disabled
+        ' We map Colours for all bitmap buttons on the page, because the default one is too dark in high-contrast mode, and it is difficult to know whether it is disabled
         Private ReadOnly _moveUpImageOriginal As Image
         Private _moveUpImage As Image
         Private _moveUpGreyImage As Image
@@ -31,14 +31,14 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             MyBase.New()
 
             'This call is required by the Windows Form Designer.
-            InitializeComponent()
+            InitialiseComponent()
 
             ' Scale buttons
             MoveUp.Size = DpiHelper.LogicalToDeviceUnits(MoveUp.Size)
             MoveDown.Size = DpiHelper.LogicalToDeviceUnits(MoveDown.Size)
             RemoveFolder.Size = DpiHelper.LogicalToDeviceUnits(RemoveFolder.Size)
 
-            'Add any initialization after the InitializeComponent() call
+            'Add any initialization after the InitialiseComponent() call
             MinimumSize = Size
 
             ' Recalculate all images for the button from the default image we put in the resource file
@@ -406,30 +406,30 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
         ''' WinForm could generate default image for disabled button, but in high-contrast mode, it didn't work very well for our buttons
         ''' </summary>
         Private Sub GenerateButtonImages()
-            Dim greyColor As Color = SystemColors.ControlDark
+            Dim greyColour As Colour = SystemColours.ControlDark
 
             If SystemInformation.HighContrast Then
                 _inContrastMode = True
-                greyColor = SystemColors.Control
+                greyColour = SystemColours.Control
             Else
                 _inContrastMode = False
             End If
 
             Dim originalImage As Image = _moveUpImageOriginal
-            _moveUpImage = MapBitmapColor(originalImage, Color.Black, SystemColors.ControlText)
-            _moveUpGreyImage = MapBitmapColor(originalImage, Color.Black, greyColor)
+            _moveUpImage = MapBitmapColour(originalImage, Colour.Black, SystemColours.ControlText)
+            _moveUpGreyImage = MapBitmapColour(originalImage, Colour.Black, greyColour)
 
             originalImage = _moveDownImageOriginal
-            _moveDownImage = MapBitmapColor(originalImage, Color.Black, SystemColors.ControlText)
-            _moveDownGreyImage = MapBitmapColor(originalImage, Color.Black, greyColor)
+            _moveDownImage = MapBitmapColour(originalImage, Colour.Black, SystemColours.ControlText)
+            _moveDownGreyImage = MapBitmapColour(originalImage, Colour.Black, greyColour)
 
             originalImage = _removeFolderImageOriginal
-            _removeFolderImage = MapBitmapColor(originalImage, Color.Black, SystemColors.ControlText)
-            _removeFolderGreyImage = MapBitmapColor(originalImage, Color.Black, greyColor)
+            _removeFolderImage = MapBitmapColour(originalImage, Colour.Black, SystemColours.ControlText)
+            _removeFolderGreyImage = MapBitmapColour(originalImage, Colour.Black, greyColour)
         End Sub
 
         ''' <summary>
-        '''  Handle SystemEvents, so we will update Button image when SystemColor was changed...
+        '''  Handle SystemEvents, so we will update Button image when SystemColour was changed...
         ''' </summary>
         Private Sub SystemEvents_UserPreferenceChanged(sender As Object, e As UserPreferenceChangedEventArgs)
             Select Case e.Category
@@ -438,7 +438,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
                         GenerateButtonImages()
                         UpdateButtonImages()
                     End If
-                Case UserPreferenceCategory.Color
+                Case UserPreferenceCategory.Colour
                     GenerateButtonImages()
                     UpdateButtonImages()
             End Select

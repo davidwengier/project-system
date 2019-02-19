@@ -50,7 +50,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
                 _propPage = Value
                 If _propPage IsNot Nothing Then
                     'm_propPage.SuspendLayout()
-                    BackColor = Value.BackColor
+                    BackColour = Value.BackColour
                     MinimumSize = Drawing.Size.Empty
                     AutoSize = True
 
@@ -95,7 +95,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
         'NOTE: The following procedure is required by the Windows Form Designer
         'It can be modified using the Windows Form Designer.  
         'Do not modify it using the code editor.
-        <DebuggerStepThrough()> Private Sub InitializeComponent()
+        <DebuggerStepThrough()> Private Sub InitialiseComponent()
             Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(PropPageHostDialog))
             OK = New Button
             Cancel = New Button
@@ -174,9 +174,9 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             MyBase.New(ServiceProvider)
 
             'This call is required by the Windows Form Designer.
-            InitializeComponent()
+            InitialiseComponent()
 
-            'Add any initialization after the InitializeComponent() call
+            'Add any initialization after the InitialiseComponent() call
             Me.F1Keyword = F1Keyword
 
             AcceptButton = OK

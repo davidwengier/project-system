@@ -18,7 +18,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.PropertyPages
         private ActiveConfiguredProject<ConfiguredProject> _configuredProject;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BuildMacroInfo"/> class.
+        /// Initialises a new instance of the <see cref="BuildMacroInfo"/> class.
         /// </summary>
         /// <param name="configuredProject">Project being evaluated.</param>
         /// <param name="threadingService">Project threading service.</param>

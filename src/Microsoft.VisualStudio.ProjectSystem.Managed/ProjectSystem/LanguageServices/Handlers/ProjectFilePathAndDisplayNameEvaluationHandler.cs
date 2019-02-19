@@ -40,7 +40,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices.Handlers
             Requires.NotNull(projectChange, nameof(projectChange));
             Requires.NotNull(logger, nameof(logger));
 
-            VerifyInitialized();
+            VerifyInitialised();
 
             if (projectChange.Difference.ChangedProperties.Contains(ConfigurationGeneral.MSBuildProjectFullPathProperty))
             {

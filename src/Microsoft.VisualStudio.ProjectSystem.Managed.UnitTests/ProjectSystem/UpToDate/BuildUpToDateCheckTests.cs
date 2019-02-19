@@ -46,7 +46,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.UpToDate
 
         public BuildUpToDateCheckTests()
         {
-            // NOTE most of these mocks are only present to prevent NREs in Initialize
+            // NOTE most of these mocks are only present to prevent NREs in Initialise
 
             // Enable "Info" log level, as we assert logged messages in tests
             var projectSystemOptions = new Mock<IProjectSystemOptions>();

@@ -20,7 +20,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.PropertyPages
 
         public DebugPageControl()
         {
-            InitializeComponent();
+            InitialiseComponent();
             DataContextChanged += DebugPageControlControl_DataContextChanged;
             LayoutUpdated += DebugPageControl_LayoutUpdated;
         }

@@ -13,7 +13,7 @@ Namespace Microsoft.VisualStudio.Editors.AddImports
             SuspendLayout()
             Try
                 _helpCallback = helpCallback
-                InitializeComponent()
+                InitialiseComponent()
                 txtMain_.Text = String.Format(My.Resources.AddImports.AddImportsExtensionMethodsMainFormatString, [namespace], identifier, minimallyQualifiedName)
                 txtMain_.AutoSize = True
 

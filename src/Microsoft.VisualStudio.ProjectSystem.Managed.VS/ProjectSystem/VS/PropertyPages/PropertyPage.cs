@@ -102,7 +102,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.PropertyPages
             Control parent = FromHandle(hWndParent);
             if (parent != null)
             {   // We're hosted in WinForms, make sure we 
-                // set Parent so that we inherit Font & Colors
+                // set Parent so that we inherit Font & Colours
                 Parent = parent;
             }
             else
@@ -290,7 +290,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.PropertyPages
 
         ///--------------------------------------------------------------------------------------------
         /// <summary>
-        /// Initialize and listen to debug mode changes
+        /// Initialise and listen to debug mode changes
         /// </summary>
         ///--------------------------------------------------------------------------------------------
         internal void AdviseDebugger()

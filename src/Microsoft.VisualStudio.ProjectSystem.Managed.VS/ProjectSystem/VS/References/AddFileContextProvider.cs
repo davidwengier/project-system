@@ -10,7 +10,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.References
     internal class AddFileContextProvider : BaseReferenceContextProvider
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="AddFileContextProvider"/> class.
+        /// Initialises a new instance of the <see cref="AddFileContextProvider"/> class.
         /// </summary>
         [ImportingConstructor]
         public AddFileContextProvider(ConfiguredProject configuredProject) : base(configuredProject)

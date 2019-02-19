@@ -24,7 +24,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices.Handlers
             }
         }
 
-        public void Initialize(IWorkspaceProjectContext context)
+        public void Initialise(IWorkspaceProjectContext context)
         {
             Requires.NotNull(context, nameof(context));
 
@@ -34,9 +34,9 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices.Handlers
             _context = context;
         }
 
-        protected void VerifyInitialized()
+        protected void VerifyInitialised()
         {
-            Verify.Operation(_context != null, "Must call Initialize(IWorkspaceProjectContext) first.");
+            Verify.Operation(_context != null, "Must call Initialise(IWorkspaceProjectContext) first.");
         }
     }
 }

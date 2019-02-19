@@ -18,7 +18,7 @@ namespace Microsoft.VisualStudio.Collections
         private static readonly DictionaryEqualityComparer<TKey, TValue> s_defaultInstance = new DictionaryEqualityComparer<TKey, TValue>();
 
         /// <summary>
-        /// Initializes a new instance of the DictionaryEqualityComparer class.
+        /// Initialises a new instance of the DictionaryEqualityComparer class.
         /// </summary>
         private DictionaryEqualityComparer()
         {

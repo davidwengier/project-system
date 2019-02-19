@@ -47,7 +47,7 @@ Namespace Microsoft.VisualStudio.Editors.AppDesDesignerFramework
         ';New
         '
         'Summary:
-        '   Initialize a new dialog box.
+        '   Initialise a new dialog box.
         'Params:
         '   ServiceProvider: The IServiceProvider required to find the help provider.
         'Exceptions:
@@ -61,13 +61,13 @@ Namespace Microsoft.VisualStudio.Editors.AppDesDesignerFramework
 
             _serviceProvider = ServiceProvider
 
-            ' Initialize default dialog settings
+            ' Initialise default dialog settings
             KeyPreview = True
             MaximizeBox = False
             MinimizeBox = False
             ShowInTaskbar = False
             'Icon = null;
-            StartPosition = FormStartPosition.CenterParent
+            StartPosition = FormStartPosition.CentreParent
             'FormBorderStyle = FormBorderStyle.FixedSingle;
             AddHandler HelpRequested, AddressOf OnHelpRequested
         End Sub 'New

@@ -172,7 +172,7 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
         ''' Returns an image for displaying to the user for this resource.
         ''' </summary>
         ''' <param name="Resource">The IResource instance.  May not be Nothing.  The value of the resource to save.  Must be of the type handled by this ResourceTypeEditor.</param>
-        ''' <param name="background">The background color for this thumbnail. Not used since we display the actual resource as an icon.</param>
+        ''' <param name="background">The background Colour for this thumbnail. Not used since we display the actual resource as an icon.</param>
         ''' <returns>An image to use as the basis of creating a thumbnail for this resource</returns>
         ''' <remarks>
         ''' This bitmap will be used as
@@ -180,7 +180,7 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
         '''   after the thumbnail image is created).
         ''' Default implementation returns an empty bitmap.
         ''' </remarks>
-        Public Overrides Function GetImageForThumbnail(Resource As IResource, background As Color) As Image
+        Public Overrides Function GetImageForThumbnail(Resource As IResource, background As Colour) As Image
             'Convert the icon to a bitmap
             ValidateResourceValue(Resource)
             Dim Icon As Icon = DirectCast(Resource.GetValue(), Icon)

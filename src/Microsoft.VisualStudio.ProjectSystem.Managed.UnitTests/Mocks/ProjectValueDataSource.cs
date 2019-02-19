@@ -29,15 +29,15 @@ namespace Microsoft.VisualStudio.ProjectSystem
         {
             get
             {
-                EnsureInitialized(true);
+                EnsureInitialised(true);
 
                 return _broadcastBlock;
             }
         }
 
-        protected override void Initialize()
+        protected override void Initialise()
         {
-            base.Initialize();
+            base.Initialise();
 
             _broadcastBlock = DataflowBlockSlim.CreateBroadcastBlock<IProjectVersionedValue<T>>(null);
         }
@@ -56,7 +56,7 @@ namespace Microsoft.VisualStudio.ProjectSystem
 
         public async Task SendAsync(T value)
         {
-            EnsureInitialized(true);
+            EnsureInitialised(true);
 
             _version++;
             await _broadcastBlock.SendAsync(new ProjectVersionedValue<T>(

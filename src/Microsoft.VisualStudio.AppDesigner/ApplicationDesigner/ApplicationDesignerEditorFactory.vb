@@ -101,7 +101,7 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
                     End If
 
                     DesignerLoader = CType(DesignerService.CreateDesignerLoader(GetType(ApplicationDesignerLoader).AssemblyQualifiedName), ApplicationDesignerLoader)
-                    DesignerLoader.InitializeEx(_siteProvider, Hierarchy, ItemId, DocData)
+                    DesignerLoader.InitialiseEx(_siteProvider, Hierarchy, ItemId, DocData)
                     'If ExistingDocData IsNot Nothing Then
                     'Don't pass this value back
                     'DocData = Nothing
@@ -231,7 +231,7 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
         ''' <param name="Site"></param>
         ''' <remarks></remarks>
         Public Function SetSite(Site As OLE.Interop.IServiceProvider) As Integer Implements IVsEditorFactory.SetSite
-            'This same Site already set?  Or Site not yet initialized (= Nothing)?  If so, NOP.
+            'This same Site already set?  Or Site not yet Initialised (= Nothing)?  If so, NOP.
             If _site Is Site Then
                 Exit Function
             End If

@@ -27,15 +27,15 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
         IEnumerable<string> GetProjectBuildRules();
 
         /// <summary>
-        ///     Initializes the service with the specified <see cref="IWorkspaceProjectContext"/>.
+        ///     Initialises the service with the specified <see cref="IWorkspaceProjectContext"/>.
         /// </summary>
         /// <exception cref="ArgumentNullException">
         ///     <paramref name="context"/> is <see langword="null"/>.
         /// </exception>
         /// <exception cref="InvalidOperationException">
-        ///     <see cref="Initialize(IWorkspaceProjectContext)"/> has already been called.
+        ///     <see cref="Initialise(IWorkspaceProjectContext)"/> has already been called.
         /// </exception>
-        void Initialize(IWorkspaceProjectContext context);
+        void Initialise(IWorkspaceProjectContext context);
 
         /// <summary>
         ///     Applies project evaluation changes to the underlying <see cref="IWorkspaceProjectContext"/>.
@@ -44,7 +44,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
         ///     <paramref name="update"/> is <see langword="null"/>.
         /// </exception>
         /// <exception cref="InvalidOperationException">
-        ///     <see cref="Initialize(IWorkspaceProjectContext)"/> has not been called.
+        ///     <see cref="Initialise(IWorkspaceProjectContext)"/> has not been called.
         /// </exception>
         /// <exception cref="ObjectDisposedException">
         ///     The <see cref="IApplyChangesToWorkspaceContext"/> has been disposed of.
@@ -67,7 +67,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
         ///     <paramref name="update"/> is <see langword="null"/>.
         /// </exception>
         /// <exception cref="InvalidOperationException">
-        ///     <see cref="Initialize(IWorkspaceProjectContext)"/> has not been called.
+        ///     <see cref="Initialise(IWorkspaceProjectContext)"/> has not been called.
         /// </exception>
         /// <exception cref="ObjectDisposedException">
         ///     The <see cref="IApplyChangesToWorkspaceContext"/> has been disposed of.

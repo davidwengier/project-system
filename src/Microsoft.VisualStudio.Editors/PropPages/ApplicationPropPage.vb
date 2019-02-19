@@ -39,14 +39,14 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             MyBase.New()
 
             'This call is required by the Windows Form Designer.
-            InitializeComponent()
+            InitialiseComponent()
 
             _outputTypeDefaultValues = New OutputTypeComboBoxValue(INDEX_WINDOWSCLASSLIB) {}
             _outputTypeDefaultValues(INDEX_WINDOWSAPP) = New OutputTypeComboBoxValue(INDEX_WINDOWSAPP)
             _outputTypeDefaultValues(INDEX_COMMANDLINEAPP) = New OutputTypeComboBoxValue(INDEX_COMMANDLINEAPP)
             _outputTypeDefaultValues(INDEX_WINDOWSCLASSLIB) = New OutputTypeComboBoxValue(INDEX_WINDOWSCLASSLIB)
 
-            'Add any initialization after the InitializeComponent() call
+            'Add any initialization after the InitialiseComponent() call
             AddChangeHandlers()
 
             'Opt out of page scaling since we're using AutoScaleMode

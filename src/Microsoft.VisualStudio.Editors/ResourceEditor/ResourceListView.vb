@@ -248,7 +248,7 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
             Set(Value As ResourceView)
                 Select Case Value
                     Case ResourceView.Details
-                        InitializeColumns()
+                        InitialiseColumns()
                         MyBase.View = Windows.Forms.View.Details
                     Case ResourceView.List
                         MyBase.View = Windows.Forms.View.List
@@ -313,22 +313,22 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
 
 
 #Region "UI-Related Features"
-        Private _columnInitialized As Boolean
+        Private _columnInitialised As Boolean
 
         ''' <summary>
-        ''' Initialize our columns for details view
+        ''' Initialise our columns for details view
         ''' </summary>
         ''' <remarks>
-        ''' Initializes all columns.  We should not re-initialize columns (therefore changing
+        ''' Initialises all columns.  We should not re-Initialise columns (therefore changing
         '''   the widths the user has set).
         ''' </remarks>
-        Private Sub InitializeColumns()
+        Private Sub InitialiseColumns()
 
             '*****
             '***** WARNING: This order and number of columns *MUST* match the order in DetailViewColumn
             '*****
 
-            If Not _columnInitialized Then
+            If Not _columnInitialised Then
 
                 Columns.Add(My.Resources.Microsoft_VisualStudio_Editors_Designer.RSE_DetailsCol_Name, DpiHelper.LogicalToDeviceUnitsX(DefaultColumnWidthName), HorizontalAlignment.Left)
                 Columns.Add(My.Resources.Microsoft_VisualStudio_Editors_Designer.RSE_DetailsCol_Filename, DpiHelper.LogicalToDeviceUnitsX(DefaultColumnWidthFilename), HorizontalAlignment.Left)
@@ -336,7 +336,7 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
                 Columns.Add(My.Resources.Microsoft_VisualStudio_Editors_Designer.RSE_DetailsCol_Size, DpiHelper.LogicalToDeviceUnitsX(DefaultColumnWidthSize), HorizontalAlignment.Left)
                 Columns.Add(My.Resources.Microsoft_VisualStudio_Editors_Designer.RSE_DetailsCol_Comment, DpiHelper.LogicalToDeviceUnitsX(DefaultColumnWidthComment), HorizontalAlignment.Left)
 
-                _columnInitialized = True
+                _columnInitialised = True
             End If
 
             '*****
@@ -397,18 +397,18 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
             End If
 
             ' Those images are used to indicate which column is being sorted
-            ' We use the same system color as the ListView in the window explorer, so it will work in high contrast mode
-            _thumbnailImageList.Images.Add("SortUp", MapBitmapColor(ParentView.CachedResources.SortUpGlyph, Color.Black,
-                                                                     Common.ShellUtil.GetVSColor(Shell.Interop.__VSSYSCOLOREX3.VSCOLOR_GRAYTEXT, SystemColors.GrayText, UseVSTheme:=False)))
-            _thumbnailImageList.Images.Add("SortDown", MapBitmapColor(ParentView.CachedResources.SortDownGlyph, Color.Black,
-                                                                     Common.ShellUtil.GetVSColor(Shell.Interop.__VSSYSCOLOREX3.VSCOLOR_GRAYTEXT, SystemColors.GrayText, UseVSTheme:=False)))
+            ' We use the same system Colour as the ListView in the window explorer, so it will work in high contrast mode
+            _thumbnailImageList.Images.Add("SortUp", MapBitmapColour(ParentView.CachedResources.SortUpGlyph, Colour.Black,
+                                                                     Common.ShellUtil.GetVSColour(Shell.Interop.__VSSYSColourEX3.VSColour_GRAYTEXT, SystemColours.GrayText, UseVSTheme:=False)))
+            _thumbnailImageList.Images.Add("SortDown", MapBitmapColour(ParentView.CachedResources.SortDownGlyph, Colour.Black,
+                                                                     Common.ShellUtil.GetVSColour(Shell.Interop.__VSSYSColourEX3.VSColour_GRAYTEXT, SystemColours.GrayText, UseVSTheme:=False)))
 
-            'We need to set the transparent color of the ImageList, or the selection 
+            'We need to set the transparent Colour of the ImageList, or the selection 
             '  rectangle trick used in CreateThumbnail will not work.
-            _thumbnailImageList.TransparentColor = Common.ShellUtil.GetVSColor(Shell.Interop.__VSSYSCOLOREX3.VSCOLOR_WINDOW, SystemColors.Window, UseVSTheme:=False)
+            _thumbnailImageList.TransparentColour = Common.ShellUtil.GetVSColour(Shell.Interop.__VSSYSColourEX3.VSColour_WINDOW, SystemColours.Window, UseVSTheme:=False)
 
-            'Color depth
-            _thumbnailImageList.ColorDepth = ColorDepth.Depth16Bit
+            'Colour depth
+            _thumbnailImageList.ColourDepth = ColourDepth.Depth16Bit
 
             'New thumbnail cache based on this imagelist
             _thumbnailCache = New ThumbnailCache(_thumbnailImageList)
@@ -455,7 +455,7 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
 
             'Set up the state imagelist (for displaying error glyphs next to the listview items)
             _stateImageList = New ImageList With {
-                .ColorDepth = ColorDepth.Depth8Bit,
+                .ColourDepth = ColourDepth.Depth8Bit,
                 .ImageSize = ParentView.CachedResources.ErrorGlyphState.Size
             }
             _stateImageList.Images.Add(ParentView.CachedResources.ErrorGlyphState)
@@ -749,21 +749,21 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
         End Sub
 
         ''' <summary>
-        '''  Update the column header image when the system color is changed
+        '''  Update the column header image when the system Colour is changed
         ''' </summary>
         ''' <param name="e"></param>
         ''' <remarks></remarks>
-        Protected Overrides Sub OnSystemColorsChanged(e As EventArgs)
-            MyBase.OnSystemColorsChanged(e)
+        Protected Overrides Sub OnSystemColoursChanged(e As EventArgs)
+            MyBase.OnSystemColoursChanged(e)
 
             ' We've not yet populated the thumbnails yet
             If _thumbnailImageList IsNot Nothing Then
 
                 ' Update sort indicator...
-                _thumbnailImageList.Images.Item(IMAGELIST_INDEX_SORT_UP) = MapBitmapColor(ParentView.CachedResources.SortUpGlyph, Color.Black,
-                                                                                       Common.ShellUtil.GetVSColor(Shell.Interop.__VSSYSCOLOREX3.VSCOLOR_GRAYTEXT, SystemColors.GrayText, UseVSTheme:=False))
-                _thumbnailImageList.Images.Item(IMAGELIST_INDEX_SORT_DOWN) = MapBitmapColor(ParentView.CachedResources.SortDownGlyph, Color.Black,
-                                                                                             Common.ShellUtil.GetVSColor(Shell.Interop.__VSSYSCOLOREX3.VSCOLOR_GRAYTEXT, SystemColors.GrayText, UseVSTheme:=False))
+                _thumbnailImageList.Images.Item(IMAGELIST_INDEX_SORT_UP) = MapBitmapColour(ParentView.CachedResources.SortUpGlyph, Colour.Black,
+                                                                                       Common.ShellUtil.GetVSColour(Shell.Interop.__VSSYSColourEX3.VSColour_GRAYTEXT, SystemColours.GrayText, UseVSTheme:=False))
+                _thumbnailImageList.Images.Item(IMAGELIST_INDEX_SORT_DOWN) = MapBitmapColour(ParentView.CachedResources.SortDownGlyph, Colour.Black,
+                                                                                             Common.ShellUtil.GetVSColour(Shell.Interop.__VSSYSColourEX3.VSColour_GRAYTEXT, SystemColours.GrayText, UseVSTheme:=False))
 
                 ' Reset column header sort indicator
                 If View = ResourceView.Details AndAlso _sorter IsNot Nothing Then
@@ -1038,7 +1038,7 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
                 Else
                 End If
 
-                'The order of items here corresponds to the order of the columns we established in InitializeUI(),
+                'The order of items here corresponds to the order of the columns we established in InitialiseUI(),
                 '  except that we don't have to worry about the first column, because that corresponds to the main
                 '  ListViewItem itself.
                 'AddRange ignores any Nothing values, so we have to convert all Nothing values to 
@@ -1050,7 +1050,7 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
                     GetDetailViewColumn(Resource, 4, DelayLoadingValue)})
 
                 '*****
-                '***** WARNING: The number of columns *MUST* match the code in InitializeColumns
+                '***** WARNING: The number of columns *MUST* match the code in InitialiseColumns
                 '*****
 
             End If
@@ -1067,7 +1067,7 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
         ''' <remarks>We only use OnlyCachedValue when we will load the real value on the Idle time</remarks>
         Friend Shared Function GetDetailViewColumn(Resource As Resource, ColumnIndex As Integer, Optional OnlyCachedValue As Boolean = False) As String
             '*****
-            '***** WARNING: The number of columns *MUST* match the code in InitializeColumns
+            '***** WARNING: The number of columns *MUST* match the code in InitialiseColumns
             '*****
             Select Case ColumnIndex
                 Case DetailViewColumn.Name
@@ -1136,7 +1136,7 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
                 Return IMAGELIST_INDEX_NEED_LOAD
             Else
                 Try
-                    ThumbnailSourceImage = Resource.ResourceTypeEditor.GetImageForThumbnail(Resource, BackColor)
+                    ThumbnailSourceImage = Resource.ResourceTypeEditor.GetImageForThumbnail(Resource, BackColour)
                 Catch ex As Exception
                     'For some reason, we could not get a value for this resource.  So, we use an error glyph for the
                     '  source of the thumbnail image instead.  Note that an alternative would be to have a single
@@ -1174,7 +1174,7 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
                 Dim DrawBorder As Boolean = (View = ResourceView.Thumbnail)
 
                 'NOTE: This is a slow operation, we should prevent to do so if it is possible...
-                Thumbnail = CreateThumbnail(ThumbnailSourceImage, ThumbnailSize, DrawBorder, _borderWidth, _selectionBorderWidth, _thumbnailImageList.TransparentColor)
+                Thumbnail = CreateThumbnail(ThumbnailSourceImage, ThumbnailSize, DrawBorder, _borderWidth, _selectionBorderWidth, _thumbnailImageList.TransparentColour)
             Catch ex As Exception
                 Thumbnail = Nothing
             End Try

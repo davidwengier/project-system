@@ -22,7 +22,7 @@ Namespace Microsoft.VisualStudio.Editors.MyExtensibility
 
         Public Sub New()
             MyBase.New()
-            Me.InitializeComponent()
+            Me.InitialiseComponent()
         End Sub
 #Else
         Inherits DesignerFramework.BaseDialog
@@ -37,7 +37,7 @@ Namespace Microsoft.VisualStudio.Editors.MyExtensibility
         Public Sub New(serviceProvider As IServiceProvider,
                 extensionTemplates As List(Of MyExtensionTemplate))
             MyBase.New(serviceProvider)
-            InitializeComponent()
+            InitialiseComponent()
 
             F1Keyword = HelpIDs.Dlg_AddMyNamespaceExtensions
 
@@ -164,7 +164,7 @@ Namespace Microsoft.VisualStudio.Editors.MyExtensibility
         Friend WithEvents colHeaderExtensionVersion As ColumnHeader
         Friend WithEvents tableLayoutOverarching As TableLayoutPanel
 
-        Private Sub InitializeComponent()
+        Private Sub InitialiseComponent()
             Dim resources As ComponentResourceManager = New ComponentResourceManager(GetType(AddMyExtensionsDialog))
             tableLayoutOverarching = New TableLayoutPanel
             tableLayoutOKCancelButtons = New TableLayoutPanel
@@ -196,14 +196,14 @@ Namespace Microsoft.VisualStudio.Editors.MyExtensibility
             '
             resources.ApplyResources(buttonOK, "buttonOK")
             buttonOK.Name = "buttonOK"
-            buttonOK.UseVisualStyleBackColor = True
+            buttonOK.UseVisualStyleBackColour = True
             '
             'buttonCancel
             '
             resources.ApplyResources(buttonCancel, "buttonCancel")
             buttonCancel.DialogResult = DialogResult.Cancel
             buttonCancel.Name = "buttonCancel"
-            buttonCancel.UseVisualStyleBackColor = True
+            buttonCancel.UseVisualStyleBackColour = True
             '
             'listViewExtensions
             '

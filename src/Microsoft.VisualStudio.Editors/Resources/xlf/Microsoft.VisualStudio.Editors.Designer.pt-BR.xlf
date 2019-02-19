@@ -2201,7 +2201,7 @@ Deseja atualizar o valor no arquivo .settings?</target>
         <note />
       </trans-unit>
       <trans-unit id="SD_FullDescriptionText">
-        <source>Application settings allow you to store and retrieve property settings and other information for your application dynamically. For example, the application can save a user's color preferences, then retrieve them the next time it runs.</source>
+        <source>Application settings allow you to store and retrieve property settings and other information for your application dynamically. For example, the application can save a user's Colour preferences, then retrieve them the next time it runs.</source>
         <target state="translated">As configurações de aplicativo permitem que você armazene e recupere dinamicamente configurações de propriedades e outras informações para seu aplicativo. Por exemplo, o aplicativo pode salvar as preferências de cor do usuário e recuperá-las da próxima vez que for executado.</target>
         <note />
       </trans-unit>

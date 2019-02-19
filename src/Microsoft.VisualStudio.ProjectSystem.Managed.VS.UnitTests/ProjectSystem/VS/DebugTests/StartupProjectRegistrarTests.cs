@@ -15,7 +15,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Debug
     public class StartupProjectRegistrarTests
     {
         [Fact]
-        public void Dispose_WhenNotInitialized_DoesNotThrow()
+        public void Dispose_WhenNotInitialised_DoesNotThrow()
         {
             var registrar = CreateInstance();
 
@@ -25,9 +25,9 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Debug
         }
 
         [Fact]
-        public async Task Disposed_WhenInitialized_DoesNotThrow()
+        public async Task Disposed_WhenInitialised_DoesNotThrow()
         {
-            var registrar = await CreateInitializedInstanceAsync();
+            var registrar = await CreateInitialisedInstanceAsync();
 
             registrar.Dispose();
 
@@ -39,7 +39,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Debug
         {
             var vsStartupProjectsListService = new VsStartupProjectsListService();
             var debugProvider = IDebugLaunchProviderFactory.ImplementCanLaunchAsync(() => false);
-            var registrar = await CreateInitializedInstanceAsync(vsStartupProjectsListService, debugProvider);
+            var registrar = await CreateInitialisedInstanceAsync(vsStartupProjectsListService, debugProvider);
 
             await registrar.OnProjectChangedAsync();
 
@@ -52,7 +52,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Debug
             var projectGuid = Guid.NewGuid();
             var vsStartupProjectsListService = new VsStartupProjectsListService();
             var debugProvider = IDebugLaunchProviderFactory.ImplementCanLaunchAsync(() => true);
-            var registrar = await CreateInitializedInstanceAsync(projectGuid, vsStartupProjectsListService, debugProvider);
+            var registrar = await CreateInitialisedInstanceAsync(projectGuid, vsStartupProjectsListService, debugProvider);
 
             await registrar.OnProjectChangedAsync();
 
@@ -65,7 +65,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Debug
             var projectGuid = Guid.NewGuid();
             var vsStartupProjectsListService = new VsStartupProjectsListService();
             var debugProvider = IDebugLaunchProviderFactory.ImplementCanLaunchAsync(() => true);
-            var registrar = await CreateInitializedInstanceAsync(projectGuid, vsStartupProjectsListService, debugProvider);
+            var registrar = await CreateInitialisedInstanceAsync(projectGuid, vsStartupProjectsListService, debugProvider);
 
             await registrar.OnProjectChangedAsync();
 
@@ -81,7 +81,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Debug
         {
             var vsStartupProjectsListService = new VsStartupProjectsListService();
             var debugProvider = IDebugLaunchProviderFactory.ImplementCanLaunchAsync(() => false);
-            var registrar = await CreateInitializedInstanceAsync(vsStartupProjectsListService, debugProvider);
+            var registrar = await CreateInitialisedInstanceAsync(vsStartupProjectsListService, debugProvider);
 
             await registrar.OnProjectChangedAsync();
 
@@ -99,7 +99,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Debug
             var projectGuid = Guid.NewGuid();
             var vsStartupProjectsListService = new VsStartupProjectsListService();
             var debugProvider = IDebugLaunchProviderFactory.ImplementCanLaunchAsync(() => isDebuggable);
-            var registrar = await CreateInitializedInstanceAsync(projectGuid, vsStartupProjectsListService, debugProvider);
+            var registrar = await CreateInitialisedInstanceAsync(projectGuid, vsStartupProjectsListService, debugProvider);
 
             await registrar.OnProjectChangedAsync();
 
@@ -117,7 +117,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Debug
             var projectGuid = Guid.NewGuid();
             var vsStartupProjectsListService = new VsStartupProjectsListService();
             var debugProvider = IDebugLaunchProviderFactory.ImplementCanLaunchAsync(() => isDebuggable);
-            var registrar = await CreateInitializedInstanceAsync(projectGuid, vsStartupProjectsListService, debugProvider);
+            var registrar = await CreateInitialisedInstanceAsync(projectGuid, vsStartupProjectsListService, debugProvider);
 
             await registrar.OnProjectChangedAsync();
 
@@ -136,19 +136,19 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Debug
             var debugProvider1 = IDebugLaunchProviderFactory.ImplementCanLaunchAsync(() => false);
             var debugProvider2 = IDebugLaunchProviderFactory.ImplementCanLaunchAsync(() => true);
 
-            var registrar = await CreateInitializedInstanceAsync(projectGuid, vsStartupProjectsListService, debugProvider1, debugProvider2);
+            var registrar = await CreateInitialisedInstanceAsync(projectGuid, vsStartupProjectsListService, debugProvider1, debugProvider2);
 
             await registrar.OnProjectChangedAsync();
 
             Assert.Equal(projectGuid, vsStartupProjectsListService.ProjectGuid);
         }
 
-        private Task<StartupProjectRegistrar> CreateInitializedInstanceAsync(IVsStartupProjectsListService vsStartupProjectsListService, params IDebugLaunchProvider[] launchProviders)
+        private Task<StartupProjectRegistrar> CreateInitialisedInstanceAsync(IVsStartupProjectsListService vsStartupProjectsListService, params IDebugLaunchProvider[] launchProviders)
         {
-            return CreateInitializedInstanceAsync(Guid.NewGuid(), vsStartupProjectsListService, launchProviders);
+            return CreateInitialisedInstanceAsync(Guid.NewGuid(), vsStartupProjectsListService, launchProviders);
         }
 
-        private Task<StartupProjectRegistrar> CreateInitializedInstanceAsync(Guid projectGuid, IVsStartupProjectsListService vsStartupProjectsListService, params IDebugLaunchProvider[] launchProviders)
+        private Task<StartupProjectRegistrar> CreateInitialisedInstanceAsync(Guid projectGuid, IVsStartupProjectsListService vsStartupProjectsListService, params IDebugLaunchProvider[] launchProviders)
         {
             var projectGuidService = ISafeProjectGuidServiceFactory.ImplementGetProjectGuidAsync(projectGuid);
             var debuggerLaunchProviders = new DebuggerLaunchProviders(ConfiguredProjectFactory.Create());
@@ -159,12 +159,12 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Debug
                 debuggerLaunchProviders.Debuggers.Add(launchProvider, orderPrecedence: orderPrecedence++);
             }
             
-            return CreateInitializedInstanceAsync(vsStartupProjectsListService: vsStartupProjectsListService,
+            return CreateInitialisedInstanceAsync(vsStartupProjectsListService: vsStartupProjectsListService,
                                                   projectGuidService: projectGuidService,
                                                   launchProviders: ActiveConfiguredProjectFactory.ImplementValue(() => debuggerLaunchProviders));
         }
 
-        private async Task<StartupProjectRegistrar> CreateInitializedInstanceAsync(
+        private async Task<StartupProjectRegistrar> CreateInitialisedInstanceAsync(
            IVsStartupProjectsListService vsStartupProjectsListService = null,
            IProjectThreadingService threadingService = null,
            ISafeProjectGuidService projectGuidService = null,
@@ -172,7 +172,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Debug
            ActiveConfiguredProject<DebuggerLaunchProviders> launchProviders = null)
         {
             var instance = CreateInstance(vsStartupProjectsListService, threadingService, projectGuidService, projectSubscriptionService, launchProviders);
-            await instance.InitializeAsync();
+            await instance.InitialiseAsync();
 
             return instance;
         }

@@ -143,18 +143,18 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
             MyBase.Paint(graphics, clipBounds, cellBounds, rowIndex, cellState, value, formattedValue, errorText, cellStyle, advancedBorderStyle, paintParts)
 
 
-            Dim DrawForeColor As Color
-            Dim DrawBackColor As Color
+            Dim DrawForeColour As Colour
+            Dim DrawBackColour As Colour
             If (cellState And DataGridViewElementStates.Selected) = DataGridViewElementStates.Selected Then
-                DrawForeColor = cellStyle.SelectionForeColor
-                DrawBackColor = cellStyle.SelectionBackColor
+                DrawForeColour = cellStyle.SelectionForeColour
+                DrawBackColour = cellStyle.SelectionBackColour
             Else
-                DrawForeColor = cellStyle.ForeColor
-                DrawBackColor = cellStyle.BackColor
+                DrawForeColour = cellStyle.ForeColour
+                DrawBackColour = cellStyle.BackColour
             End If
 
             ' Clear the background...
-            Using Brush As SolidBrush = New SolidBrush(DrawBackColor)
+            Using Brush As SolidBrush = New SolidBrush(DrawBackColour)
                 graphics.FillRectangle(Brush, cellBounds)
             End Using
             PaintBorder(graphics, clipBounds, cellBounds, cellStyle, advancedBorderStyle)
@@ -163,7 +163,7 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
 
             ' If we support preview (paint) value, paint away!
             If UITypeEditor IsNot Nothing AndAlso UITypeEditor.GetPaintValueSupported Then
-                Using ForegroundPen As New Pen(DrawForeColor)
+                Using ForegroundPen As New Pen(DrawForeColour)
                     Const BorderMargin As Integer = 1
                     Dim DrawRect As New Rectangle(cellBounds.X + BorderMargin, cellBounds.Y + BorderMargin, cellBounds.Height - 4 * BorderMargin, cellBounds.Height - 4 * BorderMargin)
                     If value IsNot Nothing Then
@@ -181,17 +181,17 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
             ' Draw the formatted value
             If formattedValue IsNot Nothing Then
                 Dim sf As New StringFormat With {
-                    .LineAlignment = StringAlignment.Center
+                    .LineAlignment = StringAlignment.Centre
                 }
-                Using ForeColorBrush As New SolidBrush(DrawForeColor)
-                    graphics.DrawString(formattedValue.ToString(), cellStyle.Font, ForeColorBrush, StringBounds, sf)
+                Using ForeColourBrush As New SolidBrush(DrawForeColour)
+                    graphics.DrawString(formattedValue.ToString(), cellStyle.Font, ForeColourBrush, StringBounds, sf)
                 End Using
                 ' Consider: consider using a "(null)" value string....
             End If
 
             Dim IsCurrentCell As Boolean = DataGridView.CurrentCellAddress.X = ColumnIndex AndAlso DataGridView.CurrentCellAddress.Y = Me.RowIndex
             If IsCurrentCell Then
-                ControlPaint.DrawFocusRectangle(graphics, cellBounds, DrawForeColor, DrawBackColor)
+                ControlPaint.DrawFocusRectangle(graphics, cellBounds, DrawForeColour, DrawBackColour)
             End If
         End Sub
 
@@ -236,9 +236,9 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
         ''' <param name="InitialFormattedValue"></param>
         ''' <param name="CellStyle"></param>
         ''' <remarks></remarks>
-        Public Overrides Sub InitializeEditingControl(RowIndex As Integer, InitialFormattedValue As Object, CellStyle As DataGridViewCellStyle)
+        Public Overrides Sub InitialiseEditingControl(RowIndex As Integer, InitialFormattedValue As Object, CellStyle As DataGridViewCellStyle)
             Debug.Assert(DataGridView IsNot Nothing AndAlso DataGridView.EditingControl IsNot Nothing AndAlso TypeOf DataGridView.EditingControl Is DataGridViewUITypeEditorEditingControl)
-            MyBase.InitializeEditingControl(RowIndex, InitialFormattedValue, CellStyle)
+            MyBase.InitialiseEditingControl(RowIndex, InitialFormattedValue, CellStyle)
             Dim Ctrl As DataGridViewUITypeEditorEditingControl = DirectCast(DataGridView.EditingControl, DataGridViewUITypeEditorEditingControl)
             Ctrl.ServiceProvider = ServiceProvider
             Ctrl.ValueType = ValueType

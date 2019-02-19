@@ -213,8 +213,8 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
         '''   Dispose.
         ''' </summary>
         ''' <remarks></remarks>
-        Protected Overrides Sub Initialize()
-            MyBase.Initialize()
+        Protected Overrides Sub Initialise()
+            MyBase.Initialise()
 
             'Add our ComponentSerializationService so that the basic designer will give us automatic Undo/Redo
             Dim SerializationService As New ResourceSerializationService()

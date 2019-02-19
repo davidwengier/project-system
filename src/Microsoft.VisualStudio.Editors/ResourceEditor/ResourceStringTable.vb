@@ -79,7 +79,7 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
         ''' </summary>
         ''' <remarks></remarks>
         Public Sub New()
-            InitializeColumns()
+            InitialiseColumns()
 
             AllowUserToAddRows = False
             AllowUserToDeleteRows = False
@@ -205,7 +205,7 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
         ''' Sets up all the columns properly
         ''' </summary>
         ''' <remarks></remarks>
-        Private Sub InitializeColumns()
+        Private Sub InitialiseColumns()
             'There are four columns in the string table:
             '
             '  Name
@@ -466,7 +466,7 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
         Protected Overrides Sub OnFontChanged(e As EventArgs)
             MyBase.OnFontChanged(e)
 
-            ' replace the RowTemplate, so new row would be initialized to the right size
+            ' replace the RowTemplate, so new row would be Initialised to the right size
             RowTemplate = CreateNewResourceRow()
         End Sub
 #End Region
@@ -725,7 +725,7 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
         Private Sub AddResourcesHelper(ResourcesToAdd As IList)
             Debug.Assert(ResourceFile IsNot Nothing, "Must call Populate() first")
 
-            ' create a RowTemplate, so new row would be initialized to the right size
+            ' create a RowTemplate, so new row would be Initialised to the right size
             RowTemplate = CreateNewResourceRow()
 
             Dim RowCountOriginal As Integer = RowCountVirtual

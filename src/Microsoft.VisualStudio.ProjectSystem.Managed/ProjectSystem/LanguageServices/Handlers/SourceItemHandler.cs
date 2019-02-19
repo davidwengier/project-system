@@ -38,7 +38,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices.Handlers
             Requires.NotNull(projectChange, nameof(projectChange));
             Requires.NotNull(logger, nameof(logger));
 
-            VerifyInitialized();
+            VerifyInitialised();
 
             ApplyProjectEvaluation(version, projectChange.Difference, projectChange.After.Items, isActiveContext, logger);
         }
@@ -50,7 +50,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices.Handlers
             Requires.NotNull(removed, nameof(removed));
             Requires.NotNull(logger, nameof(logger));
 
-            VerifyInitialized();
+            VerifyInitialised();
 
             IProjectChangeDiff difference = ConvertToProjectDiff(added, removed);
 

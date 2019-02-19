@@ -239,7 +239,7 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
         '  a project in the current solution).  The ResXDataNode has some properties which require one
         '  or the other.  This stores the value we use for calling those properties.
         'Don't use this field directly, use the TypeResolutionContext property instead.
-        '  Lazily initialized.
+        '  Lazily Initialised.
         Private _typeResolutionContext As Object
 
         'Saved value of the link file/path.  This is used for Undo/Redo purposes when changing
@@ -269,7 +269,7 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
         'A list of names which are not recommended for use by the end user (because they cause
         '  compiler errors or other problems).
         'Use the UnrecommendedResourceNamesHash property to access these so that they are properly
-        '  initialized.
+        '  Initialised.
         Private Shared s_unrecommendedResourceNamesHash As Hashtable  'Of Boolean (key = member name [string])
 
 #End Region
@@ -468,7 +468,7 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
         End Function
 
         ''' <summary>
-        ''' Initializes the Resource.
+        ''' Initialises the Resource.
         ''' </summary>
         ''' <param name="ResXDataNode">The ResXDataNode which will hold the important information about the resource.</param>
         ''' <param name="TypeResolutionContextProvider">An interface from which this resource can query for an ITypeResolutionService for resolving types inside the .resx file.
@@ -1982,7 +1982,7 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
 
 
         ''' <summary>
-        ''' Lazy-initializes and gets a list of names which are not recommended for use by 
+        ''' Lazy-Initialises and gets a list of names which are not recommended for use by 
         '''  the end user (because they cause compiler errors or other problems).
         ''' </summary>
         ''' <value></value>

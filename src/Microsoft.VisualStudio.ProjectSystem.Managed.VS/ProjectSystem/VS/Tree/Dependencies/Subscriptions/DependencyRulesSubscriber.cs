@@ -17,11 +17,11 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies.Subscription
 {
     [Export(typeof(IDependencyCrossTargetSubscriber))]
     [AppliesTo(ProjectCapability.DependenciesTree)]
-    internal sealed class DependencyRulesSubscriber : OnceInitializedOnceDisposedUnderLockAsync, IDependencyCrossTargetSubscriber
+    internal sealed class DependencyRulesSubscriber : OnceInitialisedOnceDisposedUnderLockAsync, IDependencyCrossTargetSubscriber
     {
         public const string DependencyRulesSubscriberContract = "DependencyRulesSubscriberContract";
 
-#pragma warning disable CA2213 // OnceInitializedOnceDisposedAsync are not tracked correctly by the IDisposeable analyzer
+#pragma warning disable CA2213 // OnceInitialisedOnceDisposedAsync are not tracked correctly by the IDisposeable analyzer
         private DisposableBag _subscriptions;
 #pragma warning restore CA2213
         private readonly IUnconfiguredProjectCommonServices _commonServices;
@@ -50,11 +50,11 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies.Subscription
 
         public event EventHandler<DependencySubscriptionChangedEventArgs> DependenciesChanged;
 
-        public async Task InitializeSubscriberAsync(ICrossTargetSubscriptionsHost host, IProjectSubscriptionService subscriptionService)
+        public async Task InitialiseSubscriberAsync(ICrossTargetSubscriptionsHost host, IProjectSubscriptionService subscriptionService)
         {
             _host = host;
 
-            await InitializeAsync();
+            await InitialiseAsync();
 
             IReadOnlyCollection<string> watchedEvaluationRules = GetWatchedRules(RuleHandlerType.Evaluation);
             IReadOnlyCollection<string> watchedDesignTimeBuildRules = GetWatchedRules(RuleHandlerType.DesignTimeBuild);
@@ -72,11 +72,11 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies.Subscription
             IReadOnlyCollection<string> watchedEvaluationRules = GetWatchedRules(RuleHandlerType.Evaluation);
             IReadOnlyCollection<string> watchedDesignTimeBuildRules = GetWatchedRules(RuleHandlerType.DesignTimeBuild);
 
-            // initialize telemetry with all rules for each target framework
+            // Initialise telemetry with all rules for each target framework
             foreach (ITargetFramework targetFramework in projectContext.TargetFrameworks)
             {
-                _treeTelemetryService.InitializeTargetFrameworkRules(targetFramework, watchedEvaluationRules);
-                _treeTelemetryService.InitializeTargetFrameworkRules(targetFramework, watchedDesignTimeBuildRules);
+                _treeTelemetryService.InitialiseTargetFrameworkRules(targetFramework, watchedEvaluationRules);
+                _treeTelemetryService.InitialiseTargetFrameworkRules(targetFramework, watchedDesignTimeBuildRules);
             }
 
             foreach (ConfiguredProject configuredProject in projectContext.InnerConfiguredProjects)
@@ -265,12 +265,12 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies.Subscription
             _treeTelemetryService.ObserveTargetFrameworkRules(targetFrameworkToUpdate, projectUpdate.ProjectChanges.Keys);
         }
 
-        protected override Task InitializeCoreAsync(CancellationToken cancellationToken)
+        protected override Task InitialiseCoreAsync(CancellationToken cancellationToken)
         {
             return Task.CompletedTask;
         }
 
-        protected override Task DisposeCoreUnderLockAsync(bool initialized)
+        protected override Task DisposeCoreUnderLockAsync(bool Initialised)
         {
             ReleaseSubscriptions();
 

@@ -23,7 +23,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies.Subscription
     [Export(DependencySubscriptionsHostContract, typeof(ICrossTargetSubscriptionsHost))]
     [Export(typeof(IDependenciesSnapshotProvider))]
     [AppliesTo(ProjectCapability.DependenciesTree)]
-    internal sealed class DependenciesSnapshotProvider : OnceInitializedOnceDisposedAsync, ICrossTargetSubscriptionsHost, IDependenciesSnapshotProvider
+    internal sealed class DependenciesSnapshotProvider : OnceInitialisedOnceDisposedAsync, ICrossTargetSubscriptionsHost, IDependenciesSnapshotProvider
     {
         public const string DependencySubscriptionsHostContract = "DependencySubscriptionsHostContract";
 
@@ -53,7 +53,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies.Subscription
 
         private ImmutableArray<IDependencyCrossTargetSubscriber> _subscribers;
         private DependenciesSnapshot _currentSnapshot;
-        private int _isInitialized;
+        private int _isInitialised;
 
         /// <summary>
         ///     Current <see cref="AggregateCrossTargetProjectContext"/>, which is an immutable map of
@@ -160,10 +160,10 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies.Subscription
                     _activeConfiguredProjectSubscriptionService,
                     OnActiveConfiguredProjectEvaluatedAsync);
 
-                // Each of the host's subscribers are initialized.
+                // Each of the host's subscribers are Initialised.
                 return Task.WhenAll(
                     Subscribers.Select(
-                        subscriber => subscriber.InitializeSubscriberAsync(this, _activeConfiguredProjectSubscriptionService)));
+                        subscriber => subscriber.InitialiseSubscriberAsync(this, _activeConfiguredProjectSubscriptionService)));
             }
 
             async Task OnActiveConfiguredProjectEvaluatedAsync(IProjectVersionedValue<IProjectSubscriptionUpdate> e)
@@ -173,26 +173,26 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies.Subscription
                     return;
                 }
 
-                await EnsureInitializedAsync();
+                await EnsureInitialisedAsync();
 
                 await OnConfiguredProjectEvaluatedAsync(e);
             }
         }
 
         /// <summary>
-        /// Workaround for CPS bug 375276 which causes double entry on InitializeAsync and exception
+        /// Workaround for CPS bug 375276 which causes double entry on InitialiseAsync and exception
         /// "InvalidOperationException: The value factory has called for the value on the same instance".
         /// https://dev.azure.com/devdiv/DevDiv/_workitems/edit/375276
         /// </summary>
-        private async Task EnsureInitializedAsync()
+        private async Task EnsureInitialisedAsync()
         {
-            if (Interlocked.Exchange(ref _isInitialized, 1) == 0)
+            if (Interlocked.Exchange(ref _isInitialised, 1) == 0)
             {
-                await InitializeAsync();
+                await InitialiseAsync();
             }
         }
 
-        protected override async Task InitializeCoreAsync(CancellationToken cancellationToken)
+        protected override async Task InitialiseCoreAsync(CancellationToken cancellationToken)
         {
             await UpdateProjectContextAndSubscriptionsAsync();
 
@@ -205,7 +205,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies.Subscription
             }
         }
 
-        protected override Task DisposeCoreAsync(bool initialized)
+        protected override Task DisposeCoreAsync(bool Initialised)
         {
             _commonServices.Project.ProjectUnloading -= OnUnconfiguredProjectUnloadingAsync;
             _commonServices.Project.ProjectRenamed -= OnUnconfiguredProjectRenamedAsync;
@@ -214,7 +214,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies.Subscription
 
             _contextUpdateGate.Dispose();
 
-            if (initialized)
+            if (Initialised)
             {
                 DisposeAndClearSubscriptions();
             }
@@ -336,7 +336,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies.Subscription
                 return null;
             }
 
-            await EnsureInitializedAsync();
+            await EnsureInitialisedAsync();
 
             return _currentAggregateProjectContext;
         }

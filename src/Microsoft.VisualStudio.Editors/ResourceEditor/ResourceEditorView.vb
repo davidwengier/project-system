@@ -166,7 +166,7 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
 #End Region
 
 
-#Region "Controls which *are* initialized in InitializeComponents"
+#Region "Controls which *are* Initialised in InitialiseComponents"
 
         'An instance of the ResourceStringTable class.  Used for displaying strings.
         Friend WithEvents StringTable As ResourceStringTable
@@ -202,12 +202,12 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
             MyBase.New()
 
             'This call is required by the Windows Form Designer.
-            InitializeComponent()
+            InitialiseComponent()
 
             SetFonts(ServiceProvider)
 
-            InitializeResourceCategories()
-            InitializeUI()
+            InitialiseResourceCategories()
+            InitialiseUI()
         End Sub
 
 
@@ -536,7 +536,7 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
         'It can be modified using the Windows Form Designer.  
         'Do not modify it using the code editor.
         '<System.Diagnostics.DebuggerStepThrough()> 
-        Private Sub InitializeComponent()
+        Private Sub InitialiseComponent()
             StringTable = New ResourceStringTable
             _resourceListView = New ResourceListView
 
@@ -544,10 +544,10 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
             '
             'ResourceListView
             '
-            _resourceListView.BackColor = ShellUtil.GetVSColor(__VSSYSCOLOREX3.VSCOLOR_WINDOW, SystemColors.Window, UseVSTheme:=False)
+            _resourceListView.BackColour = ShellUtil.GetVSColour(__VSSYSColourEX3.VSColour_WINDOW, SystemColours.Window, UseVSTheme:=False)
             _resourceListView.Text = "ResourceListView"
 
-            _cachedResources = New CachedResourcesForView(_resourceListView.BackColor)
+            _cachedResources = New CachedResourcesForView(_resourceListView.BackColour)
 
             '
             'StringTable
@@ -560,7 +560,7 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
             StringTable.Size = New Size(690, 429)
             StringTable.TabIndex = 1
             StringTable.Text = "StringTable"
-            StringTable.BackgroundColor = ShellUtil.GetVSColor(__VSSYSCOLOREX3.VSCOLOR_THREEDFACE, SystemColors.ButtonFace, UseVSTheme:=False)
+            StringTable.BackgroundColour = ShellUtil.GetVSColour(__VSSYSColourEX3.VSColour_THREEDFACE, SystemColours.ButtonFace, UseVSTheme:=False)
             '
             ' m_toolbarPanel
             '
@@ -579,7 +579,7 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
             Text = "ResourceEditorView"
             Size = New Size(740, 518)
             Padding = New Padding(0, 0, 0, 0)
-            BackColor = ShellUtil.GetVSColor(__VSSYSCOLOREX3.VSCOLOR_THREEDFACE, SystemColors.ButtonFace, UseVSTheme:=False)
+            BackColour = ShellUtil.GetVSColour(__VSSYSColourEX3.VSColour_THREEDFACE, SystemColours.ButtonFace, UseVSTheme:=False)
 
             ResumeLayout(False)
 
@@ -592,10 +592,10 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
 
 
         ''' <summary>
-        ''' Initializes all UI elements.
+        ''' Initialises all UI elements.
         ''' </summary>
         ''' <remarks></remarks>
-        Private Sub InitializeUI()
+        Private Sub InitialiseUI()
             AllowDrop = True
             StringTable.RowHeadersWidth = DpiHelper.LogicalToDeviceUnitsX(35)
         End Sub
@@ -620,7 +620,7 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
 
 
         ''' <summary>
-        ''' Initialize the fonts in the resource editor from the environment (or from the resx file,
+        ''' Initialise the fonts in the resource editor from the environment (or from the resx file,
         '''   if hard-coded there).
         ''' </summary>
         ''' <remarks></remarks>
@@ -859,7 +859,7 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
         ''' Create instances of all the categories
         ''' </summary>
         ''' <remarks></remarks>
-        Private Sub InitializeResourceCategories()
+        Private Sub InitialiseResourceCategories()
             _categoryStrings = New Category(
                 _categoryNameStrings, My.Resources.Microsoft_VisualStudio_Editors_Designer.RSE_Cat_Strings,
                 Category.Display.StringTable,
@@ -1149,7 +1149,7 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
         ''' <remarks></remarks>
         Friend Sub CommitPendingChanges()
             If _currentCategory Is Nothing Then
-                'Ignore if this is fired before categories are set up (InitializeComponent)
+                'Ignore if this is fired before categories are set up (InitialiseComponent)
                 Exit Sub
             End If
 
@@ -4638,7 +4638,7 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
         ''' <remarks></remarks>
         Public Function ShowOpenFileDialog(ByRef UserCanceled As Boolean, Title As String, Filter As String, FilterIndex As Integer, MultiSelect As Boolean, Optional DefaultPath As String = Nothing) As String()
             Try
-                ' BUGFIX: Dev11#35824: Initialize Open File Dialog on the DefaultPath.  Nothing means devenv location.
+                ' BUGFIX: Dev11#35824: Initialise Open File Dialog on the DefaultPath.  Nothing means devenv location.
                 Dim fileNames As ArrayList = GetFilesViaBrowse(RootDesigner.DesignerHost, Handle, DefaultPath, Title, Filter, CUInt(FilterIndex), MultiSelect, Nothing, True)
 
                 If fileNames Is Nothing OrElse fileNames.Count = 0 Then
@@ -4861,7 +4861,7 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
             ''' Constructor
             ''' </summary>
             ''' <remarks></remarks>
-            Public Sub New(background As Color)
+            Public Sub New(background As Colour)
                 _errorGlyphLarge = GetImageFromImageService(KnownMonikers.Blank, 96, 96, background)
                 _errorGlyphSmall = GetImageFromImageService(KnownMonikers.Blank, 16, 16, background)
                 _errorGlyphState = GetImageFromImageService(KnownMonikers.StatusError, 12, 12, background)

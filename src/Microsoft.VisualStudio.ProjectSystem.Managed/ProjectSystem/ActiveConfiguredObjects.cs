@@ -16,7 +16,7 @@ namespace Microsoft.VisualStudio.ProjectSystem
     internal class ActiveConfiguredObjects<T>
     {
         /// <summary>
-        ///     Initializes a new instance of <see cref="ActiveConfiguredObjects{T}"/> with the specified objects and configurations 
+        ///     Initialises a new instance of <see cref="ActiveConfiguredObjects{T}"/> with the specified objects and configurations 
         ///     dimension names.
         /// </summary>
         /// <param name="objects">

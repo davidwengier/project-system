@@ -87,7 +87,7 @@ Namespace Microsoft.VisualStudio.Editors.Interop
         'Friend Const WM_KEYUP As Integer = &H101
         Friend Const WM_CHAR As Integer = &H102
         'Friend Const WM_DEADCHAR As Integer = &H103
-        'Friend Const WM_CTLCOLOR As Integer = &H19
+        'Friend Const WM_CTLColour As Integer = &H19
         'Friend Const WM_SYSKEYDOWN As Integer = &H104
         'Friend Const WM_SYSKEYUP As Integer = &H105
         'Friend Const WM_SYSCHAR As Integer = &H106

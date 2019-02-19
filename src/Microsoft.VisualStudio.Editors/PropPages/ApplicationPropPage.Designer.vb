@@ -34,7 +34,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
         Friend WithEvents ManifestExplanationLabel As System.Windows.Forms.TextBox
         Friend WithEvents iconTableLayoutPanel As System.Windows.Forms.TableLayoutPanel
 
-        <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+        <System.Diagnostics.DebuggerStepThrough()> Private Sub InitialiseComponent()
             Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ApplicationPropPage))
             Me.TopHalfLayoutPanel = New System.Windows.Forms.TableLayoutPanel()
             Me.AssemblyNameLabel = New System.Windows.Forms.Label()
@@ -67,7 +67,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             Me.TopHalfLayoutPanel.SuspendLayout()
             Me.ResourcesGroupBox.SuspendLayout()
             Me.iconTableLayoutPanel.SuspendLayout()
-            CType(Me.AppIconImage, System.ComponentModel.ISupportInitialize).BeginInit()
+            CType(Me.AppIconImage, System.ComponentModel.ISupportInitialise).BeginInit()
             Me.overarchingLayoutPanel.SuspendLayout()
             Me.SuspendLayout()
             '
@@ -268,7 +268,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             Me.ResourcesGroupBox.PerformLayout()
             Me.iconTableLayoutPanel.ResumeLayout(False)
             Me.iconTableLayoutPanel.PerformLayout()
-            CType(Me.AppIconImage, System.ComponentModel.ISupportInitialize).EndInit()
+            CType(Me.AppIconImage, System.ComponentModel.ISupportInitialise).EndInit()
             Me.overarchingLayoutPanel.ResumeLayout(False)
             Me.overarchingLayoutPanel.PerformLayout()
             Me.ResumeLayout(False)

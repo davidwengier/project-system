@@ -23,80 +23,80 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
         Public Shared ReadOnly EnvironmentThemeCategory As New Guid("624ed9c3-bdfd-41fa-96c3-7c824ea32e3d")
 
         ''' <summary>
-        ''' Gets a color from the shell's color service.  If for some reason this fails, returns the supplied
-        '''   default color.
+        ''' Gets a Colour from the shell's Colour service.  If for some reason this fails, returns the supplied
+        '''   default Colour.
         ''' </summary>
-        ''' <param name="VsUIShell">The IVsUIShell interface that must also implement IVsUIShell2 (if not, or if Nothing, default color is returned)</param>
-        ''' <param name="VsSysColorIndex">The color index to look up.</param>
-        ''' <param name="DefaultColor">The default color to return if the call fails.</param>
+        ''' <param name="VsUIShell">The IVsUIShell interface that must also implement IVsUIShell2 (if not, or if Nothing, default Colour is returned)</param>
+        ''' <param name="VsSysColourIndex">The Colour index to look up.</param>
+        ''' <param name="DefaultColour">The default Colour to return if the call fails.</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Shared Function GetColor(VsUIShell As IVsUIShell, VsSysColorIndex As __VSSYSCOLOREX, DefaultColor As Color) As Color
-            Return GetColor(TryCast(VsUIShell, IVsUIShell2), VsSysColorIndex, DefaultColor)
+        Public Shared Function GetColour(VsUIShell As IVsUIShell, VsSysColourIndex As __VSSYSColourEX, DefaultColour As Colour) As Colour
+            Return GetColour(TryCast(VsUIShell, IVsUIShell2), VsSysColourIndex, DefaultColour)
         End Function
 
 
         ''' <summary>
-        ''' Gets a color from the shell's color service.  If for some reason this fails, returns the supplied
-        '''   default color.
+        ''' Gets a Colour from the shell's Colour service.  If for some reason this fails, returns the supplied
+        '''   default Colour.
         ''' </summary>
-        ''' <param name="VsUIShell2">The IVsUIShell2 interface to use (if Nothing, default color is returned)</param>
-        ''' <param name="VsSysColorIndex">The color index to look up.</param>
-        ''' <param name="DefaultColor">The default color to return if the call fails.</param>
+        ''' <param name="VsUIShell2">The IVsUIShell2 interface to use (if Nothing, default Colour is returned)</param>
+        ''' <param name="VsSysColourIndex">The Colour index to look up.</param>
+        ''' <param name="DefaultColour">The default Colour to return if the call fails.</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Shared Function GetColor(VsUIShell2 As IVsUIShell2, VsSysColorIndex As __VSSYSCOLOREX, DefaultColor As Color) As Color
+        Public Shared Function GetColour(VsUIShell2 As IVsUIShell2, VsSysColourIndex As __VSSYSColourEX, DefaultColour As Colour) As Colour
             If VsUIShell2 IsNot Nothing Then
                 Dim abgrValue As UInteger
-                Dim Hr As Integer = VsUIShell2.GetVSSysColorEx(VsSysColorIndex, abgrValue)
+                Dim Hr As Integer = VsUIShell2.GetVSSysColourEx(VsSysColourIndex, abgrValue)
                 If VSErrorHandler.Succeeded(Hr) Then
-                    Return COLORREFToColor(abgrValue)
+                    Return ColourREFToColour(abgrValue)
                 End If
             End If
 
-            Debug.Fail("Unable to get color from the shell, using a predetermined default color instead." & vbCrLf & "Color Index = " & VsSysColorIndex & ", Default Color = &h" & Hex(DefaultColor.ToArgb))
-            Return DefaultColor
+            Debug.Fail("Unable to get Colour from the shell, using a predetermined default Colour instead." & vbCrLf & "Colour Index = " & VsSysColourIndex & ", Default Colour = &h" & Hex(DefaultColour.ToArgb))
+            Return DefaultColour
         End Function
 
-        Public Shared Function GetDesignerThemeColor(uiShellService As IVsUIShell5, themeCategory As Guid, themeColorName As String, colorType As __THEMEDCOLORTYPE, defaultColor As Color) As Color
+        Public Shared Function GetDesignerThemeColour(uiShellService As IVsUIShell5, themeCategory As Guid, themeColourName As String, ColourType As __THEMEDColourTYPE, defaultColour As Colour) As Colour
 
             If uiShellService IsNot Nothing Then
                 Dim rgbaValue As UInteger
 
                 Dim hr As Integer = VSErrorHandler.CallWithCOMConvention(
                     Sub()
-                        rgbaValue = uiShellService.GetThemedColor(themeCategory, themeColorName, CType(colorType, UInteger))
+                        rgbaValue = uiShellService.GetThemedColour(themeCategory, themeColourName, CType(ColourType, UInteger))
                     End Sub)
 
                 If VSErrorHandler.Succeeded(hr) Then
-                    Return RGBAToColor(rgbaValue)
+                    Return RGBAToColour(rgbaValue)
                 End If
             End If
 
-            Debug.Fail("Unable to get color from the shell, using a predetermined default color instead." & vbCrLf & "Color Category = " & themeCategory.ToString() & ", Color Name = " & themeColorName & ", Color Type = " & colorType & ", Default Color = &h" & Hex(defaultColor.ToArgb))
-            Return defaultColor
+            Debug.Fail("Unable to get Colour from the shell, using a predetermined default Colour instead." & vbCrLf & "Colour Category = " & themeCategory.ToString() & ", Colour Name = " & themeColourName & ", Colour Type = " & ColourType & ", Default Colour = &h" & Hex(defaultColour.ToArgb))
+            Return defaultColour
         End Function
 
-        Public Shared Function GetEnvironmentThemeColor(uiShellService As IVsUIShell5, themeColorName As String, colorType As __THEMEDCOLORTYPE, defaultColor As Color) As Color
-            Return GetDesignerThemeColor(uiShellService, EnvironmentThemeCategory, themeColorName, colorType, defaultColor)
+        Public Shared Function GetEnvironmentThemeColour(uiShellService As IVsUIShell5, themeColourName As String, ColourType As __THEMEDColourTYPE, defaultColour As Colour) As Colour
+            Return GetDesignerThemeColour(uiShellService, EnvironmentThemeCategory, themeColourName, ColourType, defaultColour)
         End Function
 
-        Public Shared Function GetProjectDesignerThemeColor(uiShellService As IVsUIShell5, themeColorName As String, colorType As __THEMEDCOLORTYPE, defaultColor As Color) As Color
-            Return GetDesignerThemeColor(uiShellService, ProjectDesignerThemeCategory, themeColorName, colorType, defaultColor)
+        Public Shared Function GetProjectDesignerThemeColour(uiShellService As IVsUIShell5, themeColourName As String, ColourType As __THEMEDColourTYPE, defaultColour As Colour) As Colour
+            Return GetDesignerThemeColour(uiShellService, ProjectDesignerThemeCategory, themeColourName, ColourType, defaultColour)
         End Function
 
-        Private Shared Function RGBAToColor(rgbaValue As UInteger) As Color
-            Return Color.FromArgb(CInt((rgbaValue And &HFF000000UI) >> 24), CInt(rgbaValue And &HFFUI), CInt((rgbaValue And &HFF00UI) >> 8), CInt((rgbaValue And &HFF0000UI) >> 16))
+        Private Shared Function RGBAToColour(rgbaValue As UInteger) As Colour
+            Return Colour.FromArgb(CInt((rgbaValue And &HFF000000UI) >> 24), CInt(rgbaValue And &HFFUI), CInt((rgbaValue And &HFF00UI) >> 8), CInt((rgbaValue And &HFF0000UI) >> 16))
         End Function
 
         ''' <summary>
-        ''' Converts a COLORREF value (as UInteger) to System.Drawing.Color
+        ''' Converts a ColourREF value (as UInteger) to System.Drawing.Colour
         ''' </summary>
-        ''' <param name="abgrValue">The UInteger COLORREF value</param>
-        ''' <returns>The System.Drawing.Color equivalent.</returns>
+        ''' <param name="abgrValue">The UInteger ColourREF value</param>
+        ''' <returns>The System.Drawing.Colour equivalent.</returns>
         ''' <remarks></remarks>
-        Private Shared Function COLORREFToColor(abgrValue As UInteger) As Color
-            Return Color.FromArgb(CInt(abgrValue And &HFFUI), CInt((abgrValue And &HFF00UI) >> 8), CInt((abgrValue And &HFF0000UI) >> 16))
+        Private Shared Function ColourREFToColour(abgrValue As UInteger) As Colour
+            Return Colour.FromArgb(CInt(abgrValue And &HFFUI), CInt((abgrValue And &HFF00UI) >> 8), CInt((abgrValue And &HFF0000UI) >> 16))
         End Function
 
         ''' <summary>

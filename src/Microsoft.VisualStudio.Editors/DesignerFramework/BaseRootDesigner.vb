@@ -178,7 +178,7 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
         Private _menuCommandService As IMenuCommandService = Nothing
         ' Pointer to ISelectionService
         Private _selectionService As ISelectionService = Nothing
-        ' SyncLock object used to lazy initialized private fields.
+        ' SyncLock object used to lazy Initialised private fields.
         Private ReadOnly _syncLockObject As New Object
 
     End Class

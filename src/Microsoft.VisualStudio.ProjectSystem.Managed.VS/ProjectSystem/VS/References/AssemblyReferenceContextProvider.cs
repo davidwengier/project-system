@@ -10,7 +10,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.References
     internal class AssemblyReferencesProviderContext : BaseReferenceContextProvider
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="AssemblyReferencesProviderContext"/> class.
+        /// Initialises a new instance of the <see cref="AssemblyReferencesProviderContext"/> class.
         /// </summary>
         [ImportingConstructor]
         public AssemblyReferencesProviderContext(ConfiguredProject configuredProject) : base(configuredProject)

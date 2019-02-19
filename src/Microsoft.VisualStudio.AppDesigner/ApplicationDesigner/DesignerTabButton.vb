@@ -16,8 +16,8 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
 
 
         Public Sub New()
-            SetStyle(ControlStyles.SupportsTransparentBackColor, True)
-            BackColor = Color.Transparent
+            SetStyle(ControlStyles.SupportsTransparentBackColour, True)
+            BackColour = Colour.Transparent
             SetStyle(ControlStyles.Opaque Or ControlStyles.StandardClick, False)
 
             ' If the UserMouse style is set, the control does its own processing

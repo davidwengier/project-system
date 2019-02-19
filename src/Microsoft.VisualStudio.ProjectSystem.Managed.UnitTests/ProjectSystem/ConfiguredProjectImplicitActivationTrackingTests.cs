@@ -141,7 +141,7 @@ namespace Microsoft.VisualStudio.ProjectSystem
         }
 
         [Fact]
-        public async Task Dispose_WhenNotInitialized_DoesNotThrow()
+        public async Task Dispose_WhenNotInitialised_DoesNotThrow()
         {
             var service = CreateInstance();
             await service.DisposeAsync();

@@ -18,7 +18,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies.CrossTarget
 {
     [Export(typeof(IDependencyCrossTargetSubscriber))]
     [AppliesTo(ProjectCapability.DependenciesTree)]
-    internal class DependencySharedProjectsSubscriber : OnceInitializedOnceDisposed, IDependencyCrossTargetSubscriber
+    internal class DependencySharedProjectsSubscriber : OnceInitialisedOnceDisposed, IDependencyCrossTargetSubscriber
     {
         private readonly List<IDisposable> _subscriptionLinks = new List<IDisposable>();
         private readonly IUnconfiguredProjectTasksService _tasksService;
@@ -35,7 +35,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies.CrossTarget
             _dependenciesSnapshotProvider = dependenciesSnapshotProvider;
         }
 
-        public Task InitializeSubscriberAsync(ICrossTargetSubscriptionsHost host, IProjectSubscriptionService subscriptionService)
+        public Task InitialiseSubscriberAsync(ICrossTargetSubscriptionsHost host, IProjectSubscriptionService subscriptionService)
         {
             _host = host;
 
@@ -106,7 +106,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies.CrossTarget
                 return;
             }
 
-            EnsureInitialized();
+            EnsureInitialised();
 
             await _tasksService.LoadedProjectAsync(() =>
             {
@@ -203,7 +203,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies.CrossTarget
 
         public event EventHandler<DependencySubscriptionChangedEventArgs> DependenciesChanged;
 
-        protected override void Initialize()
+        protected override void Initialise()
         {
         }
 

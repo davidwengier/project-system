@@ -29,9 +29,9 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
             MyBase.New(ServiceProvider)
 
             'This call is required by the Windows Form Designer.
-            InitializeComponent()
+            InitialiseComponent()
 
-            'Add any initialization after the InitializeComponent() call
+            'Add any initialization after the InitialiseComponent() call
 
             F1Keyword = HelpIDs.Dlg_QueryName
         End Sub
@@ -61,7 +61,7 @@ Namespace Microsoft.VisualStudio.Editors.ResourceEditor
         'NOTE: The following procedure is required by the Windows Form Designer
         'It can be modified using the Windows Form Designer.  
         'Do not modify it using the code editor.
-        <DebuggerNonUserCode()> Private Sub InitializeComponent()
+        <DebuggerNonUserCode()> Private Sub InitialiseComponent()
             Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(DialogQueryName))
             LabelDescription = New Label
             TextBoxName = New TextBox

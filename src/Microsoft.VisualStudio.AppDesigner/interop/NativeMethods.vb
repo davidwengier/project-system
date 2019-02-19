@@ -73,13 +73,13 @@ Namespace Microsoft.VisualStudio.Editors.AppDesInterop
         Public Const WM_CHAR As Integer = &H102
         'Public Const WM_DEADCHAR As Integer = &H103
         Public Const WM_UPDATEUISTATE As Integer = &H128
-        'Public Const WM_CTLCOLOR As Integer = &H19
+        'Public Const WM_CTLColour As Integer = &H19
         Public Const WM_SETREDRAW As Integer = &HB
         Public Const LVM_SETCOLUMNWIDTH As Integer = (&H1000 + 30)
         Public Const LVSCW_AUTOSIZE As Integer = -1
         Public Const LVSCW_AUTOSIZE_USEHEADER As Integer = -2
 
-        Public Const UIS_INITIALIZE As Integer = 3
+        Public Const UIS_Initialise As Integer = 3
         Public Const UISF_HIDEFOCUS As Integer = &H1
         Public Const UISF_HIDEACCEL As Integer = &H2
 

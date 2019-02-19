@@ -22,7 +22,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.NuGet
 
     internal partial class PackageRestoreInitiator
     {
-        internal class PackageRestoreInitiatorInstance : OnceInitializedOnceDisposedAsync, IMultiLifetimeInstance
+        internal class PackageRestoreInitiatorInstance : OnceInitialisedOnceDisposedAsync, IMultiLifetimeInstance
         {
             private readonly IUnconfiguredProjectVsServices _projectVsServices;
             private readonly IVsSolutionRestoreService _solutionRestoreService;
@@ -55,19 +55,19 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.NuGet
                 _logger = logger;
             }
 
-            public Task InitializeAsync()
+            public Task InitialiseAsync()
             {
-                return InitializeAsync(CancellationToken.None);
+                return InitialiseAsync(CancellationToken.None);
             }
 
-            protected override Task InitializeCoreAsync(CancellationToken cancellationToken)
+            protected override Task InitialiseCoreAsync(CancellationToken cancellationToken)
             {
                 _configurationsSubscription = _activeConfigurationGroupService.ActiveConfiguredProjectGroupSource.SourceBlock.LinkToAction(OnActiveConfigurationsChanged);
 
                 return Task.CompletedTask;
             }
 
-            protected override Task DisposeCoreAsync(bool initialized)
+            protected override Task DisposeCoreAsync(bool Initialised)
             {
                 _designTimeBuildSubscriptionLink?.Dispose();
                 _configurationsSubscription?.Dispose();

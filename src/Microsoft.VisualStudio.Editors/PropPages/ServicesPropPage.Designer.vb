@@ -20,7 +20,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
         Friend WithEvents AdvancedSettings As System.Windows.Forms.Button
         Friend WithEvents EnableApplicationServices As System.Windows.Forms.CheckBox
 
-        Private Sub InitializeComponent()
+        Private Sub InitialiseComponent()
             Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ServicesPropPage))
             Me.EnableApplicationServices = New System.Windows.Forms.CheckBox
             Me.HelpLabel = New VSThemedLinkLabel
@@ -48,7 +48,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             resources.ApplyResources(Me.EnableApplicationServices, "EnableApplicationServices")
             Me.TableLayoutPanel1.SetColumnSpan(Me.EnableApplicationServices, 2)
             Me.EnableApplicationServices.Name = "EnableApplicationServices"
-            Me.EnableApplicationServices.UseVisualStyleBackColor = True
+            Me.EnableApplicationServices.UseVisualStyleBackColour = True
             '
             'HelpLabel
             '
@@ -56,7 +56,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             Me.TableLayoutPanel1.SetColumnSpan(Me.HelpLabel, 2)
             Me.HelpLabel.Name = "HelpLabel"
             Me.HelpLabel.TabStop = True
-            Me.HelpLabel.SetThemedColor(VsUIShell5Service, SupportsTheming)
+            Me.HelpLabel.SetThemedColour(VsUIShell5Service, SupportsTheming)
             '
             'TableLayoutPanel1
             '
@@ -93,7 +93,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             '
             resources.ApplyResources(Me.WindowsBasedAuth, "WindowsBasedAuth")
             Me.WindowsBasedAuth.Name = "WindowsBasedAuth"
-            Me.WindowsBasedAuth.UseVisualStyleBackColor = True
+            Me.WindowsBasedAuth.UseVisualStyleBackColour = True
             '
             'CustomCredentialProviderType
             '
@@ -106,7 +106,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             Me.FormBasedAuth.Checked = True
             Me.FormBasedAuth.Name = "FormBasedAuth"
             Me.FormBasedAuth.TabStop = True
-            Me.FormBasedAuth.UseVisualStyleBackColor = True
+            Me.FormBasedAuth.UseVisualStyleBackColour = True
             '
             'CustomCredentialProviderTypeLabel
             '
@@ -147,7 +147,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             '
             resources.ApplyResources(Me.AdvancedSettings, "AdvancedSettings")
             Me.AdvancedSettings.Name = "AdvancedSettings"
-            Me.AdvancedSettings.UseVisualStyleBackColor = True
+            Me.AdvancedSettings.UseVisualStyleBackColour = True
             '
             'ServicesPropPage
             '
