@@ -1,9 +1,10 @@
-// Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿// Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
 
 using System;
 using System.ComponentModel.Composition;
 
 using Microsoft.VisualStudio.ProjectSystem.VS.ConnectionPoint;
+using Microsoft.VisualStudio.ProjectSystem.VS.TempPE;
 using VSLangProj;
 
 namespace Microsoft.VisualStudio.ProjectSystem.VS.Automation
@@ -23,6 +24,9 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Automation
         private readonly IProjectThreadingService _threadingService;
         private readonly IUnconfiguredProjectCommonServices _unconfiguredProjectServices;
 
+        [ImportMany]
+        private readonly OrderPrecedenceImportCollection<ITempPEBuildManager> _tempPEManagers;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="VSBuildManager"/> class.
         /// </summary>
@@ -33,6 +37,8 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Automation
             _threadingService = threadingService;
             _unconfiguredProjectServices = unconfiguredProjectServices;
 
+            // We use an import collection for this because the TempPE manager has different capabilities
+            _tempPEManagers = new OrderPrecedenceImportCollection<ITempPEBuildManager>(projectCapabilityCheckProvider: _unconfiguredProjectServices.Project);
             Project = new OrderPrecedenceImportCollection<VSLangProj.VSProject>(projectCapabilityCheckProvider: _unconfiguredProjectServices.Project);
         }
 
@@ -71,6 +77,11 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Automation
         {
             get
             {
+                ITempPEBuildManager mgr = _tempPEManagers.FirstOrDefault()?.Value;
+                if (mgr != null)
+                {
+                    return mgr.GetTempPEMonikers();
+                }
                 throw new NotImplementedException();
             }
         }
@@ -80,7 +91,18 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Automation
         /// </summary>
         public string BuildDesignTimeOutput(string bstrOutputMoniker)
         {
+            Requires.NotNull(bstrOutputMoniker, nameof(bstrOutputMoniker));
+
+            ITempPEBuildManager mgr = _tempPEManagers.FirstOrDefault()?.Value;
+            if (mgr != null)
+            {
+                return _threadingService.ExecuteSynchronously(() =>
+                {
+                    return mgr.GetTempPEDescriptionXmlAsync(bstrOutputMoniker);
+                });
+            }
             throw new NotImplementedException();
+
         }
 
         void IEventSource<_dispBuildManagerEvents>.OnSinkAdded(_dispBuildManagerEvents sink)
