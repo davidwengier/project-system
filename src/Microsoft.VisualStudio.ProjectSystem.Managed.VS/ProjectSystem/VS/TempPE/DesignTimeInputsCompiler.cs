@@ -21,50 +21,32 @@ using Microsoft.VisualStudio.Threading.Tasks;
 
 namespace Microsoft.VisualStudio.ProjectSystem.VS.TempPE
 {
-    internal class TempPECompilerManager : OnceInitializedOnceDisposedAsync
+    internal class DesignTimeInputsCompiler : OnceInitializedOnceDisposed
     {
         private static readonly TimeSpan s_compilationDelayTime = TimeSpan.FromMilliseconds(500);
 
-        private readonly UnconfiguredProject _project;
-        private readonly IActiveConfiguredProjectSubscriptionService _projectSubscriptionService;
-        private readonly IActiveWorkspaceProjectContextHost _activeWorkspaceProjectContextHost;
-        private readonly IProjectThreadingService _threadingService;
-        private readonly IDesignTimeInputsDataSource _inputsDataSource;
-        private readonly IDesignTimeInputsFileWatcher _fileWatcher;
+
+        private readonly IDesignTimeInputsChangeTracker _changeTracker;
         private readonly ITempPECompiler _compiler;
         private readonly IFileSystem _fileSystem;
         private readonly ITelemetryService _telemetryService;
         private readonly TaskDelayScheduler _scheduler;
 
-        private readonly DisposableBag _disposables = new DisposableBag();
-
         private ImmutableArray<string> _designTimeInputs;
         private ImmutableArray<string> _sharedDesignTimeInputs;
         private ImmutableDictionary<string, bool> _filesToCompile = ImmutableDictionary<string, bool>.Empty.WithComparers(StringComparers.Paths); // Key is filename, value is whether to ignore the last write time check
         private string? _outputPath;
-        private readonly TaskCompletionSource<bool> _receivedProjectRuleSource = new TaskCompletionSource<bool>();
-
-        private ITargetBlock<IProjectVersionedValue<Tuple<DesignTimeInputs, IProjectSubscriptionUpdate>>>? _inputsActionBlock;
-        private ITargetBlock<IProjectVersionedValue<string[]>>? _fileWatcherActionBlock;
 
         [ImportingConstructor]
-        public TempPECompilerManager(UnconfiguredProject project,
-                                     IActiveConfiguredProjectSubscriptionService projectSubscriptionService,
-                                     IActiveWorkspaceProjectContextHost activeWorkspaceProjectContextHost,
-                                     IProjectThreadingService threadingService,
-                                     IDesignTimeInputsDataSource inputsDataSource,
-                                     IDesignTimeInputsFileWatcher fileWatcher,
+        public DesignTimeInputsChangeTracker(UnconfiguredProject project,
+                                     IDesignTimeInputsChangeTracker changeTracker,
                                      ITempPECompiler compiler,
                                      IFileSystem fileSystem,
                                      ITelemetryService telemetryService)
             : base(threadingService.JoinableTaskContext)
         {
             _project = project;
-            _projectSubscriptionService = projectSubscriptionService;
-            _activeWorkspaceProjectContextHost = activeWorkspaceProjectContextHost;
-            _threadingService = threadingService;
-            _inputsDataSource = inputsDataSource;
-            _fileWatcher = fileWatcher;
+            _changeTracker = changeTracker;
             _compiler = compiler;
             _fileSystem = fileSystem;
             _telemetryService = telemetryService;
@@ -75,149 +57,6 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.TempPE
         /// This is to allow unit tests to run the compilation synchronously rather than waiting for async work to complete
         /// </summary>
         internal bool CompileSynchronously { get; set; }
-
-        protected override Task InitializeCoreAsync(CancellationToken cancellationToken)
-        {
-            // Create an action block process the design time inputs and configuration general changes
-            _inputsActionBlock = DataflowBlockSlim.CreateActionBlock<IProjectVersionedValue<Tuple<DesignTimeInputs, IProjectSubscriptionUpdate>>>(ProcessDataflowChanges);
-
-            IDisposable projectLink = ProjectDataSources.SyncLinkTo(
-                   _inputsDataSource.SourceBlock.SyncLinkOptions(
-                       linkOptions: DataflowOption.PropagateCompletion),
-                   _projectSubscriptionService.ProjectRuleSource.SourceBlock.SyncLinkOptions(
-                      linkOptions: DataflowOption.WithRuleNames(ConfigurationGeneral.SchemaName)),
-                   _inputsActionBlock,
-                   DataflowOption.PropagateCompletion,
-                   cancellationToken: _project.Services.ProjectAsynchronousTasks.UnloadCancellationToken);
-
-            // Create an action block to process file change notifications
-            _fileWatcherActionBlock = DataflowBlockSlim.CreateActionBlock<IProjectVersionedValue<string[]>>(ProcessFileChangeNotification);
-            IDisposable watcherLink = _fileWatcher.SourceBlock.LinkTo(_fileWatcherActionBlock, DataflowOption.PropagateCompletion);
-
-            _disposables.AddDisposable(projectLink);
-            _disposables.AddDisposable(watcherLink);
-
-            return Task.CompletedTask;
-        }
-
-        internal void ProcessFileChangeNotification(IProjectVersionedValue<string[]> arg)
-        {
-            // Ignore any updates until we've received the first set of design time inputs (which shouldn't happen anyway)
-            // That first update will queue all of the files so we're not losing anything
-            if (_designTimeInputs == null)
-            {
-                return;
-            }
-
-            foreach (string changedFile in arg.Value)
-            {
-                string relativeFilePath = _project.MakeRelative(changedFile);
-
-                // if a shared input changes, we recompile everything
-                if (_sharedDesignTimeInputs.Contains(relativeFilePath))
-                {
-                    foreach (string file in _designTimeInputs)
-                    {
-                        ImmutableInterlocked.TryAdd(ref _filesToCompile, file, /* ignoreWriteTime */ false);
-                    }
-                    // Since we've just queued every file, we don't care about any other changes
-                    break;
-                }
-                else
-                {
-                    // A normal design time input, so just add it to the queue
-                    ImmutableInterlocked.TryAdd(ref _filesToCompile, relativeFilePath, /* ignoreWriteTime */ false);
-                }
-            }
-
-            QueueCompilation();
-        }
-
-        internal void ProcessDataflowChanges(IProjectVersionedValue<Tuple<DesignTimeInputs, IProjectSubscriptionUpdate>> input)
-        {
-            DesignTimeInputs inputs = input.Value.Item1;
-
-            IProjectChangeDescription configChanges = input.Value.Item2.ProjectChanges[ConfigurationGeneral.SchemaName];
-
-            // On the first call where we receive design time inputs we queue compilation of all of them, knowing that we'll only compile if the file write date requires it
-            if (_designTimeInputs == null)
-            {
-                AddAllInputsToQueue(false);
-            }
-            else
-            {
-                // If its not the first call...
-
-                // If a new shared design time input is added, we need to recompile everything regardless of source file modified date
-                // because it could be an old file that is being promoted to a shared input
-                if (inputs.SharedInputs.Except(_sharedDesignTimeInputs, StringComparers.Paths).Any())
-                {
-                    AddAllInputsToQueue(true);
-                }
-                // If the namespace or output path inputs have changed, then we recompile every file regardless of date
-                else if (configChanges.Difference.ChangedProperties.Contains(ConfigurationGeneral.RootNamespaceProperty) ||
-                         configChanges.Difference.ChangedProperties.Contains(ConfigurationGeneral.ProjectDirProperty) ||
-                         configChanges.Difference.ChangedProperties.Contains(ConfigurationGeneral.IntermediateOutputPathProperty))
-                {
-                    AddAllInputsToQueue(true);
-                }
-                else
-                {
-                    // Otherwise we just queue any new design time inputs, and still do date checks
-                    foreach (string file in inputs.Inputs.Except(_designTimeInputs, StringComparers.Paths))
-                    {
-                        ImmutableInterlocked.TryAdd(ref _filesToCompile, file, /* ignoreWriteTime */ false);
-                    }
-                }
-            }
-
-            // Make sure we have the up to date list of inputs
-            _designTimeInputs = inputs.Inputs;
-            _sharedDesignTimeInputs = inputs.SharedInputs;
-
-            // Make sure we have the up to date output path
-            string basePath = configChanges.After.Properties[ConfigurationGeneral.ProjectDirProperty];
-            string objPath = configChanges.After.Properties[ConfigurationGeneral.IntermediateOutputPathProperty];
-            _outputPath = GetOutputPath(basePath, objPath);
-
-            // Remove any files in the queue that we don't care about any more
-            foreach (string file in _filesToCompile.Keys)
-            {
-                if (!inputs.Inputs.Contains(file))
-                {
-                    ImmutableInterlocked.TryRemove(ref _filesToCompile, file, out _);
-                }
-            }
-
-            _receivedProjectRuleSource.TrySetResult(true);
-
-            QueueCompilation();
-
-            void AddAllInputsToQueue(bool skipFileWriteChecks)
-            {
-                foreach (string file in inputs.Inputs)
-                {
-                    ImmutableInterlocked.TryAdd(ref _filesToCompile, file, skipFileWriteChecks);
-                }
-            }
-        }
-
-        internal static string GetOutputPath(string projectPath, string intermediateOutputPath)
-        {
-            return Path.Combine(projectPath, intermediateOutputPath, "TempPE");
-        }
-
-        private void QueueCompilation()
-        {
-            if (_filesToCompile.Count > 0)
-            {
-                JoinableTask task = _scheduler.ScheduleAsyncTask(ProcessCompileQueueAsync, _project.Services.ProjectAsynchronousTasks.UnloadCancellationToken);
-                if (CompileSynchronously)
-                {
-                    _threadingService.ExecuteSynchronously(() => task.Task);
-                }
-            }
-        }
 
         protected override async Task DisposeCoreAsync(bool initialized)
         {
@@ -233,6 +72,18 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.TempPE
             // By waiting for completion we know that the following dispose will cancel any pending compilations, and there won't be any more
             _scheduler.Dispose();
             _disposables.Dispose();
+        }
+
+        private void QueueCompilation()
+        {
+            if (_filesToCompile.Count > 0)
+            {
+                JoinableTask task = _scheduler.ScheduleAsyncTask(ProcessCompileQueueAsync, _project.Services.ProjectAsynchronousTasks.UnloadCancellationToken);
+                if (CompileSynchronously)
+                {
+                    _threadingService.ExecuteSynchronously(() => task.Task);
+                }
+            }
         }
 
         private Task ProcessCompileQueueAsync(CancellationToken token)

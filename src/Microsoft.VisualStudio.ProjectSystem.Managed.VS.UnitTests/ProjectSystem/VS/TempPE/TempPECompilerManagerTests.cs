@@ -28,7 +28,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.TempPE
         private readonly string _projectFolder = @"C:\MyProject";
         private string _intermediateOutputPath = "MyOutput";
         private readonly IFileSystemMock _fileSystem;
-        private readonly TempPECompilerManager _manager;
+        private readonly DesignTimeInputsChangeTracker _manager;
 
         // For tracking compilation events that occur, to verify
         private readonly List<(string OutputFileName, string[] SourceFiles)> _compilationResults = new List<(string, string[])>();
@@ -46,7 +46,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.TempPE
             Assert.Single(_compilationResults);
             Assert.Single(_compilationResults[0].SourceFiles);
             Assert.Contains("File1.cs", _compilationResults[0].SourceFiles);
-            Assert.Equal(Path.Combine(TempPECompilerManager.GetOutputPath(_projectFolder, _intermediateOutputPath), "File1.cs.dll"), _compilationResults[0].OutputFileName);
+            Assert.Equal(Path.Combine(DesignTimeInputsChangeTracker.GetOutputPath(_projectFolder, _intermediateOutputPath), "File1.cs.dll"), _compilationResults[0].OutputFileName);
         }
 
         [Fact]
@@ -62,7 +62,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.TempPE
             Assert.Single(_compilationResults);
             Assert.Single(_compilationResults[0].SourceFiles);
             Assert.Contains("File1.cs", _compilationResults[0].SourceFiles);
-            Assert.Equal(Path.Combine(TempPECompilerManager.GetOutputPath(_projectFolder, _intermediateOutputPath), "File1.cs.dll"), _compilationResults[0].OutputFileName);
+            Assert.Equal(Path.Combine(DesignTimeInputsChangeTracker.GetOutputPath(_projectFolder, _intermediateOutputPath), "File1.cs.dll"), _compilationResults[0].OutputFileName);
 
             Assert.Equal(@"<root>
   <Application private_binpath = ""C:\MyProject\MyOutput\TempPE""/>
@@ -87,10 +87,10 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.TempPE
             Assert.Single(_compilationResults);
             Assert.Single(_compilationResults[0].SourceFiles);
             Assert.Contains("File1.cs", _compilationResults[0].SourceFiles);
-            Assert.Equal(Path.Combine(TempPECompilerManager.GetOutputPath(_projectFolder, _intermediateOutputPath), "File1.cs.dll"), _compilationResults[0].OutputFileName);
+            Assert.Equal(Path.Combine(DesignTimeInputsChangeTracker.GetOutputPath(_projectFolder, _intermediateOutputPath), "File1.cs.dll"), _compilationResults[0].OutputFileName);
 
             // Remove the output file, should mean that getting the XML forces a compile
-            _fileSystem.RemoveFile(Path.Combine(TempPECompilerManager.GetOutputPath(_projectFolder, _intermediateOutputPath), "File1.cs.dll"));
+            _fileSystem.RemoveFile(Path.Combine(DesignTimeInputsChangeTracker.GetOutputPath(_projectFolder, _intermediateOutputPath), "File1.cs.dll"));
 
             string tempPEDescriptionXml = await _manager.GetDesignTimeInputXmlAsync("File1.cs");
 
@@ -98,7 +98,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.TempPE
             Assert.Equal(2, _compilationResults.Count);
             Assert.Single(_compilationResults[1].SourceFiles);
             Assert.Contains("File1.cs", _compilationResults[1].SourceFiles);
-            Assert.Equal(Path.Combine(TempPECompilerManager.GetOutputPath(_projectFolder, _intermediateOutputPath), "File1.cs.dll"), _compilationResults[1].OutputFileName);
+            Assert.Equal(Path.Combine(DesignTimeInputsChangeTracker.GetOutputPath(_projectFolder, _intermediateOutputPath), "File1.cs.dll"), _compilationResults[1].OutputFileName);
 
             Assert.Equal(@"<root>
   <Application private_binpath = ""C:\MyProject\MyOutput\TempPE""/>
@@ -124,11 +124,11 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.TempPE
             Assert.Equal(2, _compilationResults.Count);
             Assert.Single(_compilationResults[0].SourceFiles);
             Assert.Contains("File1.cs", _compilationResults[0].SourceFiles);
-            Assert.Equal(Path.Combine(TempPECompilerManager.GetOutputPath(_projectFolder, _intermediateOutputPath), "File1.cs.dll"), _compilationResults[0].OutputFileName);
+            Assert.Equal(Path.Combine(DesignTimeInputsChangeTracker.GetOutputPath(_projectFolder, _intermediateOutputPath), "File1.cs.dll"), _compilationResults[0].OutputFileName);
 
             Assert.Single(_compilationResults[1].SourceFiles);
             Assert.Contains("File1.cs", _compilationResults[1].SourceFiles);
-            Assert.Equal(Path.Combine(TempPECompilerManager.GetOutputPath(_projectFolder, _intermediateOutputPath), "File1.cs.dll"), _compilationResults[1].OutputFileName);
+            Assert.Equal(Path.Combine(DesignTimeInputsChangeTracker.GetOutputPath(_projectFolder, _intermediateOutputPath), "File1.cs.dll"), _compilationResults[1].OutputFileName);
         }
 
         [Fact]
@@ -144,7 +144,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.TempPE
         [Fact]
         public async Task SingleDesignTimeInput_OutputUpToDate_ShouldntCompile()
         {
-            _fileSystem.AddFile(Path.Combine(TempPECompilerManager.GetOutputPath(_projectFolder, _intermediateOutputPath), "File1.cs.dll"), DateTime.UtcNow.AddMinutes(10));
+            _fileSystem.AddFile(Path.Combine(DesignTimeInputsChangeTracker.GetOutputPath(_projectFolder, _intermediateOutputPath), "File1.cs.dll"), DateTime.UtcNow.AddMinutes(10));
 
             var inputs = new DesignTimeInputs(new string[] { "File1.cs" }, new string[] { });
 
@@ -158,7 +158,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.TempPE
         {
             var inputs = new DesignTimeInputs(new string[] { "File1.cs" }, new string[] { });
 
-            _fileSystem.AddFile(Path.Combine(TempPECompilerManager.GetOutputPath(_projectFolder, _intermediateOutputPath), "File1.cs.dll"), DateTime.UtcNow.AddMinutes(-10));
+            _fileSystem.AddFile(Path.Combine(DesignTimeInputsChangeTracker.GetOutputPath(_projectFolder, _intermediateOutputPath), "File1.cs.dll"), DateTime.UtcNow.AddMinutes(-10));
 
             await VerifyProjectChangeCausesCompilation(1, inputs);
 
@@ -179,7 +179,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.TempPE
             Assert.Contains("File2.cs", _compilationResults[0].SourceFiles);
             Assert.DoesNotContain("File1.cs", _compilationResults[0].SourceFiles);
             Assert.Contains("SharedFile.cs", _compilationResults[0].SourceFiles);
-            Assert.Equal(Path.Combine(TempPECompilerManager.GetOutputPath(_projectFolder, _intermediateOutputPath), "File2.cs.dll"), _compilationResults[0].OutputFileName);
+            Assert.Equal(Path.Combine(DesignTimeInputsChangeTracker.GetOutputPath(_projectFolder, _intermediateOutputPath), "File2.cs.dll"), _compilationResults[0].OutputFileName);
         }
 
         [Fact]
@@ -216,8 +216,8 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.TempPE
             Assert.DoesNotContain("File2.cs", _compilationResults[0].SourceFiles);
             Assert.Contains("File2.cs", _compilationResults[1].SourceFiles);
             Assert.DoesNotContain("File1.cs", _compilationResults[1].SourceFiles);
-            Assert.Equal(Path.Combine(TempPECompilerManager.GetOutputPath(_projectFolder, _intermediateOutputPath), "File1.cs.dll"), _compilationResults[0].OutputFileName);
-            Assert.Equal(Path.Combine(TempPECompilerManager.GetOutputPath(_projectFolder, _intermediateOutputPath), "File2.cs.dll"), _compilationResults[1].OutputFileName);
+            Assert.Equal(Path.Combine(DesignTimeInputsChangeTracker.GetOutputPath(_projectFolder, _intermediateOutputPath), "File1.cs.dll"), _compilationResults[0].OutputFileName);
+            Assert.Equal(Path.Combine(DesignTimeInputsChangeTracker.GetOutputPath(_projectFolder, _intermediateOutputPath), "File2.cs.dll"), _compilationResults[1].OutputFileName);
         }
 
         [Fact]
@@ -260,7 +260,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.TempPE
         [Fact]
         public async Task SingleDesignTimeInput_CompileFailed_ShouldDeleteOutputFile()
         {
-            var outputPath = Path.Combine(TempPECompilerManager.GetOutputPath(_projectFolder, _intermediateOutputPath), "File1.cs.dll");
+            var outputPath = Path.Combine(DesignTimeInputsChangeTracker.GetOutputPath(_projectFolder, _intermediateOutputPath), "File1.cs.dll");
             _fileSystem.AddFile(outputPath, DateTime.UtcNow.AddMinutes(-10));
 
             var inputs = new DesignTimeInputs(new string[] { "File1.cs" }, new string[] { });
@@ -277,7 +277,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.TempPE
         [Fact]
         public async Task SingleDesignTimeInput_CompileCancelled_ShouldDeleteOutputFile()
         {
-            var outputPath = Path.Combine(TempPECompilerManager.GetOutputPath(_projectFolder, _intermediateOutputPath), "File1.cs.dll");
+            var outputPath = Path.Combine(DesignTimeInputsChangeTracker.GetOutputPath(_projectFolder, _intermediateOutputPath), "File1.cs.dll");
             _fileSystem.AddFile(outputPath, DateTime.UtcNow.AddMinutes(-10));
 
             var inputs = new DesignTimeInputs(new string[] { "File1.cs" }, new string[] { });
@@ -294,7 +294,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.TempPE
         [Fact]
         public async Task SingleDesignTimeInput_CompileThrows_ShouldDeleteOutputFile()
         {
-            var outputPath = Path.Combine(TempPECompilerManager.GetOutputPath(_projectFolder, _intermediateOutputPath), "File1.cs.dll");
+            var outputPath = Path.Combine(DesignTimeInputsChangeTracker.GetOutputPath(_projectFolder, _intermediateOutputPath), "File1.cs.dll");
             _fileSystem.AddFile(outputPath, DateTime.UtcNow.AddMinutes(-10));
 
             var inputs = new DesignTimeInputs(new string[] { "File1.cs" }, new string[] { });
@@ -339,7 +339,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.TempPE
             compilerMock.Setup(c => c.CompileAsync(It.IsAny<IWorkspaceProjectContext>(), It.IsAny<string>(), It.IsAny<ISet<string>>(), It.IsAny<CancellationToken>()))
                         .ReturnsAsync((IWorkspaceProjectContext context, string outputFile, ISet<string> filesToCompile, CancellationToken token) => _compilationCallback(outputFile, filesToCompile));
 
-            _manager = new TempPECompilerManager(unconfiguredProject,
+            _manager = new DesignTimeInputsChangeTracker(unconfiguredProject,
                                       projectSubscriptionService,
                                       activeWorkspaceProjectContextHost,
                                       threadingService,
