@@ -59,7 +59,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
 
                 ' Verify that the value is of the expected type and add the output types to the combo box
                 Dim arrayValue As UInteger() = TryCast(propertyValue, UInteger())
-                If arrayValue IsNot Nothing Then
+                If arrayValue IsNot Nothing AndAlso arrayValue.Length > 0 Then
 
                     For Each value As UInteger In arrayValue
                         comboBox.Items.Add(New OutputTypeComboBoxValue(value))

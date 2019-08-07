@@ -22,6 +22,17 @@
     <DesignerVariableNaming Condition="'$(DesignerVariableNaming)' == ''">VB</DesignerVariableNaming>
     <DesignerHiddenCodeGeneration Condition="'$(DesignerHiddenCodeGeneration)' == ''">Declarations;InitMethods</DesignerHiddenCodeGeneration>
 
+    <!-- Set the various properties for OutputType for VB applications -->
+    <!-- .NET Framework supports all MyApplication types -->
+    <_SupportedMyApplicationTypes Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'">WindowsApp;WindowsClassLib;CommandLineApp;WindowsService;WebControl</_SupportedMyApplicationTypes>
+    <!-- .NET Core only supports three -->
+    <_SupportedMyApplicationTypes Condition="'$(TargetFrameworkIdentifier)' == '.NETCoreApp' And '$(_TargetFrameworkVersionWithoutV)' >= '3.0'">WindowsApp;WindowsClassLib;CommandLineApp</_SupportedMyApplicationTypes>
+    <!-- By convention, we allow the user to override them -->
+    <SupportedMyApplicationTypes Condition="'$(SupportedMyApplicationTypes)' == ''">$(_SupportedMyApplicationTypes)</SupportedMyApplicationTypes>
+    
+    <!-- If no SupportedMyApplicationTypes have been specified then fallback to the old behaviour of SupportedOutputTypes -->
+    <SupportedOutputTypes Condition="'$(SupportedOutputTypes)' == '' And '$(SupportedMyApplicationTypes)' == ''">Exe;WinExe;Library</SupportedOutputTypes>
+    
     <!-- Turn off rules and capabilities that are defined in MSBuild so that we can import our own below -->
     <DefineVisualBasicItemSchemas>false</DefineVisualBasicItemSchemas>
   </PropertyGroup>
@@ -37,8 +48,7 @@
      <ProjectCapability Include="
                           VB;
                           Managed;
-                          ClassDesigner;
-                          PreventAutomaticMyApplication;" />
+                          ClassDesigner;" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(DefineCommonManagedItemSchemas)' == 'true'">

@@ -21,7 +21,10 @@
     <DesignerFunctionVisibility Condition="'$(DesignerFunctionVisibility)' == ''">Private</DesignerFunctionVisibility>
     <DesignerVariableNaming Condition="'$(DesignerVariableNaming)' == ''">Camel</DesignerVariableNaming>
     <DesignerHiddenCodeGeneration Condition="'$(DesignerHiddenCodeGeneration)' == ''">Declarations</DesignerHiddenCodeGeneration>
-  
+
+    <!--This property sets the default output types supported by the project system.-->
+    <SupportedOutputTypes Condition="'$(SupportedOutputTypes)' == ''">Exe;WinExe;Library</SupportedOutputTypes>
+
     <!-- Turn off rules and capabilities that are defined in MSBuild so that we can import our own below -->
     <DefineCSharpItemSchemas>false</DefineCSharpItemSchemas>
   </PropertyGroup>

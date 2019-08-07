@@ -18,6 +18,9 @@
     <AddItemTemplatesGuid Condition="'$(AddItemTemplatesGuid)' == ''">{F2A71F9B-5D33-465A-A702-920D77279786}</AddItemTemplatesGuid>
     <CmdUIContextGuid Condition="'$(CmdUIContextGuid)' == ''">{F2A71F9B-5D33-465A-A702-920D77279786}</CmdUIContextGuid>
     <GeneratorsTypeGuid Condition="'$(GeneratorsTypeGuid)' == ''">{F2A71F9B-5D33-465A-A702-920D77279786}</GeneratorsTypeGuid>
+
+    <!--This property sets the default output types supported by the project system.-->
+    <SupportedOutputTypes Condition="'$(SupportedOutputTypes)' == ''">Exe;WinExe;Library</SupportedOutputTypes>
   </PropertyGroup>
 
   <ItemGroup>
