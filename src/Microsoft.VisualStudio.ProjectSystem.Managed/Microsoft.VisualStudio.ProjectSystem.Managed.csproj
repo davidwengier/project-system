@@ -168,7 +168,9 @@
       <Generator>MSBuild:GenerateRuleSourceFromXaml</Generator>
       <SubType>Designer</SubType>
     </XamlPropertyRule>
-    <XamlPropertyRuleNoCodeBehind Include="ProjectSystem\Rules\Items\Compile.BrowseObject.xaml" />
+    <XamlPropertyRule Include="ProjectSystem\Rules\Items\Compile.BrowseObject.xaml">
+      <RuleInjection>None</RuleInjection>
+    </XamlPropertyRule>
 
     <Compile Update="ProjectSystem\Rules\Items\Content.cs">
       <DependentUpon>Content.xaml</DependentUpon>
