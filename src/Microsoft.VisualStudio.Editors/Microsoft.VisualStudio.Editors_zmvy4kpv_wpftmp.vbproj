@@ -1,0 +1,868 @@
+<!-- Copyright (c)  Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information. -->
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\VisualStudioDesigner.props" />
+  <PropertyGroup>
+    <Prefer32Bit>false</Prefer32Bit>
+    <StrongNameKeyId>Microsoft</StrongNameKeyId>
+    <TargetFramework>net472</TargetFramework>
+    <IsVsixProject>true</IsVsixProject>
+    <CreateVsixContainer>false</CreateVsixContainer>
+    <!-- TODO: Function/Property doesn't return a value on all code paths (https://github.com/dotnet/project-system/issues/2592) -->
+    <NoWarn>$(NoWarn);42353;42355;42105;NU5125</NoWarn>
+    <!-- Nuget -->
+    <IsPackable>true</IsPackable>
+    <Description>Implementation of some designers and project property page editors in VisualStudio.</Description>
+    <Summary>Editors implementation for Project Properties</Summary>
+    <PackageTags>Roslyn Project Property Page Editors VisualStudio</PackageTags>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Setup.Configuration.Interop" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Microsoft.VisualStudio.AppDesigner\Microsoft.VisualStudio.AppDesigner.vbproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="AddImportsDialogs\AddImports.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="AddImportsDialogs\AutoAddImportsCollisionDialog.resx">
+      <DependentUpon>AutoAddImportsCollisionDialog.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="AddImportsDialogs\AutoAddImportsExtensionCollisionDialog.resx">
+      <DependentUpon>AutoAddImportsExtensionCollisionDialog.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="DesignerFramework\ErrorControl.resx">
+      <DependentUpon>ErrorControl.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="MyExtensibility\AddMyExtensionsDialog.resx">
+      <DependentUpon>AddMyExtensionsDialog.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="MyExtensibility\AssemblyOptionDialog.resx">
+      <DependentUpon>AssemblyOptionDialog.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="MyExtensibility\MyExtensibilityPropPage.resx">
+      <DependentUpon>MyExtensibilityPropPage.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="OptionPages\GeneralOptionPageResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <LastGenOutput>GeneralOptionPageResources.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="PropPages\AdvancedServicesDialog.resx">
+      <DependentUpon>AdvancedServicesDialog.vb</DependentUpon>
+      <LogicalName>Microsoft.VisualStudio.Editors.PropertyPages.AdvancedServicesDialog.resources</LogicalName>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="PropPages\AdvBuildSettingsPropPage.resx">
+      <DependentUpon>AdvBuildSettingsPropPage.vb</DependentUpon>
+      <LogicalName>Microsoft.VisualStudio.Editors.PropertyPages.AdvBuildSettingsPropPage.resources</LogicalName>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="PropPages\AdvCompilerSettingsPropPage.resx">
+      <DependentUpon>AdvCompilerSettingsPropPage.vb</DependentUpon>
+      <LogicalName>Microsoft.VisualStudio.Editors.PropertyPages.AdvCompilerSettingsPropPage.resources</LogicalName>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="PropPages\ApplicationPropPage.resx">
+      <DependentUpon>ApplicationPropPage.vb</DependentUpon>
+      <LogicalName>Microsoft.VisualStudio.Editors.PropertyPages.ApplicationPropPage.resources</LogicalName>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="PropPages\ApplicationPropPageBase.resx">
+      <DependentUpon>ApplicationPropPageBase.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="PropPages\ApplicationPropPageVBBase.resx">
+      <DependentUpon>ApplicationPropPageVBBase.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="PropPages\ApplicationPropPageVBWinForms.resx">
+      <DependentUpon>ApplicationPropPageVBWinForms.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="PropPages\PackagePropPage.resx">
+      <DependentUpon>PackagePropPage.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="PropPages\AssemblyInfoPropPage.resx">
+      <DependentUpon>AssemblyInfoPropPage.vb</DependentUpon>
+      <LogicalName>Microsoft.VisualStudio.Editors.PropertyPages.AssemblyInfoPropPage.resources</LogicalName>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="PropPages\BuildEventCommandLineDialog.resx">
+      <DependentUpon>BuildEventCommandLineDialog.vb</DependentUpon>
+      <LogicalName>Microsoft.VisualStudio.Editors.PropertyPages.BuildEventCommandLineDialog.resources</LogicalName>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="PropPages\BuildEventsPropPage.resx">
+      <DependentUpon>BuildEventsPropPage.vb</DependentUpon>
+      <LogicalName>Microsoft.VisualStudio.Editors.PropertyPages.BuildEventsPropPage.resources</LogicalName>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="PropPages\BuildPropPage.resx">
+      <DependentUpon>BuildPropPage.vb</DependentUpon>
+      <LogicalName>Microsoft.VisualStudio.Editors.PropertyPages.BuildPropPage.resources</LogicalName>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="PropPages\CodeAnalysisPropPage.resx">
+      <DependentUpon>CodeAnalysisPropPage.vb</DependentUpon>
+      <LogicalName>Microsoft.VisualStudio.Editors.PropertyPages.CodeAnalysisPropPage.resources</LogicalName>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="PropPages\CompilePropPage2.resx">
+      <DependentUpon>CompilePropPage2.vb</DependentUpon>
+      <LogicalName>Microsoft.VisualStudio.Editors.PropertyPages.CompilePropPage2.resources</LogicalName>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="PropPages\CSharpApplicationPropPage.resx">
+      <DependentUpon>CSharpApplicationPropPage.vb</DependentUpon>
+      <LogicalName>Microsoft.VisualStudio.Editors.PropertyPages.CSharpApplicationPropPage.resources</LogicalName>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="PropPages\DebugPropPage.resx">
+      <DependentUpon>DebugPropPage.vb</DependentUpon>
+      <LogicalName>Microsoft.VisualStudio.Editors.PropertyPages.DebugPropPage.resources</LogicalName>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="PropPages\ReferencePathsPropPage.resx">
+      <DependentUpon>ReferencePathsPropPage.vb</DependentUpon>
+      <LogicalName>Microsoft.VisualStudio.Editors.PropertyPages.ReferencePathsPropPage.resources</LogicalName>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="PropPages\ReferencePropPage.resx">
+      <DependentUpon>ReferencePropPage.vb</DependentUpon>
+      <LogicalName>Microsoft.VisualStudio.Editors.PropertyPages.ReferencePropPage.resources</LogicalName>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="PropPages\ServicesAuthenticationForm.resx">
+      <DependentUpon>ServicesAuthenticationForm.vb</DependentUpon>
+      <LogicalName>Microsoft.VisualStudio.Editors.PropertyPages.ServicesAuthenticationForm.resources</LogicalName>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="PropPages\ServicesPropPage.resx">
+      <DependentUpon>ServicesPropPage.vb</DependentUpon>
+      <LogicalName>Microsoft.VisualStudio.Editors.PropertyPages.ServicesPropPage.resources</LogicalName>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="PropPages\Strings.resx">
+      <SubType>Designer</SubType>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="PropPages\UnusedReferencePropPage.resx">
+      <DependentUpon>UnusedReferencePropPage.vb</DependentUpon>
+      <LogicalName>Microsoft.VisualStudio.Editors.PropertyPages.UnusedReferencePropPage.resources</LogicalName>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="PropPages\WPF\AppDotXamlErrorControl.resx">
+      <DependentUpon>AppDotXamlErrorControl.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="PropPages\WPF\ApplicationPropPageVBWPF.resx">
+      <DependentUpon>ApplicationPropPageVBWPF.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ResourceEditor\DialogQueryName.resx">
+      <DependentUpon>DialogQueryName.vb</DependentUpon>
+      <LogicalName>Microsoft.VisualStudio.Editors.ResourceEditor.DialogQueryName.resources</LogicalName>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ResourceEditor\OpenFileWarningDialog.resx">
+      <DependentUpon>OpenFileWarningDialog.vb</DependentUpon>
+      <LogicalName>Microsoft.VisualStudio.Editors.ResourceEditor.OpenFileWarningDialog.resources</LogicalName>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Microsoft.VisualStudio.Editors.Designer.resx">
+      <SubType>Designer</SubType>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Microsoft.VisualStudio.Editors.Designer.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\MyExtensibilityRes.resx">
+      <SubType>Designer</SubType>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>MyExtensibilityRes.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ResourceEditor\BlankBmp.bmp">
+      <LogicalName>Microsoft.VisualStudio.Editors.ResourceEditor.BlankBmp</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ResourceEditor\BlankGif.gif">
+      <LogicalName>Microsoft.VisualStudio.Editors.ResourceEditor.BlankGif</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ResourceEditor\BlankIcon.ico">
+      <LogicalName>Microsoft.VisualStudio.Editors.ResourceEditor.BlankIcon</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ResourceEditor\BlankJpeg.jpg">
+      <LogicalName>Microsoft.VisualStudio.Editors.ResourceEditor.BlankJpeg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ResourceEditor\BlankPng.png">
+      <LogicalName>Microsoft.VisualStudio.Editors.ResourceEditor.BlankPng</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ResourceEditor\BlankTiff.tif">
+      <LogicalName>Microsoft.VisualStudio.Editors.ResourceEditor.BlankTiff</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ResourceEditor\BlankWav.wav">
+      <LogicalName>Microsoft.VisualStudio.Editors.ResourceEditor.BlankWav</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Update="SettingsDesigner\SettingsDesignerView.resx">
+      <DependentUpon>SettingsDesignerView.vb</DependentUpon>
+      <LogicalName>Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsDesignerView.resources</LogicalName>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="SettingsDesigner\TypeEditorHostControl.resx">
+      <DependentUpon>TypeEditorHostControl.vb</DependentUpon>
+      <LogicalName>Microsoft.VisualStudio.Editors.SettingsDesigner.TypeEditorHostControl.resources</LogicalName>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="SettingsDesigner\TypePickerDialog.resx">
+      <DependentUpon>TypePickerDialog.vb</DependentUpon>
+      <LogicalName>Microsoft.VisualStudio.Editors.SettingsDesigner.TypePickerDialog.resources</LogicalName>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="VSPackage.resx">
+      <SubType>Designer</SubType>
+      <MergeWithCTO>true</MergeWithCTO>
+    </EmbeddedResource>
+    <EmbeddedResource Update="XmlToSchema\InputXmlForm.resx">
+      <DependentUpon>InputXmlForm.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="XmlToSchema\PasteXmlDialog.resx">
+      <DependentUpon>PasteXmlDialog.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="XmlToSchema\WebUrlDialog.resx">
+      <DependentUpon>WebUrlDialog.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="OptionPages\GeneralOptionPageControl.xaml.vb">
+      <DependentUpon>GeneralOptionPageControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="OptionPages\GeneralOptionPageResources.Designer.vb">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>GeneralOptionPageResources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="PropPages\AdvancedServicesDialog.Designer.vb">
+      <DependentUpon>AdvancedServicesDialog.vb</DependentUpon>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="PropPages\AdvBuildSettingsPropPage.Designer.vb">
+      <DependentUpon>AdvBuildSettingsPropPage.vb</DependentUpon>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="PropPages\AdvCompilerSettingsPropPage.Designer.vb">
+      <DependentUpon>AdvCompilerSettingsPropPage.vb</DependentUpon>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="PropPages\ApplicationPropPageVBBase.Designer.vb">
+      <DependentUpon>ApplicationPropPageVBBase.vb</DependentUpon>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="PropPages\ApplicationPropPageVBWinForms.Designer.vb">
+      <DependentUpon>ApplicationPropPageVBWinForms.vb</DependentUpon>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="PropPages\PackagePropPage.Designer.vb">
+      <DependentUpon>PackagePropPage.vb</DependentUpon>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="PropPages\PackagePropPage.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="PropPages\AssemblyInfoPropPage.Designer.vb">
+      <DependentUpon>AssemblyInfoPropPage.vb</DependentUpon>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="PropPages\BuildEventCommandLineDialog.Designer.vb">
+      <DependentUpon>BuildEventCommandLineDialog.vb</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="PropPages\BuildEventsPropPage.Designer.vb">
+      <DependentUpon>BuildEventsPropPage.vb</DependentUpon>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="PropPages\BuildPropPage.Designer.vb">
+      <DependentUpon>BuildPropPage.vb</DependentUpon>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="PropPages\CodeAnalysisPropPage.Designer.vb">
+      <DependentUpon>CodeAnalysisPropPage.vb</DependentUpon>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="PropPages\CompilePropPage2.Designer.vb">
+      <DependentUpon>CompilePropPage2.vb</DependentUpon>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="PropPages\CSharpApplicationPropPage.Designer.vb">
+      <DependentUpon>CSharpApplicationPropPage.vb</DependentUpon>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="PropPages\DebugPropPage.Designer.vb">
+      <DependentUpon>DebugPropPage.vb</DependentUpon>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="PropPages\ReferencePathsPropPage.Designer.vb">
+      <DependentUpon>ReferencePathsPropPage.vb</DependentUpon>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="PropPages\ReferencePropPage.Designer.vb">
+      <DependentUpon>ReferencePropPage.vb</DependentUpon>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="PropPages\ServicesAuthenticationForm.Designer.vb">
+      <DependentUpon>ServicesAuthenticationForm.vb</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="PropPages\ServicesPropPage.Designer.vb">
+      <DependentUpon>ServicesPropPage.vb</DependentUpon>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="PropPages\TextBoxWithWorkaroundForAutoCompleteAppend.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="PropPages\UnusedReferencePropPage.Designer.vb">
+      <DependentUpon>UnusedReferencePropPage.vb</DependentUpon>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="PropPages\WPF\ApplicationPropPageVBWPF.Designer.vb">
+      <DependentUpon>ApplicationPropPageVBWPF.vb</DependentUpon>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="..\Common\ManagedCodeMarkers.vb">
+      <Link>ManagedCodeMarkers.vb</Link>
+    </Compile>
+    <Compile Update="AddImportsDialogs\AddImportDialogBase.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="AddImportsDialogs\AddImports.Designer.vb">
+      <DependentUpon>AddImports.resx</DependentUpon>
+    </Compile>
+    <Compile Update="AddImportsDialogs\AutoAddImportsCollisionDialog.Designer.vb">
+      <DependentUpon>AutoAddImportsCollisionDialog.vb</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="AddImportsDialogs\AutoAddImportsCollisionDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="AddImportsDialogs\AutoAddImportsExtensionCollisionDialog.Designer.vb">
+      <DependentUpon>AutoAddImportsExtensionCollisionDialog.vb</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="AddImportsDialogs\AutoAddImportsExtensionCollisionDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="DesignerFramework\BaseDesignerView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="DesignerFramework\BaseDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="DesignerFramework\DesignerDataGridView.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="DesignerFramework\DesignerListView.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="DesignerFramework\DesignerToolbarPanel.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="DesignerFramework\ErrorControl.Designer.vb">
+      <DependentUpon>ErrorControl.vb</DependentUpon>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="DesignerFramework\ErrorControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="DesignerFramework\ThemedBorderUserControl.Designer.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="DesignerFramework\ThemedBorderUserControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="DesignerFramework\WrapCheckBox.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="MyExtensibility\AddMyExtensionsDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="MyExtensibility\AssemblyOptionDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="MyExtensibility\MyExtensibilityPropPage.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="MyExtensibility\MyExtensionDataGridView.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="PropPages\AdvancedServicesDialog.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="proppages\AdvBuildSettingsPropPage.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="proppages\AdvCompilerSettingsPropPage.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="proppages\ApplicationPropPage.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="PropPages\ApplicationPropPage.Designer.vb">
+      <DependentUpon>ApplicationPropPage.vb</DependentUpon>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="proppages\ApplicationPropPageBase.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="proppages\ApplicationPropPageInternalBase.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="PropPages\ApplicationPropPageVBBase.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="PropPages\ApplicationPropPageVBWinForms.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="proppages\AssemblyInfoPropPage.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="proppages\BuildEventCommandLineDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="proppages\BuildEventsPropPage.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="proppages\BuildPropPage.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="proppages\BuildPropPageBase.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="proppages\CodeAnalysisPropPage.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="proppages\CompilePropPage2.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="proppages\ComponentWrapper.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="proppages\CSharpApplicationPropPage.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="proppages\DebugPropPage.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="proppages\ReferenceComponent.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="proppages\ReferencePathsPropPage.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="proppages\ReferencePropPage.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="proppages\ServiceReferenceComponent.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="proppages\ServicesAuthenticationForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="proppages\ServicesPropPage.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="PropPages\Strings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
+    <Compile Update="proppages\UnusedReferencePropPage.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="proppages\WebReferenceComponent.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="PropPages\WPF\AppDotXamlErrorControl.Designer.vb">
+      <DependentUpon>AppDotXamlErrorControl.vb</DependentUpon>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="PropPages\WPF\AppDotXamlErrorControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="PropPages\WPF\ApplicationPropPageVBWPF.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="ResourceEditor\DialogQueryName.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ResourceEditor\OpenFileWarningDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ResourceEditor\ResourceEditorRootComponent.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="ResourceEditor\ResourceEditorView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="ResourceEditor\ResourceEditorView_EditorState.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="ResourceEditor\ResourceListView.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="ResourceEditor\ResourceStringTable.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Resources\Microsoft.VisualStudio.Editors.Designer.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Microsoft.VisualStudio.Editors.Designer.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\MyExtensibilityRes.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MyExtensibilityRes.resx</DependentUpon>
+    </Compile>
+    <Compile Update="SettingsDesigner\DataGridViewUITypeEditorEditingControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="SettingsDesigner\DesignTimeSettingInstance.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="SettingsDesigner\DesignTimeSettings.vb">
+      <SubType>Designer</SubType>
+    </Compile>
+    <Compile Update="SettingsDesigner\SettingsDesignerView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="SettingsDesigner\TypeEditorHostControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="SettingsDesigner\TypePickerDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="XmlToSchema\InputXmlForm.Designer.vb">
+      <DependentUpon>InputXmlForm.vb</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="XmlToSchema\InputXmlForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="XmlToSchema\PasteXmlDialog.Designer.vb">
+      <DependentUpon>PasteXmlDialog.vb</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="XmlToSchema\PasteXmlDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="XmlToSchema\Utilities.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="XmlToSchema\WebUrlDialog.Designer.vb">
+      <DependentUpon>WebUrlDialog.vb</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="XmlToSchema\WebUrlDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="XmlToSchema\Wizard.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Docs\app-designer-visual-spec-1.png" />
+    <None Include="Docs\app-designer-visual-spec-1-detail1.png" />
+    <None Include="Docs\app-designer-visual-spec-1-detail2.png" />
+    <None Include="Docs\custom_vs_system3.png" />
+    <None Include="Docs\CustomColorRenames.txt" />
+    <None Include="Docs\CustomColors.txt" />
+    <None Include="Docs\Project Designer Architecture Visual.png" />
+    <None Include="Docs\Project Designer Architecture.png" />
+    <None Include="Docs\Project Designer Architecture.vsd" />
+    <None Include="Docs\ProjectDesigner Control Flow.doc" />
+    <None Include="MyExtensibility\MyExtensibilityClassDiagram.cd" />
+    <None Include="PropPages\AdvBuildSettingsPropPage.ComboItem.vb" />
+    <None Include="Microsoft.VisualStudio.Editors.pkgdef">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="**\*.xlf" />
+  </ItemGroup>
+  <ItemGroup>
+    <VSCTCompile Include="Menus.vsct">
+      <ResourceName>Menus.ctmenu</ResourceName>
+      <SubType>Designer</SubType>
+    </VSCTCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <AdditionalFiles Include="PublicAPI.Shipped.txt" />
+    <AdditionalFiles Include="PublicAPI.Unshipped.txt" />
+  </ItemGroup>
+  <!-- We don't generate pkgdef, but we want it to end up in VSIX,
+       implement the right output group so that ProjectSystemSetup pulls it in -->
+  <Target Name="PkgdefProjectOutputGroup" Outputs="@(PkgdefOutputGroupOutput)">
+    <ItemGroup>
+      <PkgdefOutputGroupOutput Include="Microsoft.VisualStudio.Editors.pkgdef" />
+    </ItemGroup>
+  </Target>
+  <ItemGroup>
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\CustomMarshalers.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\envdte\8.0.1\lib\net10\EnvDTE.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\envdte80\8.0.1\lib\net10\EnvDTE80.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\envdte90\9.0.1\lib\net10\EnvDTE90.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.build\16.0.461\lib\net472\Microsoft.Build.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.build.engine\16.0.461\lib\net472\Microsoft.Build.Engine.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.build.framework\16.0.461\lib\net472\Microsoft.Build.Framework.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.build.tasks.core\16.0.461\lib\net472\Microsoft.Build.Tasks.Core.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.build.utilities.core\16.0.461\lib\net472\Microsoft.Build.Utilities.Core.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.codeanalysis.csharp\3.2.0-beta4-19359-03\lib\netstandard2.0\Microsoft.CodeAnalysis.CSharp.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.codeanalysis.csharp.workspaces\3.2.0-beta4-19359-03\lib\netstandard2.0\Microsoft.CodeAnalysis.CSharp.Workspaces.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.codeanalysis.common\3.2.0-beta4-19359-03\lib\netstandard2.0\Microsoft.CodeAnalysis.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.codeanalysis.editorfeatures.text\3.2.0-beta4-19359-03\lib\net472\Microsoft.CodeAnalysis.EditorFeatures.Text.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.codeanalysis.features\3.2.0-beta4-19359-03\lib\netstandard2.0\Microsoft.CodeAnalysis.Features.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.codeanalysis.flowanalysis.utilities\2.9.4-beta1.19321.5\lib\netstandard1.3\Microsoft.CodeAnalysis.FlowAnalysis.Utilities.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.codeanalysis.interactivehost\3.2.0-beta4-19359-03\lib\net472\Microsoft.CodeAnalysis.InteractiveHost.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.codeanalysis.scripting.common\3.2.0-beta4-19359-03\lib\netstandard2.0\Microsoft.CodeAnalysis.Scripting.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.codeanalysis.visualbasic\3.2.0-beta4-19359-03\lib\netstandard2.0\Microsoft.CodeAnalysis.VisualBasic.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.codeanalysis.visualbasic.workspaces\3.2.0-beta4-19359-03\lib\netstandard2.0\Microsoft.CodeAnalysis.VisualBasic.Workspaces.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.codeanalysis.workspaces.common\3.2.0-beta4-19359-03\lib\netstandard2.0\Microsoft.CodeAnalysis.Workspaces.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Microsoft.CSharp.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.diagnostics.tracing.eventsource.redist\1.1.16-beta\lib\net45\Microsoft.Diagnostics.Tracing.EventSource.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.diasymreader\1.3.0\lib\net20\Microsoft.DiaSymReader.dll" />
+    <ReferencePath Include="C:\Code\project-system\artifacts\Debug\bin\Dlls\Microsoft.VisualStudio.AppDesigner.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.componentmodelhost\16.0.198-g52de9c2988\lib\net46\Microsoft.VisualStudio.ComponentModelHost.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.composition\15.8.98\lib\net46\Microsoft.VisualStudio.Composition.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.composition.netfxattributes\15.8.98\lib\net45\Microsoft.VisualStudio.Composition.NetFxAttributes.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.coreutility\16.0.177-g0ae5fa46a1\lib\net46\Microsoft.VisualStudio.CoreUtility.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.data.core\9.0.21022\lib\Microsoft.VisualStudio.Data.Core.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.data.services\9.0.21022\lib\Microsoft.VisualStudio.Data.Services.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.datadesign.common\16.0.28321-alpha\lib\net472\Microsoft.VisualStudio.DataDesign.Common.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.datatools.interop\16.0.28321-alpha\lib\net472\Microsoft.VisualStudio.DataTools.Interop.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.designer.interfaces\1.1.4322\lib\microsoft.visualstudio.designer.interfaces.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.diagnostics.performanceprovider\16.0.28226-alpha\lib\net46\Microsoft.VisualStudio.Diagnostics.PerformanceProvider.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.editor\16.0.177-g0ae5fa46a1\lib\net46\Microsoft.VisualStudio.Editor.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.graphmodel\16.0.28226-alpha\lib\net46\Microsoft.VisualStudio.GraphModel.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.imagecatalog\16.0.28316-pre\lib\net45\Microsoft.VisualStudio.ImageCatalog.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.imaging\16.0.28316-pre\lib\net45\Microsoft.VisualStudio.Imaging.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.imaging.interop.14.0.designtime\14.3.26930\lib\net20\Microsoft.VisualStudio.Imaging.Interop.14.0.DesignTime.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.language\16.0.177-g0ae5fa46a1\lib\net46\Microsoft.VisualStudio.Language.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.languageservices\3.2.0-beta4-19359-03\lib\net472\Microsoft.VisualStudio.LanguageServices.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.managedinterfaces\8.0.50727\lib\Microsoft.VisualStudio.ManagedInterfaces.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.ole.interop\7.10.6071\lib\Microsoft.VisualStudio.OLE.Interop.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.projectsystem\16.2.133-pre\lib\net472\Microsoft.VisualStudio.ProjectSystem.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.projectsystem\16.2.133-pre\lib\net472\Microsoft.VisualStudio.ProjectSystem.Interop.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.projectsystem\16.2.133-pre\lib\net472\Microsoft.VisualStudio.ProjectSystem.VS.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.remotecontrol\14.1.2\lib\net45\Microsoft.VisualStudio.RemoteControl.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.setup.configuration.interop\1.16.30\lib\net35\Microsoft.VisualStudio.Setup.Configuration.Interop.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.shell.15.0\16.0.28316-pre\lib\net45\Microsoft.VisualStudio.Shell.15.0.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.shell.design\16.0.28316-pre\lib\net45\Microsoft.VisualStudio.Shell.Design.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.shell.framework\16.0.28729\lib\net45\Microsoft.VisualStudio.Shell.Framework.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.shell.interop.10.0\10.0.30320\lib\net20\Microsoft.VisualStudio.Shell.Interop.10.0.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.shell.interop.11.0\11.0.61031\lib\net20\Microsoft.VisualStudio.Shell.Interop.11.0.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.shell.interop.12.0\12.0.30111\lib\net20\Microsoft.VisualStudio.Shell.Interop.12.0.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.shell.interop.12.1.designtime\12.1.30328\lib\Microsoft.VisualStudio.Shell.Interop.12.1.DesignTime.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.shell.interop.14.0.designtime\14.3.26929\lib\net20\Microsoft.VisualStudio.Shell.Interop.14.0.DesignTime.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.shell.interop.15.0.designtime\15.0.26932\lib\net20\Microsoft.VisualStudio.Shell.Interop.15.0.DesignTime.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.shell.interop.15.3.designtime\15.0.26929\lib\net20\Microsoft.VisualStudio.Shell.Interop.15.3.DesignTime.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.shell.interop.15.6.designtime\15.6.27413\lib\net20\Microsoft.VisualStudio.Shell.Interop.15.6.DesignTime.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.shell.interop.15.7.designtime\15.7.1\lib\net20\Microsoft.VisualStudio.Shell.Interop.15.7.DesignTime.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.shell.interop.15.8.designtime\15.8.1\lib\net20\Microsoft.VisualStudio.Shell.Interop.15.8.DesignTime.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.shell.interop.8.0\8.0.50728\lib\net11\Microsoft.VisualStudio.Shell.Interop.8.0.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.shell.interop.9.0\9.0.30730\lib\net11\Microsoft.VisualStudio.Shell.Interop.9.0.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.shell.interop\7.10.6072\lib\net11\Microsoft.VisualStudio.Shell.Interop.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.telemetry\16.0.4-master\lib\net45\Microsoft.VisualStudio.Telemetry.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.templatewizardinterface\8.0.0-alpha\lib\net46\Microsoft.VisualStudio.TemplateWizardInterface.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.text.data\16.0.177-g0ae5fa46a1\lib\net46\Microsoft.VisualStudio.Text.Data.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.text.logic\16.0.177-g0ae5fa46a1\lib\net46\Microsoft.VisualStudio.Text.Logic.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.text.ui\16.0.177-g0ae5fa46a1\lib\net46\Microsoft.VisualStudio.Text.UI.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.text.ui.wpf\16.0.177-g0ae5fa46a1\lib\net46\Microsoft.VisualStudio.Text.UI.Wpf.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.textmanager.interop.10.0\10.0.30319\lib\Microsoft.VisualStudio.TextManager.Interop.10.0.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.textmanager.interop.11.0\11.0.61030\lib\Microsoft.VisualStudio.TextManager.Interop.11.0.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.textmanager.interop.12.0\12.0.30110\lib\Microsoft.VisualStudio.TextManager.Interop.12.0.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.textmanager.interop.12.1.designtime\12.1.30328\lib\Microsoft.VisualStudio.TextManager.Interop.12.1.DesignTime.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.textmanager.interop.8.0\8.0.50728\lib\net11\Microsoft.VisualStudio.TextManager.Interop.8.0.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.textmanager.interop\7.10.6071\lib\net11\Microsoft.VisualStudio.TextManager.Interop.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.threading\16.0.102\lib\net46\Microsoft.VisualStudio.Threading.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.utilities\16.0.28729\lib\net46\Microsoft.VisualStudio.Utilities.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.utilities.internal\14.1.2\lib\net45\Microsoft.VisualStudio.Utilities.Internal.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.validation\15.3.58\lib\net45\Microsoft.VisualStudio.Validation.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.vshelp\16.0.28321-alpha\lib\net472\Microsoft.VisualStudio.VSHelp.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.wcfreference.interop\9.1.26606-alpha\lib\net472\Microsoft.VisualStudio.WCFReference.Interop.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.visualstudio.xmleditor\16.0.28321-alpha\lib\net472\Microsoft.VisualStudio.XmlEditor.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\microsoft.vsdesigner\16.0.28321-alpha\lib\net472\Microsoft.VSDesigner.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\mscorlib.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\nerdbank.streams\2.1.37\lib\net472\Nerdbank.Streams.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\newtonsoft.json\12.0.2\lib\net45\Newtonsoft.Json.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\nuget.solutionrestoremanager.interop\5.1.0-rtm.5921\lib\net472\NuGet.SolutionRestoreManager.Interop.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\nuget.visualstudio\5.1.0-rtm.5921\lib\net472\NuGet.VisualStudio.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\PresentationCore.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\PresentationFramework.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\stdole\7.0.3301\lib\net10\stdole.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\streamjsonrpc\2.0.167\lib\net472\StreamJsonRpc.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\system.buffers\4.5.0\ref\net45\System.Buffers.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\system.collections.immutable\1.5.0\lib\netstandard2.0\System.Collections.Immutable.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.ComponentModel.Composition.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\system.composition.attributedmodel\1.0.31\lib\portable-net45+win8+wp8+wpa81\System.Composition.AttributedModel.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\system.composition.convention\1.0.31\lib\portable-net45+win8+wp8+wpa81\System.Composition.Convention.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\system.composition.hosting\1.0.31\lib\portable-net45+win8+wp8+wpa81\System.Composition.Hosting.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\system.composition.runtime\1.0.31\lib\portable-net45+win8+wp8+wpa81\System.Composition.Runtime.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\system.composition.typedparts\1.0.31\lib\portable-net45+win8+wp8+wpa81\System.Composition.TypedParts.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Configuration.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Core.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Data.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Design.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Drawing.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.IO.Compression.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.IO.Compression.FileSystem.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.IO.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\system.io.pipelines\4.5.3\lib\netstandard2.0\System.IO.Pipelines.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\system.memory\4.5.2\lib\netstandard2.0\System.Memory.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Net.Http.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Net.WebSockets.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Numerics.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\system.numerics.vectors\4.4.0\ref\net46\System.Numerics.Vectors.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Reflection.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\system.reflection.metadata\1.6.0\lib\netstandard2.0\System.Reflection.Metadata.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\system.runtime.compilerservices.unsafe\4.5.2\ref\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Runtime.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Runtime.InteropServices.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Runtime.Remoting.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Runtime.Serialization.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Security.Cryptography.Algorithms.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Security.Cryptography.Encoding.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Security.Cryptography.Primitives.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Security.Cryptography.X509Certificates.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Security.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\system.text.encoding.codepages\4.5.1\lib\net461\System.Text.Encoding.CodePages.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\system.threading.tasks.dataflow\4.5.24\lib\portable-net45+win8+wpa81\System.Threading.Tasks.Dataflow.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\system.threading.tasks.extensions\4.5.2\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Threading.Thread.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\system.valuetuple\4.5.0\ref\net47\System.ValueTuple.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Web.ApplicationServices.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Web.Extensions.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Windows.Forms.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Xaml.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Xml.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Xml.Linq.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\UIAutomationProvider.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\UIAutomationTypes.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\vslangproj\7.0.3300\lib\net10\vslangproj.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\vslangproj100\10.0.30319\lib\net20\VSLangProj100.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\vslangproj110\11.0.61030\lib\net20\VSLangProj110.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\vslangproj158\15.8.0\lib\net20\VSLangProj158.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\vslangproj2\7.0.5000\lib\net11\vslangproj2.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\vslangproj80\8.0.50727\lib\net11\VSLangProj80.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\vslangproj90\9.0.30729\lib\net10\VSLangProj90.dll" />
+    <ReferencePath Include="C:\Users\David\.nuget\packages\vswebsite.interop\8.0.0-alpha\lib\net46\VsWebSite.Interop.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\WindowsBase.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\WindowsFormsIntegration.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\Microsoft.Win32.Primitives.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\netstandard.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.AppContext.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Collections.Concurrent.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Collections.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Collections.NonGeneric.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Collections.Specialized.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.ComponentModel.Annotations.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.ComponentModel.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.ComponentModel.EventBasedAsync.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.ComponentModel.Primitives.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.ComponentModel.TypeConverter.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Console.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Data.Common.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Diagnostics.Contracts.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Diagnostics.Debug.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Diagnostics.FileVersionInfo.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Diagnostics.Process.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Diagnostics.StackTrace.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Diagnostics.TextWriterTraceListener.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Diagnostics.Tools.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Diagnostics.TraceSource.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Drawing.Primitives.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Dynamic.Runtime.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Globalization.Calendars.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Globalization.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Globalization.Extensions.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.IO.Compression.ZipFile.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.IO.FileSystem.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.IO.FileSystem.DriveInfo.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.IO.FileSystem.Primitives.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.IO.FileSystem.Watcher.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.IO.IsolatedStorage.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.IO.MemoryMappedFiles.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.IO.Pipes.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.IO.UnmanagedMemoryStream.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Linq.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Linq.Expressions.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Linq.Parallel.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Linq.Queryable.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Net.Http.Rtc.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Net.NameResolution.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Net.NetworkInformation.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Net.Ping.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Net.Primitives.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Net.Requests.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Net.Security.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Net.Sockets.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Net.WebHeaderCollection.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Net.WebSockets.Client.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.ObjectModel.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Reflection.Emit.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Reflection.Emit.ILGeneration.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Reflection.Emit.Lightweight.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Reflection.Extensions.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Reflection.Primitives.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Resources.Reader.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Resources.ResourceManager.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Resources.Writer.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Runtime.CompilerServices.VisualC.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Runtime.Extensions.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Runtime.Handles.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Runtime.InteropServices.RuntimeInformation.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Runtime.InteropServices.WindowsRuntime.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Runtime.Numerics.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Runtime.Serialization.Formatters.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Runtime.Serialization.Json.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Runtime.Serialization.Primitives.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Runtime.Serialization.Xml.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Security.Claims.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Security.Cryptography.Csp.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Security.Principal.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Security.SecureString.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.ServiceModel.Duplex.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.ServiceModel.Http.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.ServiceModel.NetTcp.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.ServiceModel.Primitives.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.ServiceModel.Security.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Text.Encoding.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Text.Encoding.Extensions.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Text.RegularExpressions.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Threading.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Threading.Overlapped.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Threading.Tasks.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Threading.Tasks.Parallel.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Threading.ThreadPool.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Threading.Timer.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Xml.ReaderWriter.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Xml.XDocument.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Xml.XmlDocument.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Xml.XmlSerializer.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Xml.XPath.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\System.Xml.XPath.XDocument.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="C:\Code\project-system\artifacts\Debug\obj\Microsoft.VisualStudio.Editors\OptionPages\GeneralOptionPageControl.g.vb" />
+    <Compile Include="C:\Code\project-system\artifacts\Debug\obj\Microsoft.VisualStudio.Editors\GeneratedInternalTypeHelper.g.vb" />
+  </ItemGroup>
+</Project>
