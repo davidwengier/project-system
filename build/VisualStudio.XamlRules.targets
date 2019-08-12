@@ -4,7 +4,6 @@
   <ItemDefinitionGroup>
     <XamlPropertyRule>
       <Namespace>Microsoft.VisualStudio.ProjectSystem</Namespace>
-      <RuleInjectionClassName>$(XamlPropertyRuleInjectionClassName)</RuleInjectionClassName>
       <DataAccess>IRule</DataAccess>
       <RuleInjectionClassName>ProjectProperties</RuleInjectionClassName>
       <RuleInjection>ProjectLevel</RuleInjection>

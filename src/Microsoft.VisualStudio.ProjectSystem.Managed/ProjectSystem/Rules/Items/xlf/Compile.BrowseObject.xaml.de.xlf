@@ -88,13 +88,13 @@
         <note />
       </trans-unit>
       <trans-unit id="Rule|Compile|DisplayName">
-        <source>File Properties</source>
-        <target state="translated">Dateieigenschaften</target>
+        <source>COMPILORATOR!!</source>
+        <target state="needs-review-translation">Dateieigenschaften</target>
         <note />
       </trans-unit>
       <trans-unit id="Rule|Compile|Description">
-        <source>File Properties</source>
-        <target state="translated">Dateieigenschaften</target>
+        <source>COMPILORATOR!!</source>
+        <target state="needs-review-translation">Dateieigenschaften</target>
         <note />
       </trans-unit>
     </body>

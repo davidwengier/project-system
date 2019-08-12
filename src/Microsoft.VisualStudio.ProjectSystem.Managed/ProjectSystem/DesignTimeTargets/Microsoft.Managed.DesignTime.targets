@@ -130,85 +130,13 @@
       <Context>Project</Context>
     </PropertyPageSchema>
 
-    <!-- Files/Folders -->
-    <PropertyPageSchema Include="$(ManagedXamlNeutralResourcesDirectory)AdditionalFiles.xaml">
-      <Context>File</Context>
-    </PropertyPageSchema>
-
-    <PropertyPageSchema Include="$(ManagedXamlResourcesDirectory)AdditionalFiles.BrowseObject.xaml">
-      <Context>BrowseObject</Context>
-    </PropertyPageSchema>
-
-    <PropertyPageSchema Include="$(ManagedXamlNeutralResourcesDirectory)ApplicationDefinition.xaml">
-      <Context>File</Context>
-    </PropertyPageSchema>
-
-    <PropertyPageSchema Include="$(ManagedXamlResourcesDirectory)ApplicationDefinition.BrowseObject.xaml">
-      <Context>BrowseObject</Context>
-    </PropertyPageSchema>
-
-    <PropertyPageSchema Include="$(ManagedXamlNeutralResourcesDirectory)Compile.xaml;">
-      <Context>File</Context>
-    </PropertyPageSchema>
-
-    <PropertyPageSchema Include="$(ManagedXamlResourcesDirectory)Compile.BrowseObject.xaml;">
-      <Context>BrowseObject</Context>
-    </PropertyPageSchema>
-
-    <PropertyPageSchema Include="$(ManagedXamlNeutralResourcesDirectory)Content.xaml">
-      <Context>File</Context>
-    </PropertyPageSchema>
-
-    <PropertyPageSchema Include="$(ManagedXamlResourcesDirectory)Content.BrowseObject.xaml">
-      <Context>BrowseObject</Context>
-    </PropertyPageSchema>
-    
-    <PropertyPageSchema Include="$(ManagedXamlNeutralResourcesDirectory)EmbeddedResource.xaml">
-      <Context>File</Context>
-    </PropertyPageSchema>
-
-    <PropertyPageSchema Include="$(ManagedXamlResourcesDirectory)EmbeddedResource.BrowseObject.xaml">
-      <Context>BrowseObject</Context>
-    </PropertyPageSchema>
-
+    <!-- Folders -->
     <PropertyPageSchema Include="$(ManagedXamlResourcesDirectory)Folder.xaml">
       <Context>File;BrowseObject</Context>
     </PropertyPageSchema>
 
-    <PropertyPageSchema Include="$(ManagedXamlNeutralResourcesDirectory)None.xaml">
-      <Context>File</Context>
-    </PropertyPageSchema>
-
-    <PropertyPageSchema Include="$(ManagedXamlResourcesDirectory)None.BrowseObject.xaml">
-      <Context>BrowseObject</Context>
-    </PropertyPageSchema>
-
-    <PropertyPageSchema Include="$(ManagedXamlNeutralResourcesDirectory)Page.xaml">
-      <Context>File</Context>
-    </PropertyPageSchema>
-
-    <PropertyPageSchema Include="$(ManagedXamlResourcesDirectory)Page.BrowseObject.xaml">
-      <Context>BrowseObject</Context>
-    </PropertyPageSchema>
-
     <PropertyPageSchema Include="$(ManagedXamlResourcesDirectory)SpecialFolder.xaml">
       <Context>File;ProjectSubscriptionService</Context>
-    </PropertyPageSchema>
-
-    <PropertyPageSchema Include="$(ManagedXamlNeutralResourcesDirectory)XamlAppDef.xaml">
-      <Context>File</Context>
-    </PropertyPageSchema>
-
-    <PropertyPageSchema Include="$(ManagedXamlResourcesDirectory)XamlAppDef.BrowseObject.xaml">
-      <Context>BrowseObject</Context>
-    </PropertyPageSchema>
-
-    <PropertyPageSchema Include="$(ManagedXamlNeutralResourcesDirectory)Resource.xaml">
-      <Context>File</Context>
-    </PropertyPageSchema>
-
-    <PropertyPageSchema Include="$(ManagedXamlResourcesDirectory)Resource.BrowseObject.xaml">
-      <Context>BrowseObject</Context>
     </PropertyPageSchema>
 
     <!-- Project related settings -->
