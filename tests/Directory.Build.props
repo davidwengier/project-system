@@ -8,7 +8,7 @@
 
   <Import Project="..\Directory.Build.props"/>
   <Import Project="$(RepoToolsetDir)Settings.props" Condition="'$(RepoToolsetDir)' != ''" />
-  <Import Project="..\build\scripts\VisualStudio.XamlRules.props" />
+  <Import Project="..\build\import\VisualStudio.XamlRules.props" />
 
   <PropertyGroup>
     <_IsVisualStudioDeveloperBuild Condition="'$(OfficialBuild)' != 'true' AND '$(CIBuild)' != 'true' AND '$(BuildingInsideVisualStudio)' == 'true'">true</_IsVisualStudioDeveloperBuild>
@@ -42,8 +42,8 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <CodeAnalysisRuleSet Condition="'$(IsTestProject)' == 'true'">$(RepoRoot)build\Test.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRuleSet Condition="'$(IsTestProject)' != 'true'">$(RepoRoot)build\Default.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet Condition="'$(IsTestProject)' == 'true'">$(RepoRoot)build\ruleset\Test.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet Condition="'$(IsTestProject)' != 'true'">$(RepoRoot)build\ruleset\Default.ruleset</CodeAnalysisRuleSet>
 
     <TestArchitectures>x86</TestArchitectures>
 
@@ -59,13 +59,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)..\src\Common\Test\App.config" CopyToOutputDirectory="PreserveNewest" Condition="'$(IsUnitTestProject)' == 'true'" />
-    <None Include="$(MSBuildThisFileDirectory)..\src\Common\Integration\App.config" CopyToOutputDirectory="PreserveNewest" Condition="'$(IsIntegrationTestProject)' == 'true'" />
+    <None Include="$(MSBuildThisFileDirectory)config\Test\App.config" CopyToOutputDirectory="PreserveNewest" Condition="'$(IsUnitTestProject)' == 'true'" />
+    <None Include="$(MSBuildThisFileDirectory)config\Integration\App.config" CopyToOutputDirectory="PreserveNewest" Condition="'$(IsIntegrationTestProject)' == 'true'" />
   </ItemGroup>
-  
-  <ItemGroup>
-    <SuppressFromVsix Include="Microsoft.VSDesigner.dll"/>
-    <SuppressFromVsix Include="Microsoft.VisualStudio.DataTools.Interop.dll"/>
-    <SuppressFromVsix Include="Microsoft.VisualStudio.XmlEditor.dll"/>
-  </ItemGroup>
+
+  <Import Project="..\build\import\UnitTests.targets" Condition="$(IsUnitTestProject) == 'true'" />
+  <Import Project="..\build\import\IntegrationTests.targets" Condition="$(IsIntegrationTestProject) == 'true'"/>
 </Project>

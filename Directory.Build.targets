@@ -3,6 +3,4 @@
   <Import Project="build\import\Packages.targets"/>
   <Import Project="build\import\Workarounds.targets"/>
   <Import Project="build\import\Stubs.targets" />
-  <Import Project="build\import\UnitTests.targets" Condition="$(IsUnitTestProject) == 'true'" />
-  <Import Project="build\import\IntegrationTests.targets" Condition="$(IsIntegrationTestProject) == 'true'"/>
 </Project>
