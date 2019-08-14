@@ -5,7 +5,9 @@
 
   <PropertyGroup>
     <RootNamespace>Microsoft.VisualStudio</RootNamespace>
-    
+    <!-- The value of RuleInjectionClassName of XamlPropertyRule items defined by this project -->
+    <XamlPropertyRuleInjectionClassName>ProjectProperties</XamlPropertyRuleInjectionClassName>
+
     <!-- Nuget -->
     <IsPackable>true</IsPackable>
     <Description>Microsoft VisualStudio ProjectSystem for Managed languages Projects</Description>
@@ -146,10 +148,7 @@
       <Generator>MSBuild:GenerateRuleSourceFromXaml</Generator>
       <SubType>Designer</SubType>
     </XamlPropertyRule>
-    <XamlPropertyRule Include="ProjectSystem\Rules\Items\AdditionalFiles.BrowseObject.xaml">
-      <RuleInjection>None</RuleInjection>
-      <Namespace>Microsoft.VisualStudio.ProjectSystem._DoNotUse</Namespace>
-    </XamlPropertyRule>
+    <XamlPropertyRuleNoCodeBehind Include="ProjectSystem\Rules\Items\AdditionalFiles.BrowseObject.xaml" />
 
     <Compile Update="ProjectSystem\Rules\Items\ApplicationDefinition.cs">
       <DependentUpon>ApplicationDefinition.xaml</DependentUpon>
@@ -159,21 +158,17 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:GenerateRuleSourceFromXaml</Generator>
     </XamlPropertyRule>
-    <XamlPropertyRule Include="ProjectSystem\Rules\Items\ApplicationDefinition.BrowseObject.xaml">
-      <RuleInjection>None</RuleInjection>
-      <Namespace>Microsoft.VisualStudio.ProjectSystem._DoNotUse</Namespace>
-    </XamlPropertyRule>
-    
+    <XamlPropertyRuleNoCodeBehind Include="ProjectSystem\Rules\Items\ApplicationDefinition.BrowseObject.xaml" />
+
     <Compile Update="ProjectSystem\Rules\Items\Compile.cs">
       <DependentUpon>Compile.xaml</DependentUpon>
     </Compile>
     <XamlPropertyRule Include="ProjectSystem\Rules\Items\Compile.xaml">
       <XlfInput>false</XlfInput>
+      <Generator>MSBuild:GenerateRuleSourceFromXaml</Generator>
+      <SubType>Designer</SubType>
     </XamlPropertyRule>
-    <XamlPropertyRule Include="ProjectSystem\Rules\Items\Compile.BrowseObject.xaml">
-      <RuleInjection>None</RuleInjection>
-      <Namespace>Microsoft.VisualStudio.ProjectSystem._DoNotUse</Namespace>
-    </XamlPropertyRule>
+    <XamlPropertyRuleNoCodeBehind Include="ProjectSystem\Rules\Items\Compile.BrowseObject.xaml" />
 
     <Compile Update="ProjectSystem\Rules\Items\Content.cs">
       <DependentUpon>Content.xaml</DependentUpon>
@@ -183,10 +178,7 @@
       <Generator>MSBuild:GenerateRuleSourceFromXaml</Generator>
       <SubType>Designer</SubType>
     </XamlPropertyRule>
-    <XamlPropertyRule Include="ProjectSystem\Rules\Items\Content.BrowseObject.xaml">
-      <RuleInjection>None</RuleInjection>
-      <Namespace>Microsoft.VisualStudio.ProjectSystem._DoNotUse</Namespace>
-    </XamlPropertyRule>
+    <XamlPropertyRuleNoCodeBehind Include="ProjectSystem\Rules\Items\Content.BrowseObject.xaml" />
 
     <Compile Update="ProjectSystem\Rules\Items\EditorConfigFiles.cs">
       <DependentUpon>EditorConfigFiles.xaml</DependentUpon>
@@ -196,10 +188,7 @@
       <Generator>MSBuild:GenerateRuleSourceFromXaml</Generator>
       <SubType>Designer</SubType>
     </XamlPropertyRule>
-    <XamlPropertyRule Include="ProjectSystem\Rules\Items\EditorConfigFiles.BrowseObject.xaml">
-      <RuleInjection>None</RuleInjection>
-      <Namespace>Microsoft.VisualStudio.ProjectSystem._DoNotUse</Namespace>
-    </XamlPropertyRule>
+    <XamlPropertyRuleNoCodeBehind Include="ProjectSystem\Rules\Items\EditorConfigFiles.BrowseObject.xaml" />
 
     <Compile Update="ProjectSystem\Rules\Items\EmbeddedResource.cs">
       <DependentUpon>EmbeddedResource.xaml</DependentUpon>
@@ -209,10 +198,7 @@
       <Generator>MSBuild:GenerateRuleSourceFromXaml</Generator>
       <SubType>Designer</SubType>
     </XamlPropertyRule>
-    <XamlPropertyRule Include="ProjectSystem\Rules\Items\EmbeddedResource.BrowseObject.xaml">
-      <RuleInjection>None</RuleInjection>
-      <Namespace>Microsoft.VisualStudio.ProjectSystem._DoNotUse</Namespace>
-    </XamlPropertyRule>
+    <XamlPropertyRuleNoCodeBehind Include="ProjectSystem\Rules\Items\EmbeddedResource.BrowseObject.xaml" />
 
     <Compile Update="ProjectSystem\Rules\Items\Folder.cs">
       <DependentUpon>Folder.xaml</DependentUpon>
@@ -230,10 +216,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:GenerateRuleSourceFromXaml</Generator>
     </XamlPropertyRule>
-    <XamlPropertyRule Include="ProjectSystem\Rules\Items\None.BrowseObject.xaml">
-      <RuleInjection>None</RuleInjection>
-      <Namespace>Microsoft.VisualStudio.ProjectSystem._DoNotUse</Namespace>
-    </XamlPropertyRule>
+    <XamlPropertyRuleNoCodeBehind Include="ProjectSystem\Rules\Items\None.BrowseObject.xaml" />
 
     <Compile Update="ProjectSystem\Rules\Items\Page.cs">
       <DependentUpon>Page.xaml</DependentUpon>
@@ -243,10 +226,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:GenerateRuleSourceFromXaml</Generator>
     </XamlPropertyRule>
-    <XamlPropertyRule Include="ProjectSystem\Rules\Items\Page.BrowseObject.xaml">
-      <RuleInjection>None</RuleInjection>
-      <Namespace>Microsoft.VisualStudio.ProjectSystem._DoNotUse</Namespace>
-    </XamlPropertyRule>
+    <XamlPropertyRuleNoCodeBehind Include="ProjectSystem\Rules\Items\Page.BrowseObject.xaml" />
 
     <Compile Update="ProjectSystem\Rules\Items\Resource.cs">
       <DependentUpon>Resource.xaml</DependentUpon>
@@ -256,10 +236,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:GenerateRuleSourceFromXaml</Generator>
     </XamlPropertyRule>
-    <XamlPropertyRule Include="ProjectSystem\Rules\Items\Resource.BrowseObject.xaml">
-      <RuleInjection>None</RuleInjection>
-      <Namespace>Microsoft.VisualStudio.ProjectSystem._DoNotUse</Namespace>
-    </XamlPropertyRule>
+    <XamlPropertyRuleNoCodeBehind Include="ProjectSystem\Rules\Items\Resource.BrowseObject.xaml" />
 
     <Compile Update="ProjectSystem\Rules\Items\XamlAppDef.cs">
       <DependentUpon>XamlAppDef.xaml</DependentUpon>
@@ -269,10 +246,7 @@
       <Generator>MSBuild:GenerateRuleSourceFromXaml</Generator>
       <SubType>Designer</SubType>
     </XamlPropertyRule>
-    <XamlPropertyRule Include="ProjectSystem\Rules\Items\XamlAppDef.BrowseObject.xaml">
-      <RuleInjection>None</RuleInjection>
-      <Namespace>Microsoft.VisualStudio.ProjectSystem._DoNotUse</Namespace>
-    </XamlPropertyRule>
+    <XamlPropertyRuleNoCodeBehind Include="ProjectSystem\Rules\Items\XamlAppDef.BrowseObject.xaml" />
   </ItemGroup>
 
   <!-- Others -->
@@ -507,12 +481,6 @@
   <ItemGroup>
     <AdditionalFiles Include="PublicAPI.Shipped.txt" />
     <AdditionalFiles Include="PublicAPI.Unshipped.txt" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="ProjectSystem\Rules\AdditionalDesignTimeBuildInput.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
   </ItemGroup>
 
 </Project>
