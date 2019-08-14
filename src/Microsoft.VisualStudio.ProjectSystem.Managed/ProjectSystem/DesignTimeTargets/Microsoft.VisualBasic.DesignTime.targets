@@ -29,28 +29,11 @@
   <ItemGroup>
      <PropertyPageSchema Include="$(ManagedXamlResourcesDirectory)VisualBasic.ProjectItemsSchema.xaml;"/>
 
-      <!-- Namespace Import List-->
-      <PropertyPageSchema Include="$(ManagedXamlResourcesDirectory)VisualBasic.NamespaceImport.xaml">
-        <Context>ProjectSubscriptionService</Context>
-      </PropertyPageSchema>
-
      <ProjectCapability Include="
                           VB;
                           Managed;
                           ClassDesigner;
                           PreventAutomaticMyApplication;" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(DefineCommonManagedItemSchemas)' == 'true'">
-
-    <PropertyPageSchema Include="$(ManagedXamlNeutralResourcesDirectory)EditorConfigFiles.xaml">
-      <Context>File</Context>
-    </PropertyPageSchema>
-
-    <PropertyPageSchema Include="$(ManagedXamlResourcesDirectory)EditorConfigFiles.BrowseObject.xaml">
-      <Context>BrowseObject</Context>
-    </PropertyPageSchema>
-
   </ItemGroup>
 
   <!-- Targets -->

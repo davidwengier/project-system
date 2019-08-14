@@ -12,165 +12,165 @@ namespace Microsoft.VisualStudio.ProjectSystem.Rules
 {
     public sealed class ItemRuleTests : XamlRuleTestBase
     {
-        //[Theory]
-        //[MemberData(nameof(GetFileItemRules))]
-        //public void FileRulesShouldMatchNone(string ruleName, string fullPath)
-        //{
-        //    // Special case for Folder rule which hasn't been split yet, but is in the Items folder. But also its completely different.
-        //    if (ruleName.Equals("Folder", StringComparison.Ordinal))
-        //    {
-        //        return;
-        //    }
+        [Theory]
+        [MemberData(nameof(GetFileItemRules))]
+        public void FileRulesShouldMatchNone(string ruleName, string fullPath)
+        {
+            // Special case for Folder rule which hasn't been split yet, but is in the Items folder. But also its completely different.
+            if (ruleName.Equals("Folder", StringComparison.Ordinal))
+            {
+                return;
+            }
 
-        //    // No need to check None against None
-        //    if (ruleName.Equals("None", StringComparison.Ordinal))
-        //    {
-        //        return;
-        //    }
+            // No need to check None against None
+            if (ruleName.Equals("None", StringComparison.Ordinal))
+            {
+                return;
+            }
 
-        //    string noneFile = Path.Combine(fullPath, "..", "None.xaml");
+            string noneFile = Path.Combine(fullPath, "..", "None.xaml");
 
-        //    XElement none = LoadXamlRule(noneFile);
-        //    XElement rule = LoadXamlRule(fullPath);
+            XElement none = LoadXamlRule(noneFile);
+            XElement rule = LoadXamlRule(fullPath);
 
-        //    // First fix up the Name as we know they'll differ.
-        //    rule.Attribute("Name").Value = "None";
+            // First fix up the Name as we know they'll differ.
+            rule.Attribute("Name").Value = "None";
 
-        //    AssertXmlEqual(none, rule);
-        //}
+            AssertXmlEqual(none, rule);
+        }
 
-        //[Theory]
-        //[MemberData(nameof(GetBrowseObjectItemRules))]
-        //public void BrowseObjectRulesShouldMatchNone(string ruleName, string fullPath)
-        //{
-        //    // Special case for Folder rule which hasn't been split yet, but is in the Items folder. But also its completely different.
-        //    if (ruleName.Equals("Folder", StringComparison.Ordinal))
-        //    {
-        //        return;
-        //    }
-        //    // No need to check None against None
-        //    if (ruleName.Equals("None", StringComparison.Ordinal))
-        //    {
-        //        return;
-        //    }
+        [Theory]
+        [MemberData(nameof(GetBrowseObjectItemRules))]
+        public void BrowseObjectRulesShouldMatchNone(string ruleName, string fullPath)
+        {
+            // Special case for Folder rule which hasn't been split yet, but is in the Items folder. But also its completely different.
+            if (ruleName.Equals("Folder", StringComparison.Ordinal))
+            {
+                return;
+            }
+            // No need to check None against None
+            if (ruleName.Equals("None", StringComparison.Ordinal))
+            {
+                return;
+            }
 
-        //    string noneFile = Path.Combine(fullPath, "..", "None.BrowseObject.xaml");
+            string noneFile = Path.Combine(fullPath, "..", "None.BrowseObject.xaml");
 
-        //    XElement none = LoadXamlRule(noneFile);
-        //    XElement rule = LoadXamlRule(fullPath);
+            XElement none = LoadXamlRule(noneFile);
+            XElement rule = LoadXamlRule(fullPath);
 
-        //    // First fix up the Name and DisplayName as we know they'll differ.
-        //    rule.Attribute("Name").Value = "None";
-        //    rule.Attribute("DisplayName").Value = "General";
+            // First fix up the Name and DisplayName as we know they'll differ.
+            rule.Attribute("Name").Value = "None";
+            rule.Attribute("DisplayName").Value = "General";
 
-        //    AssertXmlEqual(none, rule);
-        //}
+            AssertXmlEqual(none, rule);
+        }
 
-        //[Theory]
-        //[MemberData(nameof(GetFileItemRules))]
-        //public void FileRulesShouldntBeLocalized(string ruleName, string fullPath)
-        //{
-        //    // Special case for Folder rule which hasn't been split yet, but is in the Items folder
-        //    if (ruleName.Equals("Folder", StringComparison.Ordinal))
-        //    {
-        //        return;
-        //    }
+        [Theory]
+        [MemberData(nameof(GetFileItemRules))]
+        public void FileRulesShouldntBeLocalized(string ruleName, string fullPath)
+        {
+            // Special case for Folder rule which hasn't been split yet, but is in the Items folder
+            if (ruleName.Equals("Folder", StringComparison.Ordinal))
+            {
+                return;
+            }
 
-        //    XElement rule = LoadXamlRule(fullPath);
+            XElement rule = LoadXamlRule(fullPath);
 
-        //    foreach (XElement element in rule.Elements())
-        //    {
-        //        // No need to define categories if they're not going to be used
-        //        Assert.False(element.Name.LocalName.Equals("Rule.Categories", StringComparison.Ordinal));
-        //        Assert.Null(element.Attribute("DisplayName"));
-        //        Assert.Null(element.Attribute("Description"));
-        //        Assert.Null(element.Attribute("Category"));
-        //    }
-        //}
+            foreach (XElement element in rule.Elements())
+            {
+                // No need to define categories if they're not going to be used
+                Assert.False(element.Name.LocalName.Equals("Rule.Categories", StringComparison.Ordinal));
+                Assert.Null(element.Attribute("DisplayName"));
+                Assert.Null(element.Attribute("Description"));
+                Assert.Null(element.Attribute("Category"));
+            }
+        }
 
-        //[Theory]
-        //[MemberData(nameof(GetBrowseObjectItemRules))]
-        //public void HidePropertyPagesForBrowseObjectRules(string ruleName, string fullPath)
-        //{
-        //    XElement rule = LoadXamlRule(fullPath);
-        //    XAttribute attribute = rule.Attribute("PropertyPagesHidden");
+        [Theory]
+        [MemberData(nameof(GetBrowseObjectItemRules))]
+        public void HidePropertyPagesForBrowseObjectRules(string ruleName, string fullPath)
+        {
+            XElement rule = LoadXamlRule(fullPath);
+            XAttribute attribute = rule.Attribute("PropertyPagesHidden");
 
-        //    Assert.NotNull(attribute);
-        //    Assert.Equal("true", attribute.Value, ignoreCase: true);
-        //}
+            Assert.NotNull(attribute);
+            Assert.Equal("true", attribute.Value, ignoreCase: true);
+        }
 
-        //[Theory]
-        //[MemberData(nameof(GetItemRules))]
-        //public void RuleNameMatchesFileName(string ruleName, string fullPath)
-        //{
-        //    XElement rule = LoadXamlRule(fullPath);
+        [Theory]
+        [MemberData(nameof(GetItemRules))]
+        public void RuleNameMatchesFileName(string ruleName, string fullPath)
+        {
+            XElement rule = LoadXamlRule(fullPath);
 
-        //    // If a rule is split between File and BrowseObject we need to trim the BrowseObject part off
-        //    if (ruleName.IndexOf('.') > -1)
-        //    {
-        //        ruleName = ruleName.Substring(0, ruleName.IndexOf('.'));
-        //    }
+            // If a rule is split between File and BrowseObject we need to trim the BrowseObject part off
+            if (ruleName.IndexOf('.') > -1)
+            {
+                ruleName = ruleName.Substring(0, ruleName.IndexOf('.'));
+            }
 
-        //    Assert.Equal(ruleName, rule.Attribute("Name").Value);
-        //}
+            Assert.Equal(ruleName, rule.Attribute("Name").Value);
+        }
 
-        //[Theory]
-        //[MemberData(nameof(GetItemRules))]
-        //public void ItemTypesMustMatchFileNameRoot(string ruleName, string fullPath)
-        //{
-        //    // If a rule is split between File and BrowseObject we need to trim the BrowseObject part off
-        //    if (ruleName.IndexOf('.') > -1)
-        //    {
-        //        ruleName = ruleName.Substring(0, ruleName.IndexOf('.'));
-        //    }
+        [Theory]
+        [MemberData(nameof(GetItemRules))]
+        public void ItemTypesMustMatchFileNameRoot(string ruleName, string fullPath)
+        {
+            // If a rule is split between File and BrowseObject we need to trim the BrowseObject part off
+            if (ruleName.IndexOf('.') > -1)
+            {
+                ruleName = ruleName.Substring(0, ruleName.IndexOf('.'));
+            }
 
-        //    XElement rule = LoadXamlRule(fullPath);
+            XElement rule = LoadXamlRule(fullPath);
 
-        //    foreach (var element in rule.Descendants())
-        //    {
-        //        var attribute = element.Attribute("ItemType");
+            foreach (var element in rule.Descendants())
+            {
+                var attribute = element.Attribute("ItemType");
 
-        //        if (attribute != null)
-        //        {
-        //            Assert.Equal(ruleName, attribute.Value);
-        //        }
-        //    }
-        //}
+                if (attribute != null)
+                {
+                    Assert.Equal(ruleName, attribute.Value);
+                }
+            }
+        }
 
-        //[Theory]
-        //[MemberData(nameof(GetFileItemRules))]
-        //public void FileRulesShouldntHaveFileInfo(string ruleName, string fullPath)
-        //{
-        //    XElement rule = LoadXamlRule(fullPath);
+        [Theory]
+        [MemberData(nameof(GetFileItemRules))]
+        public void FileRulesShouldntHaveFileInfo(string ruleName, string fullPath)
+        {
+            XElement rule = LoadXamlRule(fullPath);
 
-        //    foreach (XElement element in rule.Elements())
-        //    {
-        //        var nameAttribute = element.Attribute("Name");
-        //        if (nameAttribute == null)
-        //        {
-        //            continue;
-        //        }
+            foreach (XElement element in rule.Elements())
+            {
+                var nameAttribute = element.Attribute("Name");
+                if (nameAttribute == null)
+                {
+                    continue;
+                }
 
-        //        var isStringProperty = element.Name.LocalName.Equals("StringProperty", StringComparison.Ordinal);
+                var isStringProperty = element.Name.LocalName.Equals("StringProperty", StringComparison.Ordinal);
 
-        //        if (!isStringProperty)
-        //        {
-        //            continue;
-        //        }
+                if (!isStringProperty)
+                {
+                    continue;
+                }
 
-        //        var name = nameAttribute.Value;
+                var name = nameAttribute.Value;
 
-        //        // special case - Folder's Identity property is used by dependencies node
-        //        if (!ruleName.Equals("Folder", StringComparison.Ordinal))
-        //        {
-        //            Assert.False(name.Equals("Identity", StringComparison.Ordinal));
-        //        }
+                // special case - Folder's Identity property is used by dependencies node
+                if (!ruleName.Equals("Folder", StringComparison.Ordinal))
+                {
+                    Assert.False(name.Equals("Identity", StringComparison.Ordinal));
+                }
 
-        //        Assert.False(name.Equals("FileNameAndExtension", StringComparison.Ordinal));
-        //        Assert.False(name.Equals("URL", StringComparison.Ordinal));
-        //        Assert.False(name.Equals("Extension", StringComparison.Ordinal));
-        //    }
-        //}
+                Assert.False(name.Equals("FileNameAndExtension", StringComparison.Ordinal));
+                Assert.False(name.Equals("URL", StringComparison.Ordinal));
+                Assert.False(name.Equals("Extension", StringComparison.Ordinal));
+            }
+        }
 
         public static IEnumerable<object[]> GetBrowseObjectItemRules()
         {

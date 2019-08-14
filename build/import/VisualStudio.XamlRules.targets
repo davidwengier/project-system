@@ -38,4 +38,35 @@
       </EmbeddedResource>
     </ItemGroup>
   </Target>
+
+  <!-- Copy common files and design targets files for testing and setup authoring purposes -->
+  <Target Name="CopyCommonFilesRulesToOutputDirectory" AfterTargets="CopyFilesToOutputDirectory">
+
+    <Copy SourceFiles="@(XamlPropertyProjectItemsSchema);@(DesignTimeTargetsFile)"
+          DestinationFolder="$(VisualStudioXamlRulesDir)"
+          SkipUnchangedFiles="$(SkipCopyUnchangedFiles)"
+          OverwriteReadOnlyFiles="$(OverwriteReadOnlyFiles)"
+          Retries="$(CopyRetryCount)"
+          RetryDelayMilliseconds="$(CopyRetryDelayMilliseconds)"
+          UseHardlinksIfPossible="$(CreateHardLinksForCopyFilesToOutputDirectoryIfPossible)">
+
+      <Output TaskParameter="DestinationFiles" ItemName="FileWrites"/>
+    </Copy>
+  </Target>
+
+  <!-- Copy translated common files for testing and setup authoring purposes -->
+  <Target Name="CopyTranslatedXamlRulesToOutputDirectory" AfterTargets="CopyFilesToOutputDirectory" DependsOnTargets="TranslateSourceFromXlf">
+
+    <Copy SourceFiles="@(XamlPropertyRuleTranslated)"
+          Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('%(XlfSource)', 'ProjectItemsSchema'))"
+          DestinationFiles="@(XamlPropertyRuleTranslated->'$(VisualStudioXamlRulesDir)%(XlfLanguage)\$([System.IO.Path]::GetFileName('%(XlfSource)'))')"
+          SkipUnchangedFiles="$(SkipCopyUnchangedFiles)"
+          OverwriteReadOnlyFiles="$(OverwriteReadOnlyFiles)"
+          Retries="$(CopyRetryCount)"
+          RetryDelayMilliseconds="$(CopyRetryDelayMilliseconds)"
+          UseHardlinksIfPossible="$(CreateHardLinksForCopyFilesToOutputDirectoryIfPossible)">
+
+      <Output TaskParameter="DestinationFiles" ItemName="FileWrites"/>
+    </Copy>
+  </Target>
 </Project>

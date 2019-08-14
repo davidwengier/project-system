@@ -89,12 +89,12 @@
       </trans-unit>
       <trans-unit id="Rule|Compile|DisplayName">
         <source>COMPILORATOR!!</source>
-        <target state="needs-review-translation">Propiedades del archivo</target>
+        <target state="needs-review-translation">COMPILORATOR!!</target>
         <note />
       </trans-unit>
       <trans-unit id="Rule|Compile|Description">
         <source>COMPILORATOR!!</source>
-        <target state="needs-review-translation">Propiedades del archivo</target>
+        <target state="needs-review-translation">COMPILORATOR!!</target>
         <note />
       </trans-unit>
     </body>
