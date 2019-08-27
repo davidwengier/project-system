@@ -98,7 +98,11 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Input.Commands
 
                 // Kick off the build.
                 uint dwFlags = (uint)(VSSOLNBUILDUPDATEFLAGS.SBF_SUPPRESS_SAVEBEFOREBUILD_QUERY | VSSOLNBUILDUPDATEFLAGS.SBF_OPERATION_BUILD);
-                ErrorHandler.ThrowOnFailure(_buildManager.StartSimpleUpdateProjectConfiguration(projectVsHierarchy, null, null, dwFlags, 0, 0));
+
+                // Tell the Solution Build Manager that we want to package
+                uint[] buildFlags = new[] { VSConstants.VS_BUILDABLEPROJECTCFGOPTS_PACKAGE };
+
+                ErrorHandler.ThrowOnFailure(_buildManager.StartUpdateSpecificProjectConfigurations(1, new[] { projectVsHierarchy }, null, null, buildFlags, null, dwFlags, 0));
             }
 
             return true;
