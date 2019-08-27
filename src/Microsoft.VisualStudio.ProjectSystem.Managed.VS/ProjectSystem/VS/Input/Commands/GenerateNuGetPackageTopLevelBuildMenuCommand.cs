@@ -4,7 +4,6 @@ using System.ComponentModel.Composition;
 using System.IO;
 
 using Microsoft.VisualStudio.Input;
-using Microsoft.VisualStudio.ProjectSystem.Build;
 using Microsoft.VisualStudio.ProjectSystem.Input;
 using Microsoft.VisualStudio.Shell.Interop;
 
@@ -18,9 +17,8 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Input.Commands
         public GenerateNuGetPackageTopLevelBuildMenuCommand(
             UnconfiguredProject project,
             IProjectThreadingService threadingService,
-            IVsService<SVsSolutionBuildManager, IVsSolutionBuildManager2> vsSolutionBuildManagerService,
-            GeneratePackageOnBuildPropertyProvider generatePackageOnBuildPropertyProvider)
-            : base(project, threadingService, vsSolutionBuildManagerService, generatePackageOnBuildPropertyProvider)
+            IVsService<SVsSolutionBuildManager, IVsSolutionBuildManager2> vsSolutionBuildManagerService)
+            : base(project, threadingService, vsSolutionBuildManagerService)
         {
         }
 

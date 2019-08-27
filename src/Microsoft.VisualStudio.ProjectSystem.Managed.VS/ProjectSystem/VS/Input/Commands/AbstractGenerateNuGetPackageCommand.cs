@@ -3,7 +3,6 @@
 using System;
 using System.Threading.Tasks;
 
-using Microsoft.VisualStudio.ProjectSystem.Build;
 using Microsoft.VisualStudio.ProjectSystem.Input;
 using Microsoft.VisualStudio.Shell.Interop;
 
@@ -15,24 +14,20 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Input.Commands
     {
         private readonly IProjectThreadingService _threadingService;
         private readonly IVsService<IVsSolutionBuildManager2> _vsSolutionBuildManagerService;
-        private readonly GeneratePackageOnBuildPropertyProvider _generatePackageOnBuildPropertyProvider;
         private IVsSolutionBuildManager2? _buildManager;
 
         protected AbstractGenerateNuGetPackageCommand(
             UnconfiguredProject project,
             IProjectThreadingService threadingService,
-            IVsService<SVsSolutionBuildManager, IVsSolutionBuildManager2> vsSolutionBuildManagerService,
-            GeneratePackageOnBuildPropertyProvider generatePackageOnBuildPropertyProvider)
+            IVsService<SVsSolutionBuildManager, IVsSolutionBuildManager2> vsSolutionBuildManagerService)
         {
             Requires.NotNull(project, nameof(project));
             Requires.NotNull(threadingService, nameof(threadingService));
             Requires.NotNull(vsSolutionBuildManagerService, nameof(vsSolutionBuildManagerService));
-            Requires.NotNull(generatePackageOnBuildPropertyProvider, nameof(generatePackageOnBuildPropertyProvider));
 
             Project = project;
             _threadingService = threadingService;
             _vsSolutionBuildManagerService = vsSolutionBuildManagerService;
-            _generatePackageOnBuildPropertyProvider = generatePackageOnBuildPropertyProvider;
         }
 
         protected UnconfiguredProject Project { get; }
