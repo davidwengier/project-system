@@ -6,6 +6,11 @@
 
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
+  <!-- Properties -->
+  <PropertyGroup>
+    <PackageAction Condition="'$(PackageAction)' == ''">Pack</PackageAction>
+  </PropertyGroup>
+
   <PropertyGroup>
     <!-- Turn off capabilities from Microsoft.Common.CurrentVersions.targets and explicitly include the ones we want. The list below
        currently matches what is in common targets, but removes BuildWindowsDesktopTarget -->
