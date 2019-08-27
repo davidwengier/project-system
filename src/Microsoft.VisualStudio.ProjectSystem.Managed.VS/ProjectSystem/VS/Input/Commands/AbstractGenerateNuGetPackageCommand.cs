@@ -11,7 +11,7 @@ using Task = System.Threading.Tasks.Task;
 
 namespace Microsoft.VisualStudio.ProjectSystem.VS.Input.Commands
 {
-    internal abstract class AbstractGenerateNuGetPackageCommand : AbstractSingleNodeProjectCommand, IDisposable
+    internal abstract class AbstractGenerateNuGetPackageCommand : AbstractSingleNodeProjectCommand
     {
         private readonly IProjectThreadingService _threadingService;
         private readonly IVsService<IVsSolutionBuildManager2> _vsSolutionBuildManagerService;
@@ -100,37 +100,5 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Input.Commands
 
             return true;
         }
-
-        #region IDisposable
-        private bool _disposedValue = false;
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!_disposedValue)
-            {
-                if (disposing && _buildManager != null)
-                {
-                    // Build manager APIs require UI thread access.
-                    _threadingService.ExecuteSynchronously(async () =>
-                    {
-                        await _threadingService.SwitchToUIThread();
-
-                        if (_buildManager != null)
-                        {
-                            _buildManager = null;
-                        }
-                    });
-                }
-
-                _disposedValue = true;
-            }
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-        #endregion
     }
 }
