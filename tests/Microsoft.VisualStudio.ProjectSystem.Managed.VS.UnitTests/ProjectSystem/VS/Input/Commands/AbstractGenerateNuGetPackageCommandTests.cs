@@ -156,12 +156,6 @@ Root (flags: {ProjectRoot})
             return CreateInstanceCore(project, threadingService, serviceProvider);
         }
 
-        private static GeneratePackageOnBuildPropertyProvider CreateGeneratePackageOnBuildPropertyProvider(IProjectService? projectService = null)
-        {
-            projectService ??= IProjectServiceFactory.Create();
-            return new GeneratePackageOnBuildPropertyProvider(projectService);
-        }
-
         internal abstract AbstractGenerateNuGetPackageCommand CreateInstanceCore(
             UnconfiguredProject project,
             IProjectThreadingService threadingService,
