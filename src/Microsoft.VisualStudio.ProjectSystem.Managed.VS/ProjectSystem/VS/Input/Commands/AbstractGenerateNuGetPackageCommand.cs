@@ -93,9 +93,6 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Input.Commands
                 var projectVsHierarchy = (IVsHierarchy)Project.Services.HostObject;
                 ErrorHandler.ThrowOnFailure(_buildManager!.SaveDocumentsBeforeBuild(projectVsHierarchy, (uint)VSConstants.VSITEMID.Root, 0 /*docCookie*/));
 
-                // Enable generating package on build ("GeneratePackageOnBuild") for all projects being built.
-                _generatePackageOnBuildPropertyProvider.OverrideGeneratePackageOnBuild(true);
-
                 // Kick off the build.
                 uint dwFlags = (uint)(VSSOLNBUILDUPDATEFLAGS.SBF_SUPPRESS_SAVEBEFOREBUILD_QUERY | VSSOLNBUILDUPDATEFLAGS.SBF_OPERATION_BUILD);
 
@@ -116,13 +113,11 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Input.Commands
 
         public int UpdateSolution_Done(int fSucceeded, int fModified, int fCancelCommand)
         {
-            _generatePackageOnBuildPropertyProvider.OverrideGeneratePackageOnBuild(false);
             return HResult.OK;
         }
 
         public int UpdateSolution_Cancel()
         {
-            _generatePackageOnBuildPropertyProvider.OverrideGeneratePackageOnBuild(false);
             return HResult.OK;
         }
 
