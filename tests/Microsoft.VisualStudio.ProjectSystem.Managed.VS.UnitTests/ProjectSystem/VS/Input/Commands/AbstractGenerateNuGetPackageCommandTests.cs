@@ -32,12 +32,6 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Input.Commands
         }
 
         [Fact]
-        public void Constructor_NullAsGeneratePackageOnBuildPropertyProvider_ThrowsArgumentNull()
-        {
-            Assert.Throws<ArgumentNullException>(() => CreateInstanceCore(UnconfiguredProjectFactory.Create(), IProjectThreadingServiceFactory.Create(), IVsServiceFactory.Create<SVsSolutionBuildManager, IVsSolutionBuildManager2>(null)));
-        }
-
-        [Fact]
         public async Task TryHandleCommandAsync_InvokesBuild()
         {
             bool buildStarted = false, buildCancelled = false, buildCompleted = false;
