@@ -11,13 +11,12 @@ using Task = System.Threading.Tasks.Task;
 
 namespace Microsoft.VisualStudio.ProjectSystem.VS.Input.Commands
 {
-    internal abstract class AbstractGenerateNuGetPackageCommand : AbstractSingleNodeProjectCommand, IVsUpdateSolutionEvents, IDisposable
+    internal abstract class AbstractGenerateNuGetPackageCommand : AbstractSingleNodeProjectCommand, IDisposable
     {
         private readonly IProjectThreadingService _threadingService;
         private readonly IVsService<IVsSolutionBuildManager2> _vsSolutionBuildManagerService;
         private readonly GeneratePackageOnBuildPropertyProvider _generatePackageOnBuildPropertyProvider;
         private IVsSolutionBuildManager2? _buildManager;
-        private uint _solutionEventsCookie;
 
         protected AbstractGenerateNuGetPackageCommand(
             UnconfiguredProject project,
@@ -71,9 +70,6 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Input.Commands
             if (_buildManager == null)
             {
                 _buildManager = await _vsSolutionBuildManagerService.GetValueAsync();
-
-                // Register for solution build events.
-                _buildManager!.AdviseUpdateSolutionEvents(this, out _solutionEventsCookie);
             }
         }
 
@@ -105,33 +101,6 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Input.Commands
             return true;
         }
 
-        #region IVsUpdateSolutionEvents members
-        public int UpdateSolution_Begin(ref int pfCancelUpdate)
-        {
-            return HResult.OK;
-        }
-
-        public int UpdateSolution_Done(int fSucceeded, int fModified, int fCancelCommand)
-        {
-            return HResult.OK;
-        }
-
-        public int UpdateSolution_Cancel()
-        {
-            return HResult.OK;
-        }
-
-        public int UpdateSolution_StartUpdate(ref int pfCancelUpdate)
-        {
-            return HResult.OK;
-        }
-
-        public int OnActiveProjectCfgChange(IVsHierarchy pIVsHierarchy)
-        {
-            return HResult.OK;
-        }
-        #endregion
-
         #region IDisposable
         private bool _disposedValue = false;
 
@@ -148,8 +117,6 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Input.Commands
 
                         if (_buildManager != null)
                         {
-                            // Unregister solution build events.
-                            _buildManager.UnadviseUpdateSolutionEvents(_solutionEventsCookie);
                             _buildManager = null;
                         }
                     });
