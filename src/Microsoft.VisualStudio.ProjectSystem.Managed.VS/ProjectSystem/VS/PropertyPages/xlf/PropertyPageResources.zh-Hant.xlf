@@ -12,6 +12,11 @@
         <target state="translated">要傳遞到應用程式的引數</target>
         <note />
       </trans-unit>
+      <trans-unit id="AuthenticationMode">
+        <source>Au_thentication mode:</source>
+        <target state="translated">驗證模式(_T):</target>
+        <note />
+      </trans-unit>
       <trans-unit id="DebugPropertyPageTitle">
         <source>Debug</source>
         <target state="translated">偵錯</target>
@@ -42,9 +47,59 @@
         <target state="translated">要執行之可執行檔的路徑</target>
         <note />
       </trans-unit>
+      <trans-unit id="FindBtn">
+        <source>_Find...</source>
+        <target state="translated">尋找(_F)...</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="ImplicitUsingEditor_AddUsing">
+        <source>Using</source>
+        <target state="translated">Using</target>
+        <note>Refers to the implicit using "includes" that will be added</note>
+      </trans-unit>
+      <trans-unit id="ImplicitUsingEditor_AddUsingButton">
+        <source>Add Using</source>
+        <target state="translated">新增 Using</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="ImplicitUsingEditor_ListItemAlias">
+        <source>Alias</source>
+        <target state="translated">Alias</target>
+        <note>Refers to the implicit using "Alias" text when displayed as a list item</note>
+      </trans-unit>
+      <trans-unit id="ImplicitUsingEditor_ListItemDelete">
+        <source>Delete</source>
+        <target state="translated">Delete</target>
+        <note>The action of deleting an implicit using list item</note>
+      </trans-unit>
+      <trans-unit id="ImplicitUsingEditor_ListItemIncludes">
+        <source>Using Includes</source>
+        <target state="translated">Using Include</target>
+        <note>Refers to the implicit using "Includes" text when displayed as a list item</note>
+      </trans-unit>
+      <trans-unit id="ImplicitUsingEditor_ListItemIsStatic">
+        <source>Static</source>
+        <target state="translated">Static</target>
+        <note>Refers to the implicit using "Static" value when displayed as a list item</note>
+      </trans-unit>
+      <trans-unit id="ImplicitUsingEditor_ListViewAccessibleName">
+        <source>Implicit global usings list</source>
+        <target state="translated">隱含全域 Using 清單</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="ImplicitUsingEditor_ShowImportedUsingsButton">
+        <source>Show imported usings</source>
+        <target state="translated">顯示匯入的 Using</target>
+        <note />
+      </trans-unit>
       <trans-unit id="InvalidHostName">
         <source>The host name is invalid.</source>
         <target state="translated">此主機名稱無效。</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="JSWebView2DebuggingAdditionalText">
+        <source>(Requires the JavaScript Diagnostics component)</source>
+        <target state="translated">(需要 JavaScript 診斷元件)</target>
         <note />
       </trans-unit>
       <trans-unit id="LaunchUrlWatermark">
@@ -98,8 +153,8 @@
         <note />
       </trans-unit>
       <trans-unit id="RemoteDebug">
-        <source>Use remote m_achine:</source>
-        <target state="translated">使用遠端電腦(_A):</target>
+        <source>_Use remote machine:</source>
+        <target state="translated">使用遠端電腦(_U):</target>
         <note />
       </trans-unit>
       <trans-unit id="RemoteDebugMachineWatermark">
@@ -128,38 +183,38 @@
         <note />
       </trans-unit>
       <trans-unit id="AddBtn">
-        <source>Add</source>
-        <target state="translated">新增</target>
+        <source>_Add</source>
+        <target state="translated">新增(_A)</target>
         <note />
       </trans-unit>
       <trans-unit id="ApplicationArguments">
-        <source>Application arguments:</source>
-        <target state="translated">應用程式引數:</target>
+        <source>Application ar_guments:</source>
+        <target state="translated">應用程式引數(_G):</target>
         <note />
       </trans-unit>
       <trans-unit id="BrowseBtn">
-        <source>Browse...</source>
-        <target state="translated">瀏覽...</target>
+        <source>_Browse...</source>
+        <target state="translated">瀏覽(_B)...</target>
         <note />
       </trans-unit>
       <trans-unit id="DeleteBtn">
-        <source>Delete</source>
-        <target state="translated">刪除</target>
+        <source>_Delete</source>
+        <target state="translated">刪除(_D)</target>
         <note />
       </trans-unit>
       <trans-unit id="EnvironmentVariables">
-        <source>Environment variables:</source>
-        <target state="translated">環境變數:</target>
+        <source>Environ_ment variables:</source>
+        <target state="translated">環境變數(_M):</target>
         <note />
       </trans-unit>
       <trans-unit id="Executable">
-        <source>Executable:</source>
-        <target state="translated">可執行檔:</target>
+        <source>_Executable:</source>
+        <target state="translated">可執行檔(_E):</target>
         <note />
       </trans-unit>
       <trans-unit id="Launch">
-        <source>Launch:</source>
-        <target state="translated">啟動:</target>
+        <source>_Launch:</source>
+        <target state="translated">啟動(_L):</target>
         <note />
       </trans-unit>
       <trans-unit id="LaunchURL">
@@ -173,18 +228,18 @@
         <note />
       </trans-unit>
       <trans-unit id="NewBtn">
-        <source>New...</source>
-        <target state="translated">新增...</target>
+        <source>_New...</source>
+        <target state="translated">新增(_N)...</target>
         <note />
       </trans-unit>
       <trans-unit id="Profile">
-        <source>Profile:</source>
-        <target state="translated">設定檔:</target>
+        <source>_Profile:</source>
+        <target state="translated">設定檔(_P):</target>
         <note />
       </trans-unit>
       <trans-unit id="RemoveBtn">
-        <source>Remove</source>
-        <target state="translated">移除</target>
+        <source>_Remove</source>
+        <target state="translated">移除(_R)</target>
         <note />
       </trans-unit>
       <trans-unit id="ValueHeader">
@@ -193,8 +248,8 @@
         <note />
       </trans-unit>
       <trans-unit id="WorkingDirectory">
-        <source>Working directory:</source>
-        <target state="translated">工作目錄:</target>
+        <source>_Working directory:</source>
+        <target state="translated">工作目錄(_W):</target>
         <note />
       </trans-unit>
       <trans-unit id="CancelBtn">
@@ -232,14 +287,19 @@
         <target state="translated">建立設定檔並選取新的設定檔，然後返回偵錯屬性頁</target>
         <note />
       </trans-unit>
+      <trans-unit id="chkJSWebView2DebuggingText">
+        <source>Enable JavaScript debugger for Microsoft Edge (Chromium) based WebView2</source>
+        <target state="translated">啟用適用於 Microsoft Edge 的 JavaScript 偵錯工具 (Chromium) WebView2</target>
+        <note />
+      </trans-unit>
       <trans-unit id="chkLaunchBrowserHelpText">
         <source>Checking enables a textbox to specify an absolute or relative URl</source>
         <target state="translated">選取即啟用可指定絕對或相對 URl 的文字方塊</target>
         <note />
       </trans-unit>
       <trans-unit id="chkNativeCodeDebuggingText">
-        <source>Enable native code debugging</source>
-        <target state="translated">啟用機器碼偵錯</target>
+        <source>Enable nati_ve code debugging</source>
+        <target state="translated">啟用機器碼偵錯(_V)</target>
         <note />
       </trans-unit>
       <trans-unit id="chkRemoteDebugEnabledHelpText">
@@ -248,8 +308,8 @@
         <note />
       </trans-unit>
       <trans-unit id="chkSqlCodeDebuggingText">
-        <source>Enable SQL Server debugging</source>
-        <target state="translated">啟用 SQL Server 偵錯</target>
+        <source>Enable _SQL Server debugging</source>
+        <target state="translated">啟用 SQL Server 偵錯(_S)</target>
         <note />
       </trans-unit>
     </body>

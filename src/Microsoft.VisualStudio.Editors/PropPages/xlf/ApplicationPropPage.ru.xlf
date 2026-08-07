@@ -19,7 +19,7 @@
       </trans-unit>
       <trans-unit id="StartupObjectLabel.Text">
         <source>Startup &amp;object:</source>
-        <target state="translated">Автоматически запускаемый &amp;объект:</target>
+        <target state="translated">Объект &amp;запуска:</target>
         <note />
       </trans-unit>
       <trans-unit id="AssemblyInfoButton.Text">
@@ -60,6 +60,11 @@
       <trans-unit id="ApplicationManifestLabel.Text">
         <source>Manifest:</source>
         <target state="translated">Манифест:</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="Win32ResourceFile.AccessibleName">
+        <source>Resource file</source>
+        <target state="translated">Файл ресурсов</target>
         <note />
       </trans-unit>
       <trans-unit id="Win32ResourceRadioButton.Text">

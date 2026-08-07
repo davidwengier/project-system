@@ -1,4 +1,4 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Imports System.Runtime.InteropServices
 
@@ -11,7 +11,7 @@ Namespace Microsoft.Internal.Performance
         ' Singleton access
         Public Shared ReadOnly Instance As CodeMarkers = New CodeMarkers()
 
-        Private Class NativeMethods
+        Private NotInheritable Class NativeMethods
 
             ' Add a private constructor to prevent compiler from generating a default constructor (FxCop warning CA1812)
             Private Sub New()

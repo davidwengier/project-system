@@ -1,4 +1,4 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Imports System.ComponentModel.Design
 Imports System.Reflection
@@ -10,13 +10,10 @@ Imports Microsoft.VisualStudio.Editors.AppDesInterop
 Imports Common = Microsoft.VisualStudio.Editors.AppDesCommon
 Imports Win32Constant = Microsoft.VisualStudio.Editors.AppDesInterop.Win32Constant
 
-
 Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
-
 
     Public NotInheritable Class PropPageDesignerWindowPane
         Inherits AppDesDesignerFramework.DeferrableWindowPaneProviderServiceBase.DesignerWindowPaneBase
-
 
         ''' <summary>
         ''' Creates a new WinformsWindowPane.
@@ -25,7 +22,6 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
         Public Sub New(surface As DesignSurface)
             MyBase.New(surface, SupportToolbox:=False)
         End Sub
-
 
         ''' <summary>
         ''' Retrieves the PropPageDesignerView associated with this window, if any.
@@ -37,7 +33,6 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
 
             Return Nothing
         End Function
-
 
         ''' <summary>
         ''' This gives us a crack at messages before they are routed to the control that the message
@@ -56,7 +51,7 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
 
             Dim DesignerView As PropPageDesignerView = GetPropPageDesignerView()
             If DesignerView IsNot Nothing Then
-                Dim KeyCode As Keys = DirectCast(m.WParam.ToInt32(), Keys) And Keys.KeyCode
+                Dim KeyCode As Keys = DirectCast(CInt(m.WParam.ToInt64() And Keys.KeyCode), Keys)
                 'Is the message intended for a window or control in the property page?
                 If DesignerView.IsNativeHostedPropertyPageActivated AndAlso NativeMethods.IsChild(View.Handle, m.HWnd) Then
                     Common.Switches.TracePDMessageRouting(TraceLevel.Info, "  ... Message is for a child of the property page.  Calling MyBase.PreProcessMessage", m)

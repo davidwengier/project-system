@@ -1,9 +1,8 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Imports EnvDTE
 
 Imports Microsoft.VisualStudio.Shell.Interop
-
 
 Namespace Microsoft.VisualStudio.Editors.AppDesCommon
 
@@ -38,7 +37,6 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
             Return Nothing
         End Function
 
-
         ''' <summary>
         ''' Given a DTE project, returns the active IVsCfg configuration for it
         ''' </summary>
@@ -51,7 +49,6 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
             End With
             Return VsCfg
         End Function
-
 
         ''' <summary>
         ''' Given a DTE project, returns the active DTE configuration object for it
@@ -68,7 +65,6 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
                 Return Project.ConfigurationManager.Item(1) '1-indexed
             End Try
         End Function
-
 
         ''' <summary>
         ''' Tries to set the Build Action property of the given project item to the given build action (enumeration).  

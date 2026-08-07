@@ -1,4 +1,4 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Imports System.ComponentModel
 Imports System.Runtime.InteropServices
@@ -61,7 +61,7 @@ Namespace Microsoft.VisualStudio.Editors.OptionPages
         ''' The UIElement is backed by a copy of the main options; when/if the user
         ''' saves their changes we'll copy the options back to the main instance.
         ''' </summary>
-        Protected Overrides ReadOnly Property Child As Windows.UIElement
+        Protected Overrides ReadOnly Property Child As System.Windows.UIElement
             Get
                 If _optionsControl Is Nothing Then
                     ' Get a snapshot of the current settings for the page to modify. When the user
@@ -85,7 +85,7 @@ Namespace Microsoft.VisualStudio.Editors.OptionPages
         Protected Overrides Sub OnApply(e As PageApplyEventArgs)
             ' Normally we copy changes from the main instance of the options to the
             ' control's instance. Here we're copying them in the other direction, so we
-            ' need to suspend the normal upates.
+            ' need to suspend the normal updates.
             Using SuspendOptionsControlUpdates()
                 SDKStyleProjectOptionsData.MainInstance.CopyFrom(DataContextOptions)
             End Using
@@ -114,8 +114,8 @@ Namespace Microsoft.VisualStudio.Editors.OptionPages
             ' The main copy of the options has changed. Update the copy used by the
             ' Tools | Options UI, if has been created.
             If _shouldUpdateOptionsControlOnPropertyChange AndAlso _optionsControl IsNot Nothing Then
-                ThreadHelper.JoinableTaskFactory.RunAsync(
-                    Async Function() As Task(Of Task)
+                Dim unused = ThreadHelper.JoinableTaskFactory.RunAsync(
+                    Async Function() As Task(Of TaskListItem)
                         Await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync()
                         DataContextOptions.CopyFrom(SDKStyleProjectOptionsData.MainInstance)
                     End Function)

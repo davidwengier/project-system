@@ -1,12 +1,19 @@
-﻿// Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿// Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
-namespace Microsoft.VisualStudio.ProjectSystem.Properties
+namespace Microsoft.VisualStudio.ProjectSystem.Properties;
+
+/// <summary>
+/// Metadata mapping interface for the <see cref="ExportInterceptingPropertyValueProviderAttribute"/>.
+/// </summary>
+public interface IInterceptingPropertyValueProviderMetadata
 {
+#pragma warning disable CA1819 // Properties should not return arrays
+
     /// <summary>
-    /// Metadata mapping interface for the <see cref="ExportInterceptingPropertyValueProviderAttribute"/>.
+    /// Property names handled by the provider.
+    /// This must match <see cref="ExportInterceptingPropertyValueProviderAttribute.PropertyNames" />.
     /// </summary>
-    public interface IInterceptingPropertyValueProviderMetadata
-    {
-        string PropertyName { get; }
-    }
+    string[] PropertyNames { get; }
+
+#pragma warning restore CA1819 // Properties should not return arrays
 }

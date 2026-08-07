@@ -1,4 +1,4 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Option Strict On
 Option Explicit On
@@ -13,10 +13,7 @@ Imports Microsoft.VisualStudio.TextManager.Interop
 
 Imports VsTextBufferClass = Microsoft.VisualStudio.TextManager.Interop.VsTextBufferClass
 
-
-
 Namespace Microsoft.VisualStudio.Editors.DesignerFramework
-
 
     ''' <summary>
     ''' This is the base editor factory for all designers in this assembly.  The
@@ -27,7 +24,7 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
     ''' <remarks>
     '''     This file was copied from the frameworks: FX\src\VSDesigner\Designer\Microsoft\VisualStudio\Designer\Shell
     '''     We need our own version because the original version does not support logical views, and also because
-    '''     the one from Windows Forms does not support custom DocData types.
+    '''     the one from System.Windows.Forms does not support custom DocData types.
     '''
     '''     This is the base editor factory for all designers in this assembly.  The
     '''     editor factory provides a way for the shell to get an editor for a
@@ -61,7 +58,6 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
     Friend MustInherit Class BaseEditorFactory
         Implements IVsEditorFactory, IDisposable
 
-
 #Region "Fields and Structures"
 
         Private _site As Object 'The site that owns this editor factory
@@ -69,8 +65,6 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
         Private ReadOnly _designerLoaderType As Type 'The type of designer loader to create.  Typically there is a separate designer loader class per editor factory (and therefore per designer type)
 
 #End Region
-
-
 
         ''' <summary>
         '''     Creates a new editor factory.
@@ -80,7 +74,6 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
             _designerLoaderType = DesignerLoaderType
         End Sub
 
-
         ''' <summary>
         '''     Called by the VS shell before this editor is removed from the list of available
         '''     editor factories.
@@ -88,8 +81,6 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
         Public Overridable Function Close() As Integer Implements IVsEditorFactory.Close
             Dispose()
         End Function
-
-
 
         ''' <summary>
         ''' Creates a new native TextBuffer by CoCreating it from COM.
@@ -126,7 +117,6 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
             Return TextStreamInstance
         End Function
 
-
         ''' <summary>
         ''' Given an existing docdata (if any), gets the correct DocData for use with a new
         '''   editor.  Default implementation: If there is an existing DocData and it's 
@@ -157,14 +147,12 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
             Return TextStreamInstance
         End Function
 
-
         ''' <summary>
         ''' Called in base classes when the editor factory is sited.  Before this time, ServiceProvider will not be available (and
         '''   should not be assumed afterwards).
         ''' </summary>
         Protected Overridable Sub OnSited()
         End Sub
-
 
         ''' <summary>
         ''' Provides the (constant) GUID for the subclassed editor factory.
@@ -181,9 +169,7 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
         ''' </summary>
         Protected MustOverride ReadOnly Property CommandUIGuid As Guid
 
-
 #Region "Private implementation"
-
 
         ''' <summary>
         ''' Used by the editor factory architecture to create editors that support data/view separation (for example, 
@@ -284,8 +270,6 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
             End Try
         End Function
 
-
-
         ''' <summary>
         ''' Creates a new editor for the given pile of flags.  Helper function for the overload
         '''   which implements IVsEditorFactory.CreateEditorInstance
@@ -358,7 +342,7 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
                     If DesignerLoaderObject Is Nothing Then
                         Debug.Fail("DesignerService.CreateDesignerLoader() returned Nothing")
                     End If
-                    If Not TypeOf DesignerLoaderObject Is BaseDesignerLoader Then
+                    If TypeOf DesignerLoaderObject IsNot BaseDesignerLoader Then
                         Debug.Fail("DesignerLoader was of an unexpected type.  This likely means that Microsoft.VisualStudio.Editors.dll was " _
                             & "loaded twice from two different locations (or from the same location but one with 8.3 and the other long paths).  " _
                             & vbCrLf & DesignerLoaderObject.GetType.AssemblyQualifiedName)
@@ -458,14 +442,12 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
             End Get
         End Property
 
-
         ''' <summary>
         '''     Called by the VS shell when it first initializes us.
         ''' </summary>
         Private Function IVsEditorFactory_SetSite(site As IServiceProvider) As Integer Implements IVsEditorFactory.SetSite
             SetSiteInternal(site)
         End Function
-
 
         ''' <summary>
         ''' Called by the VS shell when it first initializes us.  
@@ -492,7 +474,6 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
 
             OnSited()
         End Sub
-
 
 #Region "IDisposable standard pattern"
         ''' <summary>

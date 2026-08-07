@@ -1,4 +1,4 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Imports System.ComponentModel
 
@@ -22,7 +22,6 @@ Namespace Microsoft.VisualStudio.Editors.Package
             Me.New(My.Resources.Designer.RSE_Err_InternalException, Nothing)
         End Sub
 
-
         ''' <summary>
         ''' Constructor
         ''' </summary>
@@ -30,7 +29,6 @@ Namespace Microsoft.VisualStudio.Editors.Package
         Public Sub New(Message As String)
             Me.New(Message, Nothing)
         End Sub
-
 
         ''' <summary>
         ''' Constructor
@@ -41,7 +39,6 @@ Namespace Microsoft.VisualStudio.Editors.Package
             Me.New(My.Resources.Designer.RSE_Err_InternalException, InnerException)
         End Sub
 
-
         ''' <summary>
         ''' Constructor
         ''' </summary>
@@ -50,7 +47,6 @@ Namespace Microsoft.VisualStudio.Editors.Package
         Public Sub New(Message As String, InnerException As Exception)
             MyBase.New(Message, InnerException)
         End Sub
-
 
 #Region "Serialization support"
 

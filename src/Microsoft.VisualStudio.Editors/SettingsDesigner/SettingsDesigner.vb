@@ -1,7 +1,8 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Imports System.ComponentModel.Design
-
+Imports System.IO
+Imports Microsoft.VisualStudio.Editors.DesignerFramework
 Imports Microsoft.VisualStudio.Editors.Interop
 Imports Microsoft.VisualStudio.Shell.Interop
 
@@ -71,7 +72,6 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
             Return View
         End Function
 
-
         ''' <summary>
         ''' Our supported technologies
         ''' </summary>
@@ -112,13 +112,12 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
         End Property
 #End Region
 
-
         ''' <summary>
         ''' Show context menu
         ''' </summary>
         ''' <param name="sender"></param>
         ''' <param name="e"></param>
-        Public Overloads Sub ShowContextMenu(sender As Object, e As Windows.Forms.MouseEventArgs)
+        Public Overloads Sub ShowContextMenu(sender As Object, e As System.Windows.Forms.MouseEventArgs)
             ShowContextMenu(Constants.MenuConstants.SettingsDesignerContextMenuID, e.X, e.Y)
         End Sub
 
@@ -145,7 +144,6 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
             Ns = ProjectUtils.GeneratedSettingsClassNamespace(Hierarchy, ProjectUtils.ItemId(Hierarchy, Item), True)
             Return ProjectUtils.FullyQualifiedClassName(Ns, GeneratedClassName(Hierarchy, ItemId, Settings, ProjectUtils.FileName(Item)))
         End Function
-
 
         ''' <summary>
         ''' Helper method to determine the generated class name...
@@ -197,7 +195,7 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
                             ' No settings class provided - let's crack open the .settings file... 
                             '
                             Settings = New DesignTimeSettings()
-                            Using Reader As New IO.StreamReader(FullPath)
+                            Using Reader As New StreamReader(FullPath)
                                 SettingsSerializer.Deserialize(Settings, Reader, True)
                             End Using
                         End If
@@ -205,7 +203,7 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
                         If Settings.UseSpecialClassName Then
                             Return SpecialClassName
                         End If
-                    Catch ex As Exception When Common.ReportWithoutCrash(ex, String.Format("Failed to crack open {0} to determine if we were supposed to use the ""Special"" settings class name", FullPath), NameOf(SettingsDesigner))
+                    Catch ex As Exception When Common.ReportWithoutCrash(ex, "Failed to crack open settings file to determine if we were supposed to use the ""Special"" settings class name", NameOf(SettingsDesigner))
                     End Try
                 End If
 
@@ -227,7 +225,15 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
                 Debug.Fail("Can't get a class name from an empty path!")
                 Return ""
             End If
-            Return IO.Path.GetFileNameWithoutExtension(PathName)
+            Return GetGeneratedClassNameFromFileName(IO.Path.GetFileNameWithoutExtension(PathName))
+        End Function
+
+        ''' <summary>
+        ''' Given a filename, determines what the generated class name would be
+        ''' </summary>
+        ''' <param name="FileName"></param>
+        Friend Shared Function GetGeneratedClassNameFromFileName(FileName As String) As String
+            Return DesignUtil.GenerateValidLanguageIndependentIdentifier(Path.GetFileNameWithoutExtension(FileName))
         End Function
 
         ''' <summary>
@@ -369,7 +375,6 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
             If path = "" Then
                 Return
             End If
-
 
             ' The path passed in to us is the path to the current active user.config file..
             Dim currentApplicationVersionDirectoryInfo As New IO.DirectoryInfo(path)

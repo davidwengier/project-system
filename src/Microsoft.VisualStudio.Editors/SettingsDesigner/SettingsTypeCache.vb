@@ -1,4 +1,4 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Imports Microsoft.VisualStudio.Shell.Interop
 Imports Microsoft.VSDesigner
@@ -88,7 +88,6 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
             Return ResolveType(typeName, _caseSensitive)
         End Function
 
-
         ''' <summary>
         ''' Get the list of "well known" types (i.e. types that we don't need any type resolution service
         ''' in order to resolve...
@@ -138,6 +137,17 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
             Dim qualifiedAssemblyName As String = Nothing
 
             If Not String.IsNullOrEmpty(sourceTypeName) Then
+
+                ' The configuration types represent a stable contract, for .NET scenarios pin all these type names to the .NET Framework identities.
+                ' This will ensure that when we create required sections in app.config we'll be able to read them back.
+                ' Note that when the designer moves off of .NET Framework we may need to revisit this.
+                If (_multiTargetService.TargetFrameworkName.Identifier = ".NETCoreApp" AndAlso
+                   (sourceTypeName = "System.Configuration.ApplicationSettingsGroup, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" Or
+                    sourceTypeName = "System.Configuration.ClientSettingsSection, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" Or
+                    sourceTypeName = "System.Configuration.UserSettingsGroup, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089")) Then
+                    Return sourceTypeName
+                End If
+
                 Dim t As Type = _typeResolutionService.GetType(sourceTypeName, False, Not _caseSensitive)
                 If t IsNot Nothing Then
                     qualifiedAssemblyName = _multiTargetService.TypeNameConverter(t)

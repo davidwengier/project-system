@@ -82,9 +82,69 @@
         <target state="translated">Файлы проектов C# (*.csproj);*.csproj</target>
         <note />
       </trans-unit>
-      <trans-unit id="27">
-        <source>.NET Core 2015 Project Files (*.xproj);*.xproj</source>
-        <target state="translated">Файлы проектов .NET Core 2015 (*.xproj);*.xproj</target>
+      <trans-unit id="Setting_FastUpToDateCheck_Enabled_Title">
+        <source>Don't call MSBuild if a project appears to be up to date</source>
+        <target state="translated">Не вызывайте MSBuild, если проект находится в актуальном состоянии</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="Setting_FastUpToDateCheck_LoggingLevel_Info">
+        <source>Info</source>
+        <target state="translated">Информация</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="Setting_FastUpToDateCheck_LoggingLevel_Minimal">
+        <source>Minimal</source>
+        <target state="translated">Минимальный</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="Setting_FastUpToDateCheck_LoggingLevel_None">
+        <source>None</source>
+        <target state="translated">Нет</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="Setting_FastUpToDateCheck_LoggingLevel_Title">
+        <source>Logging level</source>
+        <target state="translated">Уровень ведения журнала</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="Setting_FastUpToDateCheck_LoggingLevel_Verbose">
+        <source>Verbose</source>
+        <target state="translated">Подробно</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="Setting_FileNesting_IgnoreSolutionAndProjectSettings_Title">
+        <source>Ignore solution and project settings</source>
+        <target state="translated">Игнорировать параметры решений и проектов</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="Setting_FileNesting_PreferSingleTargetBuilds_Description">
+        <source>When starting a project that targets multiple frameworks, build time can be reduced by building only a single one.</source>
+        <target state="translated">При запуске проекта, предназначенного для нескольких платформ, время сборки можно сократить, создав только одну из платформ.</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="Setting_FileNesting_PreferSingleTargetBuilds_Title">
+        <source>Prefer single-target builds when starting a project</source>
+        <target state="translated">При запуске проекта отдавать предпочтение одноплатформенным сборкам</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="Settings_Category_FastUpToDateCheck">
+        <source>Up-to-date Checks</source>
+        <target state="translated">Актуальные проверки</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="Settings_Category_FileNestingSettings">
+        <source>File Nesting</source>
+        <target state="translated">Вложение файлов</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="Settings_Category_MultiTargetingSettings">
+        <source>Multi-targeting</source>
+        <target state="translated">Мультитаргетинг</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="Settings_Category_SdkStyleProjects">
+        <source>SDK-style Projects</source>
+        <target state="translated">Проекты в стиле SDK</target>
         <note />
       </trans-unit>
     </body>

@@ -1,14 +1,15 @@
-﻿// Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿// Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
-namespace Microsoft.VisualStudio.Threading
+namespace Microsoft.VisualStudio.Threading;
+
+internal static class JoinableTaskContextNodeFactory
 {
-    internal static class JoinableTaskContextNodeFactory
+    public static JoinableTaskContextNode Create()
     {
-        public static JoinableTaskContextNode Create()
-        {
-            var context = new JoinableTaskContext();
+#pragma warning disable VSSDK005
+        var context = new JoinableTaskContext();
+#pragma warning restore VSSDK005
 
-            return new JoinableTaskContextNode(context);
-        }
+        return new JoinableTaskContextNode(context);
     }
 }

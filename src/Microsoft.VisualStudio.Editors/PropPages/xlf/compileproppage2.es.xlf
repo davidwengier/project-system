@@ -22,6 +22,11 @@
         <target state="translated">&amp;Deshabilitar todas las advertencias</target>
         <note />
       </trans-unit>
+      <trans-unit id="PreferNativeArm64CheckBox.Text">
+        <source>&amp;Prefer native ARM64</source>
+        <target state="translated">&amp;Preferir ARM64 nativo</target>
+        <note />
+      </trans-unit>
       <trans-unit id="WarningsAsErrorCheckBox.Text">
         <source>Treat a&amp;ll warnings as errors</source>
         <target state="translated">Considerar todas las advertencias co&amp;mo errores</target>
@@ -34,7 +39,7 @@
       </trans-unit>
       <trans-unit id="RegisterForComInteropCheckBox.Text">
         <source>R&amp;egister for COM interop</source>
-        <target state="translated">R&amp;egistrar para interoperabilidad &amp;COM</target>
+        <target state="translated">R&amp;egistrar para interoperabilidad COM</target>
         <note />
       </trans-unit>
       <trans-unit id="GenerateXMLCheckBox.Text">

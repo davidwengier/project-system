@@ -1,6 +1,5 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
-Imports System.Diagnostics.CodeAnalysis
 Imports System.Xml
 
 Namespace Microsoft.VisualStudio.Editors.PropertyPages
@@ -27,7 +26,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             If honorCookieExpiryValue.HasValue Then
                 HonorServerCookieExpirationCheckbox.Checked = CBool(honorCookieExpiryValue)
             Else
-                HonorServerCookieExpirationCheckbox.CheckState = Windows.Forms.CheckState.Indeterminate
+                HonorServerCookieExpirationCheckbox.CheckState = System.Windows.Forms.CheckState.Indeterminate
             End If
 
             AddTimeUnitsToComboBox()
@@ -96,7 +95,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
                 End If
             End If
 
-
             Select Case unit
                 Case TimeUnit.Seconds
                     TimeUnitComboBox.Text = My.Resources.Microsoft_VisualStudio_Editors_Designer.PPG_Services_Seconds
@@ -117,17 +115,17 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             If Not connectionStringSpecified Then
                 'There were connection strings, but they're not all the same connection string
                 UseCustomConnectionStringCheckBox.Enabled = False
-                UseCustomConnectionStringCheckBox.CheckState = Windows.Forms.CheckState.Indeterminate
+                UseCustomConnectionStringCheckBox.CheckState = System.Windows.Forms.CheckState.Indeterminate
             ElseIf connectionString Is Nothing Then
                 'The default value
                 UseCustomConnectionStringCheckBox.Enabled = True
-                UseCustomConnectionStringCheckBox.CheckState = Windows.Forms.CheckState.Unchecked
+                UseCustomConnectionStringCheckBox.CheckState = System.Windows.Forms.CheckState.Unchecked
                 CustomConnectionString.Text = My.Resources.Microsoft_VisualStudio_Editors_Designer.PPG_Services_connectionStringValueDefaultDisplayValue
                 CustomConnectionString.Enabled = False
             Else
                 'Using a non-default connection string for all providers
                 UseCustomConnectionStringCheckBox.Enabled = True
-                UseCustomConnectionStringCheckBox.CheckState = Windows.Forms.CheckState.Checked
+                UseCustomConnectionStringCheckBox.CheckState = System.Windows.Forms.CheckState.Checked
                 CustomConnectionString.Text = connectionString
                 CustomConnectionString.Enabled = True
             End If
@@ -141,14 +139,12 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             UpdateCustomConnectionStringControlBasedOnCheckState()
         End Sub
 
-
-        <SuppressMessage("Microsoft.Globalization", "CA1303:DoNotPassLiteralsAsLocalizedParameters")>
         Private Sub UpdateCustomConnectionStringControlBasedOnCheckState()
             Select Case UseCustomConnectionStringCheckBox.CheckState
-                Case Windows.Forms.CheckState.Indeterminate
+                Case System.Windows.Forms.CheckState.Indeterminate
                     'The connection strings don't match
                     CustomConnectionString.Text = My.Resources.Microsoft_VisualStudio_Editors_Designer.PPG_Services_ConnectionStringsDontMatch
-                Case Windows.Forms.CheckState.Checked
+                Case System.Windows.Forms.CheckState.Checked
                     'We're using a custom connection string
                     'Either the text has already been set (in which case we're good), or it's the display default message, in which case we should
                     'change it to the default value.
@@ -156,7 +152,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
                         CustomConnectionString.Text = ServicesPropPageAppConfigHelper.ConnectionStringValueDefault
                     End If
                     ServicesPropPageAppConfigHelper.SetConnectionStringText(_appConfigDocument, CustomConnectionString.Text, ProjectHierarchy)
-                Case Windows.Forms.CheckState.Unchecked
+                Case System.Windows.Forms.CheckState.Unchecked
                     'We're using the default
                     CustomConnectionString.Text = My.Resources.Microsoft_VisualStudio_Editors_Designer.PPG_Services_connectionStringValueDefaultDisplayValue
                     ServicesPropPageAppConfigHelper.SetConnectionStringText(_appConfigDocument, Nothing, ProjectHierarchy)

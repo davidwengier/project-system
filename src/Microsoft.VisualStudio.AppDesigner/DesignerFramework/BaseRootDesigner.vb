@@ -1,4 +1,4 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Option Strict On
 Option Explicit On
@@ -35,7 +35,6 @@ Namespace Microsoft.VisualStudio.Editors.AppDesDesignerFramework
         '= PUBLIC =============================================================
         ';Methods
         '==========
-
 
         Protected Overrides Sub Dispose(Disposing As Boolean)
             If Disposing Then
@@ -83,8 +82,7 @@ Namespace Microsoft.VisualStudio.Editors.AppDesDesignerFramework
         '''  TRUE to keep previously registered menu commands for this designer.
         '''  FALSE otherwise, the root designer will clear its menu commands list and add the new one.
         ''' </param>
-        ''' <remarks>Child root designers call this method to register their own menu commands. 
-        '''      See ResourceEditorRootDesigner.</remarks>
+        ''' <remarks>Child root designers call this method to register their own menu commands.</remarks>
         Public Sub RegisterMenuCommands(MenuCommands As ArrayList,
                 Optional KeepRegisteredMenuCommands As Boolean = True)
             ' Clear the list of menu commands if specified.
@@ -175,9 +173,9 @@ Namespace Microsoft.VisualStudio.Editors.AppDesDesignerFramework
         ' All the menu commands this designer exposes. Use MenuCommands to access this.
         Private ReadOnly _menuCommands As New ArrayList
         ' Pointer to the IMenuCommandService.
-        Private _menuCommandService As IMenuCommandService = Nothing
+        Private _menuCommandService As IMenuCommandService
         ' Pointer to ISelectionService
-        Private _selectionService As ISelectionService = Nothing
+        Private _selectionService As ISelectionService
         ' SyncLock object used to lazy initialized private fields.
         Private ReadOnly _syncLockObject As New Object
 

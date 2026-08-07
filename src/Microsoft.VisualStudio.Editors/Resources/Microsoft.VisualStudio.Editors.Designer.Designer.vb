@@ -22,7 +22,7 @@ Namespace My.Resources
     '''<summary>
     '''  A strongly-typed resource class, for looking up localized strings, etc.
     '''</summary>
-    <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0"),  _
+    <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0"),  _
      Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
      Global.System.Runtime.CompilerServices.CompilerGeneratedAttribute()>  _
     Friend Class Microsoft_VisualStudio_Editors_Designer
@@ -65,160 +65,6 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to This project does not contain a default resources file.  Click here to create one..
-        '''</summary>
-        Friend Shared ReadOnly Property APPDES_ClickHereCreateResx() As String
-            Get
-                Return ResourceManager.GetString("APPDES_ClickHereCreateResx", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to This project does not contain a default settings file.  Click here to create one..
-        '''</summary>
-        Friend Shared ReadOnly Property APPDES_ClickHereCreateSettings() As String
-            Get
-                Return ResourceManager.GetString("APPDES_ClickHereCreateSettings", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to The designer cannot be shown because the document for it was never loaded..
-        '''</summary>
-        Friend Shared ReadOnly Property APPDES_DesignerLoader_NotDeferred() As String
-            Get
-                Return ResourceManager.GetString("APPDES_DesignerLoader_NotDeferred", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to The file &apos;{0}&apos; is already open in an editor.  Please close the file and try again..
-        '''</summary>
-        Friend Shared ReadOnly Property APPDES_EditorAlreadyOpen_1Arg() As String
-            Get
-                Return ResourceManager.GetString("APPDES_EditorAlreadyOpen_1Arg", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to An error occurred trying to load the project properties window.  Close the window and try again.
-        '''{0}.
-        '''</summary>
-        Friend Shared ReadOnly Property APPDES_ErrorLoading_Msg() As String
-            Get
-                Return ResourceManager.GetString("APPDES_ErrorLoading_Msg", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to An error occurred trying to load the page..
-        '''</summary>
-        Friend Shared ReadOnly Property APPDES_ErrorLoadingPropPage() As String
-            Get
-                Return ResourceManager.GetString("APPDES_ErrorLoadingPropPage", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Could not find the file &apos;{0}&apos;..
-        '''</summary>
-        Friend Shared ReadOnly Property APPDES_FileNotFound_1Arg() As String
-            Get
-                Return ResourceManager.GetString("APPDES_FileNotFound_1Arg", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Project Designer Page Container.
-        '''</summary>
-        Friend Shared ReadOnly Property APPDES_HostingPanelName() As String
-            Get
-                Return ResourceManager.GetString("APPDES_HostingPanelName", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to All Project Designer Pages.
-        '''</summary>
-        Friend Shared ReadOnly Property APPDES_OverflowButton_AccessibilityName() As String
-            Get
-                Return ResourceManager.GetString("APPDES_OverflowButton_AccessibilityName", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to More Settings.
-        '''</summary>
-        Friend Shared ReadOnly Property APPDES_OverflowButton_Tooltip() As String
-            Get
-                Return ResourceManager.GetString("APPDES_OverflowButton_Tooltip", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to {0} page:.
-        '''</summary>
-        Friend Shared ReadOnly Property APPDES_PageName() As String
-            Get
-                Return ResourceManager.GetString("APPDES_PageName", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Resources.
-        '''</summary>
-        Friend Shared ReadOnly Property APPDES_ResourceTabTitle() As String
-            Get
-                Return ResourceManager.GetString("APPDES_ResourceTabTitle", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Settings.
-        '''</summary>
-        Friend Shared ReadOnly Property APPDES_SettingsTabTitle() As String
-            Get
-                Return ResourceManager.GetString("APPDES_SettingsTabTitle", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to The requested file type is not supported in projects of this type..
-        '''</summary>
-        Friend Shared ReadOnly Property APPDES_SpecialFileNotSupported() As String
-            Get
-                Return ResourceManager.GetString("APPDES_SpecialFileNotSupported", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Switch Project Designer Page.
-        '''</summary>
-        Friend Shared ReadOnly Property APPDES_TabButtonDefaultAction() As String
-            Get
-                Return ResourceManager.GetString("APPDES_TabButtonDefaultAction", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Allow switching between active pages of the project designer (use Ctrl+PageUp and Ctrl+PageDown).
-        '''</summary>
-        Friend Shared ReadOnly Property APPDES_TabListDescription() As String
-            Get
-                Return ResourceManager.GetString("APPDES_TabListDescription", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Project Designer.
-        '''</summary>
-        Friend Shared ReadOnly Property APPDES_Title() As String
-            Get
-                Return ResourceManager.GetString("APPDES_Title", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
         '''  Looks up a localized string similar to Unable to load &apos;{0}&apos; because it is not trusted..
         '''</summary>
         Friend Shared ReadOnly Property BlockedResx() As String
@@ -242,15 +88,6 @@ Namespace My.Resources
         Friend Shared ReadOnly Property CSRDlg_MultipleURL() As String
             Get
                 Return ResourceManager.GetString("CSRDlg_MultipleURL", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Buffer is read only..
-        '''</summary>
-        Friend Shared ReadOnly Property DFX_BufferReadOnly() As String
-            Get
-                Return ResourceManager.GetString("DFX_BufferReadOnly", resourceCulture)
             End Get
         End Property
         
@@ -318,15 +155,6 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Invalid physical view name..
-        '''</summary>
-        Friend Shared ReadOnly Property DFX_InvalidPhysicalViewName() As String
-            Get
-                Return ResourceManager.GetString("DFX_InvalidPhysicalViewName", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
         '''  Looks up a localized string similar to No LocalRegistry service..
         '''</summary>
         Friend Shared ReadOnly Property DFX_NoLocalRegistry() As String
@@ -336,29 +164,11 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Unsupported format..
-        '''</summary>
-        Friend Shared ReadOnly Property DFX_NotSupported() As String
-            Get
-                Return ResourceManager.GetString("DFX_NotSupported", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
         '''  Looks up a localized string similar to One or more files were reloaded during the checkout. Please retry your operation..
         '''</summary>
         Friend Shared ReadOnly Property DFX_OneOrMoreFilesReloaded() As String
             Get
                 Return ResourceManager.GetString("DFX_OneOrMoreFilesReloaded", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Replacing text stream failed:{0}.
-        '''</summary>
-        Friend Shared ReadOnly Property DFX_ReplaceTextStreamFailed() As String
-            Get
-                Return ResourceManager.GetString("DFX_ReplaceTextStreamFailed", resourceCulture)
             End Get
         End Property
         
@@ -390,15 +200,6 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Error importing key.
-        '''</summary>
-        Friend Shared ReadOnly Property ErrorImportingKey() As String
-            Get
-                Return ResourceManager.GetString("ErrorImportingKey", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
         '''  Looks up a localized string similar to Invalid argument &apos;{0}&apos;.
         '''</summary>
         Friend Shared ReadOnly Property General_InvalidArgument_1Arg() As String
@@ -417,92 +218,11 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Please enter an integer between 1 and 60..
-        '''</summary>
-        Friend Shared ReadOnly Property OptionPage_Editor_InvalidIndentSize() As String
-            Get
-                Return ResourceManager.GetString("OptionPage_Editor_InvalidIndentSize", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Please enter an integer between 1 and 60..
-        '''</summary>
-        Friend Shared ReadOnly Property OptionPage_Editor_InvalidTabSize() As String
-            Get
-                Return ResourceManager.GetString("OptionPage_Editor_InvalidTabSize", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Changes in Help Options will not take effect until the environment is restarted..
-        '''</summary>
-        Friend Shared ReadOnly Property OptionPage_Environment_ShowHelpOptionRequiresRestartOfIde() As String
-            Get
-                Return ResourceManager.GetString("OptionPage_Environment_ShowHelpOptionRequiresRestartOfIde", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Load last loaded solution.
-        '''</summary>
-        Friend Shared ReadOnly Property OptionPage_Environment_StartUpLoadLastLoadedSolution() As String
-            Get
-                Return ResourceManager.GetString("OptionPage_Environment_StartUpLoadLastLoadedSolution", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Show empty environment.
-        '''</summary>
-        Friend Shared ReadOnly Property OptionPage_Environment_StartUpShowEmptyEnvironment() As String
-            Get
-                Return ResourceManager.GetString("OptionPage_Environment_StartUpShowEmptyEnvironment", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Show New Project dialog box.
-        '''</summary>
-        Friend Shared ReadOnly Property OptionPage_Environment_StartUpShowNewProjectDialogBox() As String
-            Get
-                Return ResourceManager.GetString("OptionPage_Environment_StartUpShowNewProjectDialogBox", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Show Open Project dialog box.
-        '''</summary>
-        Friend Shared ReadOnly Property OptionPage_Environment_StartUpShowOpenProjectDialogBox() As String
-            Get
-                Return ResourceManager.GetString("OptionPage_Environment_StartUpShowOpenProjectDialogBox", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to The location specified is on an invalid or read-only disk, or contains a device name reserved for the system..
-        '''</summary>
-        Friend Shared ReadOnly Property OptionPage_Project_IllegalDefaultProjectDirectory() As String
-            Get
-                Return ResourceManager.GetString("OptionPage_Project_IllegalDefaultProjectDirectory", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
         '''  Looks up a localized string similar to Requires:.
         '''</summary>
         Friend Shared ReadOnly Property PermissionSet_Requires() As String
             Get
                 Return ResourceManager.GetString("PermissionSet_Requires", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Active ({0}).
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_ActiveConfigOrPlatformFormatString_1Arg() As String
-            Get
-                Return ResourceManager.GetString("PPG_ActiveConfigOrPlatformFormatString_1Arg", resourceCulture)
             End Get
         End Property
         
@@ -647,24 +367,6 @@ Namespace My.Resources
         Friend Shared ReadOnly Property PPG_AdvancedCompilerSettings_Title() As String
             Get
                 Return ResourceManager.GetString("PPG_AdvancedCompilerSettings_Title", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to All Configurations.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_AllConfigurations() As String
-            Get
-                Return ResourceManager.GetString("PPG_AllConfigurations", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to All Platforms.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_AllPlatforms() As String
-            Get
-                Return ResourceManager.GetString("PPG_AllPlatforms", resourceCulture)
             End Get
         End Property
         
@@ -1074,15 +776,6 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Compatible Settings.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_CompatibleSettings_Title() As String
-            Get
-                Return ResourceManager.GetString("PPG_CompatibleSettings_Title", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
         '''  Looks up a localized string similar to Recursive operator or property access.
         '''</summary>
         Friend Shared ReadOnly Property PPG_Compile_42004() As String
@@ -1219,15 +912,6 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Compiler Warnings.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_CompilerWarnings_Title() As String
-            Get
-                Return ResourceManager.GetString("PPG_CompilerWarnings_Title", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
         '''  Looks up a localized string similar to Compile.
         '''</summary>
         Friend Shared ReadOnly Property PPG_CompileTitle() As String
@@ -1237,38 +921,11 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Could not find the configuration &apos;{0}&apos; for platform &apos;{1}&apos;..
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_ConfigNotFound_2Args() As String
-            Get
-                Return ResourceManager.GetString("PPG_ConfigNotFound_2Args", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to (Custom).
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_CustomPermissionSet() As String
-            Get
-                Return ResourceManager.GetString("PPG_CustomPermissionSet", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
         '''  Looks up a localized string similar to Debug.
         '''</summary>
         Friend Shared ReadOnly Property PPG_DebugTitle() As String
             Get
                 Return ResourceManager.GetString("PPG_DebugTitle", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Deploy.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_DeployTitle() As String
-            Get
-                Return ResourceManager.GetString("PPG_DeployTitle", resourceCulture)
             End Get
         End Property
         
@@ -1297,123 +954,6 @@ Namespace My.Resources
         Friend Shared ReadOnly Property PPG_InvalidHexString() As String
             Get
                 Return ResourceManager.GetString("PPG_InvalidHexString", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to &lt;Browse...&gt;.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_KeyFileBrowseText() As String
-            Get
-                Return ResourceManager.GetString("PPG_KeyFileBrowseText", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to &lt;New...&gt;.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_KeyFileNewText() As String
-            Get
-                Return ResourceManager.GetString("PPG_KeyFileNewText", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Aborting....
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_MgdStatus_Aborting() As String
-            Get
-                Return ResourceManager.GetString("PPG_MgdStatus_Aborting", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Analyze Failed.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_MgdStatus_AnalyzeFailed() As String
-            Get
-                Return ResourceManager.GetString("PPG_MgdStatus_AnalyzeFailed", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Analyzing....
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_MgdStatus_Analyzing() As String
-            Get
-                Return ResourceManager.GetString("PPG_MgdStatus_Analyzing", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Build completed....
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_MgdStatus_BuildComplete() As String
-            Get
-                Return ResourceManager.GetString("PPG_MgdStatus_BuildComplete", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Build Failed.  Click CANCEL and correct the build failure before analyzing again..
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_MgdStatus_BuildFailed() As String
-            Get
-                Return ResourceManager.GetString("PPG_MgdStatus_BuildFailed", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Serious error.  The build must begin in order to analyze permissions.  It has not started..
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_MgdStatus_BuildFailedToStart() As String
-            Get
-                Return ResourceManager.GetString("PPG_MgdStatus_BuildFailedToStart", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Building....
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_MgdStatus_Building() As String
-            Get
-                Return ResourceManager.GetString("PPG_MgdStatus_Building", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Unable to start the build..
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_MgdStatus_BuildUnableToStart() As String
-            Get
-                Return ResourceManager.GetString("PPG_MgdStatus_BuildUnableToStart", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Canceling....
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_MgdStatus_Cancelling() As String
-            Get
-                Return ResourceManager.GetString("PPG_MgdStatus_Cancelling", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Starting....
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_MgdStatus_Starting() As String
-            Get
-                Return ResourceManager.GetString("PPG_MgdStatus_Starting", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Stopped....
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_MgdStatus_Stopped() As String
-            Get
-                Return ResourceManager.GetString("PPG_MgdStatus_Stopped", resourceCulture)
             End Get
         End Property
         
@@ -1463,24 +1003,6 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to (None).
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_NonePermissionSet() As String
-            Get
-                Return ResourceManager.GetString("PPG_NonePermissionSet", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to N/A.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_NotApplicable() As String
-            Get
-                Return ResourceManager.GetString("PPG_NotApplicable", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
         '''  Looks up a localized string similar to The output path is not trusted.
         '''The application may throw security exceptions when it attempts to perform actions which require full trust.
         '''Click OK to ignore and continue. Click CANCEL to choose a different output path..
@@ -1515,15 +1037,6 @@ Namespace My.Resources
         Friend Shared ReadOnly Property PPG_PreBuildCommandLineTitle() As String
             Get
                 Return ResourceManager.GetString("PPG_PreBuildCommandLineTitle", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to The project was reloaded, and some changes on this page may have been lost..
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_ProjectReloadedSomePropertiesMayNotHaveBeenSet() As String
-            Get
-                Return ResourceManager.GetString("PPG_ProjectReloadedSomePropertiesMayNotHaveBeenSet", resourceCulture)
             End Get
         End Property
         
@@ -1569,15 +1082,6 @@ Namespace My.Resources
         Friend Shared ReadOnly Property PPG_Property_AssemblyVersion() As String
             Get
                 Return ResourceManager.GetString("PPG_Property_AssemblyVersion", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Enable application framework.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_Property_CustomSubMain() As String
-            Get
-                Return ResourceManager.GetString("PPG_Property_CustomSubMain", resourceCulture)
             End Get
         End Property
         
@@ -1645,15 +1149,6 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Property Page.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_PropertyPageControlName() As String
-            Get
-                Return ResourceManager.GetString("PPG_PropertyPageControlName", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
         '''  Looks up a localized string similar to Adding web reference failed. {0}
         '''.
         '''</summary>
@@ -1693,15 +1188,6 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Reference Properties.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_ReferenceDetail_Title() As String
-            Get
-                Return ResourceManager.GetString("PPG_ReferenceDetail_Title", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
         '''  Looks up a localized string similar to Reference Paths.
         '''</summary>
         Friend Shared ReadOnly Property PPG_ReferencePaths_Title() As String
@@ -1725,286 +1211,6 @@ Namespace My.Resources
         Friend Shared ReadOnly Property PPG_ReferencesTitle() As String
             Get
                 Return ResourceManager.GetString("PPG_ReferencesTitle", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Security.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_Security() As String
-            Get
-                Return ResourceManager.GetString("PPG_Security", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Advanced Security Settings.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_SecurityAdvancedPage_Title() As String
-            Get
-                Return ResourceManager.GetString("PPG_SecurityAdvancedPage_Title", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Invalid value.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_SecurityPage_BadDropDownValue() As String
-            Get
-                Return ResourceManager.GetString("PPG_SecurityPage_BadDropDownValue", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to This permission could not be loaded. Press the delete key to remove it from your project..
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_SecurityPage_BadPermissionToolTip() As String
-            Get
-                Return ResourceManager.GetString("PPG_SecurityPage_BadPermissionToolTip", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Included with warning.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_SecurityPage_BangAccessibilityName() As String
-            Get
-                Return ResourceManager.GetString("PPG_SecurityPage_BangAccessibilityName", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Not Included.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_SecurityPage_BlankAccessibilityName() As String
-            Get
-                Return ResourceManager.GetString("PPG_SecurityPage_BlankAccessibilityName", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to &amp;Calculate Permissions.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_SecurityPage_Calculate() As String
-            Get
-                Return ResourceManager.GetString("PPG_SecurityPage_Calculate", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Cancel.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_SecurityPage_Cancel() As String
-            Get
-                Return ResourceManager.GetString("PPG_SecurityPage_Cancel", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Included.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_SecurityPage_CheckAccessibilityName() As String
-            Get
-                Return ResourceManager.GetString("PPG_SecurityPage_CheckAccessibilityName", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to An error occurred and the app.manifest file could not be loaded. Please remove any changes you have made to the file and reload the Security property page again..
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_SecurityPage_CouldNotLoadManifest() As String
-            Get
-                Return ResourceManager.GetString("PPG_SecurityPage_CouldNotLoadManifest", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to An error occurred and the app.manifest file could not be saved.
-        '''Error:.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_SecurityPage_CouldNotSaveManifest() As String
-            Get
-                Return ResourceManager.GetString("PPG_SecurityPage_CouldNotSaveManifest", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to (Custom).
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_SecurityPage_CustomZone() As String
-            Get
-                Return ResourceManager.GetString("PPG_SecurityPage_CustomZone", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Exclude.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_SecurityPage_Excluded() As String
-            Get
-                Return ResourceManager.GetString("PPG_SecurityPage_Excluded", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to The SecurityPermission must be included in your application with the Execute flag set or your application will not run. The Execute flag has been added to the SecurityPermission in your manifest..
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_SecurityPage_ExecuteCannotBeExcluded() As String
-            Get
-                Return ResourceManager.GetString("PPG_SecurityPage_ExecuteCannotBeExcluded", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to The application will require elevated permissions to run in the selected zone. Click the help link above for more info..
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_SecurityPage_FullTrustToolTip() As String
-            Get
-                Return ResourceManager.GetString("PPG_SecurityPage_FullTrustToolTip", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Included.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_SecurityPage_HeaderIncluded() As String
-            Get
-                Return ResourceManager.GetString("PPG_SecurityPage_HeaderIncluded", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Permission.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_SecurityPage_HeaderPermission() As String
-            Get
-                Return ResourceManager.GetString("PPG_SecurityPage_HeaderPermission", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Setting.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_SecurityPage_HeaderSetting() As String
-            Get
-                Return ResourceManager.GetString("PPG_SecurityPage_HeaderSetting", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Learn more about code access security....
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_SecurityPage_HelpLabelLink() As String
-            Get
-                Return ResourceManager.GetString("PPG_SecurityPage_HelpLabelLink", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Specify the code access security permissions that your ClickOnce application requires in order to run. Learn more about code access security....
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_SecurityPage_HelpLabelText() As String
-            Get
-                Return ResourceManager.GetString("PPG_SecurityPage_HelpLabelText", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Include.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_SecurityPage_Included() As String
-            Get
-                Return ResourceManager.GetString("PPG_SecurityPage_Included", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Internet.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_SecurityPage_InternetZone() As String
-            Get
-                Return ResourceManager.GetString("PPG_SecurityPage_InternetZone", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Local Intranet.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_SecurityPage_LocalIntranetZone() As String
-            Get
-                Return ResourceManager.GetString("PPG_SecurityPage_LocalIntranetZone", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Calculating permissions failed..
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_SecurityPage_PermCalcFailed() As String
-            Get
-                Return ResourceManager.GetString("PPG_SecurityPage_PermCalcFailed", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Error.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_SecurityPage_PermCalcFailedCaption() As String
-            Get
-                Return ResourceManager.GetString("PPG_SecurityPage_PermCalcFailedCaption", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to The SecurityPermission must be included in your application with the Execute flag set or your application will not run. Mark this permission as &quot;Zone Default&quot; or &quot;Include.&quot;.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_SecurityPage_SecurityPermissionCannotBeExcluded() As String
-            Get
-                Return ResourceManager.GetString("PPG_SecurityPage_SecurityPermissionCannotBeExcluded", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to This application requires full trust to run correctly. Would you like to set this as a full trust application?.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_SecurityPage_SwitchToFullTrustDialog() As String
-            Get
-                Return ResourceManager.GetString("PPG_SecurityPage_SwitchToFullTrustDialog", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Full Trust Required.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_SecurityPage_SwitchToFullTrustDialogTitle() As String
-            Get
-                Return ResourceManager.GetString("PPG_SecurityPage_SwitchToFullTrustDialogTitle", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to The application will fail to run in the selected zone because of this requested elevated permission. Click the help link above for more info..
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_SecurityPage_XBAPOutOfTrustZoneToolTip() As String
-            Get
-                Return ResourceManager.GetString("PPG_SecurityPage_XBAPOutOfTrustZoneToolTip", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to (Zone Default).
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_SecurityPage_ZoneDefault() As String
-            Get
-                Return ResourceManager.GetString("PPG_SecurityPage_ZoneDefault", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Select File.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_SelectFileTitle() As String
-            Get
-                Return ResourceManager.GetString("PPG_SelectFileTitle", resourceCulture)
             End Get
         End Property
         
@@ -2036,15 +1242,6 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Namespace of the service reference..
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_ServiceReferenceNamespaceDescription() As String
-            Get
-                Return ResourceManager.GetString("PPG_ServiceReferenceNamespaceDescription", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
         '''  Looks up a localized string similar to A service reference with multiple source urls is not supported..
         '''</summary>
         Friend Shared ReadOnly Property PPG_ServiceReferenceProperty_MultipleUrlNotSupported() As String
@@ -2068,24 +1265,6 @@ Namespace My.Resources
         Friend Shared ReadOnly Property PPG_ServiceReferenceTypeName() As String
             Get
                 Return ResourceManager.GetString("PPG_ServiceReferenceTypeName", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Metadata Location Url.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_ServiceReferenceUrlDescription() As String
-            Get
-                Return ResourceManager.GetString("PPG_ServiceReferenceUrlDescription", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Metadata Location.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_ServiceReferenceUrlName() As String
-            Get
-                Return ResourceManager.GetString("PPG_ServiceReferenceUrlName", resourceCulture)
             End Get
         End Property
         
@@ -2234,321 +1413,6 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to &lt;All&gt;.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_Signing_AllPurposes() As String
-            Get
-                Return ResourceManager.GetString("PPG_Signing_AllPurposes", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Certificate Files.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_Signing_BrowseCertFileFilter() As String
-            Get
-                Return ResourceManager.GetString("PPG_Signing_BrowseCertFileFilter", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Select a certificate to sign your ClickOnce manifests.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_Signing_BrowseCertStorePrompt() As String
-            Get
-                Return ResourceManager.GetString("PPG_Signing_BrowseCertStorePrompt", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Select a Certificate.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_Signing_BrowseCertTitle() As String
-            Get
-                Return ResourceManager.GetString("PPG_Signing_BrowseCertTitle", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Certificate Creation Error.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_Signing_CertCreationError() As String
-            Get
-                Return ResourceManager.GetString("PPG_Signing_CertCreationError", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to The selected certificate is not valid for code signing. Choose another certificate file..
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_Signing_CertificateNotCodeSigning() As String
-            Get
-                Return ResourceManager.GetString("PPG_Signing_CertificateNotCodeSigning", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to The file &apos;{0}&apos; could not be imported: {1}.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_Signing_CouldNotImportFile() As String
-            Get
-                Return ResourceManager.GetString("PPG_Signing_CouldNotImportFile", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Enter &amp;password for new file {0}.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_Signing_CreateNewKeyPasswordPrompt() As String
-            Get
-                Return ResourceManager.GetString("PPG_Signing_CreateNewKeyPasswordPrompt", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Expiration Date.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_Signing_ExpirationDate() As String
-            Get
-                Return ResourceManager.GetString("PPG_Signing_ExpirationDate", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to The password is invalid..
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_Signing_InvalidPassword() As String
-            Get
-                Return ResourceManager.GetString("PPG_Signing_InvalidPassword", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Invalid password.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_Signing_InvalidPasswordTitle() As String
-            Get
-                Return ResourceManager.GetString("PPG_Signing_InvalidPasswordTitle", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Issued By.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_Signing_IssuedBy() As String
-            Get
-                Return ResourceManager.GetString("PPG_Signing_IssuedBy", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Issued To.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_Signing_IssuedTo() As String
-            Get
-                Return ResourceManager.GetString("PPG_Signing_IssuedTo", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Key Files.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_Signing_KeyFileBrowse_Filter() As String
-            Get
-                Return ResourceManager.GetString("PPG_Signing_KeyFileBrowse_Filter", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Selecting existing key file.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_Signing_KeyFileBrowse_Title() As String
-            Get
-                Return ResourceManager.GetString("PPG_Signing_KeyFileBrowse_Title", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to _TemporaryKey.pfx.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_Signing_KeyFileNameSuffix() As String
-            Get
-                Return ResourceManager.GetString("PPG_Signing_KeyFileNameSuffix", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Create key file.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_Signing_KeyFileNew_Title() As String
-            Get
-                Return ResourceManager.GetString("PPG_Signing_KeyFileNew_Title", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Enter a new password..
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_Signing_NewPassEmpty() As String
-            Get
-                Return ResourceManager.GetString("PPG_Signing_NewPassEmpty", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to The new passwords do not match. Enter the password again..
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_Signing_NewPassMismatch() As String
-            Get
-                Return ResourceManager.GetString("PPG_Signing_NewPassMismatch", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to The new password must be at least 6 characters in length. Enter the password again..
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_Signing_NewPassTooShort() As String
-            Get
-                Return ResourceManager.GetString("PPG_Signing_NewPassTooShort", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Confirm the password..
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_Signing_NoConfirm() As String
-            Get
-                Return ResourceManager.GetString("PPG_Signing_NoConfirm", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to (none).
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_Signing_NoData() As String
-            Get
-                Return ResourceManager.GetString("PPG_Signing_NoData", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Enter a password..
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_Signing_NoPassword() As String
-            Get
-                Return ResourceManager.GetString("PPG_Signing_NoPassword", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to The selected file does not contain a private key. You must choose a certificate that contains a private key..
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_Signing_NoPrivateKey() As String
-            Get
-                Return ResourceManager.GetString("PPG_Signing_NoPrivateKey", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Invalid key.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_Signing_NoPrivateKeyTitle() As String
-            Get
-                Return ResourceManager.GetString("PPG_Signing_NoPrivateKeyTitle", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Enter the old password..
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_Signing_OldPassEmpty() As String
-            Get
-                Return ResourceManager.GetString("PPG_Signing_OldPassEmpty", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to The old password is invalid..
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_Signing_OldPassWrong() As String
-            Get
-                Return ResourceManager.GetString("PPG_Signing_OldPassWrong", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Enter &amp;password to open file {0}.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_Signing_OpenExistingKeyPasswordPrompt() As String
-            Get
-                Return ResourceManager.GetString("PPG_Signing_OpenExistingKeyPasswordPrompt", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Enter password to open file.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_Signing_OpenExistingKeyPasswordTitle() As String
-            Get
-                Return ResourceManager.GetString("PPG_Signing_OpenExistingKeyPasswordTitle", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to The passwords do not match..
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_Signing_PasswordMismatch() As String
-            Get
-                Return ResourceManager.GetString("PPG_Signing_PasswordMismatch", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to The project already contains a file with that name. Choose another certificate file or rename the file in your project..
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_Signing_ProjectAlreadyContainsFile() As String
-            Get
-                Return ResourceManager.GetString("PPG_Signing_ProjectAlreadyContainsFile", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Intended Purpose.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_Signing_Purpose() As String
-            Get
-                Return ResourceManager.GetString("PPG_Signing_Purpose", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Signing.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_SigningTitle() As String
-            Get
-                Return ResourceManager.GetString("PPG_SigningTitle", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to (None).
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_StartupObjectNone() As String
-            Get
-                Return ResourceManager.GetString("PPG_StartupObjectNone", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Change property: {0}.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_UndoTransaction() As String
-            Get
-                Return ResourceManager.GetString("PPG_UndoTransaction", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
         '''  Looks up a localized string similar to An unspecified error has occurred..
         '''</summary>
         Friend Shared ReadOnly Property PPG_Unexpected() As String
@@ -2585,42 +1449,6 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Web reference URL behavior.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_UrlBehaviorDescription() As String
-            Get
-                Return ResourceManager.GetString("PPG_UrlBehaviorDescription", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to URL Behavior.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_UrlBehaviorName() As String
-            Get
-                Return ResourceManager.GetString("PPG_UrlBehaviorName", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Database.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_VdtGeneralTitle() As String
-            Get
-                Return ResourceManager.GetString("PPG_VdtGeneralTitle", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Version.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_VersionTitle() As String
-            Get
-                Return ResourceManager.GetString("PPG_VersionTitle", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
         '''  Looks up a localized string similar to Web Control Library.
         '''</summary>
         Friend Shared ReadOnly Property PPG_WebControlLib() As String
@@ -2630,38 +1458,11 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Name of the web reference.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_WebReferenceNameDescription() As String
-            Get
-                Return ResourceManager.GetString("PPG_WebReferenceNameDescription", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
         '''  Looks up a localized string similar to Web Reference Properties.
         '''</summary>
         Friend Shared ReadOnly Property PPG_WebReferenceTypeName() As String
             Get
                 Return ResourceManager.GetString("PPG_WebReferenceTypeName", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Web Reference URL.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_WebReferenceUrlDescription() As String
-            Get
-                Return ResourceManager.GetString("PPG_WebReferenceUrlDescription", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Web Reference URL.
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_WebReferenceUrlName() As String
-            Get
-                Return ResourceManager.GetString("PPG_WebReferenceUrlName", resourceCulture)
             End Get
         End Property
         
@@ -2752,15 +1553,6 @@ Namespace My.Resources
         Friend Shared ReadOnly Property PPG_WPFApp_CantOpenOrCreateAppXaml_1Arg() As String
             Get
                 Return ResourceManager.GetString("PPG_WPFApp_CantOpenOrCreateAppXaml_1Arg", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to (Error).
-        '''</summary>
-        Friend Shared ReadOnly Property PPG_WPFApp_CantReadPropertyValue() As String
-            Get
-                Return ResourceManager.GetString("PPG_WPFApp_CantReadPropertyValue", resourceCulture)
             End Get
         End Property
         
@@ -3026,33 +1818,6 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Embedded in .resx.
-        '''</summary>
-        Friend Shared ReadOnly Property RES_PersistenceMode_Embeded() As String
-            Get
-                Return ResourceManager.GetString("RES_PersistenceMode_Embeded", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Linked at compile time.
-        '''</summary>
-        Friend Shared ReadOnly Property RES_PersistenceMode_Linked() As String
-            Get
-                Return ResourceManager.GetString("RES_PersistenceMode_Linked", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Invalid key file name &quot;{0}&quot;..
-        '''</summary>
-        Friend Shared ReadOnly Property ResolveKeySource_InvalidKeyName() As String
-            Get
-                Return ResourceManager.GetString("ResolveKeySource_InvalidKeyName", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
         '''  Looks up a localized string similar to Unable to add &apos;{0}&apos; to the project..
         '''</summary>
         Friend Shared ReadOnly Property RFS_CantAddFileToProject_File() As String
@@ -3138,580 +1903,11 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to &amp;Add.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Btn_Add() As String
-            Get
-                Return ResourceManager.GetString("RSE_Btn_Add", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to &amp;Existing File....
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Btn_Add_ExistingFile() As String
-            Get
-                Return ResourceManager.GetString("RSE_Btn_Add_ExistingFile", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to New I&amp;con....
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Btn_Add_Icon() As String
-            Get
-                Return ResourceManager.GetString("RSE_Btn_Add_Icon", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to New &amp;Image.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Btn_Add_Image() As String
-            Get
-                Return ResourceManager.GetString("RSE_Btn_Add_Image", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to &amp;BMP Image....
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Btn_Add_Image_BMP() As String
-            Get
-                Return ResourceManager.GetString("RSE_Btn_Add_Image_BMP", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to &amp;GIF Image....
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Btn_Add_Image_GIF() As String
-            Get
-                Return ResourceManager.GetString("RSE_Btn_Add_Image_GIF", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to &amp;JPEG Image....
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Btn_Add_Image_JPEG() As String
-            Get
-                Return ResourceManager.GetString("RSE_Btn_Add_Image_JPEG", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to &amp;PNG Image....
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Btn_Add_Image_PNG() As String
-            Get
-                Return ResourceManager.GetString("RSE_Btn_Add_Image_PNG", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to &amp;TIFF Image....
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Btn_Add_Image_TIFF() As String
-            Get
-                Return ResourceManager.GetString("RSE_Btn_Add_Image_TIFF", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to New &amp;String.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Btn_Add_String() As String
-            Get
-                Return ResourceManager.GetString("RSE_Btn_Add_String", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to New &amp;Text File....
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Btn_Add_TextFile() As String
-            Get
-                Return ResourceManager.GetString("RSE_Btn_Add_TextFile", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to &amp;Remove.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Btn_Remove() As String
-            Get
-                Return ResourceManager.GetString("RSE_Btn_Remove", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to &amp;Views.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Btn_Views() As String
-            Get
-                Return ResourceManager.GetString("RSE_Btn_Views", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to &amp;Details.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Btn_Views_Details() As String
-            Get
-                Return ResourceManager.GetString("RSE_Btn_Views_Details", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to &amp;List.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Btn_Views_List() As String
-            Get
-                Return ResourceManager.GetString("RSE_Btn_Views_List", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to &amp;Thumbnail.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Btn_Views_Thumbnail() As String
-            Get
-                Return ResourceManager.GetString("RSE_Btn_Views_Thumbnail", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Audio.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Cat_Audio() As String
-            Get
-                Return ResourceManager.GetString("RSE_Cat_Audio", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Files.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Cat_Files() As String
-            Get
-                Return ResourceManager.GetString("RSE_Cat_Files", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Icons.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Cat_Icons() As String
-            Get
-                Return ResourceManager.GetString("RSE_Cat_Icons", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Images.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Cat_Images() As String
-            Get
-                Return ResourceManager.GetString("RSE_Cat_Images", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Other.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Cat_Other() As String
-            Get
-                Return ResourceManager.GetString("RSE_Cat_Other", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Strings.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Cat_Strings() As String
-            Get
-                Return ResourceManager.GetString("RSE_Cat_Strings", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to &amp;Categories:.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_CategiesLabel() As String
-            Get
-                Return ResourceManager.GetString("RSE_CategiesLabel", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Comment.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_CommentColumn() As String
-            Get
-                Return ResourceManager.GetString("RSE_CommentColumn", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to (Default).
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_DefaultEncoding() As String
-            Get
-                Return ResourceManager.GetString("RSE_DefaultEncoding", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Comment.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_DetailsCol_Comment() As String
-            Get
-                Return ResourceManager.GetString("RSE_DetailsCol_Comment", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Text Encoding.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_DetailsCol_Encoding() As String
-            Get
-                Return ResourceManager.GetString("RSE_DetailsCol_Encoding", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Filename.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_DetailsCol_Filename() As String
-            Get
-                Return ResourceManager.GetString("RSE_DetailsCol_Filename", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Type.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_DetailsCol_ImageType() As String
-            Get
-                Return ResourceManager.GetString("RSE_DetailsCol_ImageType", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Name.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_DetailsCol_Name() As String
-            Get
-                Return ResourceManager.GetString("RSE_DetailsCol_Name", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Size.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_DetailsCol_Size() As String
-            Get
-                Return ResourceManager.GetString("RSE_DetailsCol_Size", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Do you want to continue anyway?.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Dlg_ContinueAnyway() As String
-            Get
-                Return ResourceManager.GetString("RSE_Dlg_ContinueAnyway", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Select a folder in which to export the resources..
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Dlg_ExportMultiple() As String
-            Get
-                Return ResourceManager.GetString("RSE_Dlg_ExportMultiple", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to The file &apos;{0}&apos; already exists.  Do you want to replace it?.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Dlg_ReplaceExistingFile() As String
-            Get
-                Return ResourceManager.GetString("RSE_Dlg_ReplaceExistingFile", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to The following files already exist.  Do you want to replace them?.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Dlg_ReplaceExistingFiles() As String
-            Get
-                Return ResourceManager.GetString("RSE_Dlg_ReplaceExistingFiles", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Do you want to enable strongly-typed resource generation for this file?.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Dlg_SetCustomTool() As String
-            Get
-                Return ResourceManager.GetString("RSE_Dlg_SetCustomTool", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Add existing file to resources.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_DlgTitle_AddExisting() As String
-            Get
-                Return ResourceManager.GetString("RSE_DlgTitle_AddExisting", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Please specify where to save the new file.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_DlgTitle_AddNew() As String
-            Get
-                Return ResourceManager.GetString("RSE_DlgTitle_AddNew", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Export resource &apos;{0}&apos; to file.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_DlgTitle_Export_1Arg() As String
-            Get
-                Return ResourceManager.GetString("RSE_DlgTitle_Export_1Arg", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Import file into resource &apos;{0}&apos;.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_DlgTitle_Import_1Arg() As String
-            Get
-                Return ResourceManager.GetString("RSE_DlgTitle_Import_1Arg", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to {0} - Codepage {1}.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_EncodingDisplayName() As String
-            Get
-                Return ResourceManager.GetString("RSE_EncodingDisplayName", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to The resource value contains invalid data or has an incorrect format..
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Err_BadData() As String
-            Get
-                Return ResourceManager.GetString("RSE_Err_BadData", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to The name of the resource &apos;{0}&apos; cannot be used as a valid identifier, because it contains one or more invalid characters: &apos;{1}&apos;.  Please remove or replace those characters and try again..
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Err_BadIdentifier_2Arg() As String
-            Get
-                Return ResourceManager.GetString("RSE_Err_BadIdentifier_2Arg", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to The device does not support &apos;{0}&apos; files..
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Err_CantAddFileToDeviceProject_1Arg() As String
-            Get
-                Return ResourceManager.GetString("RSE_Err_CantAddFileToDeviceProject_1Arg", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to The resource &apos;{0}&apos; cannot be added..
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Err_CantAddUnsupportedResource_1Arg() As String
-            Get
-                Return ResourceManager.GetString("RSE_Err_CantAddUnsupportedResource_1Arg", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to One or more of the selected resource values could not be cleared..
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Err_CantBeEmpty() As String
-            Get
-                Return ResourceManager.GetString("RSE_Err_CantBeEmpty", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to The value could not be converted into a resource of type {0}.
-        '''
-        '''{1}.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Err_CantConvertFromString_2Args() As String
-            Get
-                Return ResourceManager.GetString("RSE_Err_CantConvertFromString_2Args", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Unable to create new resource file &apos;{0}&apos;.  {1}.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Err_CantCreateNewResource_2Args() As String
-            Get
-                Return ResourceManager.GetString("RSE_Err_CantCreateNewResource_2Args", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Editing embedded resources directly is not supported. Do you wish to convert this item to a linked resource in order to edit it?.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Err_CantEditEmbeddedResource() As String
-            Get
-                Return ResourceManager.GetString("RSE_Err_CantEditEmbeddedResource", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to The resource file cannot be modified at this time..
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Err_CantEditInDebugMode() As String
-            Get
-                Return ResourceManager.GetString("RSE_Err_CantEditInDebugMode", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Cannot find the file &apos;{0}&apos;.  It may have been moved or deleted..
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Err_CantFindResourceFile_1Arg() As String
-            Get
-                Return ResourceManager.GetString("RSE_Err_CantFindResourceFile_1Arg", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Unable to play the audio resource.  {0}.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Err_CantPlay_1Arg() As String
-            Get
-                Return ResourceManager.GetString("RSE_Err_CantPlay_1Arg", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to The resource item(s) {0} cannot be saved correctly.  The item(s) will be discarded..
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Err_CantSaveResouce_1Arg() As String
-            Get
-                Return ResourceManager.GetString("RSE_Err_CantSaveResouce_1Arg", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Resource &apos;{0}&apos; cannot be saved to a file..
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Err_CantSaveResource_1Arg() As String
-            Get
-                Return ResourceManager.GetString("RSE_Err_CantSaveResource_1Arg", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to The value cannot be empty in a resource of type {0}..
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Err_CantUseEmptyValue() As String
-            Get
-                Return ResourceManager.GetString("RSE_Err_CantUseEmptyValue", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to There is already another resource with the name &apos;{0}&apos;..
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Err_DuplicateName_1Arg() As String
-            Get
-                Return ResourceManager.GetString("RSE_Err_DuplicateName_1Arg", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
         '''  Looks up a localized string similar to Unexpected error..
         '''</summary>
         Friend Shared ReadOnly Property RSE_Err_InternalException() As String
             Get
                 Return ResourceManager.GetString("RSE_Err_InternalException", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Unable to load resource from file &apos;{0}&apos;..
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Err_LoadingResource_1Arg() As String
-            Get
-                Return ResourceManager.GetString("RSE_Err_LoadingResource_1Arg", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Too many files specified.  Please select fewer files and try again..
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Err_MaxFilesLimitation() As String
-            Get
-                Return ResourceManager.GetString("RSE_Err_MaxFilesLimitation", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to &apos;{0}&apos;.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Err_Name() As String
-            Get
-                Return ResourceManager.GetString("RSE_Err_Name", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to The resource name cannot be empty..
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Err_NameBlank() As String
-            Get
-                Return ResourceManager.GetString("RSE_Err_NameBlank", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to {0}, &apos;{1}&apos;.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Err_NameList() As String
-            Get
-                Return ResourceManager.GetString("RSE_Err_NameList", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to The current object is auto-generated and only supports renaming through the Managed Resources Editor..
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Err_RenameNotSupported() As String
-            Get
-                Return ResourceManager.GetString("RSE_Err_RenameNotSupported", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to The resource item uses the type &apos;{0}&apos;, which is not supported in this project..
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Err_TypeIsNotSupported_1Arg() As String
-            Get
-                Return ResourceManager.GetString("RSE_Err_TypeIsNotSupported_1Arg", resourceCulture)
             End Get
         End Property
         
@@ -3725,76 +1921,11 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to The resource was not of the expected type..
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Err_UnexpectedResourceType() As String
-            Get
-                Return ResourceManager.GetString("RSE_Err_UnexpectedResourceType", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to You are trying to edit a resource file that is a part of another project item (such as a form or a control).  Editing this item could corrupt the project item, and you will have to recover it by hand.  In addition, changes made to this resource file may be lost if further changes are made to the project item.
-        '''
-        '''Do you really want to edit this file?.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Err_UpdateADependentFile() As String
-            Get
-                Return ResourceManager.GetString("RSE_Err_UpdateADependentFile", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
         '''  Looks up a localized string similar to The operation has been canceled by the user..
         '''</summary>
         Friend Shared ReadOnly Property RSE_Err_UserCancel() As String
             Get
                 Return ResourceManager.GetString("RSE_Err_UserCancel", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to {0} byte(s).
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_FileSizeFormatBytes_1Arg() As String
-            Get
-                Return ResourceManager.GetString("RSE_FileSizeFormatBytes_1Arg", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to {0} KB.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_FileSizeFormatKB() As String
-            Get
-                Return ResourceManager.GetString("RSE_FileSizeFormatKB", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to All Files.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Filter_All() As String
-            Get
-                Return ResourceManager.GetString("RSE_Filter_All", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Audio.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Filter_Audio() As String
-            Get
-                Return ResourceManager.GetString("RSE_Filter_Audio", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Bitmaps.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Filter_Bitmap() As String
-            Get
-                Return ResourceManager.GetString("RSE_Filter_Bitmap", resourceCulture)
             End Get
         End Property
         
@@ -3817,245 +1948,11 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Text Files.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Filter_Text() As String
-            Get
-                Return ResourceManager.GetString("RSE_Filter_Text", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Windows Bitmap.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_FilterSave_BMP() As String
-            Get
-                Return ResourceManager.GetString("RSE_FilterSave_BMP", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Graphics Interchange Format.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_FilterSave_GIF() As String
-            Get
-                Return ResourceManager.GetString("RSE_FilterSave_GIF", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Icon.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_FilterSave_Icon() As String
-            Get
-                Return ResourceManager.GetString("RSE_FilterSave_Icon", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to JPEG File Interchange Format.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_FilterSave_JPEG() As String
-            Get
-                Return ResourceManager.GetString("RSE_FilterSave_JPEG", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Portable Network Graphics.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_FilterSave_PNG() As String
-            Get
-                Return ResourceManager.GetString("RSE_FilterSave_PNG", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Tag Image File Format.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_FilterSave_TIFF() As String
-            Get
-                Return ResourceManager.GetString("RSE_FilterSave_TIFF", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to .
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Font_ListView() As String
-            Get
-                Return ResourceManager.GetString("RSE_Font_ListView", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to .
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Font_MenuStrip() As String
-            Get
-                Return ResourceManager.GetString("RSE_Font_MenuStrip", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to .
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Font_StringTable() As String
-            Get
-                Return ResourceManager.GetString("RSE_Font_StringTable", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to {0} x {1}.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_GraphicSizeFormat() As String
-            Get
-                Return ResourceManager.GetString("RSE_GraphicSizeFormat", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to .
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_NoBoldFontsInCategoryButtons() As String
-            Get
-                Return ResourceManager.GetString("RSE_NoBoldFontsInCategoryButtons", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
         '''  Looks up a localized string similar to No code generation.
         '''</summary>
         Friend Shared ReadOnly Property RSE_NoCodeGeneration() As String
             Get
                 Return ResourceManager.GetString("RSE_NoCodeGeneration", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to (Value cannot be displayed).
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_NonEditableValue() As String
-            Get
-                Return ResourceManager.GetString("RSE_NonEditableValue", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to (Nothing/null).
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_NothingValue() As String
-            Get
-                Return ResourceManager.GetString("RSE_NothingValue", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Additional information about the resource.  This property is only meaningful at design time..
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_PropDesc_Comment() As String
-            Get
-                Return ResourceManager.GetString("RSE_PropDesc_Comment", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Character encoding of the file..
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_PropDesc_Encoding() As String
-            Get
-                Return ResourceManager.GetString("RSE_PropDesc_Encoding", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to The path to the linked resource..
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_PropDesc_Filename() As String
-            Get
-                Return ResourceManager.GetString("RSE_PropDesc_Filename", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Specifies whether the file resource is text or binary..
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_PropDesc_FileType() As String
-            Get
-                Return ResourceManager.GetString("RSE_PropDesc_FileType", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Name used to identify the resource in code..
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_PropDesc_Name() As String
-            Get
-                Return ResourceManager.GetString("RSE_PropDesc_Name", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Specifies whether the resource is embedded or linked.  Embedded resources are saved in the resource file.  Linked resources reside in an external location on disk..
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_PropDesc_Persistence() As String
-            Get
-                Return ResourceManager.GetString("RSE_PropDesc_Persistence", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to The resource will be generated as this type in the strongly-typed resource class.  For example, the resource might be generated as a String or Bitmap object..
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_PropDesc_Type() As String
-            Get
-                Return ResourceManager.GetString("RSE_PropDesc_Type", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to The value of the resource..
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_PropDesc_Value() As String
-            Get
-                Return ResourceManager.GetString("RSE_PropDesc_Value", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Value.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_ResourceColumn() As String
-            Get
-                Return ResourceManager.GetString("RSE_ResourceColumn", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Managed Resources Editor.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_ResourceEditor() As String
-            Get
-                Return ResourceManager.GetString("RSE_ResourceEditor", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Name.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_ResourceNameColumn() As String
-            Get
-                Return ResourceManager.GetString("RSE_ResourceNameColumn", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Resource &apos;{0}&apos; could not be loaded because the file to which it is linked could not be found: {1}..
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Task_BadLink_2Args() As String
-            Get
-                Return ResourceManager.GetString("RSE_Task_BadLink_2Args", resourceCulture)
             End Get
         End Property
         
@@ -4069,60 +1966,6 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Resource &apos;{0}&apos; could not be instantiated.  {1}.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Task_CantInstantiate_2Args() As String
-            Get
-                Return ResourceManager.GetString("RSE_Task_CantInstantiate_2Args", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to The resource name &apos;{0}&apos; is not a valid identifier..
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Task_InvalidName_1Arg() As String
-            Get
-                Return ResourceManager.GetString("RSE_Task_InvalidName_1Arg", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Resource &apos;{0}&apos; has a name that is not recommended and that may cause compilation errors in your code.  Please choose another name..
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Task_NonrecommendedName_1Arg() As String
-            Get
-                Return ResourceManager.GetString("RSE_Task_NonrecommendedName_1Arg", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Double-click here to enable strongly-typed resources for this file..
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Task_WarningCustomToolNotSet() As String
-            Get
-                Return ResourceManager.GetString("RSE_Task_WarningCustomToolNotSet", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Binary File.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Type_BinaryFile() As String
-            Get
-                Return ResourceManager.GetString("RSE_Type_BinaryFile", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Windows Bitmap.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Type_BMP() As String
-            Get
-                Return ResourceManager.GetString("RSE_Type_BMP", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
         '''  Looks up a localized string similar to Extended Metafile.
         '''</summary>
         Friend Shared ReadOnly Property RSE_Type_EMF() As String
@@ -4132,146 +1975,11 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to EXIF Image.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Type_EXIF() As String
-            Get
-                Return ResourceManager.GetString("RSE_Type_EXIF", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Graphics Interchange Format.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Type_GIF() As String
-            Get
-                Return ResourceManager.GetString("RSE_Type_GIF", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Icon.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Type_Icon() As String
-            Get
-                Return ResourceManager.GetString("RSE_Type_Icon", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to JPEG File Interchange Format.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Type_JPEG() As String
-            Get
-                Return ResourceManager.GetString("RSE_Type_JPEG", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Windows Bitmap.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Type_MEMBMP() As String
-            Get
-                Return ResourceManager.GetString("RSE_Type_MEMBMP", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Portable Network Graphics.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Type_PNG() As String
-            Get
-                Return ResourceManager.GetString("RSE_Type_PNG", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Text File.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Type_TextFile() As String
-            Get
-                Return ResourceManager.GetString("RSE_Type_TextFile", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Tag Image File Format.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Type_TIFF() As String
-            Get
-                Return ResourceManager.GetString("RSE_Type_TIFF", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Wave Sound.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Type_Wave() As String
-            Get
-                Return ResourceManager.GetString("RSE_Type_Wave", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
         '''  Looks up a localized string similar to Windows Metafile.
         '''</summary>
         Friend Shared ReadOnly Property RSE_Type_WMF() As String
             Get
                 Return ResourceManager.GetString("RSE_Type_WMF", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Type.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_TypeColumn() As String
-            Get
-                Return ResourceManager.GetString("RSE_TypeColumn", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Add {0} new resource(s).
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Undo_AddResources_1Arg() As String
-            Get
-                Return ResourceManager.GetString("RSE_Undo_AddResources_1Arg", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Change resource name.
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Undo_ChangeName() As String
-            Get
-                Return ResourceManager.GetString("RSE_Undo_ChangeName", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Delete values in {0} cell(s).
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Undo_DeleteResourceCell() As String
-            Get
-                Return ResourceManager.GetString("RSE_Undo_DeleteResourceCell", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Remove {0} resource(s).
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_Undo_RemoveResources_1Arg() As String
-            Get
-                Return ResourceManager.GetString("RSE_Undo_RemoveResources_1Arg", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to (Unknown type).
-        '''</summary>
-        Friend Shared ReadOnly Property RSE_UnknownType() As String
-            Get
-                Return ResourceManager.GetString("RSE_UnknownType", resourceCulture)
             End Get
         End Property
         
@@ -4447,24 +2155,6 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Specifies the group to which this Settings file belongs..
-        '''</summary>
-        Friend Shared ReadOnly Property SD_DESCR_Group() As String
-            Get
-                Return ResourceManager.GetString("SD_DESCR_Group", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to Description of the group to which this Settings file belongs..
-        '''</summary>
-        Friend Shared ReadOnly Property SD_DESCR_GroupDescription() As String
-            Get
-                Return ResourceManager.GetString("SD_DESCR_GroupDescription", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
         '''  Looks up a localized string similar to Name used to identify the setting..
         '''</summary>
         Friend Shared ReadOnly Property SD_DESCR_Name() As String
@@ -4582,6 +2272,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  Looks up a localized string similar to If this is not a Settings-Designer file then use &apos;Open With&apos; to open it in a text editor..
+        '''</summary>
+        Friend Shared ReadOnly Property SD_ERR_HelpMessage_SuggestFileOpenWith() As String
+            Get
+                Return ResourceManager.GetString("SD_ERR_HelpMessage_SuggestFileOpenWith", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  Looks up a localized string similar to &apos;{0}&apos; is not a valid identifier..
         '''</summary>
         Friend Shared ReadOnly Property SD_ERR_InvalidIdentifier_1Arg() As String
@@ -4632,15 +2331,6 @@ Namespace My.Resources
         Friend Shared ReadOnly Property SD_ERR_RenameNotSupported() As String
             Get
                 Return ResourceManager.GetString("SD_ERR_RenameNotSupported", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to The current object is auto-generated by the Wcf Client Generator and cannot be renamed..
-        '''</summary>
-        Friend Shared ReadOnly Property SD_ERR_RenameNotSupportedForWcfGeneratedCode() As String
-            Get
-                Return ResourceManager.GetString("SD_ERR_RenameNotSupportedForWcfGeneratedCode", resourceCulture)
             End Get
         End Property
         
@@ -4931,15 +2621,6 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Unable to get MD5 checksum for the key file &quot;{0}&quot;. {1}..
-        '''</summary>
-        Friend Shared ReadOnly Property Unable_To_Get_Checksum() As String
-            Get
-                Return ResourceManager.GetString("Unable_To_Get_Checksum", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
         '''  Looks up a localized string similar to Error: {0}.
         '''</summary>
         Friend Shared ReadOnly Property XmlToSchema_Error() As String
@@ -4999,15 +2680,6 @@ Namespace My.Resources
         Friend Shared ReadOnly Property XmlToSchema_NoProjectSelected() As String
             Get
                 Return ResourceManager.GetString("XmlToSchema_NoProjectSelected", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to XML Schema Inference Wizard.
-        '''</summary>
-        Friend Shared ReadOnly Property XmlToSchema_XMLSchemaInferenceWizard() As String
-            Get
-                Return ResourceManager.GetString("XmlToSchema_XMLSchemaInferenceWizard", resourceCulture)
             End Get
         End Property
     End Class

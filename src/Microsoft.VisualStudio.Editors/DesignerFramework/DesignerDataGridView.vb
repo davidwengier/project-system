@@ -1,4 +1,4 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Option Strict On
 Option Explicit On
@@ -10,7 +10,6 @@ Imports Microsoft.VisualStudio.Utilities
 
 Namespace Microsoft.VisualStudio.Editors.DesignerFramework
 
-
     ''' <summary>
     ''' In case we're building an editor, the editor's view will contain some user controls built from FX.
     '''   These user controls handles context menu in a different way. To show the context menu the correct way,
@@ -20,8 +19,6 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
     ''' </summary>
     Friend Class DesignerDataGridView
         Inherits DataGridView
-
-
 
         ' ContextMenuShow will be raised when this list view needs to show its context menu.
         ' The derived control simply needs to handle this event to know when to show a
@@ -61,7 +58,6 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
             RaiseEvent CellClickBeginEdit(Me, e)
         End Sub
 
-
         ''' <summary>
         ''' We override Control.WndProc to raise the ContextMenuShow event.
         ''' </summary>
@@ -95,7 +91,7 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
 
                 ' If we are right-clicking on a cell that isn't selected, then we should
                 ' clear the previous selection and select the new cell... (a'la Excel)
-                If e.Button = Windows.Forms.MouseButtons.Right Then
+                If e.Button = System.Windows.Forms.MouseButtons.Right Then
                     Try
                         If ht.Type = DataGridViewHitTestType.Cell Then
                             ' Select new cell 
@@ -128,7 +124,7 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
 
                 If IsCurrentCellInEditMode Then
                     Try
-                        If e.Button = Windows.Forms.MouseButtons.Left Then
+                        If e.Button = System.Windows.Forms.MouseButtons.Left Then
                             If ht.Type = DataGridViewHitTestType.None Then
                                 ' Clear the current cell so we make sure that we have validated it...
                                 CurrentCell = Nothing
@@ -161,7 +157,6 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
             End Try
         End Sub
 
-
         ''' <summary>
         ''' We want to filter out Ctrl+0 for "our" datagridviews
         ''' (they normally do a clear cell, which is bad for comboboxcolumns...)
@@ -193,7 +188,6 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
             End If
 
         End Function
-
 
         ''' <summary>
         ''' We want to filter out Ctrl+0 for "our" datagridviews

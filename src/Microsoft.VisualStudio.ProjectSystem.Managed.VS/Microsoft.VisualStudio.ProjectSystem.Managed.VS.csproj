@@ -1,36 +1,52 @@
-﻿<!-- Copyright (c)  Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information. -->
+﻿<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\..\build\import\VisualStudio.props" />
+
+  <Import Project="..\..\eng\imports\VisualStudio.props" />
+
   <PropertyGroup>
     <RootNamespace>Microsoft.VisualStudio</RootNamespace>
-    
+    <IsManagedProjectSystemProject>true</IsManagedProjectSystemProject>
+    <TargetFramework>net472</TargetFramework>
+
     <!-- VSIX -->
     <GeneratePkgDefFile>true</GeneratePkgDefFile>
     <CreateVsixContainer>false</CreateVsixContainer>
-    
-    <!-- Nuget -->
+    <UseCodebase>false</UseCodebase>
+
+    <!-- NuGet -->
     <IsPackable>true</IsPackable>
     <Description>Microsoft VisualStudio ProjectSystem for Managed Languages Project hosts that interact with VisualStudio interfaces.</Description>
     <Summary>Microsoft VisualStudio Managed Project System VS Components</Summary>
     <PackageTags>Roslyn Managed Project System VisualStudio</PackageTags>
-    <NoWarn>$(NoWarn);NU5125</NoWarn>    
+    <NoWarn>$(NoWarn);NU5125</NoWarn>
   </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.VisualStudio.ProjectSystem.Managed\Microsoft.VisualStudio.ProjectSystem.Managed.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.ProjectSystem.Query" />
+    <PackageReference Include="Microsoft.VisualStudio.ProjectSystem.VS" />
+    <PackageReference Include="Microsoft.Deployment.DotNet.Releases" PrivateAssets="all" />
+    <PackageReference Include="IsExternalInit" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.VisualStudio.Debugger.Interop.18.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+  </ItemGroup>
+
   <ItemGroup>
     <InternalsVisibleTo Include="Microsoft.VisualStudio.ProjectSystem.Managed.VS.UnitTests" />
     <InternalsVisibleTo Include="DynamicProxyGenAssembly2" Key="$(MoqPublicKey)" />
   </ItemGroup>
+
   <ItemGroup>
+    <Compile Include="..\Common\GlobalAssemblyInfo.cs" />
+
     <Compile Update="ProjectSystem\VS\LanguageServices\CSharp\CSharpCodeDomProvider.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Update="ProjectSystem\VS\LanguageServices\VisualBasic\VisualBasicCodeDomProvider.cs">
       <SubType>Component</SubType>
-    </Compile>
-    <Compile Update="ProjectSystem\VS\PropertyPages\DebugPageControl.xaml.cs">
-      <DependentUpon>DebugPageControl.xaml</DependentUpon>
     </Compile>
     <Compile Update="ProjectSystem\VS\PropertyPages\GetProfileNameDialog.xaml.cs">
       <DependentUpon>GetProfileNameDialog.xaml</DependentUpon>
@@ -47,184 +63,24 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>PropertyPageResources.resx</DependentUpon>
     </Compile>
-    <Compile Update="ProjectSystem\VS\PropertyPages\WpfBasedPropertyPage.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="ProjectSystem\VS\PropertyPages\WpfBasedPropertyPage.Designer.cs">
-      <DependentUpon>WpfBasedPropertyPage.cs</DependentUpon>
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="ProjectSystem\VS\UI\DontShowAgainMessageBox.xaml.cs">
-      <DependentUpon>DontShowAgainMessageBox.xaml</DependentUpon>
-    </Compile>
     <Compile Update="VSResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>VSResources.resx</DependentUpon>
     </Compile>
   </ItemGroup>
+
   <ItemGroup>
-    <None Update="ManagedImages.imagemanifest">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="ProjectSystem\VS\PropertyPages\DebugPageControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="ProjectSystem\VS\PropertyPages\GetProfileNameDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="ProjectSystem\VS\PropertyPages\WatermarkStyle.xaml">
+    <Page Include="ProjectSystem\VS\PropertyPages\Editors\PropertyEditorTemplates.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="ProjectSystem\VS\UI\DontShowAgainMessageBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Resource Include="Resources\Icons\LibraryWarning_16x.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Resource>
-    <Resource Include="Resources\Icons\NuGetGrey_16x.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Resource>
-    <Resource Include="Resources\Icons\NuGetGreyWarning_16x.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Resource>
-    <Resource Include="Resources\Icons\NuGetGreyPrivate_16x.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Resource>
-    <Resource Include="Resources\Icons\ReferenceGroupWarning_16x.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Resource>
-    <Resource Include="Resources\Icons\ReferenceGroup_16x.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Resource>
-    <Resource Include="Resources\Icons\ApplicationPrivate_16x.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Resource>
-    <Resource Include="Resources\Icons\ApplicationWarning_16x.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Resource>
-    <Resource Include="Resources\Icons\CodeInformationPrivate_16x.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Resource>
-    <Resource Include="Resources\Icons\CodeInformationWarning_16x.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Resource>
-    <Resource Include="Resources\Icons\ComponentPrivate_16x.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Resource>
-    <Resource Include="Resources\Icons\ComponentWarning_16x.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Resource>
-    <Resource Include="Resources\Icons\Component_16x.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Resource>
-    <Resource Include="Resources\Icons\ErrorSmall_16x.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Resource>
-    <Resource Include="Resources\Icons\ReferencePrivate_16x.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Resource>
-    <Resource Include="Resources\Icons\SDKPrivate_16x.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Resource>
-    <Resource Include="Resources\Icons\SDKWarning_16x.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Resource>
-    <Resource Include="Resources\Icons\SDK_16x.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Resource>
-    <Resource Include="Resources\Icons\SharedProjectPrivate_16x.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Resource>
-    <Resource Include="Resources\Icons\SharedProjectWarning_16x.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Resource>
-    <Resource Include="Resources\Icons\SharedProject_16x.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Resource>
-    <Resource Include="Resources\Icons\WarningSmall_16x.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Resource>
-    <Resource Include="Resources\Icons\FrameworkPrivate_16x.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Resource>
-    <Resource Include="Resources\Icons\FrameworkWarning_16x.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Resource>
-    <Resource Include="Resources\Icons\Framework_16x.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Resource>
-    <Resource Include="Resources\Icons\TargetFilePrivate_16x.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Resource>
-    <Resource Include="Resources\Icons\TargetFile_16x.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Resource>
-    <Resource Include="Resources\Icons\ProjectImports_16x.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Resource>
-    <Resource Include="Resources\Icons\ApplicationPrivate_16x.png" />
-    <Resource Include="Resources\Icons\ApplicationWarning_16x.png" />
-    <Resource Include="Resources\Icons\CodeInformationPrivate_16x.png" />
-    <Resource Include="Resources\Icons\CodeInformationWarning_16x.png" />
-    <Resource Include="Resources\Icons\ComponentPrivate_16x.png" />
-    <Resource Include="Resources\Icons\ComponentWarning_16x.png" />
-    <Resource Include="Resources\Icons\Component_16x.png" />
-    <Resource Include="Resources\Icons\ErrorSmall_16x.png" />
-    <Resource Include="Resources\Icons\NuGetGreyWarning_16x.png" />
-    <Resource Include="Resources\Icons\NuGetGrey_16x.png" />
-    <Resource Include="Resources\Icons\ReferencePrivate_16x.png" />
-    <Resource Include="Resources\Icons\SDKPrivate_16x.png" />
-    <Resource Include="Resources\Icons\SDKWarning_16x.png" />
-    <Resource Include="Resources\Icons\SDK_16x.png" />
-    <Resource Include="Resources\Icons\SharedProjectPrivate_16x.png" />
-    <Resource Include="Resources\Icons\SharedProjectWarning_16x.png" />
-    <Resource Include="Resources\Icons\SharedProject_16x.png" />
-    <Resource Include="Resources\Icons\WarningSmall_16x.png" />
-    <Resource Include="Resources\Icons\LibraryWarning_16x.png" />
-    <Resource Include="Resources\Icons\NuGetGreyPrivate_16x.png" />
-    <Resource Include="Resources\Icons\ReferenceGroupWarning_16x.png" />
-    <Resource Include="Resources\Icons\ReferenceGroup_16x.png" />
-    <Resource Include="Resources\Icons\FrameworkPrivate_16x.png" />
-    <Resource Include="Resources\Icons\FrameworkWarning_16x.png" />
-    <Resource Include="Resources\Icons\Framework_16x.png" />
-    <Resource Include="Resources\Icons\ProjectImports_16x.png" />
-    <Resource Include="Resources\Icons\TargetFile_16x.png" />
-    <Resource Include="Resources\Icons\TargetFilePrivate_16x.png" />
   </ItemGroup>
+
   <ItemGroup>
     <None Include="**\*.xlf" />
     <EmbeddedResource Update="ProjectSystem\VS\PropertyPages\PropertyPageResources.resx">
@@ -239,14 +95,113 @@
       <MergeWithCTO>true</MergeWithCTO>
     </EmbeddedResource>
   </ItemGroup>
+
   <ItemGroup>
     <VSCTCompile Include="Menus.vsct">
       <ResourceName>Menus.ctmenu</ResourceName>
       <SubType>Designer</SubType>
     </VSCTCompile>
   </ItemGroup>
+
   <ItemGroup>
     <AdditionalFiles Include="PublicAPI.Shipped.txt" />
     <AdditionalFiles Include="PublicAPI.Unshipped.txt" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="WPF" />
+  </ItemGroup>
+  <ItemGroup>
+    <XamlPropertyRule Include="ProjectSystem\VS\Rules\BuildAccelerationIncompatiblePackage.xaml">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+      <XlfInput>false</XlfInput>
+      <DataAccess>None</DataAccess>
+      <Generator>MSBuild:GenerateRuleSourceFromXaml</Generator>
+      <RuleInjection>None</RuleInjection>
+    </XamlPropertyRule>
+    <Compile Update="ProjectSystem\VS\Rules\BuildAccelerationIncompatiblePackage.cs">
+      <DependentUpon>BuildAccelerationIncompatiblePackage.xaml</DependentUpon>
+    </Compile>
+
+    <XamlPropertyRule Include="ProjectSystem\VS\Rules\CopyToOutputDirectoryItem.xaml">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+      <XlfInput>false</XlfInput>
+      <DataAccess>None</DataAccess>
+      <Generator>MSBuild:GenerateRuleSourceFromXaml</Generator>
+      <RuleInjection>None</RuleInjection>
+    </XamlPropertyRule>
+    <Compile Update="ProjectSystem\VS\Rules\CopyToOutputDirectoryItem.cs">
+      <DependentUpon>CopyToOutputDirectoryItem.xaml</DependentUpon>
+    </Compile>
+    
+    <XamlPropertyRule Include="ProjectSystem\VS\Rules\CopyUpToDateMarker.xaml">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+      <XlfInput>false</XlfInput>
+      <DataAccess>None</DataAccess>
+      <Generator>MSBuild:GenerateRuleSourceFromXaml</Generator>
+      <RuleInjection>None</RuleInjection>
+    </XamlPropertyRule>
+    <Compile Update="ProjectSystem\VS\Rules\CopyUpToDateMarker.cs">
+      <DependentUpon>CopyUpToDateMarker.xaml</DependentUpon>
+    </Compile>
+
+    <XamlPropertyRule Include="ProjectSystem\VS\Rules\ResolvedCompilationReference.xaml">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+      <XlfInput>false</XlfInput>
+      <DataAccess>None</DataAccess>
+      <Generator>MSBuild:GenerateRuleSourceFromXaml</Generator>
+      <RuleInjection>None</RuleInjection>
+    </XamlPropertyRule>
+    <Compile Update="ProjectSystem\VS\Rules\ResolvedCompilationReference.cs">
+      <DependentUpon>ResolvedCompilationReference.xaml</DependentUpon>
+    </Compile>
+
+    <XamlPropertyRule Include="ProjectSystem\VS\Rules\UpToDateCheckBuilt.xaml">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+      <XlfInput>false</XlfInput>
+      <DataAccess>None</DataAccess>
+      <Generator>MSBuild:GenerateRuleSourceFromXaml</Generator>
+      <RuleInjection>None</RuleInjection>
+    </XamlPropertyRule>
+    <Compile Update="ProjectSystem\VS\Rules\UpToDateCheckBuilt.cs">
+      <DependentUpon>UpToDateCheckBuilt.xaml</DependentUpon>
+    </Compile>
+
+    <XamlPropertyRule Include="ProjectSystem\VS\Rules\UpToDateCheckInput.xaml">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+      <XlfInput>false</XlfInput>
+      <DataAccess>None</DataAccess>
+      <Generator>MSBuild:GenerateRuleSourceFromXaml</Generator>
+      <RuleInjection>None</RuleInjection>
+    </XamlPropertyRule>
+    <Compile Update="ProjectSystem\VS\Rules\UpToDateCheckInput.cs">
+      <DependentUpon>UpToDateCheckInput.xaml</DependentUpon>
+    </Compile>
+
+    <XamlPropertyRule Include="ProjectSystem\VS\Rules\UpToDateCheckOutput.xaml">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+      <XlfInput>false</XlfInput>
+      <DataAccess>None</DataAccess>
+      <Generator>MSBuild:GenerateRuleSourceFromXaml</Generator>
+      <RuleInjection>None</RuleInjection>
+    </XamlPropertyRule>
+    <Compile Update="ProjectSystem\VS\Rules\UpToDateCheckOutput.cs">
+      <DependentUpon>UpToDateCheckOutput.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <!-- This is required for SourceLink to find these .xaml files within the generated .g.cs files. -->
+  <!-- Note that the filepath for the file MUST be nested within itself in the destination, as the .g.cs files include the relative nested path. -->
+  <!-- See: https://github.com/dotnet/sourcelink/issues/492 -->
+  <Target Name="CopyDependentUponXamlFiles" BeforeTargets="CoreCompile">
+    <Copy SourceFiles="ProjectSystem\VS\PropertyPages\GetProfileNameDialog.xaml" DestinationFiles="$(IntermediateOutputPath)\ProjectSystem\VS\PropertyPages\ProjectSystem\VS\PropertyPages\GetProfileNameDialog.xaml" SkipUnchangedFiles="true" />
+  </Target>
+
 </Project>

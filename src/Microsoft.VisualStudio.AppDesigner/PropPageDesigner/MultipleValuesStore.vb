@@ -1,4 +1,4 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Imports Microsoft.VisualStudio.Shell.Interop
 
@@ -31,8 +31,8 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
         ''' <param name="SelectedConfigName">The selected configuration in the drop-down combobox.  Empty string indicates "All Configurations".</param>
         ''' <param name="SelectedPlatformName">The selected platform in the drop-down combobox.  Empty string indicates "All Platforms".</param>
         Public Sub New(VsCfgProvider As IVsCfgProvider2, Objects() As Object, Values() As Object, SelectedConfigName As String, SelectedPlatformName As String)
-            Requires.NotNull(Values, NameOf(Values))
-            Requires.NotNull(Objects, NameOf(Objects))
+            Requires.NotNull(Values)
+            Requires.NotNull(Objects)
 
             If Values.Length <> Objects.Length Then
                 Debug.Fail("Bad array length returned from GetPropertyMultipleValues()")
@@ -70,7 +70,6 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
             DebugTrace("MultiValues constructor")
         End Sub
 
-
         ''' <summary>
         ''' Determines the set of configurations which correspond to the stored
         '''   configuration names and platforms.
@@ -95,9 +94,6 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
 
             Return Objects
         End Function
-
-
-
 
         <Conditional("DEBUG")>
         Public Sub DebugTrace(Message As String)

@@ -1,4 +1,4 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Imports System.Runtime.InteropServices
 
@@ -15,8 +15,8 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
     ';PropPageDesignerEditorFactory
     '
     'Remarks:
-    '   The editor factory for the resource editor.  The job of this class is
-    '   simply to create a new resource editor designer when requested by the
+    '   The editor factory for the property page editor.  The job of this class is
+    '   simply to create a new property page editor designer when requested by the
     '   shell.
     '**************************************************************************
     <CLSCompliant(False),
@@ -55,15 +55,14 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
         ''' <param name="DocData">Returns DocData object</param>
         ''' <param name="Caption">Returns caption for document window</param>
         ''' <param name="CmdUIGuid">Returns guid for CMDUI</param>
-        ''' <param name="Canceled">Returns True if user canceled</param>
-        Private Sub InternalCreateEditorInstance(FileName As String,
+        Private Sub InternalCreateEditorInstance(
+                FileName As String,
                 ExistingDocData As Object,
                 ByRef DocView As Object,
                 ByRef DocData As Object,
                 ByRef Caption As String,
-                ByRef CmdUIGuid As Guid,
-                ByRef Canceled As Boolean)
-            Canceled = False
+                ByRef CmdUIGuid As Guid)
+
             CmdUIGuid = Guid.Empty
 
             Dim DesignerLoader As PropPageDesignerLoader = Nothing
@@ -127,7 +126,6 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
             End Try
         End Sub
 
-
         ''' <summary>
         ''' Disconnect from the owning site
         ''' </summary>
@@ -150,13 +148,12 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
                 ByRef DocDataPtr As IntPtr,
                 ByRef Caption As String,
                 ByRef CmdUIGuid As Guid,
-                ByRef FCanceled As Integer) As Integer _
+                ByRef pgrfCDW As Integer) As Integer _
         Implements IVsEditorFactory.CreateEditorInstance
 
             Dim ExistingDocData As Object = Nothing
             Dim DocView As Object = Nothing
             Dim DocData As Object = Nothing
-            Dim CanceledAsBoolean As Boolean = False
 
             DocViewPtr = IntPtr.Zero
             DocDataPtr = IntPtr.Zero
@@ -168,13 +165,9 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
             Caption = Nothing
 
             InternalCreateEditorInstance(FileName, ExistingDocData,
-                DocView, DocData, Caption, CmdUIGuid, CanceledAsBoolean)
+                DocView, DocData, Caption, CmdUIGuid)
 
-            If CanceledAsBoolean Then
-                FCanceled = 1
-            Else
-                FCanceled = 0
-            End If
+            pgrfCDW = 0
 
             If DocView IsNot Nothing Then
                 DocViewPtr = Marshal.GetIUnknownForObject(DocView)
@@ -204,11 +197,7 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
             End If
             'Site is different - set it
             _site = Site
-            If TypeOf Site Is IServiceProvider Then
-                _siteProvider = New ServiceProvider(CType(Site, IServiceProvider))
-            Else
-                Debug.Fail("Site IsNot OLE.Interop.IServiceProvider")
-            End If
+            _siteProvider = New ServiceProvider(Site)
         End Function
 
     End Class

@@ -1,293 +1,319 @@
-﻿// Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿// Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
-using System.Threading.Tasks;
-using Xunit;
+using Microsoft.VisualStudio.ProjectSystem.Properties;
+using Moq.Protected;
 
-namespace Microsoft.VisualStudio.ProjectSystem.VS.WindowsForms
+namespace Microsoft.VisualStudio.ProjectSystem.VS.WindowsForms;
+
+public class WindowsFormsEditorProviderTests
 {
-    public class WindowsFormsEditorProviderTests
+    [Fact]
+    public async Task GetSpecificEditorAsync_NullAsDocumentMoniker_ThrowsArgumentNull()
     {
-        [Fact]
-        public async Task GetSpecificEditorAsync_NullAsDocumentMoniker_ThrowsArgumentNull()
+        var provider = CreateInstance();
+
+        await Assert.ThrowsAsync<ArgumentNullException>("documentMoniker", () =>
         {
-            var provider = CreateInstance();
+            return provider.GetSpecificEditorAsync(null!);
+        });
+    }
 
-            await Assert.ThrowsAsync<ArgumentNullException>("documentMoniker", () =>
-            {
-                return provider.GetSpecificEditorAsync((string)null!);
-            });
-        }
+    [Fact]
+    public async Task SetUseGlobalEditorAsync_NullAsDocumentMoniker_ThrowsArgumentNull()
+    {
+        var provider = CreateInstance();
 
-        [Fact]
-        public async Task SetUseGlobalEditorAsync_NullAsDocumentMoniker_ThrowsArgumentNull()
+        await Assert.ThrowsAsync<ArgumentNullException>("documentMoniker", () =>
         {
-            var provider = CreateInstance();
+            return provider.SetUseGlobalEditorAsync(null!, false);
+        });
+    }
 
-            await Assert.ThrowsAsync<ArgumentNullException>("documentMoniker", () =>
-            {
-                return provider.SetUseGlobalEditorAsync((string)null!, false);
-            });
-        }
+    [Fact]
+    public async Task GetSpecificEditorAsync_EmptyAsDocumentMoniker_ThrowsArgument()
+    {
+        var provider = CreateInstance();
 
-        [Fact]
-        public async Task GetSpecificEditorAsync_EmptyAsDocumentMoniker_ThrowsArgument()
+        await Assert.ThrowsAsync<ArgumentException>("documentMoniker", () =>
         {
-            var provider = CreateInstance();
+            return provider.GetSpecificEditorAsync(string.Empty);
+        });
+    }
 
-            await Assert.ThrowsAsync<ArgumentException>("documentMoniker", () =>
-            {
-                return provider.GetSpecificEditorAsync(string.Empty);
-            });
-        }
+    [Fact]
+    public async Task SetUseGlobalEditorAsync_EmptyAsDocumentMoniker_ThrowsArgument()
+    {
+        var provider = CreateInstance();
 
-        [Fact]
-        public async Task SetUseGlobalEditorAsync_EmptyAsDocumentMoniker_ThrowsArgument()
+        await Assert.ThrowsAsync<ArgumentException>("documentMoniker", () =>
         {
-            var provider = CreateInstance();
+            return provider.SetUseGlobalEditorAsync(string.Empty, false);
+        });
+    }
 
-            await Assert.ThrowsAsync<ArgumentException>("documentMoniker", () =>
-            {
-                return provider.SetUseGlobalEditorAsync(string.Empty, false);
-            });
-        }
+    [Fact]
+    public async Task GetSpecificEditorAsync_WhenNoProjectSpecificEditorProviders_ReturnsNull()
+    {
+        var provider = CreateInstance();
 
-        [Fact]
-        public async Task GetSpecificEditorAsync_WhenNoProjectSpecificEditorProviders_ReturnsNull()
-        {
-            var provider = CreateInstance();
+        var result = await provider.GetSpecificEditorAsync(@"C:\Foo.cs");
 
-            var result = await provider.GetSpecificEditorAsync(@"C:\Foo.cs");
+        Assert.Null(result);
+    }
 
-            Assert.Null(result);
-        }
+    [Fact]
+    public async Task GetSpecificEditorAsync_WhenNoDefaultProjectSpecificEditorProviders_ReturnsNull()
+    {
+        var editorProvider = IProjectSpecificEditorProviderFactory.ImplementGetSpecificEditorAsync();
+        var provider = CreateInstance();
 
+        provider.ProjectSpecificEditorProviders.Add("NotDefault", editorProvider);
 
-        [Fact]
-        public async Task GetSpecificEditorAsync_WhenNoDefaultProjectSpecificEditorProviders_ReturnsNull()
-        {
-            var editorProvider = IProjectSpecificEditorProviderFactory.ImplementGetSpecificEditorAsync();
-            var provider = CreateInstance();
+        var result = await provider.GetSpecificEditorAsync(@"C:\Foo.cs");
 
-            provider.ProjectSpecificEditorProviders.Add("NotDefault", editorProvider);
+        Assert.Null(result);
+    }
 
-            var result = await provider.GetSpecificEditorAsync(@"C:\Foo.cs");
+    [Fact]
+    public async Task GetSpecificEditorAsync_WhenFileNotInProject_ReturnsNull()
+    {
+        var provider = CreateInstanceWithDefaultEditorProvider(
+            """
+            Project
+            """);
+        var result = await provider.GetSpecificEditorAsync(@"C:\Foo.cs");
 
-            Assert.Null(result);
-        }
+        Assert.Null(result);
+    }
 
-        [Fact]
-        public async Task GetSpecificEditorAsync_WhenFileNotInProject_ReturnsNull()
-        {
-            var provider = CreateInstanceWithDefaultEditorProvider(@"
-Project
-");
-            var result = await provider.GetSpecificEditorAsync(@"C:\Foo.cs");
+    [Fact]
+    public async Task SetUseGlobalEditorAsync_WhenFileNotInProject_ReturnsFalse()
+    {
+        var provider = CreateInstanceWithDefaultEditorProvider(
+            """
+            Project
+            """);
+        var result = await provider.SetUseGlobalEditorAsync(@"C:\Foo.cs", true);
 
-            Assert.Null(result);
-        }
+        Assert.False(result);
+    }
 
-        [Fact]
-        public async Task SetUseGlobalEditorAsync_WhenFileNotInProject_ReturnsFalse()
-        {
-            var provider = CreateInstanceWithDefaultEditorProvider(@"
-Project
-");
-            var result = await provider.SetUseGlobalEditorAsync(@"C:\Foo.cs", true);
+    [Fact]
+    public async Task GetSpecificEditorAsync_WhenFileNotCompileItem_ReturnsNull()
+    {
+        var provider = CreateInstanceWithDefaultEditorProvider(
+            """
+            Project
+                Foo.cs, FilePath: "C:\Foo.cs", ItemType: None
+            """);
 
-            Assert.False(result);
-        }
+        var result = await provider.GetSpecificEditorAsync(@"C:\Foo.cs");
 
-        [Fact]
-        public async Task GetSpecificEditorAsync_WhenFileNotCompileItem_ReturnsNull()
-        {
-            var provider = CreateInstanceWithDefaultEditorProvider(@"
-Project
-    Foo.cs, FilePath: ""C:\Foo.cs"", ItemType: None
-");
+        Assert.Null(result);
+    }
 
-            var result = await provider.GetSpecificEditorAsync(@"C:\Foo.cs");
+    [Fact]
+    public async Task SetUseGlobalEditorAsync_WhenFileNotCompileItem_ReturnsFalse()
+    {
+        var provider = CreateInstanceWithDefaultEditorProvider(
+            """
+            Project
+                Foo.cs, FilePath: "C:\Foo.cs", ItemType: None
+            """);
 
-            Assert.Null(result);
-        }
+        var result = await provider.SetUseGlobalEditorAsync(@"C:\Foo.cs", false);
 
-        [Fact]
-        public async Task SetUseGlobalEditorAsync_WhenFileNotCompileItem_ReturnsFalse()
-        {
-            var provider = CreateInstanceWithDefaultEditorProvider(@"
-Project
-    Foo.cs, FilePath: ""C:\Foo.cs"", ItemType: None
-");
+        Assert.False(result);
+    }
 
-            var result = await provider.SetUseGlobalEditorAsync(@"C:\Foo.cs", false);
+    [Fact]
+    public async Task GetSpecificEditorAsync_WhenCompileItemWithNoSubType_ReturnsNull()
+    {
+        var provider = CreateInstanceWithDefaultEditorProvider(
+            """
+            Project
+                Foo.cs, FilePath: "C:\Foo.cs", ItemType: Compile
+            """);
 
-            Assert.False(result);
-        }
+        var result = await provider.GetSpecificEditorAsync(@"C:\Foo.cs");
 
-        [Fact]
-        public async Task GetSpecificEditorAsync_WhenCompileItemWithNoSubType_ReturnsNull()
-        {
-            var provider = CreateInstanceWithDefaultEditorProvider(@"
-Project
-    Foo.cs, FilePath: ""C:\Foo.cs"", ItemType: Compile
-");
+        Assert.Null(result);
+    }
 
-            var result = await provider.GetSpecificEditorAsync(@"C:\Foo.cs");
+    [Fact]
+    public async Task SetUseGlobalEditorAsync_WhenCompileItemWithNoSubType_ReturnsFalse()
+    {
+        var provider = CreateInstanceWithDefaultEditorProvider(
+            """
+            Project
+                Foo.cs, FilePath: "C:\Foo.cs", ItemType: Compile
+            """);
 
-            Assert.Null(result);
-        }
+        var result = await provider.SetUseGlobalEditorAsync(@"C:\Foo.cs", false);
 
-        [Fact]
-        public async Task SetUseGlobalEditorAsync_WhenCompileItemWithNoSubType_ReturnsFalse()
-        {
-            var provider = CreateInstanceWithDefaultEditorProvider(@"
-Project
-    Foo.cs, FilePath: ""C:\Foo.cs"", ItemType: Compile
-");
+        Assert.False(result);
+    }
 
-            var result = await provider.SetUseGlobalEditorAsync(@"C:\Foo.cs", false);
+    [Fact]
+    public async Task GetSpecificEditorAsync_WhenCompileItemWithUnrecognizedSubType_ReturnsNull()
+    {
+        var provider = CreateInstanceWithDefaultEditorProvider(
+            """
+            Project
+                Foo.cs, FilePath: "C:\Foo.cs", ItemType: Compile, SubType: Code
+            """);
 
-            Assert.False(result);
-        }
+        var result = await provider.GetSpecificEditorAsync(@"C:\Foo.cs");
 
-        [Fact]
-        public async Task GetSpecificEditorAsync_WhenCompileItemWithUnrecognizedSubType_ReturnsNull()
-        {
-            var provider = CreateInstanceWithDefaultEditorProvider(@"
-Project
-    Foo.cs, FilePath: ""C:\Foo.cs"", ItemType: Compile, SubType: Code
-");
+        Assert.Null(result);
+    }
 
-            var result = await provider.GetSpecificEditorAsync(@"C:\Foo.cs");
+    [Fact]
+    public async Task SetUseGlobalEditorAsync_WhenCompileItemWithUnrecognizedSubType_ReturnsFalse()
+    {
+        var provider = CreateInstanceWithDefaultEditorProvider(
+            """
+            Project
+                Foo.cs, FilePath: "C:\Foo.cs", ItemType: Compile, SubType: Code
+            """);
 
-            Assert.Null(result);
-        }
+        var result = await provider.SetUseGlobalEditorAsync(@"C:\Foo.cs", false);
 
-        [Fact]
-        public async Task SetUseGlobalEditorAsync_WhenCompileItemWithUnrecognizedSubType_ReturnsFalse()
-        {
-            var provider = CreateInstanceWithDefaultEditorProvider(@"
-Project
-    Foo.cs, FilePath: ""C:\Foo.cs"", ItemType: Compile, SubType: Code
-");
+        Assert.False(result);
+    }
 
-            var result = await provider.SetUseGlobalEditorAsync(@"C:\Foo.cs", false);
+    [Fact]
+    public async Task GetSpecificEditorAsync_WhenParentIsSourceFile_ReturnsNull()
+    {   // Let's folks double-click the designer file to open it as text
+        var provider = CreateInstanceWithDefaultEditorProvider(
+            """
+            Project
+                Foo.cs (flags: {SourceFile})
+                    Foo.Designer.cs, FilePath: "C:\Foo.Designer.cs", ItemType: Compile, SubType: Designer
 
-            Assert.False(result);
-        }
+            """);
 
-        [Fact]
-        public async Task GetSpecificEditorAsync_WhenParentIsSourceFile_ReturnsNull()
-        {   // Let's folks double-click the designer file to open it as text
+        var result = await provider.GetSpecificEditorAsync(@"C:\Foo.Designer.cs");
 
-            var provider = CreateInstanceWithDefaultEditorProvider(@"
-Project
-    Foo.cs (flags: {SourceFile})
-        Foo.Designer.cs, FilePath: ""C:\Foo.Designer.cs"", ItemType: Compile, SubType: Designer
-");
+        Assert.Null(result);
+    }
 
-            var result = await provider.GetSpecificEditorAsync(@"C:\Foo.Designer.cs");
+    [Fact]
+    public async Task SetUseGlobalEditorAsync_WhenParentIsSourceFile_ReturnsFalse()
+    {
+        var provider = CreateInstanceWithDefaultEditorProvider(
+            """
+            Project
+                Foo.cs (flags: {SourceFile})
+                    Foo.Designer.cs, FilePath: "C:\Foo.Designer.cs", ItemType: Compile, SubType: Designer
 
-            Assert.Null(result);
-        }
+            """);
 
-        [Fact]
-        public async Task SetUseGlobalEditorAsync_WhenParentIsSourceFile_ReturnsFalse()
-        {   
-            var provider = CreateInstanceWithDefaultEditorProvider(@"
-Project
-    Foo.cs (flags: {SourceFile})
-        Foo.Designer.cs, FilePath: ""C:\Foo.Designer.cs"", ItemType: Compile, SubType: Designer
-");
+        var result = await provider.SetUseGlobalEditorAsync(@"C:\Foo.Designer.cs", false);
 
-            var result = await provider.SetUseGlobalEditorAsync(@"C:\Foo.Designer.cs", false);
+        Assert.False(result);
+    }
 
-            Assert.False(result);
-        }
+    [Theory]
+    [InlineData(
+        """
+        Project
+            Foo.txt, FilePath: "C:\Foo.cs", ItemType: Compile, SubType: Form
+        """, true)]
+    [InlineData(
+        """
+        Project
+            Foo.txt, FilePath: "C:\Foo.cs", ItemType: Compile, SubType: Designer
+        """, true)]
+    [InlineData(
+        """
+        Project
+            Foo.txt, FilePath: "C:\Foo.cs", ItemType: Compile, SubType: UserControl
+        """, true)]
+    [InlineData(
+        """
+        Project
+            Foo.txt, FilePath: "C:\Foo.cs", ItemType: Compile, SubType: Component
+        """, false)]
+    public async Task GetSpecificEditorAsync_WhenMarkedWithRecognizedSubType_ReturnsResult(string tree, bool useDesignerByDefault)
+    {
+        var defaultEditorFactory = Guid.NewGuid();
 
-        [Theory]
-        [InlineData(@"
-Project
-    Foo.txt, FilePath: ""C:\Foo.cs"", ItemType: Compile, SubType: Form
-", true)]
-        [InlineData(@"
-Project
-    Foo.txt, FilePath: ""C:\Foo.cs"", ItemType: Compile, SubType: Designer
-", true)]
-        [InlineData(@"
-Project
-    Foo.txt, FilePath: ""C:\Foo.cs"", ItemType: Compile, SubType: UserControl
-", true)]
-        [InlineData(@"
-Project
-    Foo.txt, FilePath: ""C:\Foo.cs"", ItemType: Compile, SubType: Component
-", false)]
-        public async Task GetSpecificEditorAsync_WhenMarkedWithRecognizedSubType_ReturnsResult(string tree, bool useDesignerByDefault)
-        {
-            var defaultEditorFactory = Guid.NewGuid();
+        var options = IProjectSystemOptionsFactory.ImplementGetUseDesignerByDefaultAsync((_, defaultValue, _) => defaultValue);
+        var provider = CreateInstanceWithDefaultEditorProvider(tree, options, defaultEditorFactory);
 
-            var options = IProjectSystemOptionsFactory.ImplementGetUseDesignerByDefaultAsync((_, defaultValue, __) => defaultValue);
-            var provider = CreateInstanceWithDefaultEditorProvider(tree, options, defaultEditorFactory);
+        var result = await provider.GetSpecificEditorAsync(@"C:\Foo.cs");
 
-            var result = await provider.GetSpecificEditorAsync(@"C:\Foo.cs");
+        Assert.NotNull(result);
+        Assert.NotEmpty(result.DisplayName);
+        Assert.Equal(VSConstants.LOGVIEWID.Designer_guid, result.DefaultView);
+        Assert.Equal(useDesignerByDefault, result.IsDefaultEditor);
+        Assert.Equal(defaultEditorFactory, result.EditorFactory);
+    }
 
-            Assert.NotNull(result);
-            Assert.NotEmpty(result!.DisplayName);
-            Assert.Equal(VSConstants.LOGVIEWID.Designer_guid, result.DefaultView);
-            Assert.Equal(useDesignerByDefault, result.IsDefaultEditor);
-            Assert.Equal(defaultEditorFactory, result.EditorFactory);
-        }
+    [Theory]
+    [InlineData(
+        """
+        Project
+            Foo.txt, FilePath: "C:\Foo.cs", ItemType: Compile, SubType: Form
+        """,
+        "Form")]
+    [InlineData(
+        """
+        Project
+            Foo.txt, FilePath: "C:\Foo.cs", ItemType: Compile, SubType: Designer
+        """,
+        "Designer")]
+    [InlineData(
+        """
+        Project
+            Foo.txt, FilePath: "C:\Foo.cs", ItemType: Compile, SubType: UserControl
+        """,
+        "UserControl")]
+    [InlineData(
+        """
+        Project
+            Foo.txt, FilePath: "C:\Foo.cs", ItemType: Compile, SubType: Component
+        """,
+        "Component")]
+    public async Task SetUseGlobalEditorAsync_WhenMarkedWithRecognizedSubType_ReturnsTrue(string tree, string expectedCategory)
+    {
+        string? categoryResult = null;
+        bool? valueResult = null;
+        var options = IProjectSystemOptionsFactory.ImplementSetUseDesignerByDefaultAsync((category, value, _) => { categoryResult = category; valueResult = value; return Task.CompletedTask; });
+        var provider = CreateInstanceWithDefaultEditorProvider(tree, options);
 
-        [Theory]
-        [InlineData(@"
-Project
-    Foo.txt, FilePath: ""C:\Foo.cs"", ItemType: Compile, SubType: Form
-", "Form")]
-        [InlineData(@"
-Project
-    Foo.txt, FilePath: ""C:\Foo.cs"", ItemType: Compile, SubType: Designer
-", "Designer")]
-        [InlineData(@"
-Project
-    Foo.txt, FilePath: ""C:\Foo.cs"", ItemType: Compile, SubType: UserControl
-", "UserControl")]
-        [InlineData(@"
-Project
-    Foo.txt, FilePath: ""C:\Foo.cs"", ItemType: Compile, SubType: Component
-", "Component")]
-        public async Task SetUseGlobalEditorAsync_WhenMarkedWithRecognizedSubType_ReturnsTrue(string tree, string expectedCategory)
-        {
-            string? categoryResult = null;
-            bool? valueResult = null;
-            var options = IProjectSystemOptionsFactory.ImplementSetUseDesignerByDefaultAsync((category, value, __) => { categoryResult = category; valueResult = value; return Task.CompletedTask; });
-            var provider = CreateInstanceWithDefaultEditorProvider(tree, options);
+        var result = await provider.SetUseGlobalEditorAsync(@"C:\Foo.cs", useGlobalEditor: true);
 
-            var result = await provider.SetUseGlobalEditorAsync(@"C:\Foo.cs", useGlobalEditor: true);
+        Assert.True(result);
+        Assert.False(valueResult);
+        Assert.Equal(expectedCategory, categoryResult);
+    }
 
-            Assert.True(result);
-            Assert.False(valueResult);
-            Assert.Equal(expectedCategory, categoryResult);
-        }
+    private static WindowsFormsEditorProvider CreateInstanceWithDefaultEditorProvider(string projectTree, IProjectSystemOptions? options = null, Guid defaultEditorFactory = default)
+    {
+        var tree = ProjectTreeParser.Parse(projectTree);
 
-        private static WindowsFormsEditorProvider CreateInstanceWithDefaultEditorProvider(string projectTree, IProjectSystemOptions? options = null, Guid defaultEditorFactory = default)
-        {
-            var tree = ProjectTreeParser.Parse(projectTree);
+        var defaultEditorProvider = IProjectSpecificEditorProviderFactory.ImplementGetSpecificEditorAsync(defaultEditorFactory);
 
-            var defaultEditorProvider = IProjectSpecificEditorProviderFactory.ImplementGetSpecificEditorAsync(defaultEditorFactory);
+        var provider = CreateInstance(projectTree: IPhysicalProjectTreeFactory.Create(currentTree: tree), options: options);
+        provider.ProjectSpecificEditorProviders.Add("Default", defaultEditorProvider);
 
-            var provider = CreateInstance(projectTree: IPhysicalProjectTreeFactory.Create(currentTree: tree), options: options);
-            provider.ProjectSpecificEditorProviders.Add("Default", defaultEditorProvider);
+        return provider;
+    }
 
-            return provider;
-        }
+    private static WindowsFormsEditorProvider CreateInstance(UnconfiguredProject? unconfiguredProject = null, IPhysicalProjectTree? projectTree = null, IProjectSystemOptions? options = null)
+    {
+        var project = ConfiguredProjectFactory.Create();
+        unconfiguredProject ??= UnconfiguredProjectFactory.Create(configuredProject: project);
+        projectTree ??= IPhysicalProjectTreeFactory.Create();
+        options ??= IProjectSystemOptionsFactory.Create();
+        var asyncTasks = IProjectAsynchronousTasksServiceFactory.Create();
 
-        private static WindowsFormsEditorProvider CreateInstance(UnconfiguredProject? unconfiguredProject = null, IPhysicalProjectTree? projectTree = null, IProjectSystemOptions? options = null)
-        {
-            unconfiguredProject ??= UnconfiguredProjectFactory.Create();
-            projectTree ??= IPhysicalProjectTreeFactory.Create();
-            options ??= IProjectSystemOptionsFactory.Create();
+        var provider = new Mock<WindowsFormsEditorProvider>(unconfiguredProject, asyncTasks, projectTree.AsLazy(), options.AsLazy());
+        provider.Protected().Setup<IRule?>("GetBrowseObjectProperties", ItExpr.IsAny<ConfiguredProject>(), ItExpr.IsAny<IProjectItemTree>())
+                .Returns((ConfiguredProject configuredProject, IProjectItemTree node) => node.BrowseObjectProperties);
 
-            return new WindowsFormsEditorProvider(unconfiguredProject, projectTree.AsLazy(), options.AsLazy());
-        }
+        return provider.Object;
     }
 }

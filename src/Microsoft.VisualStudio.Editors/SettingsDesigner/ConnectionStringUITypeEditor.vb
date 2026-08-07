@@ -1,4 +1,4 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Imports System.Drawing.Design
 
@@ -216,8 +216,8 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
         ''' there exists sensitive information in the string and whether the user chooses to persist it
         '''</returns>
         Private Shared Function GetConnectionString(ServiceProvider As IServiceProvider, Dialog As IVsDataConnectionDialog, PromptIfContainsSensitiveData As Boolean) As String
-            Requires.NotNull(Dialog, NameOf(Dialog))
-            Requires.NotNull(ServiceProvider, NameOf(ServiceProvider))
+            Requires.NotNull(Dialog)
+            Requires.NotNull(ServiceProvider)
 
             Dim SafeConnectionString As String = Dialog.SafeConnectionString
 
@@ -232,9 +232,9 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
                        DesignerFramework.DesignerMessageBox.Show(ServiceProvider,
                                                              My.Resources.Microsoft_VisualStudio_Editors_Designer.SD_IncludeSensitiveInfoInConnectionStringWarning,
                                                              DesignerFramework.DesignUtil.GetDefaultCaption(ServiceProvider),
-                                                             Windows.Forms.MessageBoxButtons.YesNo,
-                                                             Windows.Forms.MessageBoxIcon.Warning,
-                                                             Windows.Forms.MessageBoxDefaultButton.Button2) = Windows.Forms.DialogResult.Yes _
+                                                             System.Windows.Forms.MessageBoxButtons.YesNo,
+                                                             System.Windows.Forms.MessageBoxIcon.Warning,
+                                                             System.Windows.Forms.MessageBoxDefaultButton.Button2) = System.Windows.Forms.DialogResult.Yes _
                 Then
                     Return RawConnectionString
                 End If
@@ -275,7 +275,6 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
             ' If the safe string's length is less than the full string's length, then it must strip something sensitive out...
             Return ConnectionProperties.ToSafeString().Trim.Length < ConnectionProperties.ToString().Trim.Length()
         End Function
-
 
 #Region "Mapping provider GUIDs <-> display names"
 

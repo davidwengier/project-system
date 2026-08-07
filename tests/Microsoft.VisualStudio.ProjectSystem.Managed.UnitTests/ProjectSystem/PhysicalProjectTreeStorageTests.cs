@@ -1,330 +1,324 @@
-﻿// Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿// Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
-using System.IO;
-using System.Threading.Tasks;
 using Microsoft.VisualStudio.IO;
-using Xunit;
 
-namespace Microsoft.VisualStudio.ProjectSystem
+namespace Microsoft.VisualStudio.ProjectSystem;
+
+public class PhysicalProjectTreeStorageTests
 {
-    public class PhysicalProjectTreeStorageTests
+    [Fact]
+    public async Task AddFileAsync_NullAsPath_ThrowsArgumentNull()
     {
-        [Fact]
-        public async Task AddFileAsync_NullAsPath_ThrowsArgumentNull()
+        var storage = CreateInstance();
+
+        await Assert.ThrowsAsync<ArgumentNullException>("path", () =>
         {
-            var storage = CreateInstance();
+            return storage.AddFileAsync(null!);
+        });
+    }
 
-            await Assert.ThrowsAsync<ArgumentNullException>("path", () =>
-            {
-                return storage.AddFileAsync((string?)null!);
-            });
-        }
+    [Fact]
+    public async Task AddFileAsync_EmptyAsPath_ThrowsArgument()
+    {
+        var storage = CreateInstance();
 
-        [Fact]
-        public async Task AddFileAsync_EmptyAsPath_ThrowsArgument()
+        await Assert.ThrowsAsync<ArgumentException>("path", () =>
         {
-            var storage = CreateInstance();
+            return storage.AddFileAsync(string.Empty);
+        });
+    }
 
-            await Assert.ThrowsAsync<ArgumentException>("path", () =>
-            {
-                return storage.AddFileAsync(string.Empty);
-            });
-        }
+    [Fact]
+    public async Task CreateEmptyFileAsync_NullAsPath_ThrowsArgumentNull()
+    {
+        var storage = CreateInstance();
 
-        [Fact]
-        public async Task CreateEmptyFileAsync_NullAsPath_ThrowsArgumentNull()
+        await Assert.ThrowsAsync<ArgumentNullException>("path", () =>
         {
-            var storage = CreateInstance();
+            return storage.CreateEmptyFileAsync(null!);
+        });
+    }
 
-            await Assert.ThrowsAsync<ArgumentNullException>("path", () =>
-            {
-                return storage.CreateEmptyFileAsync((string?)null!);
-            });
-        }
+    [Fact]
+    public async Task CreateEmptyFileAsync_EmptyAsPath_ThrowsArgument()
+    {
+        var storage = CreateInstance();
 
-        [Fact]
-        public async Task CreateEmptyFileAsync_EmptyAsPath_ThrowsArgument()
+        await Assert.ThrowsAsync<ArgumentException>("path", () =>
         {
-            var storage = CreateInstance();
+            return storage.CreateEmptyFileAsync(string.Empty);
+        });
+    }
 
-            await Assert.ThrowsAsync<ArgumentException>("path", () =>
-            {
-                return storage.CreateEmptyFileAsync(string.Empty);
-            });
-        }
+    [Fact]
+    public async Task CreateFolderAsync_NullAsPath_ThrowsArgumentNull()
+    {
+        var storage = CreateInstance();
 
-        [Fact]
-        public async Task CreateFolderAsync_NullAsPath_ThrowsArgumentNull()
+        await Assert.ThrowsAsync<ArgumentNullException>("path", async () =>
         {
-            var storage = CreateInstance();
+            await storage.CreateFolderAsync(null!);
+        });
+    }
 
-            await Assert.ThrowsAsync<ArgumentNullException>("path", async () =>
-            {
-                await storage.CreateFolderAsync((string?)null!);
-            });
-        }
+    [Fact]
+    public async Task CreateFolderAsync_EmptyAsPath_ThrowsArgument()
+    {
+        var storage = CreateInstance();
 
-        [Fact]
-        public async Task CreateFolderAsync_EmptyAsPath_ThrowsArgument()
+        await Assert.ThrowsAsync<ArgumentException>("path", async () =>
         {
-            var storage = CreateInstance();
+            await storage.CreateFolderAsync(string.Empty);
+        });
+    }
 
-            await Assert.ThrowsAsync<ArgumentException>("path", async () =>
-            {
-                await storage.CreateFolderAsync(string.Empty);
-            });
-        }
+    [Fact]
+    public async Task AddFolderAsync_NullAsPath_ThrowsArgumentNull()
+    {
+        var storage = CreateInstance();
 
-        [Fact]
-        public async Task AddFolderAsync_NullAsPath_ThrowsArgumentNull()
+        await Assert.ThrowsAsync<ArgumentNullException>("path", async () =>
         {
-            var storage = CreateInstance();
+            await storage.AddFolderAsync(null!);
+        });
+    }
 
-            await Assert.ThrowsAsync<ArgumentNullException>("path", async () =>
-            {
-                await storage.AddFolderAsync((string?)null!);
-            });
-        }
+    [Fact]
+    public async Task AddFolderAsync_EmptyAsPath_ThrowsArgument()
+    {
+        var storage = CreateInstance();
 
-        [Fact]
-        public async Task AddFolderAsync_EmptyAsPath_ThrowsArgument()
+        await Assert.ThrowsAsync<ArgumentException>("path", async () =>
         {
-            var storage = CreateInstance();
+            await storage.AddFolderAsync(string.Empty);
+        });
+    }
 
-            await Assert.ThrowsAsync<ArgumentException>("path", async () =>
-            {
-                await storage.AddFolderAsync(string.Empty);
-            });
-        }
+    [Fact]
+    public async Task CreateEmptyFileAsync_CreatesFileOnDisk()
+    {
+        string? result = null;
+        var project = UnconfiguredProjectFactory.Create(fullPath: @"C:\Project\Project.csproj");
+        var fileSystem = IFileSystemFactory.ImplementCreate((path) => { result = path; });
 
-        [Fact]
-        public async Task CreateEmptyFileAsync_CreatesFileOnDisk()
-        {
-            string? result = null;
-            var project = UnconfiguredProjectFactory.Create(filePath: @"C:\Project\Project.csproj");
-            var fileSystem = IFileSystemFactory.ImplementCreate((path) => { result = path; return new MemoryStream(); });
+        var storage = CreateInstance(fileSystem: fileSystem, project: project);
 
-            var storage = CreateInstance(fileSystem: fileSystem, project: project);
+        await storage.CreateEmptyFileAsync(@"Properties\File.cs");
 
-            await storage.CreateEmptyFileAsync(@"Properties\File.cs");
+        Assert.Equal(@"C:\Project\Properties\File.cs", result);
+    }
 
-            Assert.Equal(@"C:\Project\Properties\File.cs", result);
-        }
+    [Fact]
+    public async Task CreateFolderAsync_CreatesFolderOnDisk()
+    {
+        string? result = null;
+        var project = UnconfiguredProjectFactory.Create(fullPath: @"C:\Root.csproj");
+        var fileSystem = IFileSystemFactory.ImplementCreateDirectory((path) => { result = path; });
 
-        [Fact]
-        public async Task CreateFolderAsync_CreatesFolderOnDisk()
-        {
-            string? result = null;
-            var project = UnconfiguredProjectFactory.Create(filePath: @"C:\Root.csproj");
-            var fileSystem = IFileSystemFactory.ImplementCreateDirectory((path) => { result = path; });
+        var storage = CreateInstance(fileSystem: fileSystem, project: project);
 
-            var storage = CreateInstance(fileSystem: fileSystem, project: project);
+        await storage.CreateFolderAsync("Folder");
 
-            await storage.CreateFolderAsync("Folder");
+        Assert.Equal(@"C:\Folder", result);
+    }
 
-            Assert.Equal(@"C:\Folder", result);
-        }
+    [Fact]
+    public async Task CreateEmptyFileAsync_AddsFileToProject()
+    {
+        string? result = null;
+        var project = UnconfiguredProjectFactory.Create(fullPath: @"C:\Project.csproj");
 
-        [Fact]
-        public async Task CreateEmptyFileAsync_AddsFileToProject()
-        {
-            string? result = null;
-            var project = UnconfiguredProjectFactory.Create(filePath: @"C:\Project.csproj");
+        var sourceItemsProvider = IProjectItemProviderFactory.AddItemAsync(path => { result = path; return null!; });
+        var storage = CreateInstance(sourceItemsProvider: sourceItemsProvider, project: project);
 
-            var sourceItemsProvider = IProjectItemProviderFactory.AddItemAsync(path => { result = path; return null!; });
-            var storage = CreateInstance(sourceItemsProvider: sourceItemsProvider, project: project);
+        await storage.CreateEmptyFileAsync("File.cs");
 
-            await storage.CreateEmptyFileAsync("File.cs");
+        Assert.Equal(@"C:\File.cs", result);
+    }
 
-            Assert.Equal(@"C:\File.cs", result);
-        }
+    [Fact]
+    public async Task AddFileAsync_AddsFileToProject()
+    {
+        string? result = null;
+        var project = UnconfiguredProjectFactory.Create(fullPath: @"C:\Project.csproj");
 
-        [Fact]
-        public async Task AddFileAsync_AddsFileToProject()
-        {
-            string? result = null;
-            var project = UnconfiguredProjectFactory.Create(filePath: @"C:\Project.csproj");
+        var sourceItemsProvider = IProjectItemProviderFactory.AddItemAsync(path => { result = path; return null!; });
+        var storage = CreateInstance(sourceItemsProvider: sourceItemsProvider, project: project);
 
-            var sourceItemsProvider = IProjectItemProviderFactory.AddItemAsync(path => { result = path; return null!; });
-            var storage = CreateInstance(sourceItemsProvider: sourceItemsProvider, project: project);
+        await storage.AddFileAsync("File.cs");
 
-            await storage.AddFileAsync("File.cs");
+        Assert.Equal(@"C:\File.cs", result);
+    }
 
-            Assert.Equal(@"C:\File.cs", result);
+    [Fact]
+    public async Task CreateFolderAsync_IncludesFolderInProject()
+    {
+        string? result = null;
+        var project = UnconfiguredProjectFactory.Create(fullPath: @"C:\Root.csproj");
+        var folderManager = IFolderManagerFactory.IncludeFolderInProjectAsync((path, recursive) => { result = path; return Task.CompletedTask; });
 
-        }
+        var storage = CreateInstance(folderManager: folderManager, project: project);
 
-        [Fact]
-        public async Task CreateFolderAsync_IncludesFolderInProject()
-        {
-            string? result = null;
-            var project = UnconfiguredProjectFactory.Create(filePath: @"C:\Root.csproj");
-            var folderManager = IFolderManagerFactory.IncludeFolderInProjectAsync((path, recursive) => { result = path; return Task.CompletedTask; });
+        await storage.CreateFolderAsync("Folder");
 
-            var storage = CreateInstance(folderManager: folderManager, project: project);
+        Assert.Equal(@"C:\Folder", result);
+    }
 
-            await storage.CreateFolderAsync("Folder");
+    [Fact]
+    public async Task AddFolderAsync_IncludesFolderInProject()
+    {
+        string? result = null;
+        var project = UnconfiguredProjectFactory.Create(fullPath: @"C:\Root.csproj");
+        var folderManager = IFolderManagerFactory.IncludeFolderInProjectAsync((path, recursive) => { result = path; return Task.CompletedTask; });
 
-            Assert.Equal(@"C:\Folder", result);
-        }
+        var storage = CreateInstance(folderManager: folderManager, project: project);
 
-        [Fact]
-        public async Task AddFolderAsync_IncludesFolderInProject()
-        {
-            string? result = null;
-            var project = UnconfiguredProjectFactory.Create(filePath: @"C:\Root.csproj");
-            var folderManager = IFolderManagerFactory.IncludeFolderInProjectAsync((path, recursive) => { result = path; return Task.CompletedTask; });
+        await storage.AddFolderAsync("Folder");
 
-            var storage = CreateInstance(folderManager: folderManager, project: project);
+        Assert.Equal(@"C:\Folder", result);
+    }
 
-            await storage.AddFolderAsync("Folder");
+    [Fact]
+    public async Task CreateFolderAsync_IncludesFolderInProjectNonRecursively()
+    {
+        bool? result = null;
+        var project = UnconfiguredProjectFactory.Create(fullPath: @"C:\Root.csproj");
+        var folderManager = IFolderManagerFactory.IncludeFolderInProjectAsync((path, recursive) => { result = recursive; return Task.CompletedTask; });
 
-            Assert.Equal(@"C:\Folder", result);
-        }
+        var storage = CreateInstance(folderManager: folderManager, project: project);
 
-        [Fact]
-        public async Task CreateFolderAsync_IncludesFolderInProjectNonRecursively()
-        {
-            bool? result = null;
-            var project = UnconfiguredProjectFactory.Create(filePath: @"C:\Root.csproj");
-            var folderManager = IFolderManagerFactory.IncludeFolderInProjectAsync((path, recursive) => { result = recursive; return Task.CompletedTask; });
+        await storage.CreateFolderAsync("Folder");
 
-            var storage = CreateInstance(folderManager: folderManager, project: project);
+        Assert.False(result);
+    }
 
-            await storage.CreateFolderAsync("Folder");
+    [Theory]
+    [InlineData(@"C:\Project.csproj",           @"Properties\File.cs",                   @"C:\Properties\File.cs")]
+    [InlineData(@"C:\Projects\Project.csproj",  @"Properties\File.cs",                   @"C:\Projects\Properties\File.cs")]
+    [InlineData(@"C:\Projects\Project.csproj",  @"..\Properties\File.cs",                @"C:\Properties\File.cs")]
+    [InlineData(@"C:\Projects\Project.csproj",  @"C:\Properties\File.cs",                @"C:\Properties\File.cs")]
+    [InlineData(@"C:\Projects\Project.csproj",  @"D:\Properties\File.cs",                @"D:\Properties\File.cs")]
+    [InlineData(@"C:\Project.csproj",           @"Properties\Folder\File.cs",            @"C:\Properties\Folder\File.cs")]
+    [InlineData(@"C:\Projects\Project.csproj",  @"Properties\Folder\File.cs",            @"C:\Projects\Properties\Folder\File.cs")]
+    [InlineData(@"C:\Projects\Project.csproj",  @"..\Properties\Folder\File.cs",         @"C:\Properties\Folder\File.cs")]
+    [InlineData(@"C:\Projects\Project.csproj",  @"C:\Properties\Folder\File.cs",         @"C:\Properties\Folder\File.cs")]
+    [InlineData(@"C:\Projects\Project.csproj",  @"D:\Properties\Folder\File.cs",         @"D:\Properties\Folder\File.cs")]
+    [InlineData(@"C:\Project.csproj",           @"Folder With Spaces\File.cs",           @"C:\Folder With Spaces\File.cs")]
+    [InlineData(@"C:\Projects\Project.csproj",  @"Folder With Spaces\Folder\File.cs",    @"C:\Projects\Folder With Spaces\Folder\File.cs")]
+    [InlineData(@"C:\Projects\Project.csproj",  @"..\Folder With Spaces\Folder\File.cs", @"C:\Folder With Spaces\Folder\File.cs")]
+    [InlineData(@"C:\Projects\Project.csproj",  @"C:\Folder With Spaces\Folder\File.cs", @"C:\Folder With Spaces\Folder\File.cs")]
+    [InlineData(@"C:\Projects\Project.csproj",  @"D:\Folder With Spaces\Folder\File.cs", @"D:\Folder With Spaces\Folder\File.cs")]
+    public async Task AddFileAsync_ValueAsPath_IsCalculatedRelativeToProjectDirectory(string projectPath, string input, string expected)
+    {
+        var project = UnconfiguredProjectFactory.Create(fullPath: projectPath);
+        string? result = null;
+        var sourceItemsProvider = IProjectItemProviderFactory.AddItemAsync(path => { result = path; return null!; });
+        var storage = CreateInstance(sourceItemsProvider: sourceItemsProvider, project: project);
 
-            Assert.False(result);
-        }
+        await storage.AddFileAsync(input);
 
-        [Theory]
-        [InlineData(@"C:\Project.csproj",           @"Properties\File.cs",                   @"C:\Properties\File.cs")]
-        [InlineData(@"C:\Projects\Project.csproj",  @"Properties\File.cs",                   @"C:\Projects\Properties\File.cs")]
-        [InlineData(@"C:\Projects\Project.csproj",  @"..\Properties\File.cs",                @"C:\Properties\File.cs")]
-        [InlineData(@"C:\Projects\Project.csproj",  @"C:\Properties\File.cs",                @"C:\Properties\File.cs")]
-        [InlineData(@"C:\Projects\Project.csproj",  @"D:\Properties\File.cs",                @"D:\Properties\File.cs")]
-        [InlineData(@"C:\Project.csproj",           @"Properties\Folder\File.cs",            @"C:\Properties\Folder\File.cs")]
-        [InlineData(@"C:\Projects\Project.csproj",  @"Properties\Folder\File.cs",            @"C:\Projects\Properties\Folder\File.cs")]
-        [InlineData(@"C:\Projects\Project.csproj",  @"..\Properties\Folder\File.cs",         @"C:\Properties\Folder\File.cs")]
-        [InlineData(@"C:\Projects\Project.csproj",  @"C:\Properties\Folder\File.cs",         @"C:\Properties\Folder\File.cs")]
-        [InlineData(@"C:\Projects\Project.csproj",  @"D:\Properties\Folder\File.cs",         @"D:\Properties\Folder\File.cs")]
-        [InlineData(@"C:\Project.csproj",           @"Folder With Spaces\File.cs",           @"C:\Folder With Spaces\File.cs")]
-        [InlineData(@"C:\Projects\Project.csproj",  @"Folder With Spaces\Folder\File.cs",    @"C:\Projects\Folder With Spaces\Folder\File.cs")]
-        [InlineData(@"C:\Projects\Project.csproj",  @"..\Folder With Spaces\Folder\File.cs", @"C:\Folder With Spaces\Folder\File.cs")]
-        [InlineData(@"C:\Projects\Project.csproj",  @"C:\Folder With Spaces\Folder\File.cs", @"C:\Folder With Spaces\Folder\File.cs")]
-        [InlineData(@"C:\Projects\Project.csproj",  @"D:\Folder With Spaces\Folder\File.cs", @"D:\Folder With Spaces\Folder\File.cs")]
-        public async Task AddFileAsync_ValueAsPath_IsCalculatedRelativeToProjectDirectory(string projectPath, string input, string expected)
-        {
-            var project = UnconfiguredProjectFactory.Create(filePath: projectPath);
-            string? result = null;
-            var sourceItemsProvider = IProjectItemProviderFactory.AddItemAsync(path => { result = path; return null!; });
-            var storage = CreateInstance(sourceItemsProvider: sourceItemsProvider, project: project);
+        Assert.Equal(expected, result);
+    }
 
-            await storage.AddFileAsync(input);
+    [Theory]
+    [InlineData(@"C:\Project.csproj",           @"Properties\File.cs",                   @"C:\Properties\File.cs")]
+    [InlineData(@"C:\Projects\Project.csproj",  @"Properties\File.cs",                   @"C:\Projects\Properties\File.cs")]
+    [InlineData(@"C:\Projects\Project.csproj",  @"..\Properties\File.cs",                @"C:\Properties\File.cs")]
+    [InlineData(@"C:\Projects\Project.csproj",  @"C:\Properties\File.cs",                @"C:\Properties\File.cs")]
+    [InlineData(@"C:\Projects\Project.csproj",  @"D:\Properties\File.cs",                @"D:\Properties\File.cs")]
+    [InlineData(@"C:\Project.csproj",           @"Properties\Folder\File.cs",            @"C:\Properties\Folder\File.cs")]
+    [InlineData(@"C:\Projects\Project.csproj",  @"Properties\Folder\File.cs",            @"C:\Projects\Properties\Folder\File.cs")]
+    [InlineData(@"C:\Projects\Project.csproj",  @"..\Properties\Folder\File.cs",         @"C:\Properties\Folder\File.cs")]
+    [InlineData(@"C:\Projects\Project.csproj",  @"C:\Properties\Folder\File.cs",         @"C:\Properties\Folder\File.cs")]
+    [InlineData(@"C:\Projects\Project.csproj",  @"D:\Properties\Folder\File.cs",         @"D:\Properties\Folder\File.cs")]
+    [InlineData(@"C:\Project.csproj",           @"Folder With Spaces\File.cs",           @"C:\Folder With Spaces\File.cs")]
+    [InlineData(@"C:\Projects\Project.csproj",  @"Folder With Spaces\Folder\File.cs",    @"C:\Projects\Folder With Spaces\Folder\File.cs")]
+    [InlineData(@"C:\Projects\Project.csproj",  @"..\Folder With Spaces\Folder\File.cs", @"C:\Folder With Spaces\Folder\File.cs")]
+    [InlineData(@"C:\Projects\Project.csproj",  @"C:\Folder With Spaces\Folder\File.cs", @"C:\Folder With Spaces\Folder\File.cs")]
+    [InlineData(@"C:\Projects\Project.csproj",  @"D:\Folder With Spaces\Folder\File.cs", @"D:\Folder With Spaces\Folder\File.cs")]
+    public async Task CreateEmptyFileAsync_ValueAsPath_IsCalculatedRelativeToProjectDirectory(string projectPath, string input, string expected)
+    {
+        var project = UnconfiguredProjectFactory.Create(fullPath: projectPath);
+        string? result = null;
+        var fileSystem = IFileSystemFactory.ImplementCreate(path => { result = path; });
 
-            Assert.Equal(expected, result);
-        }
+        var storage = CreateInstance(fileSystem: fileSystem, project: project);
 
-        [Theory]
-        [InlineData(@"C:\Project.csproj",           @"Properties\File.cs",                   @"C:\Properties\File.cs")]
-        [InlineData(@"C:\Projects\Project.csproj",  @"Properties\File.cs",                   @"C:\Projects\Properties\File.cs")]
-        [InlineData(@"C:\Projects\Project.csproj",  @"..\Properties\File.cs",                @"C:\Properties\File.cs")]
-        [InlineData(@"C:\Projects\Project.csproj",  @"C:\Properties\File.cs",                @"C:\Properties\File.cs")]
-        [InlineData(@"C:\Projects\Project.csproj",  @"D:\Properties\File.cs",                @"D:\Properties\File.cs")]
-        [InlineData(@"C:\Project.csproj",           @"Properties\Folder\File.cs",            @"C:\Properties\Folder\File.cs")]
-        [InlineData(@"C:\Projects\Project.csproj",  @"Properties\Folder\File.cs",            @"C:\Projects\Properties\Folder\File.cs")]
-        [InlineData(@"C:\Projects\Project.csproj",  @"..\Properties\Folder\File.cs",         @"C:\Properties\Folder\File.cs")]
-        [InlineData(@"C:\Projects\Project.csproj",  @"C:\Properties\Folder\File.cs",         @"C:\Properties\Folder\File.cs")]
-        [InlineData(@"C:\Projects\Project.csproj",  @"D:\Properties\Folder\File.cs",         @"D:\Properties\Folder\File.cs")]
-        [InlineData(@"C:\Project.csproj",           @"Folder With Spaces\File.cs",           @"C:\Folder With Spaces\File.cs")]
-        [InlineData(@"C:\Projects\Project.csproj",  @"Folder With Spaces\Folder\File.cs",    @"C:\Projects\Folder With Spaces\Folder\File.cs")]
-        [InlineData(@"C:\Projects\Project.csproj",  @"..\Folder With Spaces\Folder\File.cs", @"C:\Folder With Spaces\Folder\File.cs")]
-        [InlineData(@"C:\Projects\Project.csproj",  @"C:\Folder With Spaces\Folder\File.cs", @"C:\Folder With Spaces\Folder\File.cs")]
-        [InlineData(@"C:\Projects\Project.csproj",  @"D:\Folder With Spaces\Folder\File.cs", @"D:\Folder With Spaces\Folder\File.cs")]
-        public async Task CreateEmptyFileAsync_ValueAsPath_IsCalculatedRelativeToProjectDirectory(string projectPath, string input, string expected)
-        {
-            var project = UnconfiguredProjectFactory.Create(filePath: projectPath);
-            string? result = null;
-            var fileSystem = IFileSystemFactory.ImplementCreate(path => { result = path; return new MemoryStream(); });
+        await storage.CreateEmptyFileAsync(input);
 
-            var storage = CreateInstance(fileSystem: fileSystem, project: project);
+        Assert.Equal(expected, result);
+    }
 
-            await storage.CreateEmptyFileAsync(input);
+    [Theory]
+    [InlineData(@"C:\Project.csproj",           @"Properties",                   @"C:\Properties")]
+    [InlineData(@"C:\Projects\Project.csproj",  @"Properties",                   @"C:\Projects\Properties")]
+    [InlineData(@"C:\Projects\Project.csproj",  @"..\Properties",                @"C:\Properties")]
+    [InlineData(@"C:\Projects\Project.csproj",  @"C:\Properties",                @"C:\Properties")]
+    [InlineData(@"C:\Projects\Project.csproj",  @"D:\Properties",                @"D:\Properties")]
+    [InlineData(@"C:\Project.csproj",           @"Properties\Folder",            @"C:\Properties\Folder")]
+    [InlineData(@"C:\Projects\Project.csproj",  @"Properties\Folder",            @"C:\Projects\Properties\Folder")]
+    [InlineData(@"C:\Projects\Project.csproj",  @"..\Properties\Folder",         @"C:\Properties\Folder")]
+    [InlineData(@"C:\Projects\Project.csproj",  @"C:\Properties\Folder",         @"C:\Properties\Folder")]
+    [InlineData(@"C:\Projects\Project.csproj",  @"D:\Properties\Folder",         @"D:\Properties\Folder")]
+    [InlineData(@"C:\Project.csproj",           @"Folder With Spaces",           @"C:\Folder With Spaces")]
+    [InlineData(@"C:\Projects\Project.csproj",  @"Folder With Spaces\Folder",    @"C:\Projects\Folder With Spaces\Folder")]
+    [InlineData(@"C:\Projects\Project.csproj",  @"..\Folder With Spaces\Folder", @"C:\Folder With Spaces\Folder")]
+    [InlineData(@"C:\Projects\Project.csproj",  @"C:\Folder With Spaces\Folder", @"C:\Folder With Spaces\Folder")]
+    [InlineData(@"C:\Projects\Project.csproj",  @"D:\Folder With Spaces\Folder", @"D:\Folder With Spaces\Folder")]
+    public async Task CreateFolderAsync_ValueAsPath_IsCalculatedRelativeToProjectDirectory(string projectPath, string input, string expected)
+    {
+        var project = UnconfiguredProjectFactory.Create(fullPath: projectPath);
+        string? result = null;
+        var fileSystem = IFileSystemFactory.ImplementCreateDirectory(path => { result = path; });
 
-            Assert.Equal(expected, result);
-        }
+        var storage = CreateInstance(fileSystem: fileSystem, project: project);
 
-        [Theory]
-        [InlineData(@"C:\Project.csproj",           @"Properties",                   @"C:\Properties")]
-        [InlineData(@"C:\Projects\Project.csproj",  @"Properties",                   @"C:\Projects\Properties")]
-        [InlineData(@"C:\Projects\Project.csproj",  @"..\Properties",                @"C:\Properties")]
-        [InlineData(@"C:\Projects\Project.csproj",  @"C:\Properties",                @"C:\Properties")]
-        [InlineData(@"C:\Projects\Project.csproj",  @"D:\Properties",                @"D:\Properties")]
-        [InlineData(@"C:\Project.csproj",           @"Properties\Folder",            @"C:\Properties\Folder")]
-        [InlineData(@"C:\Projects\Project.csproj",  @"Properties\Folder",            @"C:\Projects\Properties\Folder")]
-        [InlineData(@"C:\Projects\Project.csproj",  @"..\Properties\Folder",         @"C:\Properties\Folder")]
-        [InlineData(@"C:\Projects\Project.csproj",  @"C:\Properties\Folder",         @"C:\Properties\Folder")]
-        [InlineData(@"C:\Projects\Project.csproj",  @"D:\Properties\Folder",         @"D:\Properties\Folder")]
-        [InlineData(@"C:\Project.csproj",           @"Folder With Spaces",           @"C:\Folder With Spaces")]
-        [InlineData(@"C:\Projects\Project.csproj",  @"Folder With Spaces\Folder",    @"C:\Projects\Folder With Spaces\Folder")]
-        [InlineData(@"C:\Projects\Project.csproj",  @"..\Folder With Spaces\Folder", @"C:\Folder With Spaces\Folder")]
-        [InlineData(@"C:\Projects\Project.csproj",  @"C:\Folder With Spaces\Folder", @"C:\Folder With Spaces\Folder")]
-        [InlineData(@"C:\Projects\Project.csproj",  @"D:\Folder With Spaces\Folder", @"D:\Folder With Spaces\Folder")]
-        public async Task CreateFolderAsync_ValueAsPath_IsCalculatedRelativeToProjectDirectory(string projectPath, string input, string expected)
-        {
-            var project = UnconfiguredProjectFactory.Create(filePath: projectPath);
-            string? result = null;
-            var fileSystem = IFileSystemFactory.ImplementCreateDirectory(path => { result = path; });
+        await storage.CreateFolderAsync(input);
 
-            var storage = CreateInstance(fileSystem: fileSystem, project: project);
+        Assert.Equal(expected, result);
+    }
 
-            await storage.CreateFolderAsync(input);
+    [Theory]
+    [InlineData(@"C:\Project.csproj",           @"Properties",                   @"C:\Properties")]
+    [InlineData(@"C:\Projects\Project.csproj",  @"Properties",                   @"C:\Projects\Properties")]
+    [InlineData(@"C:\Projects\Project.csproj",  @"..\Properties",                @"C:\Properties")]
+    [InlineData(@"C:\Projects\Project.csproj",  @"C:\Properties",                @"C:\Properties")]
+    [InlineData(@"C:\Projects\Project.csproj",  @"D:\Properties",                @"D:\Properties")]
+    [InlineData(@"C:\Project.csproj",           @"Properties\Folder",            @"C:\Properties\Folder")]
+    [InlineData(@"C:\Projects\Project.csproj",  @"Properties\Folder",            @"C:\Projects\Properties\Folder")]
+    [InlineData(@"C:\Projects\Project.csproj",  @"..\Properties\Folder",         @"C:\Properties\Folder")]
+    [InlineData(@"C:\Projects\Project.csproj",  @"C:\Properties\Folder",         @"C:\Properties\Folder")]
+    [InlineData(@"C:\Projects\Project.csproj",  @"D:\Properties\Folder",         @"D:\Properties\Folder")]
+    [InlineData(@"C:\Project.csproj",           @"Folder With Spaces",           @"C:\Folder With Spaces")]
+    [InlineData(@"C:\Projects\Project.csproj",  @"Folder With Spaces\Folder",    @"C:\Projects\Folder With Spaces\Folder")]
+    [InlineData(@"C:\Projects\Project.csproj",  @"..\Folder With Spaces\Folder", @"C:\Folder With Spaces\Folder")]
+    [InlineData(@"C:\Projects\Project.csproj",  @"C:\Folder With Spaces\Folder", @"C:\Folder With Spaces\Folder")]
+    [InlineData(@"C:\Projects\Project.csproj",  @"D:\Folder With Spaces\Folder", @"D:\Folder With Spaces\Folder")]
+    public async Task AddFolderAsync_ValueAsPath_IsCalculatedRelativeToProjectDirectory(string projectPath, string input, string expected)
+    {
+        var project = UnconfiguredProjectFactory.Create(fullPath: projectPath);
+        string? result = null;
+        var folderManager = IFolderManagerFactory.IncludeFolderInProjectAsync((path, _) => { result = path; });
 
-            Assert.Equal(expected, result);
-        }
+        var storage = CreateInstance(folderManager: folderManager, project: project);
 
-        [Theory]
-        [InlineData(@"C:\Project.csproj",           @"Properties",                   @"C:\Properties")]
-        [InlineData(@"C:\Projects\Project.csproj",  @"Properties",                   @"C:\Projects\Properties")]
-        [InlineData(@"C:\Projects\Project.csproj",  @"..\Properties",                @"C:\Properties")]
-        [InlineData(@"C:\Projects\Project.csproj",  @"C:\Properties",                @"C:\Properties")]
-        [InlineData(@"C:\Projects\Project.csproj",  @"D:\Properties",                @"D:\Properties")]
-        [InlineData(@"C:\Project.csproj",           @"Properties\Folder",            @"C:\Properties\Folder")]
-        [InlineData(@"C:\Projects\Project.csproj",  @"Properties\Folder",            @"C:\Projects\Properties\Folder")]
-        [InlineData(@"C:\Projects\Project.csproj",  @"..\Properties\Folder",         @"C:\Properties\Folder")]
-        [InlineData(@"C:\Projects\Project.csproj",  @"C:\Properties\Folder",         @"C:\Properties\Folder")]
-        [InlineData(@"C:\Projects\Project.csproj",  @"D:\Properties\Folder",         @"D:\Properties\Folder")]
-        [InlineData(@"C:\Project.csproj",           @"Folder With Spaces",           @"C:\Folder With Spaces")]
-        [InlineData(@"C:\Projects\Project.csproj",  @"Folder With Spaces\Folder",    @"C:\Projects\Folder With Spaces\Folder")]
-        [InlineData(@"C:\Projects\Project.csproj",  @"..\Folder With Spaces\Folder", @"C:\Folder With Spaces\Folder")]
-        [InlineData(@"C:\Projects\Project.csproj",  @"C:\Folder With Spaces\Folder", @"C:\Folder With Spaces\Folder")]
-        [InlineData(@"C:\Projects\Project.csproj",  @"D:\Folder With Spaces\Folder", @"D:\Folder With Spaces\Folder")]
-        public async Task AddFolderAsync_ValueAsPath_IsCalculatedRelativeToProjectDirectory(string projectPath, string input, string expected)
-        {
-            var project = UnconfiguredProjectFactory.Create(filePath: projectPath);
-            string? result = null;
-            var folderManager = IFolderManagerFactory.IncludeFolderInProjectAsync((path, _) => { result = path; });
+        await storage.AddFolderAsync(input);
 
-            var storage = CreateInstance(folderManager: folderManager, project: project);
+        Assert.Equal(expected, result);
+    }
 
-            await storage.AddFolderAsync(input);
+    private static PhysicalProjectTreeStorage CreateInstance(IProjectTreeService? projectTreeService = null, IProjectItemProvider? sourceItemsProvider = null, IFileSystem? fileSystem = null, IFolderManager? folderManager = null, UnconfiguredProject? project = null)
+    {
+        projectTreeService ??= IProjectTreeServiceFactory.Create(ProjectTreeParser.Parse("Root"));
+        fileSystem ??= IFileSystemFactory.Create();
+        folderManager ??= IFolderManagerFactory.Create();
+        sourceItemsProvider ??= IProjectItemProviderFactory.Create();
+        project ??= UnconfiguredProjectFactory.Create();
 
-            Assert.Equal(expected, result);
-        }
-
-        private static PhysicalProjectTreeStorage CreateInstance(IProjectTreeService? projectTreeService = null, IProjectItemProvider? sourceItemsProvider = null, IFileSystem? fileSystem = null, IFolderManager? folderManager = null, UnconfiguredProject? project = null)
-        {
-            projectTreeService ??= IProjectTreeServiceFactory.Create(ProjectTreeParser.Parse("Root"));
-            fileSystem ??= IFileSystemFactory.Create();
-            folderManager ??= IFolderManagerFactory.Create();
-            sourceItemsProvider ??= IProjectItemProviderFactory.Create();
-            project ??= UnconfiguredProjectFactory.Create();
-
-            return new PhysicalProjectTreeStorage(
-                project,
-                projectTreeService,
-                new Lazy<IFileSystem>(() => fileSystem),
-                ActiveConfiguredProjectFactory.ImplementValue(() => new PhysicalProjectTreeStorage.ConfiguredImports(folderManager, sourceItemsProvider)));
-        }
+        return new PhysicalProjectTreeStorage(
+            project,
+            projectTreeService,
+            new Lazy<IFileSystem>(() => fileSystem),
+            IActiveConfiguredValueFactory.ImplementValue(() => new PhysicalProjectTreeStorage.ConfiguredImports(folderManager, sourceItemsProvider)));
     }
 }

@@ -1,4 +1,4 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Option Infer On
 Imports System.IO
@@ -129,7 +129,6 @@ Namespace Microsoft.VisualStudio.Editors.XmlToSchema
             End Using
         End Sub
 
-        <System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")>
         Private Sub _okButtonClick(sender As Object, e As EventArgs) Handles _okButton.Click
             If _listView.Items.Count = 0 Then
                 Return
@@ -180,7 +179,7 @@ Namespace Microsoft.VisualStudio.Editors.XmlToSchema
             End Try
         End Sub
 
-        Private Function GetXmlTextReaderWithDtdProcessingProhibited(element As String) As XmlTextReader
+        Private Shared Function GetXmlTextReaderWithDtdProcessingProhibited(element As String) As XmlTextReader
             ' Required by Fxcop rule CA3054 - DoNotAllowDTDXmlTextReader
             Return New XmlTextReader(element) With {
                 .DtdProcessing = DtdProcessing.Prohibit

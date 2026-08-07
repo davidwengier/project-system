@@ -1,25 +1,20 @@
-﻿// Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿// Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
-using System.Collections.Immutable;
-using Moq;
+namespace Microsoft.VisualStudio.ProjectSystem;
 
-namespace Microsoft.VisualStudio.ProjectSystem
+internal static class IDataProgressTrackerServiceRegistrationFactory
 {
-    internal static class IDataProgressTrackerServiceRegistrationFactory
+    public static IDataProgressTrackerServiceRegistration Create()
     {
-        public static IDataProgressTrackerServiceRegistration Create()
-        {
-            return ImplementNotifyOutputDataCalculated(_ => { });
-        }
+        return ImplementNotifyOutputDataCalculated(_ => { });
+    }
 
-        public static IDataProgressTrackerServiceRegistration ImplementNotifyOutputDataCalculated(Action<IImmutableDictionary<NamedIdentity, IComparable>> action)
-        {
-            var mock = new Mock<IDataProgressTrackerServiceRegistration>();
-            mock.Setup(s => s.NotifyOutputDataCalculated(It.IsAny<IImmutableDictionary<NamedIdentity, IComparable>>()))
-               .Callback(action);
+    public static IDataProgressTrackerServiceRegistration ImplementNotifyOutputDataCalculated(Action<IImmutableDictionary<NamedIdentity, IComparable>> action)
+    {
+        var mock = new Mock<IDataProgressTrackerServiceRegistration>();
+        mock.Setup(s => s.NotifyOutputDataCalculated(It.IsAny<IImmutableDictionary<NamedIdentity, IComparable>>()))
+           .Callback(action);
 
-            return mock.Object;
-        }
+        return mock.Object;
     }
 }

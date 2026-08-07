@@ -1,4 +1,4 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Imports Microsoft.VisualStudio.ManagedInterfaces.ProjectDesigner
 
@@ -22,7 +22,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
         Private ReadOnly _wrappedUndoSite As IVsProjectDesignerPageSite    'May be Nothing
         Private ReadOnly _nestedPropertyNamePrefix As String               'Prefix string to be placed at the beginning of PropertyName to distinguish properties from the page hosted by this child page site
 
-
         ''' <summary>
         ''' Constructor.
         ''' </summary>
@@ -43,7 +42,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             _nestedPropertyNamePrefix = childPage.GetType.FullName & NestingCharacter
         End Sub
 
-
         ''' <summary>
         ''' Returns whether or not the property page hosted in this site should be with 
         '''   immediate-apply mode or not)
@@ -55,7 +53,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
                 Return False
             End Get
         End Property
-
 
         ''' <summary>
         ''' Delegate to the wrapped site
@@ -86,10 +83,9 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
         '''   before the page does.  Return S_OK to indicate we have handled it, S_FALSE to indicate we did not
         '''   process it, and E_NOTIMPL to indicate that the site does not support keyboard processing.
         ''' </remarks>
-        Public Function TranslateAccelerator(msg As Windows.Forms.Message) As Integer Implements IPropertyPageSiteInternal.TranslateAccelerator
+        Public Function TranslateAccelerator(msg As System.Windows.Forms.Message) As Integer Implements IPropertyPageSiteInternal.TranslateAccelerator
             Return _wrappedInternalSite.TranslateAccelerator(msg)
         End Function
-
 
 #Region "Undo/redo support for child pages"
 
@@ -107,7 +103,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             Return Nothing
         End Function
 
-
         ''' <summary>
         ''' Called by the child page when a change occurs on the page (during Apply).
         ''' </summary>
@@ -121,7 +116,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             End If
         End Sub
 
-
         ''' <summary>
         ''' Called by the child page when a change occurs on the page (during Apply).
         ''' </summary>
@@ -132,7 +126,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
                 _wrappedUndoSite.OnPropertyChanging(MungePropertyName(propertyName), propertyDescriptor)
             End If
         End Sub
-
 
         ''' <summary>
         ''' Munges a property name into a form that combines that type name of the child page that the

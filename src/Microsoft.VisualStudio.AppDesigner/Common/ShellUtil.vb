@@ -1,4 +1,4 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Imports System.Drawing
 Imports System.Windows.Forms
@@ -31,7 +31,6 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
         Public Shared Function GetColor(VsUIShell As IVsUIShell, VsSysColorIndex As __VSSYSCOLOREX, DefaultColor As Color) As Color
             Return GetColor(TryCast(VsUIShell, IVsUIShell2), VsSysColorIndex, DefaultColor)
         End Function
-
 
         ''' <summary>
         ''' Gets a color from the shell's color service.  If for some reason this fails, returns the supplied
@@ -123,7 +122,6 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
             Debug.Assert(ConfigName <> "" AndAlso PlatformName <> "")
         End Sub
 
-
         ''' <summary>
         ''' Returns whether or not we're in simplified config mode for this project, which means that
         '''   we hide the configuration/platform comboboxes.
@@ -142,7 +140,6 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
 
             Return False 'Default to advanced configs
         End Function
-
 
         ''' <summary>
         ''' Returns whether it's permissible to hide configurations for this project.  This should normally
@@ -203,7 +200,6 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
             Return ShowValue
         End Function
 
-
         ''' <summary>
         ''' Given an IVsHierarchy, fetch the DTE Project for it, if it exists.  For project types that 
         '''   don't support this, returns Nothing (e.g. C++).
@@ -241,7 +237,6 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
                 _serviceProvider = sp
                 ConnectBroadcastEvents()
             End Sub
-
 
 #Region "Helper methods to advise/unadvise broadcast messages from the IVsShell service"
 
@@ -292,7 +287,7 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
 
 #Region "Standard dispose pattern - the only thing we need to do is to unadvise events..."
 
-            Private _disposed As Boolean = False
+            Private _disposed As Boolean
 
             ' IDisposable
             Private Overloads Sub Dispose(disposing As Boolean)
@@ -303,8 +298,6 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
                 End If
                 _disposed = True
             End Sub
-
-
 
 #Region " IDisposable Support "
             ' This code added by Visual Basic to correctly implement the disposable pattern.

@@ -1,147 +1,159 @@
-﻿// Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿// Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Text.RegularExpressions;
+using Microsoft.VisualStudio.ProjectSystem.VS.Rules;
 using Microsoft.VisualStudio.Utilities;
-using Xunit;
 using Xunit.Abstractions;
 
-namespace Microsoft.VisualStudio.Setup
+namespace Microsoft.VisualStudio.Setup;
+
+public sealed class SwrTests
 {
-    public sealed class SwrTests
+    private static readonly Regex _swrFolderPattern = new(@"^\s*folder\s+""(?<path>[^""]+)""\s*$", RegexOptions.Compiled | RegexOptions.ExplicitCapture);
+    private static readonly Regex _swrFilePattern = new(@"^\s*file\s+source=""(?<path>[^""]+)""\s*$", RegexOptions.Compiled | RegexOptions.ExplicitCapture);
+    private static readonly Regex _xlfFilePattern = new(@"^(?<filename>.+\.xaml)\.(?<culture>[^.]+)\.xlf$", RegexOptions.Compiled | RegexOptions.ExplicitCapture);
+
+    private readonly ITestOutputHelper _output;
+
+    private const string _xamlFolderPrefix = @"InstallDir:MSBuild\Microsoft\VisualStudio\Managed";
+    private const string _xamlFilePrefix = @"$(VisualStudioXamlRulesDir)";
+
+    public SwrTests(ITestOutputHelper output) => _output = output;
+
+    [Fact]
+    public void CommonFiles_ContainsAllXamlFiles()
     {
-        private static readonly Regex _swrFolderPattern = new Regex(@"^\s*folder\s+""(?<path>[^""]+)""\s*$", RegexOptions.Compiled);
-        private static readonly Regex _swrFilePattern = new Regex(@"^\s*file\s+source=""(?<path>[^""]+)""\s*$", RegexOptions.Compiled);
-        private static readonly Regex _xlfFilePattern = new Regex(@"^(?<filename>.+\.xaml)\.(?<culture>[^.]+)\.xlf$", RegexOptions.Compiled);
+        var rootPath = RepoUtil.FindRepoRootPath();
 
-        private readonly ITestOutputHelper _output;
+        var commonFilesFileName = "CommonFiles.swr";
+        var swrPath = Path.Combine(
+            rootPath,
+            "setup",
+            "Microsoft.VisualStudio.ProjectSystem.Managed.CommonFiles",
+            commonFilesFileName);
 
-        public SwrTests(ITestOutputHelper output) => _output = output;
+        var setupFilesByCulture = ReadSwrFiles(swrPath)
+            .Select(ParseSwrFile)
+            .Where(pair => pair.File.EndsWith(".xaml", StringComparison.OrdinalIgnoreCase))
+            .ToLookup(pair => pair.Culture, pair => pair.File);
 
-        [Fact]
-        public void CommonFiles_ContainsAllXamlFiles()
+        var rulesPath1 = Path.Combine(
+            rootPath,
+            "src",
+            "Microsoft.VisualStudio.ProjectSystem.Managed",
+            "ProjectSystem",
+            "Rules");
+        var rulesPath2 = Path.Combine(
+            rootPath,
+            "src",
+            "Microsoft.VisualStudio.ProjectSystem.Managed.VS",
+            "ProjectSystem",
+            "VS",
+            "Rules");
+
+        var ruleFilesByCulture = Directory.EnumerateFiles(rulesPath1, "*", SearchOption.AllDirectories)
+            .Concat(Directory.EnumerateFiles(rulesPath2, "*", SearchOption.AllDirectories))
+            .Select(ParseRepoFile)
+            .Where(pair => pair.Culture is not null)
+            .ToLookup(pair => pair.Culture!, pair => pair.File);
+
+        var setupCultures = setupFilesByCulture.Select(p => p.Key).ToList();
+        var ruleCultures = ruleFilesByCulture.Select(p => p.Key).ToList();
+
+        Assert.True(
+            setupCultures.ToHashSet().SetEquals(ruleCultures),
+            "Set of cultures must match.");
+
+        var guilty = false;
+
+        foreach (var culture in setupCultures)
         {
-            var rootPath = RepoUtil.FindRepoRootPath();
+            var setupFiles = setupFilesByCulture[culture];
+            var ruleFiles = ruleFilesByCulture[culture];
 
-            var swrPath = Path.Combine(
-                rootPath,
-                "setup",
-                "Microsoft.VisualStudio.ProjectSystem.Managed.CommonFiles",
-                "CommonFiles.swr");
+            var embeddedRules = RuleServices.GetAllEmbeddedRules()
+                                            .Select(name => name + ".xaml")
+                                            .ToList();
 
-            var setupFilesByCulture = ReadSwrFiles(swrPath)
-                .Select(ParseSwrFile)
-                .Where(pair => pair.File.EndsWith(".xaml", StringComparison.OrdinalIgnoreCase))
-                .ToLookup(pair => pair.Culture, pair => pair.File);
+            // Exclude the ones that are embedded, they won't be installed
+            ruleFiles = ruleFiles.Except(embeddedRules).ToList();
 
-            var rulesPath = Path.Combine(
-                rootPath,
-                "src",
-                "Microsoft.VisualStudio.ProjectSystem.Managed",
-                "ProjectSystem",
-                "Rules");
-
-            var ruleFilesByCulture = Directory.EnumerateFiles(rulesPath, "*", SearchOption.AllDirectories)
-                .Select(ParseRepoFile)
-                .Where(pair => pair.Culture != null)
-                .ToLookup(pair => pair.Culture, pair => pair.File);
-
-            var setupCultures = setupFilesByCulture.Select(p => p.Key);
-            var ruleCultures = ruleFilesByCulture.Select(p => p.Key);
-
-            Assert.True(
-                setupCultures.ToHashSet().SetEquals(ruleCultures!),
-                "Set of cultures must match.");
-
-            var guilty = false;
-
-            foreach (var culture in setupCultures)
+            foreach (var missing in ruleFiles.Except(setupFiles, StringComparer.OrdinalIgnoreCase))
             {
-                var setupFiles = setupFilesByCulture[culture];
-                var ruleFiles = ruleFilesByCulture[culture];
-
-                foreach (var missing in ruleFiles.Except(setupFiles, StringComparer.OrdinalIgnoreCase))
-                {
-                    guilty = true;
-                    _output.WriteLine($"- Missing file {missing} in culture {culture}");
-                }
-
-                foreach (var extra in setupFiles.Except(ruleFiles, StringComparer.OrdinalIgnoreCase))
-                {
-                    guilty = true;
-                    _output.WriteLine($"- Extra file {extra} in culture {culture}");
-                }
+                guilty = true;
+                _output.WriteLine($"- Missing file {missing} in culture {culture}");
             }
 
-            Assert.False(guilty, "See test output for details");
-
-            return;
-
-            static (string Culture, string File) ParseSwrFile((string Folder, string File) item)
+            foreach (var extra in setupFiles.Except(ruleFiles, StringComparer.OrdinalIgnoreCase))
             {
-                const string folderPrefix = @"InstallDir:MSBuild\Microsoft\VisualStudio\Managed";
-                const string filePrefix = @"$(VisualStudioXamlRulesDir)";
-
-                Assert.StartsWith(folderPrefix, item.Folder);
-                Assert.StartsWith(filePrefix, item.File);
-
-                var culture = item.Folder.Substring(folderPrefix.Length).TrimStart('\\');
-                var fileName = culture.Length == 0
-                    ? item.File.Substring(filePrefix.Length)
-                    : item.File.Substring(filePrefix.Length + culture.Length + 1);
-
-                return (culture, fileName);
+                guilty = true;
+                _output.WriteLine($"- Extra file {extra} in culture {culture}");
             }
+        }
 
-            static (string? Culture, string? File) ParseRepoFile(string path)
-            {
-                var fileName = Path.GetFileName(path);
+        Assert.False(guilty, $"There are setup errors in {commonFilesFileName}. See test output for details.");
 
-                if (fileName.EndsWith(".xaml", StringComparison.OrdinalIgnoreCase))
-                {
-                    return ("", fileName);
-                }
+        return;
 
-                var match = _xlfFilePattern.Match(fileName);
-
-                if (match.Success)
-                {
-                    return (match.Groups["culture"].Value, match.Groups["filename"].Value);
-                }
-
-                return (null, null);
-            }
-        }        
-
-        private static IEnumerable<(string Folder, string File)> ReadSwrFiles(string path)
+        static (string Culture, string File) ParseSwrFile((string Folder, string File) item)
         {
-            // Parse data with the following structure repeated.
-            // There may be other lines in the file which are ignored for our purposes.
-            //
-            // folder "folder\path"
-            //   file source = "file\path1"
-            //   file source = "file\path2"
+            var culture = item.Folder.Substring(_xamlFolderPrefix.Length).TrimStart('\\');
+            var fileName = culture.Length == 0
+                ? item.File.Substring(_xamlFilePrefix.Length)
+                : item.File.Substring(_xamlFilePrefix.Length + culture.Length + 1);
 
-            string? folder = null;
+            return (culture, fileName);
+        }
 
-            foreach (var line in File.ReadLines(path))
+        static (string? Culture, string? File) ParseRepoFile(string path)
+        {
+            var fileName = Path.GetFileName(path);
+
+            if (fileName.EndsWith(".xaml", StringComparison.OrdinalIgnoreCase))
             {
-                var folderMatch = _swrFolderPattern.Match(line);
-                if (folderMatch.Success)
-                {
-                    folder = folderMatch.Groups["path"].Value;
-                    continue;
-                }
+                return ("", fileName);
+            }
 
-                var fileMatch = _swrFilePattern.Match(line);
-                if (fileMatch.Success)
+            var match = _xlfFilePattern.Match(fileName);
+
+            if (match.Success)
+            {
+                return (match.Groups["culture"].Value, match.Groups["filename"].Value);
+            }
+
+            return (null, null);
+        }
+    }
+
+    private static IEnumerable<(string Folder, string File)> ReadSwrFiles(string path)
+    {
+        // Parse data with the following structure repeated.
+        // There may be other lines in the file which are ignored for our purposes.
+        //
+        // folder "folder\path"
+        //   file source = "file\path1"
+        //   file source = "file\path2"
+
+        string? folder = null;
+
+        foreach (var line in File.ReadLines(path))
+        {
+            var folderMatch = _swrFolderPattern.Match(line);
+            if (folderMatch.Success)
+            {
+                folder = folderMatch.Groups["path"].Value;
+                continue;
+            }
+
+            var fileMatch = _swrFilePattern.Match(line);
+            if (fileMatch.Success)
+            {
+                if (folder is null)
+                    throw new FileFormatException("'file' entry appears before a 'folder' entry.");
+                var file = fileMatch.Groups["path"].Value;
+
+                if (folder.StartsWith(_xamlFolderPrefix) && file.StartsWith(_xamlFilePrefix))
                 {
-                    if (folder == null)
-                        throw new FileFormatException("'file' entry appears before a 'folder' entry.");
-                    var file = fileMatch.Groups["path"].Value;
                     yield return (folder, file);
                 }
             }

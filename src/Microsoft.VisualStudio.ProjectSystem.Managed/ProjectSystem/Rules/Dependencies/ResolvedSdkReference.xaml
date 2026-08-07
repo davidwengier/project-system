@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information. -->
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
 <Rule Name="ResolvedSdkReference"
       Description="SDK Reference Properties"
-      DisplayName="Resolved SDK Reference"
+      DisplayName="SDK Reference"
       PageTemplate="generic"
       xmlns="http://schemas.microsoft.com/build/2009/properties">
   <Rule.DataSource>
@@ -17,6 +17,17 @@
   <StringProperty Name="AppXLocation"
                   DisplayName="App Package Location"
                   ReadOnly="True" />
+  
+  <StringProperty Name="BrowsePath"
+                  ReadOnly="True"
+                  Visible="False">
+    <StringProperty.DataSource>
+      <DataSource ItemType="SDKReference"
+                  PersistedName="Identity"
+                  Persistence="Intrinsic"
+                  SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
 
   <BoolProperty Name="CopyLocalExpandedReferenceAssemblies"
                 DisplayName="Copy Local Expanded Reference Assemblies"

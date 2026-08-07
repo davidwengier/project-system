@@ -181,25 +181,25 @@
     <value>The errors on the page must be corrected prior to saving your changes.</value>
   </data>
   <data name="AddBtn" xml:space="preserve">
-    <value>Add</value>
+    <value>_Add</value>
   </data>
   <data name="ApplicationArguments" xml:space="preserve">
-    <value>Application arguments:</value>
+    <value>Application ar_guments:</value>
   </data>
   <data name="BrowseBtn" xml:space="preserve">
-    <value>Browse...</value>
+    <value>_Browse...</value>
   </data>
   <data name="DeleteBtn" xml:space="preserve">
-    <value>Delete</value>
+    <value>_Delete</value>
   </data>
   <data name="EnvironmentVariables" xml:space="preserve">
-    <value>Environment variables:</value>
+    <value>Environ_ment variables:</value>
   </data>
   <data name="Executable" xml:space="preserve">
-    <value>Executable:</value>
+    <value>_Executable:</value>
   </data>
   <data name="Launch" xml:space="preserve">
-    <value>Launch:</value>
+    <value>_Launch:</value>
   </data>
   <data name="LaunchURL" xml:space="preserve">
     <value>Launch browser:</value>
@@ -208,19 +208,19 @@
     <value>Name</value>
   </data>
   <data name="NewBtn" xml:space="preserve">
-    <value>New...</value>
+    <value>_New...</value>
   </data>
   <data name="Profile" xml:space="preserve">
-    <value>Profile:</value>
+    <value>_Profile:</value>
   </data>
   <data name="RemoveBtn" xml:space="preserve">
-    <value>Remove</value>
+    <value>_Remove</value>
   </data>
   <data name="ValueHeader" xml:space="preserve">
     <value>Value</value>
   </data>
   <data name="WorkingDirectory" xml:space="preserve">
-    <value>Working directory:</value>
+    <value>_Working directory:</value>
   </data>
   <data name="CancelBtn" xml:space="preserve">
     <value>Cancel</value>
@@ -247,16 +247,16 @@
     <value>Create the profile and return to the debug property page with the new profile selected</value>
   </data>
   <data name="chkNativeCodeDebuggingText" xml:space="preserve">
-    <value>Enable native code debugging</value>
+    <value>Enable nati_ve code debugging</value>
   </data>
   <data name="chkSqlCodeDebuggingText" xml:space="preserve">
-    <value>Enable SQL Server debugging</value>
+    <value>Enable _SQL Server debugging</value>
   </data>
   <data name="chkRemoteDebugEnabledHelpText" xml:space="preserve">
     <value>Enable remote debugging</value>
   </data>
   <data name="RemoteDebug" xml:space="preserve">
-    <value>Use remote m_achine:</value>
+    <value>_Use remote machine:</value>
   </data>
   <data name="RemoteDebugMachineWatermark" xml:space="preserve">
     <value>Remote machine host name</value>
@@ -266,5 +266,46 @@
   </data>
   <data name="InvalidHostName" xml:space="preserve">
     <value>The host name is invalid.</value>
+  </data>
+  <data name="FindBtn" xml:space="preserve">
+    <value>_Find...</value>
+  </data>
+  <data name="AuthenticationMode" xml:space="preserve">
+    <value>Au_thentication mode:</value>
+  </data>
+  <data name="chkJSWebView2DebuggingText" xml:space="preserve">
+    <value>Enable JavaScript debugger for Microsoft Edge (Chromium) based WebView2</value>
+  </data>
+  <data name="JSWebView2DebuggingAdditionalText" xml:space="preserve">
+    <value>(Requires the JavaScript Diagnostics component)</value>
+  </data>
+  <data name="ImplicitUsingEditor_AddUsing" xml:space="preserve">
+    <value>Using</value>
+    <comment>Refers to the implicit using "includes" that will be added</comment>
+  </data>
+  <data name="ImplicitUsingEditor_AddUsingButton" xml:space="preserve">
+    <value>Add Using</value>
+  </data>
+  <data name="ImplicitUsingEditor_ListItemIncludes" xml:space="preserve">
+    <value>Using Includes</value>
+    <comment>Refers to the implicit using "Includes" text when displayed as a list item</comment>
+  </data>
+  <data name="ImplicitUsingEditor_ListItemAlias" xml:space="preserve">
+    <value>Alias</value>
+    <comment>Refers to the implicit using "Alias" text when displayed as a list item</comment>
+  </data>
+  <data name="ImplicitUsingEditor_ListItemIsStatic" xml:space="preserve">
+    <value>Static</value>
+    <comment>Refers to the implicit using "Static" value when displayed as a list item</comment>
+  </data>
+  <data name="ImplicitUsingEditor_ListItemDelete" xml:space="preserve">
+    <value>Delete</value>
+    <comment>The action of deleting an implicit using list item</comment>
+  </data>
+  <data name="ImplicitUsingEditor_ListViewAccessibleName" xml:space="preserve">
+    <value>Implicit global usings list</value>
+  </data>
+  <data name="ImplicitUsingEditor_ShowImportedUsingsButton" xml:space="preserve">
+    <value>Show imported usings</value>
   </data>
 </root>

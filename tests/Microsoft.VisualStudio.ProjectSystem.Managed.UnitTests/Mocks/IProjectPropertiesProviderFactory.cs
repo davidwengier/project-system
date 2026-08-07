@@ -1,28 +1,26 @@
-﻿// Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿// Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using Microsoft.VisualStudio.ProjectSystem.Properties;
-using Moq;
 
-namespace Microsoft.VisualStudio.ProjectSystem
+namespace Microsoft.VisualStudio.ProjectSystem;
+
+internal static class IProjectPropertiesProviderFactory
 {
-    internal static class IProjectPropertiesProviderFactory
+    public static IProjectPropertiesProvider Create(IProjectProperties? props = null, IProjectProperties? commonProps = null)
     {
-        public static IProjectPropertiesProvider Create(IProjectProperties? props = null, IProjectProperties? commonProps = null)
+        var mock = new Mock<IProjectPropertiesProvider>();
+
+        if (props is not null)
         {
-            var mock = new Mock<IProjectPropertiesProvider>();
-
-            if (props != null)
-            {
-                mock.Setup(t => t.GetProperties(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
-                                .Returns(props);
-            }
-
-            if (commonProps != null)
-            {
-                mock.Setup(t => t.GetCommonProperties()).Returns(commonProps);
-            }
-
-            return mock.Object;
+            mock.Setup(t => t.GetProperties(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+                            .Returns(props);
         }
+
+        if (commonProps is not null)
+        {
+            mock.Setup(t => t.GetCommonProperties()).Returns(commonProps);
+        }
+
+        return mock.Object;
     }
 }

@@ -1,4 +1,4 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Option Strict On
 Option Explicit On
@@ -8,7 +8,6 @@ Imports System.Windows.Forms
 Imports Microsoft.VisualStudio.Editors.Common
 
 Namespace Microsoft.VisualStudio.Editors.DesignerFramework
-
 
     ''' <summary>
     ''' In case we're building an editor, the editor's view will contain some user controls built from FX.
@@ -20,8 +19,6 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
     Friend Class DesignerListView
         Inherits ListView
 
-
-
         ''' <summary>
         ''' ContextMenuShow will be raised when this list view needs to show its context menu.
         ''' The derived control simply needs to handle this event to know when to show a
@@ -30,9 +27,6 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
         ''' <param name="sender"></param>
         ''' <param name="e"></param>
         Public Event ContextMenuShow(sender As Object, e As MouseEventArgs)
-
-
-
 
         ''' <summary>
         ''' We override Control.WndProc to raise the ContextMenuShow event.
@@ -51,8 +45,6 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
                     MyBase.WndProc(m)
             End Select
         End Sub
-
-
 
     End Class
 

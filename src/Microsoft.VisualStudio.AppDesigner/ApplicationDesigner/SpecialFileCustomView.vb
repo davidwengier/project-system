@@ -1,4 +1,4 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Imports Microsoft.VisualStudio.Shell.Interop
 
@@ -15,11 +15,10 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
     '''   for the new file.
     ''' </summary>
     Public Class SpecialFileCustomView
-        Inherits Windows.Forms.UserControl
+        Inherits System.Windows.Forms.UserControl
 
         'The SpecialFileCustomViewProvider which created this class instance
         Private _viewProvider As SpecialFileCustomViewProvider
-
 
         ''' <summary>
         ''' Communicates to this class the SpecialFileCustomViewProvider which created it.
@@ -39,7 +38,7 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
         ''' </summary>
         ''' <param name="sender"></param>
         ''' <param name="e"></param>
-        Private Sub LinkLabel_LinkClicked(sender As Object, e As Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel.LinkClicked
+        Private Sub LinkLabel_LinkClicked(sender As Object, e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel.LinkClicked
             CreateNewSpecialFile()
         End Sub
 

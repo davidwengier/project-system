@@ -3,13 +3,13 @@
 #### Prerequisites
 - [Visual Studio 16.3 Preview 2 or higher](https://visualstudio.microsoft.com/vs/preview/)
 - GitHub account
-- Basic Git experience: https://try.github.io/
+- Basic Git experience: https://docs.github.com/get-started/quickstart/set-up-git
 
 All commands below are run under a [Visual Studio Developer Prompt](https://msdn.microsoft.com/en-us/library/ms229859(v=vs.150).aspx).
 
 ## Code
 
-Contribution to this repository is via the [fork model](https://help.github.com/articles/fork-a-repo/). Contributors push changes to their own "forked" version of project-system, and then submit a pull request into it requesting those changes be merged.
+Contribution to this repository is via the [fork model](https://docs.github.com/get-started/quickstart/fork-a-repo). Contributors push changes to their own "forked" version of project-system, and then submit a pull request into it requesting those changes be merged.
 
 To get started:
 
@@ -51,7 +51,7 @@ project-system> build.cmd
 This builds, runs tests and deploys to an experimental instance of Visual Studio.
 
 ### Visual Studio
-From within [Visual Studio 2019](https://visualstudio.microsoft.com/downloads/), open _ProjectSystem.sln_.
+From within [Visual Studio 2022](https://visualstudio.microsoft.com/downloads/), open _ProjectSystem.sln_.
 
 Inside Visual Studio, you can build, run tests and deploy.
 
@@ -59,7 +59,7 @@ Inside Visual Studio, you can build, run tests and deploy.
 
 By default when you build inside Visual Studio or the command-line, the project system and other binaries gets deployed to the _Exp_ experimental instance of Visual Studio. They will automatically _override_ any binaries that come with Visual Studio when you launch that instance.
 
-First of all, [setup your debugging environment](https://github.com/dotnet/project-system/blob/master/docs/repo/debugging/setting-up-environment.md).
+First of all, [setup your debugging environment](/docs/repo/debugging/setting-up-environment.md).
 
 ### Command-line
 
@@ -117,7 +117,7 @@ While the long term goal is to have all C#, F# and Visual Basic projects use thi
 4. In __File Explorer__, rename project from _[project].csproj_ -> _[project].msbuildproj_
 5. __File__ -> __Open__ -> __Project/Solution__ and browse to the project you just renamed and choose __Open__
 
-### AppDesigner, Settings, Resource Editors and Property Pages
+### AppDesigner, Settings and Property Pages
 Both the new project system and the existing project system use the features built from this repository.
 
 ## Code Coverage

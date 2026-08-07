@@ -1,4 +1,4 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Imports System.CodeDom
 Imports System.CodeDom.Compiler
@@ -6,10 +6,10 @@ Imports System.ComponentModel
 Imports System.IO
 Imports System.Reflection
 Imports System.Runtime.InteropServices
-
 Imports EnvDTE
 
 Imports Microsoft.VisualStudio.Designer.Interfaces
+Imports Microsoft.VisualStudio.Editors.Common
 Imports Microsoft.VisualStudio.Editors.Interop
 Imports Microsoft.VisualStudio.OLE.Interop
 Imports Microsoft.VisualStudio.Shell
@@ -31,7 +31,23 @@ Namespace Microsoft.VisualStudio.Editors.MyApplication
         Private _codeDomProvider As CodeDomProvider
         Private _serviceProvider As ServiceProvider
 
+        ' Constants for properties to be generated.
         Private Const MyNamespaceName As String = "My"
+        Private Const MainFormFieldName As String = "MainForm"
+        Private Const SingleInstanceFieldName As String = "IsSingleInstance"
+        Private Const ShutdownModeFieldName As String = "ShutDownStyle"
+        Private Const EnableVisualStylesFieldName As String = "EnableVisualStyles"
+        Private Const SaveMySettingsOnExitFieldName As String = "SaveMySettingsOnExit"
+        Private Const SplashScreenFieldName As String = "SplashScreen"
+        Private Const MinimumSplashScreenDisplayTimeFieldName As String = "MinimumSplashScreenDisplayTime"
+        Private Const HighDpiModeFieldName As String = "HighDpiMode"
+
+        Private Const HighDpiMode_DpiUnaware = "DpiUnaware"
+        Private Const HighDpiMode_SystemAware = "SystemAware"
+        Private Const HighDpiMode_PerMonitor = "PerMonitor"
+        Private Const HighDpiMode_PerMonitorV2 = "PerMonitorV2"
+        Private Const HighDpiMode_DpiUnawareGdiScaled = "DpiUnawareGdiScaled"
+
         Friend Const SingleFileGeneratorName As String = "MyApplicationCodeGenerator"
 
         ''' <summary>
@@ -120,7 +136,6 @@ Namespace Microsoft.VisualStudio.Editors.MyApplication
             Return NativeMethods.E_FAIL
         End Function
 
-
         ''' <summary>
         ''' Creates the CodeCompileUnit for the given MyApplicationData using the given file-path to determine
         ''' the class name.
@@ -197,27 +212,46 @@ Namespace Microsoft.VisualStudio.Editors.MyApplication
                 '  GENERATED CODE:
                 '    Me.IsSingleInstance = <True/False>
                 '    Me.EnableVisualStyles = <True/False>
-                '    Me.ShutDownStyle = ApplicationServices.ShutdownMode.xxx
-                '    Me.SaveMySettingsOnExit = <True/False>
+                '    Me.SaveMySettingsOnExit = <True/False>                
                 '
-                AddFieldPrimitiveAssignment(Constructor, "IsSingleInstance", MyApplication.SingleInstance)
-                AddFieldPrimitiveAssignment(Constructor, "EnableVisualStyles", MyApplication.EnableVisualStyles)
-                AddFieldPrimitiveAssignment(Constructor, "SaveMySettingsOnExit", MyApplication.SaveMySettingsOnExit)
+                AddFieldPrimitiveAssignment(Constructor, SingleInstanceFieldName, MyApplication.SingleInstance)
+                AddFieldPrimitiveAssignment(Constructor, EnableVisualStylesFieldName, MyApplication.EnableVisualStyles)
+                AddFieldPrimitiveAssignment(Constructor, SaveMySettingsOnExitFieldName, MyApplication.SaveMySettingsOnExit)
 
-                '
+                '    Me.ShutDownStyle = ApplicationServices.ShutdownMode.xxx
                 Dim EnumType As Type
                 EnumType = GetType(ApplicationServices.ShutdownMode)
                 If MyApplication.ShutdownMode = ApplicationServices.ShutdownMode.AfterAllFormsClose Then
-                    AddFieldAssignment(Constructor, "ShutDownStyle", EnumType, "AfterAllFormsClose")
+                    AddFieldAssignment(Constructor, ShutdownModeFieldName, EnumType, "AfterAllFormsClose")
                 ElseIf MyApplication.ShutdownMode = ApplicationServices.ShutdownMode.AfterMainFormCloses Then
-                    AddFieldAssignment(Constructor, "ShutDownStyle", EnumType, "AfterMainFormCloses")
+                    AddFieldAssignment(Constructor, ShutdownModeFieldName, EnumType, "AfterMainFormCloses")
                 Else
                     Debug.Fail("Unexpected MyApplication.ShutdownMode")
                 End If
 
+                If IsTargetingDotNetCore(DirectCast(GetService(GetType(IVsHierarchy)), IVsHierarchy)) Then
+                    '    Me.HighDpiMode = HighDpiMode.xxx
+                    Dim HighDpiValue As String
+                    Select Case MyApplication.HighDpiMode
+                        Case 0
+                            HighDpiValue = HighDpiMode_DpiUnaware
+                        Case 1
+                            HighDpiValue = HighDpiMode_SystemAware
+                        Case 2
+                            HighDpiValue = HighDpiMode_PerMonitor
+                        Case 3
+                            HighDpiValue = HighDpiMode_PerMonitorV2
+                        Case 4
+                            HighDpiValue = HighDpiMode_DpiUnawareGdiScaled
+                        Case Else
+                            HighDpiValue = String.Empty
+                    End Select
+                    AddFieldAssignment(Constructor, HighDpiModeFieldName, HighDpiModeFieldName, HighDpiValue)
+                End If
+
                 GeneratedType.Members.Add(Constructor)
 
-                If MyApplication.MainFormNoRootNS <> "" Then
+                If MyApplication.MainFormNoRootNS <> String.Empty Then
                     'Create OnCreateMainForm override
                     '
                     '  GENERATED CODE:
@@ -258,12 +292,12 @@ Namespace Microsoft.VisualStudio.Editors.MyApplication
                             .Name = "OnCreateMainForm"
                         }
                         AddAttribute(OnCreateMainForm, DebuggerStepThroughAttribute, True)
-                        AddDefaultFormAssignment(OnCreateMainForm, "MainForm", ProjectRootNamespace, MyApplication.MainFormNoRootNS)
+                        AddDefaultFormAssignment(OnCreateMainForm, MainFormFieldName, ProjectRootNamespace, MyApplication.MainFormNoRootNS)
                         GeneratedType.Members.Add(OnCreateMainForm)
                     End If
                 End If
 
-                If MyApplication.SplashScreenNoRootNS <> "" Then
+                If MyApplication.SplashScreenNoRootNS <> String.Empty Then
                     'Create OnCreateSplashScreen override
                     '
                     '  GENERATED CODE:
@@ -291,10 +325,41 @@ Namespace Microsoft.VisualStudio.Editors.MyApplication
                             .Name = "OnCreateSplashScreen"
                         }
                         AddAttribute(OnCreateSplashScreen, DebuggerStepThroughAttribute, True)
-                        AddDefaultFormAssignment(OnCreateSplashScreen, "SplashScreen", ProjectRootNamespace, MyApplication.SplashScreenNoRootNS)
+                        AddDefaultFormAssignment(OnCreateSplashScreen, SplashScreenFieldName, ProjectRootNamespace, MyApplication.SplashScreenNoRootNS)
                         GeneratedType.Members.Add(OnCreateSplashScreen)
                     End If
                 End If
+
+                If IsNumeric(MyApplication.MinimumSplashScreenDisplayTime) Then
+                    ' GENERATED CODE:
+                    ' Protected Overrides Function OnInitialize(commandLineArgs As System.Collections.ObjectModel.ReadOnlyCollection(Of String)) As Boolean
+                    '    Me.MinimumSplashScreenDisplayTime = 5000
+                    '    Return MyBase.OnInitialize(commandLineArgs)
+                    ' End Function
+                    '
+                    Dim OnInitialize As New CodeMemberMethod With {
+                        .Attributes = MemberAttributes.Override Or MemberAttributes.Family,
+                        .ReturnType = New CodeTypeReference(GetType(Boolean)),
+                        .Name = "OnInitialize"
+                    }
+                    AddAttribute(OnInitialize, DebuggerStepThroughAttribute, True)
+                    Dim commandLineArgs As New CodeParameterDeclarationExpression With {
+                                            .Name = "commandLineArgs",
+                                            .Type = New CodeTypeReference(GetType(ObjectModel.ReadOnlyCollection(Of String)))
+                                        }
+                    OnInitialize.Parameters.Add(commandLineArgs)
+                    AddFieldPrimitiveAssignment(OnInitialize, MinimumSplashScreenDisplayTimeFieldName, MyApplication.MinimumSplashScreenDisplayTime)
+                    Dim MyBaseOnInitialize As New CodeMethodInvokeExpression With {
+                                            .Method = New CodeMethodReferenceExpression With {
+                                                .MethodName = "OnInitialize",
+                                                .TargetObject = New CodeBaseReferenceExpression()
+                                            }
+                                        }
+                    MyBaseOnInitialize.Parameters.Add(New CodeArgumentReferenceExpression("commandLineArgs"))
+                    OnInitialize.Statements.Add(New CodeMethodReturnStatement(MyBaseOnInitialize))
+                    GeneratedType.Members.Add(OnInitialize)
+                End If
+
                 ' Add our class to the namespace...
                 MyNamespace.Types.Add(GeneratedType)
 
@@ -362,6 +427,25 @@ Namespace Microsoft.VisualStudio.Editors.MyApplication
             Method.Statements.Add(Statement)
         End Sub
 
+        ' Overload of AddFieldAssignment to accept a String instead of a Type for EnumType '
+        ' Background: For the case of HighDpiMode, the actual Type is only available in the Designer OOP server-side.
+        ' So, to use types, we would need to generate the whole code also server-side.
+        ' We don't think it's necessary though, and consider it is too much of an effort,
+        ' so we decided to use a String for the type name client side.
+        Private Shared Sub AddFieldAssignment(Method As CodeMemberMethod, FieldName As String, EnumType As String, EnumFieldName As String)
+            Dim Statement As CodeAssignStatement
+            Statement = New CodeAssignStatement With {
+                .Left = New CodeFieldReferenceExpression(New CodeThisReferenceExpression(), FieldName)
+            }
+
+            Dim TypeRef As CodeTypeReference
+            TypeRef = New CodeTypeReference(EnumType)
+
+            Dim value1 As New CodeFieldReferenceExpression(New CodeTypeReferenceExpression(TypeRef), EnumFieldName)
+            Statement.Right = value1
+            Method.Statements.Add(Statement)
+        End Sub
+
         ''' <summary>
         ''' Adds a statement to 'Method' in the form of "Me.xxx = FormX"
         ''' </summary>
@@ -376,7 +460,7 @@ Namespace Microsoft.VisualStudio.Editors.MyApplication
             '
             Debug.Assert(FieldName IsNot Nothing)
             If FormNameWithoutRootNamespace Is Nothing Then
-                FormNameWithoutRootNamespace = ""
+                FormNameWithoutRootNamespace = String.Empty
             End If
 
             If RootNamespace Is Nothing Then
@@ -393,7 +477,7 @@ Namespace Microsoft.VisualStudio.Editors.MyApplication
             Dim Hierarchy As IVsHierarchy = DirectCast(GetService(GetType(IVsHierarchy)), IVsHierarchy)
             Debug.Assert(Hierarchy IsNot Nothing, "Failed to get a Hierarchy item for item to generate code from")
             Dim data As MyApplicationData = Nothing
-            If InputString <> "" Then
+            If InputString <> String.Empty Then
                 ' We actually have some contents to deserialize.... 
                 Dim MyApplicationReader As New StringReader(InputString)
                 data = MyApplicationSerializer.Deserialize(MyApplicationReader)
@@ -426,7 +510,6 @@ Namespace Microsoft.VisualStudio.Editors.MyApplication
                 _codeDomProvider = Value
             End Set
         End Property
-
 
         ''' <summary>
         ''' Gets the root namespace of the VB project
@@ -514,7 +597,7 @@ Namespace Microsoft.VisualStudio.Editors.MyApplication
         ''' <param name="rglpszRQName">RQName-syntax string that identifies the symbol(s) renamed</param>
         ''' <param name="lpszNewName">name that the symbol identified by rglpszRQName is being changed to</param>
         ''' <returns>error code</returns>
-        Protected Function OnBeforeGlobalSymbolRenamed(phier As IVsHierarchy, itemId As UInteger, cRQNames As UInteger, rglpszRQName() As String, lpszNewName As String, ByRef prgAdditionalCheckoutVSITEMIDS As Array) As Integer Implements IVsRefactorNotify.OnBeforeGlobalSymbolRenamed
+        Private Function OnBeforeGlobalSymbolRenamed(phier As IVsHierarchy, itemId As UInteger, cRQNames As UInteger, rglpszRQName() As String, lpszNewName As String, ByRef prgAdditionalCheckoutVSITEMIDS As Array) As Integer Implements IVsRefactorNotify.OnBeforeGlobalSymbolRenamed
             prgAdditionalCheckoutVSITEMIDS = Nothing
             Dim changesRequired As Boolean = False
 
@@ -568,7 +651,7 @@ Namespace Microsoft.VisualStudio.Editors.MyApplication
         ''' <param name="rglpszRQName">RQName-syntax string that identifies the symbol(s) renamed</param>
         ''' <param name="lpszNewName">name that the symbol identified by rglpszRQName is being changed to</param>
         ''' <returns>error code</returns>
-        Protected Function OnGlobalSymbolRenamed(phier As IVsHierarchy, itemId As UInteger, cRQNames As UInteger, rglpszRQName() As String, lpszNewName As String) As Integer Implements IVsRefactorNotify.OnGlobalSymbolRenamed
+        Private Function OnGlobalSymbolRenamed(phier As IVsHierarchy, itemId As UInteger, cRQNames As UInteger, rglpszRQName() As String, lpszNewName As String) As Integer Implements IVsRefactorNotify.OnGlobalSymbolRenamed
             Debug.Assert(cRQNames = 1, String.Format("Why Do we get {0} symbols to rename?", cRQNames))
 
             Dim designerPrjItem As ProjectItem = GetDesignerProjectItem(phier, itemId)
@@ -629,7 +712,7 @@ Namespace Microsoft.VisualStudio.Editors.MyApplication
         ''' <param name="rgszParamNames">the names of the parameters</param>
         ''' <param name="prgAdditionalCheckoutVSITEMIDS">array of VSITEMID's if the RefactorNotify implementor needs to check out additional files</param>
         ''' <returns>error code</returns>
-        Protected Function OnBeforeAddParams(phier As IVsHierarchy, itemId As UInteger, lpszRQName As String, cParams As UInteger, rgszParamIndexes() As UInteger, rgszRQTypeNames() As String, rgszParamNames() As String, ByRef prgAdditionalCheckoutVSITEMIDS As Array) As Integer Implements IVsRefactorNotify.OnBeforeAddParams
+        Private Function OnBeforeAddParams(phier As IVsHierarchy, itemId As UInteger, lpszRQName As String, cParams As UInteger, rgszParamIndexes() As UInteger, rgszRQTypeNames() As String, rgszParamNames() As String, ByRef prgAdditionalCheckoutVSITEMIDS As Array) As Integer Implements IVsRefactorNotify.OnBeforeAddParams
             prgAdditionalCheckoutVSITEMIDS = Nothing
             Common.SetErrorInfo(Common.ServiceProviderFromHierarchy(phier), NativeMethods.E_NOTIMPL, My.Resources.Microsoft_VisualStudio_Editors_Designer.SD_ERR_ModifyParamsNotSupported)
             ' Always return an error code to disable parameter modifications for generated code
@@ -647,7 +730,7 @@ Namespace Microsoft.VisualStudio.Editors.MyApplication
         ''' <param name="rgszRQTypeNames">RQName-syntax strings that identify the types of the new parameters</param>
         ''' <param name="rgszParamNames">the names of the parameters</param>
         ''' <returns>error code</returns>
-        Protected Function OnAddParams(phier As IVsHierarchy, itemId As UInteger, lpszRQName As String, cParams As UInteger, rgszParamIndexes() As UInteger, rgszRQTypeNames() As String, rgszParamNames() As String) As Integer Implements IVsRefactorNotify.OnAddParams
+        Private Function OnAddParams(phier As IVsHierarchy, itemId As UInteger, lpszRQName As String, cParams As UInteger, rgszParamIndexes() As UInteger, rgszRQTypeNames() As String, rgszParamNames() As String) As Integer Implements IVsRefactorNotify.OnAddParams
             Common.SetErrorInfo(Common.ServiceProviderFromHierarchy(phier), NativeMethods.E_NOTIMPL, My.Resources.Microsoft_VisualStudio_Editors_Designer.SD_ERR_ModifyParamsNotSupported)
             ' Always return an error code to disable parameter modifications for generated code
             Return NativeMethods.E_NOTIMPL
@@ -663,7 +746,7 @@ Namespace Microsoft.VisualStudio.Editors.MyApplication
         ''' <param name="rgParamIndexes">array of param indexes where the index in this array is the index to which the param is moving</param>
         ''' <param name="prgAdditionalCheckoutVSITEMIDS">array of VSITEMID's if the RefactorNotify implementor needs to check out additional files</param>
         ''' <returns>error code</returns>
-        Protected Function OnBeforeReorderParams(phier As IVsHierarchy, itemId As UInteger, lpszRQName As String, cParamIndexes As UInteger, rgParamIndexes() As UInteger, ByRef prgAdditionalCheckoutVSITEMIDS As Array) As Integer Implements IVsRefactorNotify.OnBeforeReorderParams
+        Private Function OnBeforeReorderParams(phier As IVsHierarchy, itemId As UInteger, lpszRQName As String, cParamIndexes As UInteger, rgParamIndexes() As UInteger, ByRef prgAdditionalCheckoutVSITEMIDS As Array) As Integer Implements IVsRefactorNotify.OnBeforeReorderParams
             prgAdditionalCheckoutVSITEMIDS = Nothing
             Common.SetErrorInfo(Common.ServiceProviderFromHierarchy(phier), NativeMethods.E_NOTIMPL, My.Resources.Microsoft_VisualStudio_Editors_Designer.SD_ERR_ModifyParamsNotSupported)
             ' Always return an error code to disable parameter modifications for generated code
@@ -679,7 +762,7 @@ Namespace Microsoft.VisualStudio.Editors.MyApplication
         ''' <param name="cParamIndexes">number of parameters in rgParamIndexes</param>
         ''' <param name="rgParamIndexes">array of param indexes where the index in this array is the index to which the param is moving</param>
         ''' <returns>error code</returns>
-        Protected Function OnReorderParams(phier As IVsHierarchy, itemId As UInteger, lpszRQName As String, cParamIndexes As UInteger, rgParamIndexes() As UInteger) As Integer Implements IVsRefactorNotify.OnReorderParams
+        Private Function OnReorderParams(phier As IVsHierarchy, itemId As UInteger, lpszRQName As String, cParamIndexes As UInteger, rgParamIndexes() As UInteger) As Integer Implements IVsRefactorNotify.OnReorderParams
             Common.SetErrorInfo(Common.ServiceProviderFromHierarchy(phier), NativeMethods.E_NOTIMPL, My.Resources.Microsoft_VisualStudio_Editors_Designer.SD_ERR_ModifyParamsNotSupported)
             ' Always return an error code to disable parameter modifications for generated code
             Return NativeMethods.E_NOTIMPL
@@ -695,7 +778,7 @@ Namespace Microsoft.VisualStudio.Editors.MyApplication
         ''' <param name="rgParamIndexes">array of param indexes where each value indicates the index of the parameter being removed</param>
         ''' <param name="prgAdditionalCheckoutVSITEMIDS">array of VSITEMID's if the RefactorNotify implementor needs to check out additional files</param>
         ''' <returns>error code</returns>
-        Protected Function OnBeforeRemoveParams(phier As IVsHierarchy, itemId As UInteger, lpszRQName As String, cParamIndexes As UInteger, rgParamIndexes() As UInteger, ByRef prgAdditionalCheckoutVSITEMIDS As Array) As Integer Implements IVsRefactorNotify.OnBeforeRemoveParams
+        Private Function OnBeforeRemoveParams(phier As IVsHierarchy, itemId As UInteger, lpszRQName As String, cParamIndexes As UInteger, rgParamIndexes() As UInteger, ByRef prgAdditionalCheckoutVSITEMIDS As Array) As Integer Implements IVsRefactorNotify.OnBeforeRemoveParams
             prgAdditionalCheckoutVSITEMIDS = Nothing
             Common.SetErrorInfo(Common.ServiceProviderFromHierarchy(phier), NativeMethods.E_NOTIMPL, My.Resources.Microsoft_VisualStudio_Editors_Designer.SD_ERR_ModifyParamsNotSupported)
             ' Always return an error code to disable parameter modifications for generated code
@@ -711,12 +794,11 @@ Namespace Microsoft.VisualStudio.Editors.MyApplication
         ''' <param name="cParamIndexes">number of parameters in rgParamIndexes</param>
         ''' <param name="rgParamIndexes">array of param indexes where each value indicates the index of the parameter being removed</param>
         ''' <returns>error code</returns>
-        Protected Function OnRemoveParams(phier As IVsHierarchy, itemId As UInteger, lpszRQName As String, cParamIndexes As UInteger, rgParamIndexes() As UInteger) As Integer Implements IVsRefactorNotify.OnRemoveParams
+        Private Function OnRemoveParams(phier As IVsHierarchy, itemId As UInteger, lpszRQName As String, cParamIndexes As UInteger, rgParamIndexes() As UInteger) As Integer Implements IVsRefactorNotify.OnRemoveParams
             Common.SetErrorInfo(Common.ServiceProviderFromHierarchy(phier), NativeMethods.E_NOTIMPL, My.Resources.Microsoft_VisualStudio_Editors_Designer.SD_ERR_ModifyParamsNotSupported)
             ' Always return an error code to disable parameter modifications for generated code
             Return NativeMethods.E_NOTIMPL
         End Function
-
 
         ''' <summary>
         ''' Returns the ProjectItem corresponding to the hierarchy and itemId

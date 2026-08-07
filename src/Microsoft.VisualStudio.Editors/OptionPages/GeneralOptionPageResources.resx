@@ -138,4 +138,19 @@
   <data name="General_FastUpToDateCheck_Title" xml:space="preserve">
     <value>Up to Date Checks</value>
   </data>
+  <data name="General_NestingIgnoreSolutionAndProjectProfiles" xml:space="preserve">
+    <value>Ignore solution and project settings</value>
+  </data>
+  <data name="General_NestingSettings_Title" xml:space="preserve">
+    <value>File Nesting Settings</value>
+  </data>
+  <data name="General_MultiTargetingSettings_Title" xml:space="preserve">
+    <value>Multi-Targeting Settings</value>
+  </data>
+  <data name="General_PreferSingleTargetBuildsOnLaunch" xml:space="preserve">
+    <value>Prefer single-target builds when starting a project.</value>
+  </data>
+  <data name="General_PreferSingleTargetBuildsOnLaunchDescription" xml:space="preserve">
+    <value>When starting a project that targets multiple .NET frameworks, the build time can be reduced by limiting the build to a single framework.</value>
+  </data>
 </root>

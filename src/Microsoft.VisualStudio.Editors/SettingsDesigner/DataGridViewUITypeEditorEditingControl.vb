@@ -1,4 +1,4 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Imports System.Drawing.Design
 Imports System.Windows.Forms
@@ -71,7 +71,6 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
             End If
         End Sub
 #End Region
-
 
 #Region "IDataGridViewEditingControl implementation"
         ''' <summary>
@@ -238,7 +237,6 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
         End Property
 #End Region
 
-
 #Region "Service provider stuff"
         Private _serviceProvider As IServiceProvider
         Friend Property ServiceProvider As IServiceProvider
@@ -260,7 +258,6 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
             Return MyBase.GetService(service)
         End Function
 #End Region
-
 
         Protected Overrides Function FormatValue(ValueToFormat As Object) As String
             If ValueToFormat IsNot Nothing AndAlso ValueToFormat.GetType().Equals(GetType(SerializableConnectionString)) Then

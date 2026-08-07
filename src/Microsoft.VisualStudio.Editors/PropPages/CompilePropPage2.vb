@@ -1,4 +1,4 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Imports System.ComponentModel
 Imports System.IO
@@ -101,7 +101,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             BeginInvoke(New QueueUpdateOptionStrictComboBoxDelegate(AddressOf UpdateOptionStrictComboBox))
             _optionStrictComboBoxUpdateQueued = True
         End Sub
-
 
         ''' <summary>
         ''' Update the text (and possibly the contents) of the option strict combobox
@@ -235,7 +234,8 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
                         New FakeAllConfigurationsPropertyControlData(_objectCache, VsProjPropId.VBPROJPROPID_RegisterForComInterop, "RegisterForComInterop", RegisterForComInteropCheckBox, Nothing, Nothing, ControlDataFlags.UserHandledEvents, Nothing),
                         New PropertyControlData(VsProjPropId80.VBPROJPROPID_ComVisible, "ComVisible", Nothing, AddressOf ComVisibleSet, AddressOf ComVisibleGet, ControlDataFlags.Hidden Or ControlDataFlags.PersistedInAssemblyInfoFile),
                         New PropertyControlData(VsProjPropId80.VBPROJPROPID_PlatformTarget, "PlatformTarget", TargetCPUComboBox, AddressOf PlatformTargetSet, AddressOf PlatformTargetGet, ControlDataFlags.None, New Control() {TargetCPULabel}),
-                        New PropertyControlData(VsProjPropId110.VBPROJPROPID_Prefer32Bit, "Prefer32Bit", Prefer32BitCheckBox, AddressOf Prefer32BitSet, AddressOf Prefer32BitGet)
+                        New PropertyControlData(VsProjPropId110.VBPROJPROPID_Prefer32Bit, "Prefer32Bit", Prefer32BitCheckBox, AddressOf Prefer32BitSet, AddressOf Prefer32BitGet),
+                        New PropertyControlData(17311, "PreferNativeArm64", PreferNativeArm64CheckBox, AddressOf PreferNativeArm64Set, AddressOf PreferNativeArm64Get)
                     }
                 End If
                 Return m_ControlData
@@ -314,7 +314,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             If value Is PropertyControlData.Indeterminate OrElse value Is PropertyControlData.MissingProperty Then
                 _noWarn = Nothing
             Else
-                If Not TypeOf value Is String Then
+                If TypeOf value IsNot String Then
                     Debug.Fail("Expected a string value for property NoWarn")
                     Throw Common.CreateArgumentException(NameOf(value))
                 End If
@@ -355,7 +355,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             If value Is PropertyControlData.Indeterminate OrElse value Is PropertyControlData.MissingProperty Then
                 _specWarnAsError = Nothing
             Else
-                If Not TypeOf value Is String Then
+                If TypeOf value IsNot String Then
                     Debug.Fail("Expected a string value for property SpecWarnAsError")
                     Throw Common.CreateArgumentException(NameOf(value))
                 End If
@@ -461,7 +461,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             MyBase.SetObjects(objects)
         End Sub
 
-
 #Region "Pre/post init page"
 
         ''' <summary>
@@ -501,7 +500,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
                     End If
                 Next
             End If
-
 
             _optionStrictCustomText = My.Resources.Microsoft_VisualStudio_Editors_Designer.PPG_Compile_OptionStrict_Custom
 
@@ -578,6 +576,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             End If
 
             RefreshEnabledStatusForPrefer32Bit(Prefer32BitCheckBox)
+            RefreshEnabledStatusForPreferNativeArm64(PreferNativeArm64CheckBox)
 
             MinimumSize = GetPreferredSize(Drawing.Size.Empty)
         End Sub
@@ -695,7 +694,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             End Get
         End Property
 
-
 #End Region
 
         Private Sub DisableAllWarningsCheckBox_Checked(sender As Object, e As EventArgs) Handles DisableAllWarningsCheckBox.CheckStateChanged
@@ -788,11 +786,11 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             If Source <> PropertyChangeSource.Direct AndAlso (DISPID = DISPID_UNKNOWN OrElse DISPID = VsProjPropId.VBPROJPROPID_OutputType) Then
                 EnableControl(RegisterForComInteropCheckBox, RegisterForComInteropSupported())
 
-                ' Changes to the OutputType may affect whether 'Prefer32Bit' is enabled
+                ' Changes to the OutputType may affect whether 'Prefer32Bit' or 'PreferNativeArm64' are enabled
                 RefreshEnabledStatusForPrefer32Bit(Prefer32BitCheckBox)
+                RefreshEnabledStatusForPreferNativeArm64(PreferNativeArm64CheckBox)
             End If
         End Sub
-
 
         ''' <summary>
         ''' Disables warnings which are not generated when Option Strict is on
@@ -937,7 +935,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             Return result.ToArray()
         End Function
 
-
         ''' <summary>
         ''' Return the union of the two *sorted* arrays set1 and set2
         ''' </summary>
@@ -979,7 +976,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             End If
             Return result.ToArray()
         End Function
-
 
         ''' <summary>
         ''' Remove any items in itemsToRemove from completeSet
@@ -1241,8 +1237,19 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
                 Return
             End If
 
-            ' Changes to the TargetCPU may affect whether 'Prefer32Bit' is enabled
+            ' Changes to the TargetCPU may affect whether 'Prefer32Bit' or 'PreferNativeARM64' are enabled
             RefreshEnabledStatusForPrefer32Bit(Prefer32BitCheckBox)
+            RefreshEnabledStatusForPreferNativeArm64(PreferNativeArm64CheckBox)
+        End Sub
+
+        Private Sub Prefer32Bit_PreferNativeArm64_CheckboxChangeCommitted(sender As Object, e As EventArgs) Handles Prefer32BitCheckBox.CheckedChanged, PreferNativeArm64CheckBox.CheckedChanged
+            If m_fInsideInit Then
+                Return
+            End If
+
+            ' Changes to the Prefer32Bit may affect PreferNativeArm64 is enabled
+            RefreshEnabledStatusForPrefer32Bit(Prefer32BitCheckBox)
+            RefreshEnabledStatusForPreferNativeArm64(PreferNativeArm64CheckBox)
         End Sub
 
         ''' <summary>
@@ -1272,7 +1279,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             End If
             MyBase.PreApplyPageChanges()
         End Sub
-
 
         ''' <summary>
         ''' Check if the path is a trusted path or not

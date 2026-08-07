@@ -1,20 +1,18 @@
-﻿// Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿// Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using Microsoft.VisualStudio.ProjectSystem.Properties;
-using Moq;
 
-namespace Microsoft.VisualStudio.ProjectSystem
+namespace Microsoft.VisualStudio.ProjectSystem;
+
+internal static class IInterceptingPropertyValueProviderMetadataFactory
 {
-    internal static class IInterceptingPropertyValueProviderMetadataFactory
+    public static IInterceptingPropertyValueProviderMetadata2 Create(string propertyName)
     {
-        public static IInterceptingPropertyValueProviderMetadata Create(string propertyName)
-        {
-            var mock = new Mock<IInterceptingPropertyValueProviderMetadata>();
+        var mock = new Mock<IInterceptingPropertyValueProviderMetadata2>();
 
-            mock.SetupGet(s => s.PropertyName)
-                .Returns(propertyName);
+        mock.SetupGet(s => s.PropertyNames)
+            .Returns([propertyName]);
 
-            return mock.Object;
-        }
+        return mock.Object;
     }
 }

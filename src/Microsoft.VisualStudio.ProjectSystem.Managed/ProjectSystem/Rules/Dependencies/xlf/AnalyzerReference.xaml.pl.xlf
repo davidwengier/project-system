@@ -8,8 +8,18 @@
         <note />
       </trans-unit>
       <trans-unit id="Rule|AnalyzerReference|Description">
-        <source>Analyzer Properties</source>
-        <target state="translated">Właściwości analizatora</target>
+        <source>Analyzer Reference Properties</source>
+        <target state="translated">Właściwości odwołania do analizatora</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="StringProperty|ResolvedPath|Description">
+        <source>Location of the analyzer assembly.</source>
+        <target state="translated">Lokalizacja zestawu analizatora.</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="StringProperty|ResolvedPath|DisplayName">
+        <source>Path</source>
+        <target state="translated">Ścieżka</target>
         <note />
       </trans-unit>
     </body>

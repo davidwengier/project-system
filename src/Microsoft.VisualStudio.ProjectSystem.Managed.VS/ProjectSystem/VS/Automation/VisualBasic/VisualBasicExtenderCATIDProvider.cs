@@ -1,51 +1,38 @@
-﻿// Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿// Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System.ComponentModel.Composition;
 using Microsoft.VisualStudio.ProjectSystem.VS.Properties;
 using VSLangProj;
 using BCLDebug = System.Diagnostics.Debug;
 
-namespace Microsoft.VisualStudio.ProjectSystem.VS.Automation.VisualBasic
+namespace Microsoft.VisualStudio.ProjectSystem.VS.Automation.VisualBasic;
+
+[Export(typeof(IExtenderCATIDProvider))]
+[AppliesTo(ProjectCapability.VisualBasic)]
+internal class VisualBasicExtenderCATIDProvider : AbstractExtenderCATIDProvider
 {
-    [Export(typeof(IExtenderCATIDProvider))]
-    [AppliesTo(ProjectCapability.VisualBasic)]
-    internal class VisualBasicExtenderCATIDProvider : AbstractExtenderCATIDProvider
+    [ImportingConstructor]
+    public VisualBasicExtenderCATIDProvider()
     {
-        [ImportingConstructor]
-        public VisualBasicExtenderCATIDProvider()
+    }
+
+    protected override string GetExtenderCATID(ExtendeeObject extendee)
+    {
+        return extendee switch
         {
-        }
+            ExtendeeObject.Project =>                   PrjCATID.prjCATIDProject,
+            ExtendeeObject.ProjectBrowseObject =>       PrjBrowseObjectCATID.prjCATIDVBProjectBrowseObject,
+            ExtendeeObject.Configuration =>             PrjBrowseObjectCATID.prjCATIDVBConfig,
+            ExtendeeObject.ConfigurationBrowseObject => PrjBrowseObjectCATID.prjCATIDVBProjectConfigBrowseObject,
+            ExtendeeObject.ProjectItem =>               PrjCATID.prjCATIDProjectItem,
+            ExtendeeObject.FolderBrowseObject =>        PrjBrowseObjectCATID.prjCATIDVBFolderBrowseObject,
+            ExtendeeObject.ReferenceBrowseObject =>     PrjBrowseObjectCATID.prjCATIDVBReferenceBrowseObject,
+            ExtendeeObject.FileBrowseObject or _ =>     FileBrowseObjectOrDefault()
+        };
 
-        protected override string GetExtenderCATID(ExtendeeObject extendee)
+        string FileBrowseObjectOrDefault()
         {
-            switch (extendee)
-            {
-                case ExtendeeObject.Project:
-                    return PrjCATID.prjCATIDProject;
-
-                case ExtendeeObject.ProjectBrowseObject:
-                    return PrjBrowseObjectCATID.prjCATIDVBProjectBrowseObject;
-
-                case ExtendeeObject.Configuration:
-                    return PrjBrowseObjectCATID.prjCATIDVBConfig;
-
-                case ExtendeeObject.ConfigurationBrowseObject:
-                    return PrjBrowseObjectCATID.prjCATIDVBProjectConfigBrowseObject;
-
-                case ExtendeeObject.ProjectItem:
-                    return PrjCATID.prjCATIDProjectItem;
-
-                case ExtendeeObject.FolderBrowseObject:
-                    return PrjBrowseObjectCATID.prjCATIDVBFolderBrowseObject;
-
-                case ExtendeeObject.ReferenceBrowseObject:
-                    return PrjBrowseObjectCATID.prjCATIDVBReferenceBrowseObject;
-
-                default:
-                case ExtendeeObject.FileBrowseObject:
-                    BCLDebug.Assert(extendee == ExtendeeObject.FileBrowseObject);
-                    return PrjBrowseObjectCATID.prjCATIDVBFileBrowseObject;
-            }
+            BCLDebug.Assert(extendee == ExtendeeObject.FileBrowseObject);
+            return PrjBrowseObjectCATID.prjCATIDVBFileBrowseObject;
         }
     }
 }

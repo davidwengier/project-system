@@ -1,13 +1,11 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Imports System.Windows.Forms
 
 Imports Microsoft.VisualStudio.Editors.Common
 Imports Microsoft.VisualStudio.Shell.Interop
 
-
 Namespace Microsoft.VisualStudio.Editors.PropertyPages
-
 
     ''' <summary>
     ''' A special subclass of PropertyControlData that changes the behavior in the following manner:
@@ -39,7 +37,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
         End Enum
 
         Private ReadOnly _specificConfigName As String
-
 
         ' Constructor.  Same as PropertyControlData, except for Config.
         '   Argument Config: The configuration to show the property's value from, and to affect when saving, if the project is
@@ -81,8 +78,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             Debug.Assert(Not IsCommonProperty, "SingleConfigPropertyControlData - Can't be used for common properties")
         End Sub
 
-
-
         ''' <summary>
         ''' Returns the raw set of objects in use by this property page.  This will generally be the set of objects
         '''   passed in to the page through SetObjects.  However, it may be modified by subclasses to contain a superset
@@ -103,7 +98,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
                 End If
             End Get
         End Property
-
 
         ''' <summary>
         ''' Returns the extended objects created from the raw set of objects in use by this property page.  This will generally be 
@@ -129,7 +123,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
                 End If
             End Get
         End Property
-
 
         ''' <summary>
         ''' Given a set of objects (raw or extended), determine if we should be displaying the values
@@ -181,7 +174,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
 
             Return -1
         End Function
-
 
         ''' <summary>
         ''' Returns true iff this project is in simplified configuration mode.

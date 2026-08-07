@@ -11,6 +11,8 @@
     <Category Name="General"
               Description="General"
               DisplayName="General" />
+    <Category Name="Misc"
+              DisplayName="Misc" />
   </Rule.Categories>
 
   <Rule.DataSource>
@@ -333,7 +335,7 @@
                        Visible="False" />
 
   <DynamicEnumProperty Name="SupportedTargetFrameworks"
-                       EnumProvider="SupportedTargetFrameworksEnumProvider"
+                       EnumProvider="SupportedTargetFrameworkAliasEnumProvider"
                        Visible="False" />
 
   <IntProperty Name="TargetFramework"
@@ -345,6 +347,16 @@
                   SourceOfDefaultValue="AfterContext" />
     </IntProperty.DataSource>
   </IntProperty>
+
+  <StringProperty Name="FriendlyTargetFramework"
+                Visible="False">
+    <StringProperty.DataSource>
+      <DataSource HasConfigurationCondition="False"
+                PersistedName="TargetFramework"
+                Persistence="ProjectFile"
+                SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
 
   <StringProperty Name="TargetFrameworkMoniker"
                   Visible="False">
@@ -378,6 +390,9 @@
   </StringProperty>
 
   <StringProperty Name="TargetFSharpCoreVersion"
+                  Visible="False" />
+  
+  <StringProperty Name="ActiveDebugProfile"
                   Visible="False" />
 
   <StringProperty Name="URL"
@@ -425,6 +440,36 @@
       <DataSource HasConfigurationCondition="False"
                   PersistedName="RunAnalyzersDuringLiveAnalysis"
                   Persistence="UserFile"
+                  SourceOfDefaultValue="AfterContext" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+
+  <BoolProperty Name="EnableNETAnalyzers"
+                Visible="False">
+    <BoolProperty.DataSource>
+      <DataSource HasConfigurationCondition="False"
+                  PersistedName="EnableNETAnalyzers"
+                  Persistence="ProjectFile"
+                  SourceOfDefaultValue="AfterContext" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
+
+  <StringProperty Name="AnalysisLevel"
+                  Visible="False">
+    <StringProperty.DataSource>
+      <DataSource HasConfigurationCondition="False"
+                  PersistedName="AnalysisLevel"
+                  Persistence="ProjectFile"
+                  SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
+
+  <BoolProperty Name="EnforceCodeStyleInBuild"
+                Visible="False">
+    <BoolProperty.DataSource>
+      <DataSource HasConfigurationCondition="False"
+                  PersistedName="EnforceCodeStyleInBuild"
+                  Persistence="ProjectFile"
                   SourceOfDefaultValue="AfterContext" />
     </BoolProperty.DataSource>
   </BoolProperty>

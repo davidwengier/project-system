@@ -1,4 +1,4 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Imports System.ComponentModel
 Imports System.IO
@@ -25,7 +25,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             'Opt out of page scaling since we're using AutoScaleMode
             PageRequiresScaling = False
         End Sub
-
 
 #Region "Class MultilineTextBoxRejectsEnter"
 
@@ -105,7 +104,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
                     datalist.Add(data)
 
                     m_ControlData = datalist.ToArray()
-
 
                 End If
                 Return m_ControlData
@@ -226,7 +224,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
 
         End Sub
 
-
         ''' <summary>
         ''' Customizable processing done after base class has populated controls in the ControlData array
         ''' </summary>
@@ -270,7 +267,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
                     enableDebuggersTableLayoutPanel.Visible = False
                 End If
             End If
-
 
             'We want the page to grow as needed.  However, we can't use AutoSize, because
             '  if the container window is made too small to show all the controls, we need

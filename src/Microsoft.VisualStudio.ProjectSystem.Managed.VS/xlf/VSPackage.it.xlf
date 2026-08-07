@@ -82,9 +82,69 @@
         <target state="translated">File di progetto C# (*.csproj);*.csproj</target>
         <note />
       </trans-unit>
-      <trans-unit id="27">
-        <source>.NET Core 2015 Project Files (*.xproj);*.xproj</source>
-        <target state="translated">File di progetto .NET Core 2015 (*.xproj);*.xproj</target>
+      <trans-unit id="Setting_FastUpToDateCheck_Enabled_Title">
+        <source>Don't call MSBuild if a project appears to be up to date</source>
+        <target state="translated">Non chiama MSBuild se un progetto sembra aggiornato</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="Setting_FastUpToDateCheck_LoggingLevel_Info">
+        <source>Info</source>
+        <target state="translated">Informazioni</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="Setting_FastUpToDateCheck_LoggingLevel_Minimal">
+        <source>Minimal</source>
+        <target state="translated">Minimo</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="Setting_FastUpToDateCheck_LoggingLevel_None">
+        <source>None</source>
+        <target state="translated">Nessuno</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="Setting_FastUpToDateCheck_LoggingLevel_Title">
+        <source>Logging level</source>
+        <target state="translated">Livello di registrazione</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="Setting_FastUpToDateCheck_LoggingLevel_Verbose">
+        <source>Verbose</source>
+        <target state="translated">Dettagliato</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="Setting_FileNesting_IgnoreSolutionAndProjectSettings_Title">
+        <source>Ignore solution and project settings</source>
+        <target state="translated">Ignora impostazioni della soluzione e del progetto</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="Setting_FileNesting_PreferSingleTargetBuilds_Description">
+        <source>When starting a project that targets multiple frameworks, build time can be reduced by building only a single one.</source>
+        <target state="translated">Quando si avvia un progetto destinato a più framework, è possibile ridurre il tempo di compilazione limitando la compilazione a un singolo framework.</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="Setting_FileNesting_PreferSingleTargetBuilds_Title">
+        <source>Prefer single-target builds when starting a project</source>
+        <target state="translated">Preferire le compilazioni a destinazione singola all'avvio di un progetto</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="Settings_Category_FastUpToDateCheck">
+        <source>Up-to-date Checks</source>
+        <target state="translated">Controlli aggiornati</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="Settings_Category_FileNestingSettings">
+        <source>File Nesting</source>
+        <target state="translated">Annidamento file</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="Settings_Category_MultiTargetingSettings">
+        <source>Multi-targeting</source>
+        <target state="translated">Multitargeting</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="Settings_Category_SdkStyleProjects">
+        <source>SDK-style Projects</source>
+        <target state="translated">Progetti di tipo SDK</target>
         <note />
       </trans-unit>
     </body>

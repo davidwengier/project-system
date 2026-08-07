@@ -12,6 +12,11 @@
         <target state="translated">애플리케이션에 전달할 인수</target>
         <note />
       </trans-unit>
+      <trans-unit id="AuthenticationMode">
+        <source>Au_thentication mode:</source>
+        <target state="translated">인증 모드(_T):</target>
+        <note />
+      </trans-unit>
       <trans-unit id="DebugPropertyPageTitle">
         <source>Debug</source>
         <target state="translated">디버그</target>
@@ -42,9 +47,59 @@
         <target state="translated">실행할 실행 파일 경로</target>
         <note />
       </trans-unit>
+      <trans-unit id="FindBtn">
+        <source>_Find...</source>
+        <target state="translated">찾기(_F)...</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="ImplicitUsingEditor_AddUsing">
+        <source>Using</source>
+        <target state="translated">사용 중</target>
+        <note>Refers to the implicit using "includes" that will be added</note>
+      </trans-unit>
+      <trans-unit id="ImplicitUsingEditor_AddUsingButton">
+        <source>Add Using</source>
+        <target state="translated">Using 추가</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="ImplicitUsingEditor_ListItemAlias">
+        <source>Alias</source>
+        <target state="translated">별칭</target>
+        <note>Refers to the implicit using "Alias" text when displayed as a list item</note>
+      </trans-unit>
+      <trans-unit id="ImplicitUsingEditor_ListItemDelete">
+        <source>Delete</source>
+        <target state="translated">삭제</target>
+        <note>The action of deleting an implicit using list item</note>
+      </trans-unit>
+      <trans-unit id="ImplicitUsingEditor_ListItemIncludes">
+        <source>Using Includes</source>
+        <target state="translated">using 포함 사항</target>
+        <note>Refers to the implicit using "Includes" text when displayed as a list item</note>
+      </trans-unit>
+      <trans-unit id="ImplicitUsingEditor_ListItemIsStatic">
+        <source>Static</source>
+        <target state="translated">정적</target>
+        <note>Refers to the implicit using "Static" value when displayed as a list item</note>
+      </trans-unit>
+      <trans-unit id="ImplicitUsingEditor_ListViewAccessibleName">
+        <source>Implicit global usings list</source>
+        <target state="translated">암시적 전역 using 목록</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="ImplicitUsingEditor_ShowImportedUsingsButton">
+        <source>Show imported usings</source>
+        <target state="translated">가져온 using 표시</target>
+        <note />
+      </trans-unit>
       <trans-unit id="InvalidHostName">
         <source>The host name is invalid.</source>
         <target state="translated">호스트 이름이 잘못되었습니다.</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="JSWebView2DebuggingAdditionalText">
+        <source>(Requires the JavaScript Diagnostics component)</source>
+        <target state="translated">(JavaScript 진단 구성 요소 필요)</target>
         <note />
       </trans-unit>
       <trans-unit id="LaunchUrlWatermark">
@@ -98,8 +153,8 @@
         <note />
       </trans-unit>
       <trans-unit id="RemoteDebug">
-        <source>Use remote m_achine:</source>
-        <target state="translated">원격 머신 사용(_A):</target>
+        <source>_Use remote machine:</source>
+        <target state="translated">원격 머신 사용(_U):</target>
         <note />
       </trans-unit>
       <trans-unit id="RemoteDebugMachineWatermark">
@@ -128,38 +183,38 @@
         <note />
       </trans-unit>
       <trans-unit id="AddBtn">
-        <source>Add</source>
-        <target state="translated">추가</target>
+        <source>_Add</source>
+        <target state="translated">추가(_A)</target>
         <note />
       </trans-unit>
       <trans-unit id="ApplicationArguments">
-        <source>Application arguments:</source>
-        <target state="translated">애플리케이션 인수:</target>
+        <source>Application ar_guments:</source>
+        <target state="translated">애플리케이션 인수(_G):</target>
         <note />
       </trans-unit>
       <trans-unit id="BrowseBtn">
-        <source>Browse...</source>
-        <target state="translated">찾아보기...</target>
+        <source>_Browse...</source>
+        <target state="translated">찾아보기(_B)...</target>
         <note />
       </trans-unit>
       <trans-unit id="DeleteBtn">
-        <source>Delete</source>
-        <target state="translated">삭제</target>
+        <source>_Delete</source>
+        <target state="translated">삭제(_D)</target>
         <note />
       </trans-unit>
       <trans-unit id="EnvironmentVariables">
-        <source>Environment variables:</source>
-        <target state="translated">환경 변수:</target>
+        <source>Environ_ment variables:</source>
+        <target state="translated">환경 변수(_M):</target>
         <note />
       </trans-unit>
       <trans-unit id="Executable">
-        <source>Executable:</source>
-        <target state="translated">실행 파일:</target>
+        <source>_Executable:</source>
+        <target state="translated">실행 파일(_E):</target>
         <note />
       </trans-unit>
       <trans-unit id="Launch">
-        <source>Launch:</source>
-        <target state="translated">시작:</target>
+        <source>_Launch:</source>
+        <target state="translated">시작(_L):</target>
         <note />
       </trans-unit>
       <trans-unit id="LaunchURL">
@@ -173,18 +228,18 @@
         <note />
       </trans-unit>
       <trans-unit id="NewBtn">
-        <source>New...</source>
-        <target state="translated">새로 만들기...</target>
+        <source>_New...</source>
+        <target state="translated">새로 만들기(_N)...</target>
         <note />
       </trans-unit>
       <trans-unit id="Profile">
-        <source>Profile:</source>
-        <target state="translated">프로필:</target>
+        <source>_Profile:</source>
+        <target state="translated">프로필(_P):</target>
         <note />
       </trans-unit>
       <trans-unit id="RemoveBtn">
-        <source>Remove</source>
-        <target state="translated">제거</target>
+        <source>_Remove</source>
+        <target state="translated">제거(_R)</target>
         <note />
       </trans-unit>
       <trans-unit id="ValueHeader">
@@ -193,8 +248,8 @@
         <note />
       </trans-unit>
       <trans-unit id="WorkingDirectory">
-        <source>Working directory:</source>
-        <target state="translated">작업 디렉터리:</target>
+        <source>_Working directory:</source>
+        <target state="translated">작업 디렉터리(_W):</target>
         <note />
       </trans-unit>
       <trans-unit id="CancelBtn">
@@ -232,14 +287,19 @@
         <target state="translated">새 프로필을 만들어 선택하고 디버그 속성 페이지로 돌아갑니다.</target>
         <note />
       </trans-unit>
+      <trans-unit id="chkJSWebView2DebuggingText">
+        <source>Enable JavaScript debugger for Microsoft Edge (Chromium) based WebView2</source>
+        <target state="translated">Microsoft Edge(Chromium) 기반 WebView2용 JavaScript 디버거 사용</target>
+        <note />
+      </trans-unit>
       <trans-unit id="chkLaunchBrowserHelpText">
         <source>Checking enables a textbox to specify an absolute or relative URl</source>
         <target state="translated">선택하면 텍스트 상자를 사용하여 절대 또는 상대 URL을 지정할 수 있습니다.</target>
         <note />
       </trans-unit>
       <trans-unit id="chkNativeCodeDebuggingText">
-        <source>Enable native code debugging</source>
-        <target state="translated">네이티브 코드 디버깅 사용</target>
+        <source>Enable nati_ve code debugging</source>
+        <target state="translated">네이티브 코드 디버깅 사용(_V)</target>
         <note />
       </trans-unit>
       <trans-unit id="chkRemoteDebugEnabledHelpText">
@@ -248,8 +308,8 @@
         <note />
       </trans-unit>
       <trans-unit id="chkSqlCodeDebuggingText">
-        <source>Enable SQL Server debugging</source>
-        <target state="translated">SQL Server 디버깅 사용</target>
+        <source>Enable _SQL Server debugging</source>
+        <target state="translated">SQL Server 디버깅 사용(_S)</target>
         <note />
       </trans-unit>
     </body>

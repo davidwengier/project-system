@@ -1,13 +1,11 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Imports System.ComponentModel
 Imports System.ComponentModel.Design
-Imports System.Diagnostics.CodeAnalysis
 Imports System.Windows.Forms
 Imports System.Xml
 
 Imports Microsoft.VisualStudio.Editors.Common
-
 
 Namespace Microsoft.VisualStudio.Editors.PropertyPages
     Friend Class ServicesPropPage
@@ -290,7 +288,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             End If
         End Sub
 
-
         Private Sub WindowsBasedAuth_CheckedChanged(sender As Object, e As EventArgs) Handles WindowsBasedAuth.CheckedChanged
             'DevDiv Bugs 100690, disable Authentication service location and credential type
             'if Windows auth is selected
@@ -321,7 +318,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             EnsureXmlUpToDate()
         End Sub
 
-        <SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")>
         Private Sub InvokeHelp()
             Try
                 Dim sp As IServiceProvider = ServiceProvider

@@ -1,4 +1,4 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Imports System.ComponentModel.Design
 Imports System.Runtime.InteropServices
@@ -176,7 +176,6 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
 
     Friend Delegate Function CheckCommandStatusHandler(menuCommand As DesignerMenuCommand) As Boolean
 
-
     ''' <summary>
     ''' A combobox control on a MSO command bar needs two commands, one to actually execute the command
     ''' and another to fill the combobox with items. This is a helper class that you can register with 
@@ -285,7 +284,7 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
                 Marshal.GetNativeVariantForObject(_currentTextGetter(), e.OutValue)
             Else
                 ' Request to set the text
-                If Not TypeOf e.InValue Is String Then
+                If TypeOf e.InValue IsNot String Then
                     Throw New InvalidOperationException()
                 End If
                 _currentTextSetter(DirectCast(e.InValue, String))
@@ -319,11 +318,11 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
     ''' This handler acts as a place holder command handler when the actual handler which is bound to the
     ''' UI is deleted as the UI is closed.
     ''' </remarks>
-    Friend Class ImposterDesignerMenuCommand
+    Friend Class DummyDesignerMenuCommand
         Inherits DesignerMenuCommand
 
         ''' <summary>
-        ''' Constructs an instance of an ImposterDesignerMenuCommand
+        ''' Constructs an instance of an DummyDesignerMenuCommand
         ''' </summary>
         ''' <param name="commandId">Id of the command.</param>
         ''' <remarks>Sets the command invisible and disabled.</remarks>

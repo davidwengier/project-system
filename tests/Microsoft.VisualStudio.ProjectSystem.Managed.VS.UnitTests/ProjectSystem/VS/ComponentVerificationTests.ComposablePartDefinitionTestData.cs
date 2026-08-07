@@ -1,23 +1,20 @@
-﻿// Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿// Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
 using Microsoft.VisualStudio.Composition;
-using Xunit;
 
-namespace Microsoft.VisualStudio.ProjectSystem.VS
+namespace Microsoft.VisualStudio.ProjectSystem.VS;
+
+public partial class ComponentVerificationTests
 {
-    public partial class ComponentVerificationTests
+    internal class ComposablePartDefinitionTestData : TheoryData<Type>
     {
-        internal class ComposablePartDefinitionTestData : TheoryData<Type>
+        public ComposablePartDefinitionTestData()
         {
-            public ComposablePartDefinitionTestData()
-            {
-                var catalog = ComponentComposition.Instance.Catalog;
+            var catalog = ComponentComposition.Instance.Catalog;
 
-                foreach (ComposablePartDefinition part in catalog.Parts)
-                {
-                    Add(part.Type);
-                }
+            foreach (ComposablePartDefinition part in catalog.Parts)
+            {
+                Add(part.Type);
             }
         }
     }

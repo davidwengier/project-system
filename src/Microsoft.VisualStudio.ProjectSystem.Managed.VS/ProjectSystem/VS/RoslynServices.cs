@@ -1,55 +1,41 @@
-﻿// Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿// Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System.ComponentModel.Composition;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.VisualStudio.ProjectSystem.LanguageServices;
-using RoslynRenamer = Microsoft.CodeAnalysis.Rename;
 
-namespace Microsoft.VisualStudio.ProjectSystem.VS
+using Workspace = Microsoft.CodeAnalysis.Workspace;
+
+namespace Microsoft.VisualStudio.ProjectSystem.VS;
+
+[Export(typeof(IRoslynServices))]
+internal class RoslynServices : IRoslynServices
 {
-    [Export(typeof(IRoslynServices))]
-    internal class RoslynServices : IRoslynServices
+    private readonly IProjectThreadingService _threadingService;
+
+    [ImportingConstructor]
+    public RoslynServices(
+        IProjectThreadingService threadingService,
+        UnconfiguredProject project)
     {
-        private readonly IProjectThreadingService _threadingService;
+        _threadingService = threadingService;
+        SyntaxFactsServicesImpl = new OrderPrecedenceImportCollection<ISyntaxFactsService>(projectCapabilityCheckProvider: project);
+    }
 
-        [ImportingConstructor]
-        public RoslynServices(
-            IProjectThreadingService threadingService,
-            UnconfiguredProject project)
-        {
-            _threadingService = threadingService;
-            SyntaxFactsServicesImpl = new OrderPrecedenceImportCollection<ISyntaxFactsService>(projectCapabilityCheckProvider: project);
-        }
+    [ImportMany]
+    protected OrderPrecedenceImportCollection<ISyntaxFactsService> SyntaxFactsServicesImpl { get; }
 
-        [ImportMany]
-        protected OrderPrecedenceImportCollection<ISyntaxFactsService> SyntaxFactsServicesImpl { get; }
+    private ISyntaxFactsService? SyntaxFactsService => SyntaxFactsServicesImpl.FirstOrDefault()?.Value;
 
-        private ISyntaxFactsService? SyntaxFactsService
-        {
-            get
-            {
-                return SyntaxFactsServicesImpl.FirstOrDefault()?.Value;
-            }
-        }
+    public bool ApplyChangesToSolution(Workspace ws, Solution renamedSolution)
+    {
+        _threadingService.VerifyOnUIThread();
 
-        public Task<Solution> RenameSymbolAsync(Solution solution, ISymbol symbol, string newName, CancellationToken token = default)
-        {
-            return RoslynRenamer.Renamer.RenameSymbolAsync(solution, symbol, newName, solution.Workspace.Options, token);
-        }
+        // Always make sure TryApplyChanges is called from an UI thread.
+        return ws.TryApplyChanges(renamedSolution);
+    }
 
-        public bool ApplyChangesToSolution(Workspace ws, Solution renamedSolution)
-        {
-            _threadingService.VerifyOnUIThread();
-
-            // Always make sure TryApplyChanges is called from an UI thread.
-            return ws.TryApplyChanges(renamedSolution);
-        }
-
-        public bool IsValidIdentifier(string identifierName)
-        {
-            return SyntaxFactsService?.IsValidIdentifier(identifierName) ?? false;
-        }
+    public bool IsValidIdentifier(string identifierName)
+    {
+        return SyntaxFactsService?.IsValidIdentifier(identifierName) ?? false;
     }
 }

@@ -5,8 +5,14 @@
 *.vb linguist-vendored
 *.reg text
 
-# Collapse XLF files in PRs by default
+# Collapse these files in PRs by default
 *.xlf linguist-generated=true
+*.lcl linguist-generated=true
+
+# Set these files to XML (coloring) in PRs
+*.vsmanproj linguist-language=XML
+*.swixproj linguist-language=XML
+*.config linguist-language=XML
 
 ###############################################################################
 # Set default behavior for command prompt diff.
@@ -67,3 +73,6 @@
 #*.PDF   diff=astextplain
 #*.rtf   diff=astextplain
 #*.RTF   diff=astextplain
+
+# VerifyTests
+*.verified.txt text eol=lf working-tree-encoding=UTF-8

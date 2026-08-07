@@ -1,80 +1,94 @@
-﻿// Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿// Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
-using System.ComponentModel.Composition;
-using System.Threading.Tasks;
 using EnvDTE;
 using Microsoft.VisualStudio.LanguageServices.ProjectSystem;
 using Microsoft.VisualStudio.ProjectSystem.LanguageServices;
+using Microsoft.VisualStudio.Telemetry;
+using Microsoft.VisualStudio.Threading;
 
-namespace Microsoft.VisualStudio.ProjectSystem.VS.LanguageServices
+namespace Microsoft.VisualStudio.ProjectSystem.VS.LanguageServices;
+
+/// <summary>
+///     Adapts CPS's <see cref="ICodeModelProvider"/> and <see cref="IProjectCodeModelProvider"/> to Roslyn's <see cref="ICodeModelFactory"/> implementation.
+/// </summary>
+[Export(typeof(ICodeModelProvider))]
+[Export(typeof(IProjectCodeModelProvider))]
+[AppliesTo(ProjectCapability.CSharpOrVisualBasicLanguageService)]
+internal class ProjectContextCodeModelProvider : ICodeModelProvider, IProjectCodeModelProvider
 {
-    /// <summary>
-    ///     Adapts CPS's <see cref="ICodeModelProvider"/> and <see cref="IProjectCodeModelProvider"/> to Roslyn's <see cref="ICodeModelFactory"/> implementation.
-    /// </summary>
-    [Export(typeof(ICodeModelProvider))]
-    [Export(typeof(IProjectCodeModelProvider))]
-    [AppliesTo(ProjectCapability.DotNetLanguageService)]
-    internal class ProjectContextCodeModelProvider : ICodeModelProvider, IProjectCodeModelProvider
+    private readonly IProjectThreadingService _threadingService;
+    private readonly ICodeModelFactory _codeModelFactory;
+    private readonly IWorkspaceWriter _workspaceWriter;
+    private readonly ITelemetryService _telemetryService;
+    private int _telemetrySent;
+
+    [ImportingConstructor]
+    public ProjectContextCodeModelProvider(IProjectThreadingService threadingService, ICodeModelFactory codeModelFactory, IWorkspaceWriter workspaceWriter, ITelemetryService telemetryService)
     {
-        private readonly IProjectThreadingService _threadingService;
-        private readonly ICodeModelFactory _codeModelFactory;
-        private readonly IActiveWorkspaceProjectContextHost _projectContextHost;
+        _threadingService = threadingService;
+        _codeModelFactory = codeModelFactory;
+        _workspaceWriter = workspaceWriter;
+        _telemetryService = telemetryService;
+    }
 
-        [ImportingConstructor]
-        public ProjectContextCodeModelProvider(IProjectThreadingService threadingService, ICodeModelFactory codeModelFactory, IActiveWorkspaceProjectContextHost projectContextHost)
+    public CodeModel? GetCodeModel(Project project)
+    {
+        Requires.NotNull(project);
+
+        SendTelemetry();
+
+        return _threadingService.ExecuteSynchronously(() =>
         {
-            _threadingService = threadingService;
-            _codeModelFactory = codeModelFactory;
-            _projectContextHost = projectContextHost;
-        }
+            return GetCodeModelAsync(project);
+        });
+    }
 
-        public CodeModel GetCodeModel(Project project)
+    public FileCodeModel? GetFileCodeModel(ProjectItem fileItem)
+    {
+        Requires.NotNull(fileItem);
+
+        SendTelemetry();
+
+        return _threadingService.ExecuteSynchronously(() =>
         {
-            Requires.NotNull(project, nameof(project));
+            return GetFileCodeModelAsync(fileItem);
+        });
+    }
 
-            return _threadingService.ExecuteSynchronously(() =>
+    private async Task<CodeModel?> GetCodeModelAsync(Project project)
+    {
+        await _threadingService.SwitchToUIThread();
+
+        return await _workspaceWriter.WriteAsync(workspace =>
+        {
+            return Task.FromResult(_codeModelFactory.GetCodeModel(workspace.Context, project));
+        });
+    }
+
+    private async Task<FileCodeModel?> GetFileCodeModelAsync(ProjectItem fileItem)
+    {
+        await _threadingService.SwitchToUIThread();
+
+        return await _workspaceWriter.WriteAsync(workspace =>
+        {
+            try
             {
-                return GetCodeModelAsync(project);
-            });
-        }
+                return Task.FromResult<FileCodeModel?>(_codeModelFactory.GetFileCodeModel(workspace.Context, fileItem));
+            }
+            catch (NotImplementedException)
+            {   // Isn't a file that Roslyn knows about
+            }
 
-        public FileCodeModel? GetFileCodeModel(ProjectItem fileItem)
+            return TaskResult.Null<FileCodeModel>();
+        });
+    }
+
+    private void SendTelemetry()
+    {
+        // Send a telemetry event once per unconfigured project
+        if (Interlocked.CompareExchange(ref _telemetrySent, value: 1, comparand: 0) == 0)
         {
-            Requires.NotNull(fileItem, nameof(fileItem));
-
-            return _threadingService.ExecuteSynchronously(() =>
-            {
-                return GetFileCodeModelAsync(fileItem);
-            });
-        }
-
-        private async Task<CodeModel> GetCodeModelAsync(Project project)
-        {
-            await _threadingService.SwitchToUIThread();
-
-            return await _projectContextHost.OpenContextForWriteAsync(accessor =>
-            {
-                return Task.FromResult(_codeModelFactory.GetCodeModel(accessor.Context, project));
-            });
-        }
-
-        private async Task<FileCodeModel?> GetFileCodeModelAsync(ProjectItem fileItem)
-        {
-            await _threadingService.SwitchToUIThread();
-
-            return await _projectContextHost.OpenContextForWriteAsync(accessor =>
-            {
-                try
-                {
-                    return Task.FromResult<FileCodeModel?>(_codeModelFactory.GetFileCodeModel(accessor.Context, fileItem));
-                }
-                catch (NotImplementedException)
-                {   // Isn't a file that Roslyn knows about
-                }
-
-                return Task.FromResult<FileCodeModel?>(null);
-            });
+            _telemetryService.PostEvent(TelemetryEventName.CodeModelRequested);
         }
     }
 }

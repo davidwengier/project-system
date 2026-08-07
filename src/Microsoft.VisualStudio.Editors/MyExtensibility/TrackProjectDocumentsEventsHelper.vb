@@ -1,4 +1,4 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Option Strict On
 Option Explicit On
@@ -38,7 +38,7 @@ Namespace Microsoft.VisualStudio.Editors.MyExtensibility
         End Sub
 
         Private Sub New(serviceProvider As IServiceProvider)
-            Requires.NotNull(serviceProvider, NameOf(serviceProvider))
+            Requires.NotNull(serviceProvider)
 
             _serviceProvider = serviceProvider
 

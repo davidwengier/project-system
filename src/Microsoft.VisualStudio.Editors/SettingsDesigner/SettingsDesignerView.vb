@@ -1,4 +1,4 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Imports System.ComponentModel
 Imports System.ComponentModel.Design
@@ -9,14 +9,14 @@ Imports System.Web.ClientServices.Providers
 Imports System.Windows.Forms
 Imports System.Windows.Forms.Design
 Imports System.Xml
-
 Imports Microsoft.VisualStudio.Designer.Interfaces
 Imports Microsoft.VisualStudio.Editors.Common
 Imports Microsoft.VisualStudio.Editors.DesignerFramework
 Imports Microsoft.VisualStudio.Editors.Interop
 Imports Microsoft.VisualStudio.Editors.PropertyPages
-Imports Microsoft.VisualStudio.Utilities
 Imports Microsoft.VisualStudio.Shell.Interop
+Imports Microsoft.VisualStudio.Utilities
+Imports Microsoft.VSDesigner
 Imports Microsoft.VSDesigner.VSDesignerPackage
 
 Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
@@ -46,8 +46,8 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
             Public Sub New(rootDesigner As BaseRootDesigner, serviceProvider As IServiceProvider, projectItem As EnvDTE.ProjectItem, namespaceToOverrideIfCustomToolIsEmpty As String)
                 MyBase.New(rootDesigner, serviceProvider, projectItem, namespaceToOverrideIfCustomToolIsEmpty)
 
-                AddCodeGeneratorEntry(AccessModifierConverter.Access.Friend, SettingsSingleFileGenerator.SingleFileGeneratorName)
-                AddCodeGeneratorEntry(AccessModifierConverter.Access.Public, PublicSettingsSingleFileGenerator.SingleFileGeneratorName)
+                AddCodeGeneratorEntry(AccessModifierType.Internal, SettingsSingleFileGenerator.SingleFileGeneratorName)
+                AddCodeGeneratorEntry(AccessModifierType.Public, PublicSettingsSingleFileGenerator.SingleFileGeneratorName)
 
                 'Make sure both the internal and public custom tool values are "recognized"
                 AddRecognizedCustomToolValue(SettingsSingleFileGenerator.SingleFileGeneratorName)
@@ -87,7 +87,7 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
                     Return _committingChanges
                 End Get
                 Set
-                    _committingChanges = value
+                    _committingChanges = Value
                 End Set
             End Property
         End Class
@@ -141,7 +141,6 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
         ''' </summary>
         Private _valueCache As SettingsValueCache
 
-
 #Region " Windows Form Designer generated code "
 
         Public Sub New()
@@ -172,7 +171,6 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
             }
             _settingsGridView.Columns.Add(TypeEditorCol)
 
-
             _settingsGridView.EditMode = DataGridViewEditMode.EditOnKeystrokeOrF2
             _settingsGridView.Text = "m_SettingsGridView"
             _settingsGridView.DefaultCellStyle.NullValue = ""
@@ -183,6 +181,8 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
             SetLinkLabelText()
 
             _settingsGridView.ColumnHeadersHeight = _settingsGridView.Rows(0).GetPreferredHeight(0, DataGridViewAutoSizeRowMode.AllCells, False)
+            AddHandler _settingsGridView.KeyDown, AddressOf OnGridKeyDown
+
             _toolbarPanel = New DesignerToolbarPanel With {
                 .Name = "ToolbarPanel",
                 .Text = "ToolbarPanel"
@@ -190,6 +190,17 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
             _settingsTableLayoutPanel.Controls.Add(_toolbarPanel, 0, 0)
             _settingsTableLayoutPanel.ResumeLayout()
             ResumeLayout()
+        End Sub
+
+        Private Sub OnGridKeyDown(s As Object, e As KeyEventArgs)
+            If e.KeyCode = Keys.Tab Then
+                ' Tab key shouldn't be used to move us to the next cell. Otherwise we can't leave the grid view without traversing
+                ' the whole table with Tab key (even then, we get stuck at the last cell).
+                ' Tab key should instead get us to the next tab stop, making all the controls accessible by keyboard.
+                ' Moving between cells can be done using arrow keys.
+                _descriptionLinkLabel.Focus()
+                e.Handled = True
+            End If
         End Sub
 
         ''' <summary>
@@ -257,6 +268,7 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
             resources.ApplyResources(_settingsGridView, "m_SettingsGridView")
             _settingsGridView.Margin = New Padding(14)
             _settingsGridView.Name = "m_SettingsGridView"
+            _settingsGridView.TabStop = True
             '
             'DataGridViewTextBoxColumn1
             '
@@ -291,6 +303,7 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
             resources.ApplyResources(_descriptionLinkLabel, "DescriptionLinkLabel")
             _descriptionLinkLabel.Margin = New Padding(14, 23, 14, 9)
             _descriptionLinkLabel.Name = "DescriptionLinkLabel"
+            _descriptionLinkLabel.DisplayFocusCues = True
             _descriptionLinkLabel.TabStop = True
             '
             'SettingsTableLayoutPanel
@@ -306,6 +319,7 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
             _settingsTableLayoutPanel.RowStyles.Add(New RowStyle)
             _settingsTableLayoutPanel.RowStyles.Add(New RowStyle)
             _settingsTableLayoutPanel.RowStyles.Add(New RowStyle(SizeType.Percent, 100.0!))
+            _settingsTableLayoutPanel.TabStop = True
             '
             'SettingsDesignerView
             '
@@ -387,9 +401,8 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
             ' Add the "connection string" pseudo type
             TypeColumn.Items.Add(_typeNameResolver.PersistedSettingTypeNameToTypeDisplayName(SettingsSerializer.CultureInvariantVirtualTypeNameWebReference))
             TypeColumn.Items.Add(_typeNameResolver.PersistedSettingTypeNameToTypeDisplayName(SettingsSerializer.CultureInvariantVirtualTypeNameConnectionString))
-            TypeColumn.Items.Add(My.Resources.Microsoft_VisualStudio_Editors_Designer.SD_ComboBoxItem_BrowseType)
-            TypeColumn.Width = DpiAwareness.LogicalToDeviceUnits(Handle, TypeColumn.GetPreferredWidth(DataGridViewAutoSizeColumnMode.AllCells, False) + SystemInformation.VerticalScrollBarWidth + InternalComboBoxPadding)
 
+            TypeColumn.Width = DpiAwareness.LogicalToDeviceUnits(Handle, TypeColumn.GetPreferredWidth(DataGridViewAutoSizeColumnMode.AllCells, False) + SystemInformation.VerticalScrollBarWidth + InternalComboBoxPadding)
 
             ScopeColumn.Width = DpiAwareness.LogicalToDeviceUnits(Handle, ScopeColumn.GetPreferredWidth(DataGridViewAutoSizeColumnMode.AllCells, False) + SystemInformation.VerticalScrollBarWidth + InternalComboBoxPadding)
 
@@ -416,8 +429,15 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
                 _projectSystemSupportsUserScope = True
             End If
 
-            Settings = Designer.Settings
+            ' Do not allow browsing or serializing arbitrary types for .NET Core scenarios.
+            ' We don't currently have a general mechanism to identify types known to both the
+            ' designer (running on .NET Framework) and the application (running on .NET Core).
+            Dim multiTargetService = New MultiTargetService(_hierarchy, VSConstants.VSITEMID_ROOT, False)
+            If (multiTargetService.TargetFrameworkName.Identifier <> ".NETCoreApp") Then
+                TypeColumn.Items.Add(My.Resources.Microsoft_VisualStudio_Editors_Designer.SD_ComboBoxItem_BrowseType)
+            End If
 
+            Settings = Designer.Settings
 
             ' ...get new changes service...
             ChangeService = DirectCast(Designer.GetService(GetType(IComponentChangeService)), IComponentChangeService)
@@ -471,10 +491,8 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
             DesignUtil.DisplayTopicFromF1Keyword(_rootDesigner, HelpIDs.SettingsDesignerDescription)
         End Sub
 
-
         ''' <summary>
-        ''' Initialize the fonts in the resource editor from the environment (or from the resx file,
-        '''   if hard-coded there).
+        ''' Initialize the fonts in the settings editor from the environment.
         ''' </summary>
         Private Sub SetFonts()
             Dim DialogFont As Drawing.Font = GetEnvironmentFont()
@@ -523,7 +541,7 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
                 Return _changeService
             End Get
             Set
-                If Not Value Is _changeService Then
+                If Value IsNot _changeService Then
                     UnSubscribeChangeServiceNotifications()
                     _changeService = Value
                     SubscribeChangeServiceNotifications()
@@ -757,7 +775,6 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
             Return succeeded
         End Function
 
-
 #Region "Column accessors"
 
         ''' <summary>
@@ -781,7 +798,6 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
 #End Region
 
 #Region "Private helper functions"
-
 
         ''' <summary>
         ''' Completely refresh grid (remove current rows and re-create them from settings
@@ -946,9 +962,7 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
             End If
         End Sub
 
-
 #End Region
-
 
 #Region "Control event handlers"
 
@@ -977,7 +991,6 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
             ' already taken care of this :)
             e.Cancel = True
         End Sub
-
 
         ''' <summary>
         ''' The user has deleted a row from the grid - let's make sure that we delete the corresponding
@@ -1250,7 +1263,6 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
             End If
         End Sub
 
-
         ''' <summary>
         ''' Get access to a UI service - useful to pop up message boxes and getting fonts
         ''' </summary>
@@ -1483,6 +1495,7 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
         ''' <param name="Designer"></param>
         Private Sub UnregisterMenuCommands(Designer As SettingsDesigner)
             RemoveHandler _settingsGridView.ContextMenuShow, AddressOf Designer.ShowContextMenu
+            RemoveHandler _settingsGridView.KeyDown, AddressOf OnGridKeyDown
         End Sub
 
         ''' <summary>
@@ -1843,7 +1856,6 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
             Return False
         End Function
 
-
         ''' <summary>
         ''' If there are unreferenced types, display an error dialog
         ''' </summary>
@@ -2090,7 +2102,6 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
                 Return _designerLoader
             End Get
         End Property
-
 
     End Class
 

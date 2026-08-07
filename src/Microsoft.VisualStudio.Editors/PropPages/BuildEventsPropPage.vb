@@ -1,4 +1,4 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Imports System.Windows.Forms
 
@@ -90,6 +90,10 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             End If
         End Function
 
+        Friend Sub EnsureMinimumSize()
+            MinimumSize = overarchingTableLayoutPanel.MinimumSize
+        End Sub
+
         Private Sub PostBuildBuilderButton_Click(sender As Object, e As EventArgs) Handles btnPostBuildBuilder.Click
             Dim CommandLineText As String
             CommandLineText = txtPostBuildEventCommandLine.Text
@@ -166,6 +170,9 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             Return MacroValue
         End Function
 
+        Private Sub BuildEventsPropPage_SizeChanged(sender As Object, e As EventArgs) Handles MyBase.SizeChanged
+            EnsureMinimumSize()
+        End Sub
     End Class
 
 End Namespace

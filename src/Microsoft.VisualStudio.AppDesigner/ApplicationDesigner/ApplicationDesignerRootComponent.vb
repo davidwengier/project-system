@@ -1,4 +1,4 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Imports System.ComponentModel
 Imports System.ComponentModel.Design
@@ -24,7 +24,7 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
         '''   designer which is showing the UI to the user which allows this component's
         '''   resx file to be edited by the user.
         ''' </summary>
-        ''' <value>The associated ResourceEditorRootDesigner.</value>
+        ''' <value>The associated ApplicationDesignerRootDesigner.</value>
         Public ReadOnly Property RootDesigner As ApplicationDesignerRootDesigner
             Get
                 If _rootDesigner Is Nothing Then

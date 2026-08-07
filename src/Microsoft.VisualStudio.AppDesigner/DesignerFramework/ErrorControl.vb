@@ -1,10 +1,9 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Imports System.Drawing
 Imports System.Windows.Forms
 
 Namespace Microsoft.VisualStudio.Editors.AppDesDesignerFramework
-
 
     ''' <summary>
     ''' This is a Windows control that is shown when there is an exception loading a designer or property page.
@@ -26,7 +25,6 @@ Namespace Microsoft.VisualStudio.Editors.AppDesDesignerFramework
             _sizingLabel = New Label()
         End Sub
 
-
         ''' <summary>
         ''' Constructor
         ''' </summary>
@@ -36,7 +34,6 @@ Namespace Microsoft.VisualStudio.Editors.AppDesDesignerFramework
             Me.Text = Text
         End Sub
 
-
         ''' <summary>
         ''' Constructor
         ''' </summary>
@@ -44,7 +41,6 @@ Namespace Microsoft.VisualStudio.Editors.AppDesDesignerFramework
         Public Sub New(ex As Exception)
             Me.New(AppDesCommon.DebugMessageFromException(ex))
         End Sub
-
 
         ''' <summary>
         ''' Constructor
@@ -63,7 +59,6 @@ Namespace Microsoft.VisualStudio.Editors.AppDesDesignerFramework
             Text = TextBuilder.ToString()
         End Sub
 
-
         ''' <summary>
         ''' Constructor
         ''' </summary>
@@ -76,7 +71,6 @@ Namespace Microsoft.VisualStudio.Editors.AppDesDesignerFramework
                 ErrorText.Text = value
             End Set
         End Property
-
 
         ''' <summary>
         ''' Fires when the ErrorText gets focus
@@ -92,7 +86,6 @@ Namespace Microsoft.VisualStudio.Editors.AppDesDesignerFramework
                 _firstGotFocus = False
             End If
         End Sub
-
 
         ''' <summary>
         ''' Get the preferred size of the control, expanding 

@@ -1,31 +1,45 @@
-﻿// Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿// Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System.Collections.Immutable;
+namespace Microsoft.VisualStudio.ProjectSystem.Debug;
 
-namespace Microsoft.VisualStudio.ProjectSystem.Debug
+/// <summary>
+/// Models the set of launch profiles and global settings defined in a project.
+/// </summary>
+/// <remarks>
+/// Can be thought of as the object model for a <c>launchSettings.json</c> file, with the additional
+/// concept of an active profile.
+///
+/// Implementations of this interface are expected to be immutable.
+/// </remarks>
+public interface ILaunchSettings
 {
     /// <summary>
-    /// Interface definition for an immutable launch settings snapshot.
+    /// Gets the currently active launch profile for the project.
     /// </summary>
-    public interface ILaunchSettings
-    {
-        ILaunchProfile? ActiveProfile { get; }
+    /// <remarks>
+    /// If an active profile has not been specified, defaults to the first profile in <see cref="Profiles"/>.
+    ///
+    /// Will be <see langword="null"/> if <see cref="Profiles"/> is empty.
+    /// </remarks>
+    ILaunchProfile? ActiveProfile { get; }
 
-        /// <summary>
-        /// Access to the current set of launch profiles.
-        /// </summary>
-        ImmutableList<ILaunchProfile> Profiles { get; }
+    /// <summary>
+    /// Gets the list of all launch profiles provided by this project.
+    /// </summary>
+    ImmutableList<ILaunchProfile> Profiles { get; }
 
-        /// <summary>
-        /// Provides access to custom global launch settings data. The returned value depends
-        /// on the section being retrieved. The settingsName matches the section in the
-        /// settings file.
-        /// </summary>
-        object GetGlobalSetting(string settingsName);
+    /// <summary>
+    /// Provides access to custom global launch settings data. The returned value depends
+    /// on the section being retrieved. <paramref name="settingsName"/> matches the section
+    /// in the settings file.
+    /// </summary>
+    /// <remarks>
+    /// This method just performs a lookup on <see cref="GlobalSettings"/>.
+    /// </remarks>
+    object? GetGlobalSetting(string settingsName);
 
-        /// <summary>
-        /// Provides access to all the global settings.
-        /// </summary>
-        ImmutableDictionary<string, object> GlobalSettings { get; }
-    }
+    /// <summary>
+    /// Gets a dictionary of global settings.
+    /// </summary>
+    ImmutableDictionary<string, object> GlobalSettings { get; }
 }

@@ -1,4 +1,4 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Imports System.Collections.Immutable
 Imports EnvDTE
@@ -33,9 +33,7 @@ Namespace Microsoft.VisualStudio.Editors.MyApplication
         Private Function TrackInternal(projectHierarchy As IVsHierarchy) As MyApplicationProperties
             Dim cookie = GetProjectFileCookie(projectHierarchy)
 
-#Disable Warning CA2000 ' Dispose objects before losing scope
             Dim properties = ImmutableInterlocked.GetOrAdd(_managerInstances, cookie, Function() New MyApplicationProperties())
-#Enable Warning CA2000 ' Dispose objects before losing scope
             ' There is a chance that GetOrAdd will call the valueFactory function when its not needed
             ' and since MyApplicationProperties won't init itself twice, we can just Init it here when we're sure
             properties.Init(projectHierarchy)

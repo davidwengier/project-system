@@ -1,26 +1,33 @@
-﻿// Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿// Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
-using System.Threading;
-using Moq;
+namespace NuGet.SolutionRestoreManager;
 
-namespace NuGet.SolutionRestoreManager
+internal class IVsSolutionRestoreServiceFactory
 {
-    internal static class IVsSolutionRestoreServiceFactory
+    private readonly Mock<IVsSolutionRestoreService5> _mock = new();
+
+    internal IVsSolutionRestoreServiceFactory WithNominateProjectAsync(Action<string, IVsProjectRestoreInfo3, CancellationToken> action)
     {
-        public static IVsSolutionRestoreService3 Create()
+        _mock.Setup(s => s.NominateProjectAsync(It.IsAny<string>(), It.IsAny<IVsProjectRestoreInfo3>(), It.IsAny<CancellationToken>()))
+             .Callback(action)
+             .ReturnsAsync(true);
+
+        return this;
+    }
+
+    internal IVsSolutionRestoreServiceFactory WithRegisterRestoreInfoSourceAsync(Action<IVsProjectRestoreInfoSource, CancellationToken>? registerAction = null)
+    {
+        if (registerAction is not null)
         {
-            return Mock.Of<IVsSolutionRestoreService3>();
+            _mock.Setup(s => s.RegisterRestoreInfoSourceAsync(It.IsAny<IVsProjectRestoreInfoSource>(), It.IsAny<CancellationToken>()))
+                 .Callback(registerAction);
         }
 
-        internal static IVsSolutionRestoreService3 ImplementNominateProjectAsync(Action<string, IVsProjectRestoreInfo2, CancellationToken> action)
-        {
-            var mock = new Mock<IVsSolutionRestoreService3>();
-            mock.Setup(s => s.NominateProjectAsync(It.IsAny<string>(), It.IsAny<IVsProjectRestoreInfo2>(), It.IsAny<CancellationToken>()))
-                .Callback(action)
-                .ReturnsAsync(true);
+        return this;
+    }
 
-            return mock.Object;
-        }
+    internal IVsSolutionRestoreService5 Build()
+    {
+        return _mock.Object;
     }
 }

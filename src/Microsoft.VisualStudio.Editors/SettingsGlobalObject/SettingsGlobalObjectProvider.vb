@@ -1,4 +1,4 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Imports System.CodeDom
 Imports System.ComponentModel
@@ -47,7 +47,6 @@ Namespace Microsoft.VisualStudio.Editors.SettingsGlobalObjects
         Inherits GlobalObjectProvider
         Implements IServiceProvider, IVsRunningDocTableEvents, IVsTrackProjectDocumentsEvents2
 
-
         Private _globalObjects As Dictionary(Of Project, GlobalObjectCollection)
         Private _typedGlobalObjects As Dictionary(Of Project, Dictionary(Of Type, GlobalObjectCollection))
         Private _oldGlobalObjects As Dictionary(Of Project, GlobalObjectCollection)
@@ -92,7 +91,6 @@ Namespace Microsoft.VisualStudio.Editors.SettingsGlobalObjects
                 Return _rdt
             End Get
         End Property
-
 
         ''' <summary>
         ''' Performs the actual global object creation.
@@ -316,7 +314,6 @@ Namespace Microsoft.VisualStudio.Editors.SettingsGlobalObjects
 
         End Function 'GetFileNameForProjectItem
 
-
         ''' <summary>
         '''  Returns a collection of global objects.  If a base type is specified, the collection 
         '''  should only consist of global objects derived from the given base type.  
@@ -420,7 +417,6 @@ Namespace Microsoft.VisualStudio.Editors.SettingsGlobalObjects
                     gobs.Item(baseType) = result
                 End If
             End If
-
 
             If result.Count = 0 AndAlso GetType(SettingsBase).IsAssignableFrom(baseType) Then
                 ' BEGIN HACK: If we didn't find anything, we'll make a last try using IVsProjectSpecialFiles 
@@ -714,7 +710,6 @@ Namespace Microsoft.VisualStudio.Editors.SettingsGlobalObjects
                 Return NativeMethods.S_OK
             End If
 
-
             Dim hier As IVsHierarchy = Nothing
             If Not IgnoreAppConfigChanges AndAlso
                ((attributes And (__VSRDTATTRIB.RDTA_DocDataReloaded Or __VSRDTATTRIB.RDTA_DocDataIsNotDirty)) <> 0) AndAlso
@@ -830,7 +825,6 @@ Namespace Microsoft.VisualStudio.Editors.SettingsGlobalObjects
             End If
         End Function
 
-
         ''' <summary>
         ''' IVsRunningDocTable events we don't care about.
         ''' </summary>
@@ -860,19 +854,19 @@ Namespace Microsoft.VisualStudio.Editors.SettingsGlobalObjects
 
             ' Validate arguments....
             Debug.Assert(rgpProjects IsNot Nothing AndAlso rgpProjects.Length = cProjects, "null rgpProjects or bad-length array")
-            Requires.NotNull(rgpProjects, NameOf(rgpProjects))
+            Requires.NotNull(rgpProjects)
             If rgpProjects.Length <> cProjects Then Throw Common.CreateArgumentException(NameOf(rgpProjects))
 
             Debug.Assert(rgFirstIndices IsNot Nothing AndAlso rgFirstIndices.Length = cProjects, "null rgFirstIndices or bad-length array")
-            Requires.NotNull(rgFirstIndices, NameOf(rgFirstIndices))
+            Requires.NotNull(rgFirstIndices)
             If rgFirstIndices.Length <> cProjects Then Throw Common.CreateArgumentException(NameOf(rgFirstIndices))
 
             Debug.Assert(rgpszMkDocuments IsNot Nothing AndAlso rgpszMkDocuments.Length = cFiles, "null rgpszMkDocuments or bad-length array")
-            Requires.NotNull(rgpszMkDocuments, NameOf(rgpszMkDocuments))
+            Requires.NotNull(rgpszMkDocuments)
             If rgpszMkDocuments.Length <> cFiles Then Throw Common.CreateArgumentException(NameOf(rgpszMkDocuments))
 
             Debug.Assert(rgFlags IsNot Nothing AndAlso rgFlags.Length = cFiles, "null rgFlags or bad-length array")
-            Requires.NotNull(rgFlags, NameOf(rgFlags))
+            Requires.NotNull(rgFlags)
             If rgFlags.Length <> cFiles Then Throw Common.CreateArgumentException(NameOf(rgFlags))
 
             ' CONSIDER: Check/pass the flags to the MapToSettingsFileProjectItems to exclude special/dependent/nested files from being added
@@ -895,19 +889,19 @@ Namespace Microsoft.VisualStudio.Editors.SettingsGlobalObjects
         Public Function OnAfterRemoveFiles(cProjects As Integer, cFiles As Integer, rgpProjects() As IVsProject, rgFirstIndices() As Integer, rgpszMkDocuments() As String, rgFlags() As VSREMOVEFILEFLAGS) As Integer Implements IVsTrackProjectDocumentsEvents2.OnAfterRemoveFiles
             ' Validate arguments....
             Debug.Assert(rgpProjects IsNot Nothing AndAlso rgpProjects.Length = cProjects, "null rgpProjects or bad-length array")
-            Requires.NotNull(rgpProjects, NameOf(rgpProjects))
+            Requires.NotNull(rgpProjects)
             If rgpProjects.Length <> cProjects Then Throw Common.CreateArgumentException(NameOf(rgpProjects))
 
             Debug.Assert(rgFirstIndices IsNot Nothing AndAlso rgFirstIndices.Length = cProjects, "null rgFirstIndices or bad-length array")
-            Requires.NotNull(rgFirstIndices, NameOf(rgFirstIndices))
+            Requires.NotNull(rgFirstIndices)
             If rgFirstIndices.Length <> cProjects Then Throw Common.CreateArgumentException(NameOf(rgFirstIndices))
 
             Debug.Assert(rgpszMkDocuments IsNot Nothing AndAlso rgpszMkDocuments.Length = cFiles, "null rgpszMkDocuments or bad-length array")
-            Requires.NotNull(rgpszMkDocuments, NameOf(rgpszMkDocuments))
+            Requires.NotNull(rgpszMkDocuments)
             If rgpszMkDocuments.Length <> cFiles Then Throw Common.CreateArgumentException(NameOf(rgpszMkDocuments))
 
             Debug.Assert(rgFlags IsNot Nothing AndAlso rgFlags.Length = cFiles, "null rgFlags or bad-length array")
-            Requires.NotNull(rgFlags, NameOf(rgFlags))
+            Requires.NotNull(rgFlags)
             If rgFlags.Length <> cFiles Then Throw Common.CreateArgumentException(NameOf(rgFlags))
 
             Dim expandedHierarchies() As IVsHierarchy = GetCorrespondingProjects(rgpProjects, rgFirstIndices, cFiles)
@@ -926,25 +920,24 @@ Namespace Microsoft.VisualStudio.Editors.SettingsGlobalObjects
         Public Function OnAfterRenameFiles(cProjects As Integer, cFiles As Integer, rgpProjects() As IVsProject, rgFirstIndices() As Integer, rgszMkOldNames() As String, rgszMkNewNames() As String, rgFlags() As VSRENAMEFILEFLAGS) As Integer Implements IVsTrackProjectDocumentsEvents2.OnAfterRenameFiles
             ' Validate arguments....
             Debug.Assert(rgpProjects IsNot Nothing AndAlso rgpProjects.Length = cProjects, "null rgpProjects or bad-length array")
-            Requires.NotNull(rgpProjects, NameOf(rgpProjects))
+            Requires.NotNull(rgpProjects)
             If rgpProjects.Length <> cProjects Then Throw Common.CreateArgumentException(NameOf(rgpProjects))
 
             Debug.Assert(rgFirstIndices IsNot Nothing AndAlso rgFirstIndices.Length = cProjects, "null rgFirstIndices or bad-length array")
-            Requires.NotNull(rgFirstIndices, NameOf(rgFirstIndices))
+            Requires.NotNull(rgFirstIndices)
             If rgFirstIndices.Length <> cProjects Then Throw Common.CreateArgumentException(NameOf(rgFirstIndices))
 
             Debug.Assert(rgszMkOldNames IsNot Nothing AndAlso rgszMkOldNames.Length = cFiles, "null rgszMkOldNames or bad-length array")
-            Requires.NotNull(rgszMkOldNames, NameOf(rgszMkOldNames))
+            Requires.NotNull(rgszMkOldNames)
             If rgszMkOldNames.Length <> cFiles Then Throw Common.CreateArgumentException(NameOf(rgszMkOldNames))
 
             Debug.Assert(rgszMkNewNames IsNot Nothing AndAlso rgszMkNewNames.Length = cFiles, "null rgszMkNewNames or bad-length array")
-            Requires.NotNull(rgszMkNewNames, NameOf(rgszMkNewNames))
+            Requires.NotNull(rgszMkNewNames)
             If rgszMkNewNames.Length <> cFiles Then Throw Common.CreateArgumentException(NameOf(rgszMkNewNames))
 
             Debug.Assert(rgFlags IsNot Nothing AndAlso rgFlags.Length = cFiles, "null rgFlags or bad-length array")
-            Requires.NotNull(rgFlags, NameOf(rgFlags))
+            Requires.NotNull(rgFlags)
             If rgFlags.Length <> cFiles Then Throw Common.CreateArgumentException(NameOf(rgFlags))
-
 
             Dim expandedHierarchies() As IVsHierarchy = GetCorrespondingProjects(rgpProjects, rgFirstIndices, cFiles)
             For i As Integer = 0 To cFiles - 1
@@ -1030,7 +1023,6 @@ Namespace Microsoft.VisualStudio.Editors.SettingsGlobalObjects
             Return result
         End Function
 
-
         ''' <summary>
         ''' Called when a new project item is removed from a project we're tracking.  In this
         ''' case we must find the individual global object, raise its removing event, and
@@ -1112,32 +1104,6 @@ Namespace Microsoft.VisualStudio.Editors.SettingsGlobalObjects
         End Sub
     End Class
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     ''' <summary>
     ''' Our global object for .settings files.  This monitors changes to the individual settings file.
     ''' </summary>
@@ -1165,7 +1131,7 @@ Namespace Microsoft.VisualStudio.Editors.SettingsGlobalObjects
         ''' (the XML serializer may use the DynamicTypeService to resolve the type to
         ''' deserialize, which means that we may be called again - See VsWhidbey 444946)
         ''' </summary>
-        Private _loadingSettings As Boolean = False
+        Private _loadingSettings As Boolean
 
         ''' <summary>
         ''' Create a new settings global object.  We defer building the type until later.
@@ -1201,7 +1167,6 @@ Namespace Microsoft.VisualStudio.Editors.SettingsGlobalObjects
                 Return _dtSettings
             End Get
         End Property
-
 
         Friend Function ResolveType(typeName As String) As Type
             Return _typeCache.GetSettingType(typeName)
@@ -1242,7 +1207,6 @@ Namespace Microsoft.VisualStudio.Editors.SettingsGlobalObjects
                 End If
             End Set
         End Property
-
 
         ''' <summary>
         ''' Interesting to know what project item we're related to.
@@ -1334,7 +1298,9 @@ Namespace Microsoft.VisualStudio.Editors.SettingsGlobalObjects
 
             Dim isDesignTime As Boolean = True
 
-            Dim ccu As CodeCompileUnit = SettingsSingleFileGeneratorBase.Create(_hierarchy, designTimeSettingsToPresent, _namespace, fileName, isDesignTime, TypeAttributes.Public Or TypeAttributes.Sealed)
+            Dim isVB As Boolean = fileName.EndsWith(".vb")
+            
+            Dim ccu As CodeCompileUnit = SettingsSingleFileGeneratorBase.Create(isVB, _hierarchy, designTimeSettingsToPresent, _namespace, fileName, isDesignTime, TypeAttributes.Public Or TypeAttributes.Sealed)
             Debug.Assert(ccu.Namespaces.Count = 1, "Expected a single namespace from SettingsSingleFileGenerator")
 
             ' Remove structure from the compile unit that virtual types can't handle.  
@@ -1483,7 +1449,6 @@ Namespace Microsoft.VisualStudio.Editors.SettingsGlobalObjects
 #End If
             Return Nothing
         End Function 'GetSerializerCore
-
 
         ''' <summary>
         ''' Loads a DesignTimeSettings object from the given fileName
@@ -1750,9 +1715,7 @@ Namespace Microsoft.VisualStudio.Editors.SettingsGlobalObjects
                     GetDocumentInfo(fileName, readLocks, editLocks, itemid, docCookie)
                 End If
 
-
                 Try
-
 
                     Dim disposable As IDisposable = docDataTemp.CreateChangeMarker()
                     Try
@@ -1845,7 +1808,6 @@ Namespace Microsoft.VisualStudio.Editors.SettingsGlobalObjects
             Dim pAppConfigUnkDocData As IntPtr
             Dim AppConfigFileName As String = Nothing
 
-
             Dim oldIgnoreAppConfigChanges As Boolean = _provider.IgnoreAppConfigChanges
             Try
                 _provider.IgnoreAppConfigChanges = True
@@ -1891,7 +1853,7 @@ Namespace Microsoft.VisualStudio.Editors.SettingsGlobalObjects
                                                             True)
                                 If shouldSaveAppConfig Then
                                     If appConfigItemid = VSITEMID.NIL OrElse appConfigCookie = 0 Then
-                                        ' Let's make sure we have all the nescessary info for this...
+                                        ' Let's make sure we have all the necessary info for this...
                                         Dim appConfigReadLocks As UInteger
                                         Dim appConfigEditLocks As UInteger
                                         GetDocumentInfo(AppConfigFileName, appConfigReadLocks, appConfigEditLocks, appConfigItemid, appConfigCookie)
@@ -1945,15 +1907,6 @@ Namespace Microsoft.VisualStudio.Editors.SettingsGlobalObjects
                 Next t
             Next ns
         End Sub 'ScrubCompileUnit
-
-
-
-
-
-
-
-
-
 
         ''' <summary>
         ''' This class is the code serializer for SettingsFile global object.
@@ -2029,16 +1982,6 @@ Namespace Microsoft.VisualStudio.Editors.SettingsGlobalObjects
 
         End Class 'SettingsFileCodeDomSerializer
 
-
-
-
-
-
-
-
-
-
-
         ''' <summary>
         ''' The virtual type implementor for our global object.  This maps properties to setting names.
         ''' </summary>
@@ -2069,7 +2012,7 @@ Namespace Microsoft.VisualStudio.Editors.SettingsGlobalObjects
             Public Overrides Function GetPropertyValue(prop As PropertyInfo, instance As Object, args() As Object) As Object
 
                 Debug.Assert(prop IsNot Nothing, "bad property passed to GetPropertyValue")
-                Requires.NotNull(prop, NameOf(prop))
+                Requires.NotNull(prop)
 
                 ' make sure this .settings file is generating code, otherwise it's not really
                 '   worth it to attempt to get property values...
@@ -2168,7 +2111,7 @@ Namespace Microsoft.VisualStudio.Editors.SettingsGlobalObjects
             Public Overrides Sub SetPropertyValue(prop As PropertyInfo, instance As Object, value As Object, args As Object())
 
                 Debug.Assert(prop IsNot Nothing, "bad property passed to SetPropertyValue")
-                Requires.NotNull(prop, NameOf(prop))
+                Requires.NotNull(prop)
 
 #If DEBUG Then
                 Debug.WriteLineIf(SettingsGlobalObjectProvider.GlobalSettings.TraceVerbose, "SettingsFileTypeImplementor.SetPropertyValue(" & CStr(_globalObject._className) & " -- " & CStr(prop.Name) & ")...")
@@ -2318,7 +2261,7 @@ Namespace Microsoft.VisualStudio.Editors.SettingsGlobalObjects
                     '
                     MyBase.OnAddComplete(prop)
 
-                    Requires.NotNull(prop, NameOf(prop))
+                    Requires.NotNull(prop)
 
                     ' we need the collection of settings objects to which we can add the new setting
                     '
@@ -2396,7 +2339,7 @@ Namespace Microsoft.VisualStudio.Editors.SettingsGlobalObjects
 #End If
                 MyBase.OnRemoveComplete([property])
 
-                Requires.NotNull([property], NameOf([property]))
+                Requires.NotNull([property])
 
                 ' we need the collection of settings objects from which we can remove the setting
                 '
@@ -2438,11 +2381,6 @@ Namespace Microsoft.VisualStudio.Editors.SettingsGlobalObjects
             End Sub
         End Class
 
-
-
-
-
-
         ''' <summary>
         ''' Attribute we tack on to values that we return from GetPropertyValue to identify which property
         ''' the value hails from.
@@ -2482,9 +2420,7 @@ Namespace Microsoft.VisualStudio.Editors.SettingsGlobalObjects
             End Property
         End Class 'SettingsGlobalObjectValueAttribute
 
-
     End Class 'SettingsFileGlobalObject
-
 
     ''' <summary>
     ''' Class that helps get an IVsHierarchy given a DTE project.

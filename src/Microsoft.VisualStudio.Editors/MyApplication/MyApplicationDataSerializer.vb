@@ -1,4 +1,4 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Imports System.Xml.Serialization
 
@@ -34,14 +34,14 @@ Namespace Microsoft.VisualStudio.Editors.MyApplication
             WriteElementStringRaw("EnableVisualStyles", "", Xml.XmlConvert.ToString(CType(o.EnableVisualStyles, Boolean)))
             WriteElementStringRaw("AuthenticationMode", "", Xml.XmlConvert.ToString(CType(o.AuthenticationMode, Integer)))
             WriteElementString("SplashScreen", "", o.SplashScreenNoRootNS)
+            WriteElementStringRaw("MinimumSplashScreenDisplayTime", "", Xml.XmlConvert.ToString(CType(o.MinimumSplashScreenDisplayTime, Integer)))
             WriteElementStringRaw("SaveMySettingsOnExit", "", Xml.XmlConvert.ToString(CType(o.SaveMySettingsOnExit, Boolean)))
+            WriteElementStringRaw("HighDpiMode", "", Xml.XmlConvert.ToString(CType(o.HighDpiMode, Integer)))
             WriteEndElement(o)
         End Sub 'Write2_MyApplicationData
 
-
         Protected Overrides Sub InitCallbacks()
         End Sub 'InitCallbacks
-
 
         Public Sub Write3_MyApplicationData(o As Object)
             WriteStartDocument()
@@ -53,7 +53,7 @@ Namespace Microsoft.VisualStudio.Editors.MyApplication
             Write2_MyApplicationData("MyApplicationData", "", CType(o, MyApplicationData), True, False)
         End Sub 'Write3_MyApplicationData 
 
-        Private _publicMethods As Hashtable = Nothing
+        Private _publicMethods As Hashtable
 
         Public Function GetPublicMethods() As Hashtable
             If _publicMethods Is Nothing Then
@@ -66,7 +66,6 @@ Namespace Microsoft.VisualStudio.Editors.MyApplication
             Return False
         End Function 'CanSerialize 
     End Class 'MyApplicationDataSerializationWriter
-
 
     Friend Class MyApplicationDataSerializationReader
         Inherits XmlSerializationReader
@@ -98,7 +97,7 @@ Namespace Microsoft.VisualStudio.Editors.MyApplication
 
             Dim o As MyApplicationData
             o = New MyApplicationData()
-            Dim paramsRead(8) As Boolean
+            Dim paramsRead(10) As Boolean
 
             While Reader.MoveToNextAttribute()
                 If Not IsXmlnsAttribute(Reader.Name) Then
@@ -154,10 +153,17 @@ Namespace Microsoft.VisualStudio.Editors.MyApplication
                         o.SaveMySettingsOnExit = Xml.XmlConvert.ToBoolean(Reader.ReadElementString())
                         paramsRead(8) = True
 
+                    ElseIf Not paramsRead(9) AndAlso Reader.LocalName = _id13_HighDpiMode AndAlso Reader.NamespaceURI = _id2_Item Then
+                        o.HighDpiMode = Xml.XmlConvert.ToInt32(Reader.ReadElementString())
+                        paramsRead(9) = True
+
+                    ElseIf Not paramsRead(10) AndAlso Reader.LocalName = _id14_MinimumSplashScreenDisplayTime AndAlso Reader.NamespaceURI = _id2_Item Then
+                        o.MinimumSplashScreenDisplayTime = Xml.XmlConvert.ToInt32(Reader.ReadElementString())
+                        paramsRead(10) = True
+
                     Else
                         UnknownNode(CType(o, Object))
                     End If
-
 
                 Else
 
@@ -172,10 +178,8 @@ Namespace Microsoft.VisualStudio.Editors.MyApplication
             Return o
         End Function 'Read2_MyApplicationData
 
-
         Protected Overrides Sub InitCallbacks()
         End Sub 'InitCallbacks
-
 
         Public Function Read4_MyApplicationData() As Object
 
@@ -205,7 +209,8 @@ Namespace Microsoft.VisualStudio.Editors.MyApplication
         Private _id7_EnableVisualStyles As String '
         Private _id8_AuthenticationMode As String
         Private _id12_SaveMySettingsOnExit As String
-
+        Private _id13_HighDpiMode As String
+        Private _id14_MinimumSplashScreenDisplayTime As String
 
         Protected Overrides Sub InitIDs()
 
@@ -230,9 +235,13 @@ Namespace Microsoft.VisualStudio.Editors.MyApplication
             _id8_AuthenticationMode = Reader.NameTable.Add("AuthenticationMode")
 
             _id12_SaveMySettingsOnExit = Reader.NameTable.Add("SaveMySettingsOnExit")
+
+            _id13_HighDpiMode = Reader.NameTable.Add("HighDpiMode")
+
+            _id14_MinimumSplashScreenDisplayTime = Reader.NameTable.Add("MinimumSplashScreenDisplayTime")
         End Sub 'InitIDs 
 
-        Private _publicMethods As Hashtable = Nothing
+        Private _publicMethods As Hashtable
 
         Public Function GetPublicMethods() As Hashtable
             If _publicMethods Is Nothing Then
@@ -242,7 +251,6 @@ Namespace Microsoft.VisualStudio.Editors.MyApplication
         End Function 'GetPublicMethods 
     End Class 'MyApplicationDataSerializationReader
 
-
     Friend Class MyApplicationDataSerializer
         Inherits XmlSerializer
 
@@ -250,16 +258,13 @@ Namespace Microsoft.VisualStudio.Editors.MyApplication
             Return New MyApplicationDataSerializationReader()
         End Function 'CreateReader
 
-
         Protected Overrides Function CreateWriter() As XmlSerializationWriter
             Return New MyApplicationDataSerializationWriter()
         End Function 'CreateWriter
 
-
         Public Overrides Function CanDeserialize(xmlReader As Xml.XmlReader) As Boolean
             Return xmlReader.IsStartElement("MyApplicationData", "")
         End Function 'CanDeserialize
-
 
         Protected Overrides Sub Serialize(objectToSerialize As Object, writer As XmlSerializationWriter)
 
@@ -270,7 +275,6 @@ Namespace Microsoft.VisualStudio.Editors.MyApplication
 
             CType(writer, MyApplicationDataSerializationWriter).Write3_MyApplicationData(objectToSerialize)
         End Sub 'Serialize
-
 
         Protected Overrides Function Deserialize(reader As XmlSerializationReader) As Object
 

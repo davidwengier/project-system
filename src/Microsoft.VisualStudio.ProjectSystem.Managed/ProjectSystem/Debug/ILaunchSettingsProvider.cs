@@ -1,68 +1,86 @@
-﻿// Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿// Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
-using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
-using Microsoft.VisualStudio.Composition;
 
-namespace Microsoft.VisualStudio.ProjectSystem.Debug
+namespace Microsoft.VisualStudio.ProjectSystem.Debug;
+
+/// <summary>
+/// Interface definition for the LaunchSettingsProvider.
+/// </summary>
+[ProjectSystemContract(ProjectSystemContractScope.UnconfiguredProject, ProjectSystemContractProvider.Private, Cardinality = ImportCardinality.ExactlyOne)]
+public interface ILaunchSettingsProvider
 {
     /// <summary>
-    /// Interface definition for the LaunchSettingsProvider.
+    /// Link to this source block to be notified when the snapshot is changed.
     /// </summary>
-    [ProjectSystemContract(ProjectSystemContractScope.UnconfiguredProject, ProjectSystemContractProvider.Private, Cardinality = ImportCardinality.ExactlyOne)]
-    public interface ILaunchSettingsProvider
-    {
-        IReceivableSourceBlock<ILaunchSettings> SourceBlock { get; }
+    /// <remarks>
+    /// If the <see cref="ILaunchSettings"/> provided by this block are going to feed
+    /// into another data flow block, strongly consider using <see cref="IVersionedLaunchSettingsProvider"/>
+    /// instead as that provides a joinable variant.
+    /// </remarks>
+    IReceivableSourceBlock<ILaunchSettings> SourceBlock { get; }
 
-        ILaunchSettings CurrentSnapshot { get; }
+    /// <summary>
+    /// Gets the current launch settings snapshot, or <see langword="null"/> if it is not yet available.
+    /// </summary>
+    ILaunchSettings? CurrentSnapshot { get; }
 
-        [Obsolete("Use ILaunchSettingsProvider2.GetLaunchSettingsFilePathAsync instead.")]
-        string LaunchSettingsFile { get; }
+    [Obsolete("Use ILaunchSettingsProvider2.GetLaunchSettingsFilePathAsync instead.")]
+    string LaunchSettingsFile { get; }
 
-        ILaunchProfile? ActiveProfile { get; }
+    /// <summary>
+    /// Returns the active profile. Equivalent to <c>CurrentSnapshot?.ActiveProfile</c>.
+    /// </summary>
+    ILaunchProfile? ActiveProfile { get; }
 
-        /// <summary>
-        /// Replaces the current set of profiles with the contents of profiles. If changes were
-        /// made, the file will be checked out and updated. If the active profile is different, the
-        /// active profile property is updated.
-        /// </summary>
-        Task UpdateAndSaveSettingsAsync(ILaunchSettings profiles);
+    /// <summary>
+    /// Replaces the current set of profiles with the contents of <paramref name="profiles"/>.
+    /// If changes were made, the file will be checked out and updated. Note that the
+    /// active profile in <paramref name="profiles"/> is ignored; to change the active
+    /// profile use <see cref="SetActiveProfileAsync(string)"/> instead.
+    /// </summary>
+    Task UpdateAndSaveSettingsAsync(ILaunchSettings profiles);
 
-        /// <summary>
-        /// Blocks until at least one snapshot has been generated.
-        /// </summary>
-        /// <param name="timeout">The timeout in milliseconds.</param>
-        Task<ILaunchSettings> WaitForFirstSnapshot(int timeout);
+    /// <summary>
+    /// Blocks until at least one snapshot has been generated.
+    /// </summary>
+    /// <remarks>
+    /// The operation will be cancelled if the project is unloaded during the wait.
+    /// </remarks>
+    /// <param name="timeout">The timeout in milliseconds.</param>
+    /// <returns>
+    /// The current <see cref="ILaunchSettings"/> snapshot, or <see langword="null"/> if the
+    /// timeout expires before the snapshot become available.
+    /// </returns>
+    Task<ILaunchSettings?> WaitForFirstSnapshot(int timeout);
 
-        /// <summary>
-        /// Adds the given profile to the list and saves to disk. If a profile with the same 
-        /// name exists (case sensitive), it will be replaced with the new profile. If addToFront is
-        /// true the profile will be the first one in the list. This is useful since quite often callers want
-        /// their just added profile to be listed first in the start menu. 
-        /// </summary>
-        Task AddOrUpdateProfileAsync(ILaunchProfile profile, bool addToFront);
+    /// <summary>
+    /// Adds the given profile to the list and saves to disk. If a profile with the same
+    /// name exists (case sensitive), it will be replaced with the new profile. If <paramref name="addToFront"/> is
+    /// <see langword="true"/> the profile will be the first one in the list. This is useful since quite often callers want
+    /// their just-added profile to be listed first in the start menu.
+    /// </summary>
+    Task AddOrUpdateProfileAsync(ILaunchProfile profile, bool addToFront);
 
-        /// <summary>
-        /// Removes the specified profile from the list and saves to disk.
-        /// </summary>
-        Task RemoveProfileAsync(string profileName);
+    /// <summary>
+    /// Removes the specified profile from the list and saves to disk.
+    /// </summary>
+    Task RemoveProfileAsync(string profileName);
 
-        /// <summary>
-        /// Adds or updates the global settings represented by settingName. Saves the 
-        /// updated settings to disk. Note that the settings object must be serializable.
-        /// </summary>
-        Task AddOrUpdateGlobalSettingAsync(string settingName, object settingContent);
+    /// <summary>
+    /// Adds or updates the global settings represented by <paramref name="settingName"/>. Saves the
+    /// updated settings to disk. Note that the settings object must be serializable.
+    /// </summary>
+    Task AddOrUpdateGlobalSettingAsync(string settingName, object settingContent);
 
-        /// <summary>
-        /// Removes the specified global setting and saves the settings to disk
-        /// </summary>
-        Task RemoveGlobalSettingAsync(string settingName);
+    /// <summary>
+    /// Removes the specified global setting and saves the settings to disk.
+    /// </summary>
+    Task RemoveGlobalSettingAsync(string settingName);
 
-        /// <summary>
-        /// Sets the active profile. This just sets the property it does not validate that the setting matches an
-        /// existing profile
-        /// </summary>
-        Task SetActiveProfileAsync(string profileName);
-    }
+    /// <summary>
+    /// Sets the active profile. This just sets the property; it does not validate that the setting matches an
+    /// existing profile.
+    /// </summary>
+    Task SetActiveProfileAsync(string profileName);
 }

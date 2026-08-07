@@ -19,7 +19,7 @@ namespace Microsoft.VisualStudio {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -88,11 +88,47 @@ namespace Microsoft.VisualStudio {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Project system data flow &apos;{0}&apos; closed because of an exception: {1}..
+        /// </summary>
+        internal static string DataFlowFaults {
+            get {
+                return ResourceManager.GetString("DataFlowFaults", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dependencies.
         /// </summary>
         internal static string DependenciesNodeName {
             get {
                 return ResourceManager.GetString("DependenciesNodeName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error.
+        /// </summary>
+        internal static string DiagnosticLevel_Error {
+            get {
+                return ResourceManager.GetString("DiagnosticLevel_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to None.
+        /// </summary>
+        internal static string DiagnosticLevel_None {
+            get {
+                return ResourceManager.GetString("DiagnosticLevel_None", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Warning.
+        /// </summary>
+        internal static string DiagnosticLevel_Warning {
+            get {
+                return ResourceManager.GetString("DiagnosticLevel_Warning", resourceCulture);
             }
         }
         
@@ -115,6 +151,96 @@ namespace Microsoft.VisualStudio {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Applying updates failed: {0}.
+        /// </summary>
+        internal static string HotReloadApplyUpdatesFailure {
+            get {
+                return ResourceManager.GetString("HotReloadApplyUpdatesFailure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Updates applied successfully..
+        /// </summary>
+        internal static string HotReloadApplyUpdatesSuccessful {
+            get {
+                return ResourceManager.GetString("HotReloadApplyUpdatesSuccessful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to restart the project due to a build failure. Fix the build and try again..
+        /// </summary>
+        internal static string HotReloadBuildFail {
+            get {
+                return ResourceManager.GetString("HotReloadBuildFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Errors found in application: .
+        /// </summary>
+        internal static string HotReloadErrorsInApplication {
+            get {
+                return ResourceManager.GetString("HotReloadErrorsInApplication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hot Reload.
+        /// </summary>
+        internal static string HotReloadOutputWindowPaneName {
+            get {
+                return ResourceManager.GetString("HotReloadOutputWindowPaneName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rebuilding and restarting the application since the edits can&apos;t be applied dynamically..
+        /// </summary>
+        internal static string HotReloadRestartInProgress {
+            get {
+                return ResourceManager.GetString("HotReloadRestartInProgress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sending updates to running application..
+        /// </summary>
+        internal static string HotReloadSendingUpdates {
+            get {
+                return ResourceManager.GetString("HotReloadSendingUpdates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hot Reload session started..
+        /// </summary>
+        internal static string HotReloadStartSession {
+            get {
+                return ResourceManager.GetString("HotReloadStartSession", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stopping application..
+        /// </summary>
+        internal static string HotReloadStoppingApplication {
+            get {
+                return ResourceManager.GetString("HotReloadStoppingApplication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hot Reload session complete..
+        /// </summary>
+        internal static string HotReloadStopSession {
+            get {
+                return ResourceManager.GetString("HotReloadStopSession", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Imports.
         /// </summary>
         internal static string ImportsTreeNodeName {
@@ -126,9 +252,19 @@ namespace Microsoft.VisualStudio {
         /// <summary>
         ///   Looks up a localized string similar to Errors in &apos;{0}&apos; need to be corrected before applying changes..
         /// </summary>
-        internal static string JsonErrorNeedToBeCorrected {
+        internal static string JsonErrorsNeedToBeCorrected_1 {
             get {
-                return ResourceManager.GetString("JsonErrorNeedToBeCorrected", resourceCulture);
+                return ResourceManager.GetString("JsonErrorsNeedToBeCorrected_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Errors in &apos;{0}&apos; need to be corrected before applying changes. Error message:
+        ///{1}.
+        /// </summary>
+        internal static string JsonErrorsNeedToBeCorrected_WithErrorMessage_2 {
+            get {
+                return ResourceManager.GetString("JsonErrorsNeedToBeCorrected_WithErrorMessage_2", resourceCulture);
             }
         }
         
@@ -151,11 +287,29 @@ namespace Microsoft.VisualStudio {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} - {1}.
+        /// </summary>
+        internal static string NeutralLanguage_DisplayNameFormatString {
+            get {
+                return ResourceManager.GetString("NeutralLanguage_DisplayNameFormatString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Start.
         /// </summary>
         internal static string NoActionProfileName {
             get {
                 return ResourceManager.GetString("NoActionProfileName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No Authentication.
+        /// </summary>
+        internal static string NoAuth {
+            get {
+                return ResourceManager.GetString("NoAuth", resourceCulture);
             }
         }
         
@@ -187,11 +341,122 @@ namespace Microsoft.VisualStudio {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Attaching to process..
+        /// </summary>
+        internal static string ProjectHotReloadSessionManager_AttachingToProcess {
+            get {
+                return ResourceManager.GetString("ProjectHotReloadSessionManager_AttachingToProcess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error while stopping the session: {0}
+        ///{1}.
+        /// </summary>
+        internal static string ProjectHotReloadSessionManager_ErrorStoppingTheSession {
+            get {
+                return ResourceManager.GetString("ProjectHotReloadSessionManager_ErrorStoppingTheSession", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to start Hot Reload session: no active process..
+        /// </summary>
+        internal static string ProjectHotReloadSessionManager_NoActiveProcess {
+            get {
+                return ResourceManager.GetString("ProjectHotReloadSessionManager_NoActiveProcess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The process has already exited..
+        /// </summary>
+        internal static string ProjectHotReloadSessionManager_ProcessAlreadyExited {
+            get {
+                return ResourceManager.GetString("ProjectHotReloadSessionManager_ProcessAlreadyExited", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The process has exited..
+        /// </summary>
+        internal static string ProjectHotReloadSessionManager_ProcessExited {
+            get {
+                return ResourceManager.GetString("ProjectHotReloadSessionManager_ProcessExited", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hot Reload is not available because startup hooks have been disabled, possibly due to trimming..
+        /// </summary>
+        internal static string ProjectHotReloadSessionManager_StartupHooksDisabled {
+            get {
+                return ResourceManager.GetString("ProjectHotReloadSessionManager_StartupHooksDisabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The project file &apos;{0}&apos; cannot be opened. 
+        ///
+        ///This project was loaded using the wrong project type, likely as a result of renaming the project extension outside of Visual Studio. Remove and re-add the project to have the solution pick up the right project type..
+        /// </summary>
+        internal static string ProjectLoadedWithWrongProjectType {
+            get {
+                return ResourceManager.GetString("ProjectLoadedWithWrongProjectType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Projects.
         /// </summary>
         internal static string ProjectsNodeName {
             get {
                 return ResourceManager.GetString("ProjectsNodeName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (None).
+        /// </summary>
+        internal static string Property_NoneValue {
+            get {
+                return ResourceManager.GetString("Property_NoneValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The metadata on &apos;DotNetCliToolReference&apos; item &apos;{0}&apos; is inconsistent between target frameworks. Only the first one will be restored..
+        /// </summary>
+        internal static string Restore_DuplicateToolReferenceItems {
+            get {
+                return ResourceManager.GetString("Restore_DuplicateToolReferenceItems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The value of the &apos;TargetFrameworkMoniker&apos; and &apos;NuGetTargetMoniker&apos; properties in the &apos;{0}&apos; configuration are both empty. This configuration will not contribute to NuGet restore, which may result in restore and build errors..
+        /// </summary>
+        internal static string Restore_EmptyTargetFrameworkMoniker {
+            get {
+                return ResourceManager.GetString("Restore_EmptyTargetFrameworkMoniker", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A NuGet restore loop has been detected in project &apos;{0}&apos;. Further restores have been aborted. The project might be in a bad state..
+        /// </summary>
+        internal static string Restore_NuGetCycleDetected {
+            get {
+                return ResourceManager.GetString("Restore_NuGetCycleDetected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The value of the &apos;{0}&apos; property is inconsistent between target frameworks. This property must be identical for NuGet restore to function correctly. The value &apos;{1}&apos; from the &apos;{2}&apos; configuration will be used, other target frameworks may fail to pick NuGet assets..
+        /// </summary>
+        internal static string Restore_PropertyWithInconsistentValues {
+            get {
+                return ResourceManager.GetString("Restore_PropertyWithInconsistentValues", resourceCulture);
             }
         }
         
@@ -212,6 +477,15 @@ namespace Microsoft.VisualStudio {
         internal static string SpecialFileProvider_FileOrFolderAlreadyExists {
             get {
                 return ResourceManager.GetString("SpecialFileProvider_FileOrFolderAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Windows Authentication.
+        /// </summary>
+        internal static string WindowsAuth {
+            get {
+                return ResourceManager.GetString("WindowsAuth", resourceCulture);
             }
         }
     }

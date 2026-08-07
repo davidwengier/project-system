@@ -1,60 +1,79 @@
-﻿// Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿// Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
-namespace Microsoft.VisualStudio.Telemetry
+namespace Microsoft.VisualStudio.Telemetry;
+
+/// <summary>
+///     Provides telemetry event names used throughout this project.
+/// </summary>
+internal static class TelemetryEventName
 {
+    // NOTE we don't extract the prefix (vs/projectsystem/managed) into a variable here, to make
+    // it easier to search for the full event name across repositories and find this code as
+    // a match.
+
     /// <summary>
-    ///     Provides telemetry event names used throughout this project.
+    ///     Indicates the a fault in the managed project system.
     /// </summary>
-    internal static class TelemetryEventName
-    {
-        /// <summary>
-        ///     Indicates the prefix (vs/projectsystem/managed/) of all event names throughout this project.
-        /// </summary>
-        public const string Prefix = "vs/projectsystem/managed";
+    public const string Fault = "vs/projectsystem/managed/fault";
 
-        /// <summary>
-        ///     Indicates that a project's last build is considered up-to-date.
-        /// </summary>
-        public static readonly string UpToDateCheckSuccess = BuildEventName("UpToDateCheck/Success");
+    /// <summary>
+    ///     Indicates that a project's last build is considered up-to-date.
+    /// </summary>
+    public const string UpToDateCheckSuccess = "vs/projectsystem/managed/uptodatecheck/success";
 
-        /// <summary>
-        ///     Indicates that a project's last build is considered out-of-date.
-        /// </summary>
-        public static readonly string UpToDateCheckFail = BuildEventName("UpToDateCheck/Fail");
+    /// <summary>
+    ///     Indicates that a project's last build is considered out-of-date.
+    /// </summary>
+    public const string UpToDateCheckFail = "vs/projectsystem/managed/uptodatecheck/fail";
 
-        /// <summary>
-        ///     Indicates that the dependency tree was updated with unresolved dependencies.
-        /// </summary>
-        public static readonly string TreeUpdatedUnresolved = BuildEventName("TreeUpdated/Unresolved");
+    /// <summary>
+    ///     Indicates that a design-time build has completed.
+    /// </summary>
+    public const string DesignTimeBuildComplete = "vs/projectsystem/managed/designtimebuildcomplete";
 
-        /// <summary>
-        ///     Indicates that the dependency tree was updated with all resolved dependencies.
-        /// </summary>
-        public static readonly string TreeUpdatedResolved = BuildEventName("TreeUpdated/Resolved");
+    /// <summary>
+    ///     Indicates the .NET Core SDK version.
+    /// </summary>
+    public const string SDKVersion = "vs/projectsystem/managed/sdkversion";
 
-        /// <summary>
-        ///     Indicates that a design-time build has completed.
-        /// </summary>
-        public static readonly string DesignTimeBuildComplete = BuildEventName("DesignTimeBuildComplete");
+    /// <summary>
+    ///     Indicates that the TempPE compilation queue has been processed.
+    /// </summary>
+    public const string TempPEProcessQueue = "vs/projectsystem/managed/temppe/processcompilequeue";
 
-        /// <summary>
-        ///     Indicates that .NET Core SDK version.
-        /// </summary>
-        public static readonly string SDKVersion = BuildEventName("SDKVersion");
+    /// <summary>
+    ///     Indicates that the TempPE compilation has occurred on demand from a designer.
+    /// </summary>
+    public const string TempPECompileOnDemand = "vs/projectsystem/managed/temppe/compileondemand";
 
-        /// <summary>
-        ///     Indicates that the TempPE compilation queue has been processed
-        /// </summary>
-        public static readonly string TempPEProcessQueue = BuildEventName("TempPE/ProcessCompileQueue");
+    /// <summary>
+    ///    Indicates that project was not up-to-date after build, meaning that incremental build is not
+    ///    working correctly for the project.
+    /// </summary>
+    /// <remarks>
+    ///    In some cases, we run the up-to-date check <i>after</i> a build completes, to determine whether
+    ///    the project's incremental build is working correctly. When a build completes, it should be up-to-date.
+    /// </remarks>
+    public const string IncrementalBuildValidationFailure = "vs/projectsystem/managed/incrementalbuild/validationfailure";
 
-        /// <summary>
-        ///     Indicates that the TempPE compilation has occurred on demand from a designer
-        /// </summary>
-        public static readonly string TempPECompileOnDemand = BuildEventName("TempPE/CompileOnDemand");
+    /// <summary>
+    ///     Indicates that the user was notified of the suspected incremental build failure.
+    /// </summary>
+    public const string IncrementalBuildValidationFailureDisplayed = "vs/projectsystem/managed/incrementalbuild/validationfailure/displayed";
 
-        private static string BuildEventName(string eventName)
-        {
-            return Prefix + "/" + eventName.ToLowerInvariant();
-        }
-    }
+    /// <summary>
+    ///     Contains a summary of the solution build, from the perspective of the .NET Project System.
+    /// </summary>
+    public const string SolutionBuildSummary = "vs/projectsystem/managed/incrementalbuild/solutionbuildsummary";
+
+    /// <summary>
+    ///     Indicates that the NuGet restore detected a cycle.
+    /// </summary>
+    public const string NuGetRestoreCycleDetected = "vs/projectsystem/managed/nugetrestore/cycledetected";
+
+    /// <summary>
+    ///     Notifies that the legacy CodeModel was requested for a given project.
+    ///     Only fires once per unconfigured project.
+    /// </summary>
+    public const string CodeModelRequested = "vs/projectsystem/managed/codemodel/requested";
 }

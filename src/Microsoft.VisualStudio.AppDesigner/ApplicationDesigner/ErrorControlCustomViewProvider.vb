@@ -1,4 +1,4 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Imports System.Windows.Forms
 
@@ -16,7 +16,6 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
         Private ReadOnly _errorText As String    'Error text, if given
         Private ReadOnly _exception As Exception 'Error exception, if given
 
-
         ''' <summary>
         ''' Constructor
         ''' </summary>
@@ -32,7 +31,6 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
         Public Sub New(Exception As Exception)
             _exception = Exception
         End Sub
-
 
         ''' <summary>
         ''' Returns the view control (if already created)
@@ -65,7 +63,6 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
                 _view = Nothing
             End If
         End Sub
-
 
 #Region "Dispose/IDisposable"
 

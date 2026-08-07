@@ -1,4 +1,4 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Imports System.ComponentModel
 Imports System.Drawing
@@ -358,9 +358,9 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
                     OnValueChanged()
                     Switches.TracePDFocus(TraceLevel.Warning, "SettingsDesignerView.TypeEditorHostControl.ShowUITypeEditor.Me.Focus()")
                     Focus()
-                Catch Ex As Exception When Not TypeOf Ex Is System.Threading.ThreadAbortException _
-                    AndAlso Not TypeOf Ex Is AccessViolationException _
-                    AndAlso Not TypeOf Ex Is StackOverflowException
+                Catch Ex As Exception When TypeOf Ex IsNot System.Threading.ThreadAbortException _
+                    AndAlso TypeOf Ex IsNot AccessViolationException _
+                    AndAlso TypeOf Ex IsNot StackOverflowException
 
                     Dim sp As IServiceProvider = VBPackage.Instance
                     DesignerFramework.DesignerMessageBox.Show(
@@ -534,7 +534,6 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
             End If
         End Function
 #End Region
-
 
         ''' <summary>
         ''' Host the UI type editor control given to use. 

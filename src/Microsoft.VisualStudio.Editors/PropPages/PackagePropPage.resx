@@ -700,7 +700,7 @@
     <value>10</value>
   </data>
   <data name="LicenseUrlWarning.Text" xml:space="preserve">
-    <value>PackageLicenseURL property was detected, but it has been deprecated. Please change to either an Expression or File.</value>
+    <value>PackageLicenseURL detected but is deprecated. Please use Expression or File instead.</value>
   </data>
   <data name="LicenseUrlWarning.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -719,6 +719,9 @@
   </data>
   <data name="ExpressionLabel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Right</value>
+  </data>
+  <data name="ExpressionLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="ExpressionLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -754,7 +757,7 @@
     <value>3</value>
   </data>
   <data name="LicenseExpressionRadioButton.AccessibleName" xml:space="preserve">
-    <value>Package License Expression Radio Button</value>
+    <value>Package License Expression</value>
   </data>
   <data name="LicenseExpressionRadioButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>None</value>
@@ -877,7 +880,7 @@
     <value>3</value>
   </data>
   <data name="LicenseFileRadioButton.AccessibleName" xml:space="preserve">
-    <value>Package License File Radio Button</value>
+    <value>Package License File</value>
   </data>
   <data name="LicenseFileRadioButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>None</value>
@@ -1699,7 +1702,7 @@
     <value>4</value>
   </data>
   <data name="FileVersionRevisionTextBox.AccessibleName" xml:space="preserve">
-    <value>Assembly File Verison Revision</value>
+    <value>Assembly File Version Revision</value>
   </data>
   <data name="FileVersionRevisionTextBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>180, 3</value>
@@ -1723,7 +1726,7 @@
     <value>0</value>
   </data>
   <data name="FileVersionBuildTextBox.AccessibleName" xml:space="preserve">
-    <value>Assembly File Verison Build</value>
+    <value>Assembly File Version Build</value>
   </data>
   <data name="FileVersionBuildTextBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>121, 3</value>
@@ -1747,7 +1750,7 @@
     <value>1</value>
   </data>
   <data name="FileVersionMinorTextBox.AccessibleName" xml:space="preserve">
-    <value>Assembly File Verison Minor</value>
+    <value>Assembly File Version Minor</value>
   </data>
   <data name="FileVersionMinorTextBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>62, 3</value>
@@ -1771,7 +1774,7 @@
     <value>2</value>
   </data>
   <data name="FileVersionMajorTextBox.AccessibleName" xml:space="preserve">
-    <value>Assembly File Verison Major</value>
+    <value>Assembly File Version Major</value>
   </data>
   <data name="FileVersionMajorTextBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 3</value>
@@ -1870,7 +1873,7 @@
     <value>10</value>
   </data>
   <data name="PackageIconUrlWarning.Text" xml:space="preserve">
-    <value>PackageIconUrl detected but is deprecated. Use PackageIcon instead.</value>
+    <value>PackageIconUrl detected but is deprecated. Please use PackageIcon instead.</value>
   </data>
   <data name="PackageIconUrlWarning.Visible" type="System.Boolean, mscorlib">
     <value>False</value>

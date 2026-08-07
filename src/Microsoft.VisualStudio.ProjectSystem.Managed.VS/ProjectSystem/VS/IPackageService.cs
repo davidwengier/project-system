@@ -1,26 +1,24 @@
-﻿// Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿// Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using Microsoft.VisualStudio.Composition;
 using Microsoft.VisualStudio.Shell;
-using Task = System.Threading.Tasks.Task;
 
-namespace Microsoft.VisualStudio.ProjectSystem.VS
+namespace Microsoft.VisualStudio.ProjectSystem.VS;
+
+/// <summary>
+/// A service that is initialized when the VS package is initialized.
+/// </summary>
+/// <remarks>
+/// Implementations must be exported in either global or project service scopes.
+/// </remarks>
+[ProjectSystemContract(ProjectSystemContractScope.Global, ProjectSystemContractProvider.Private, Cardinality = ImportCardinality.ZeroOrMore)]
+[ProjectSystemContract(ProjectSystemContractScope.ProjectService, ProjectSystemContractProvider.Private, Cardinality = ImportCardinality.ZeroOrMore, ContractName = ExportContractNames.Scopes.ProjectService)]
+internal interface IPackageService
 {
     /// <summary>
-    /// A service that is initialized when the VS package is initialized.
+    /// Called when the package is initializing.
     /// </summary>
     /// <remarks>
-    /// Implementations must be exported in global scope.
+    /// Always called on the UI thread.
     /// </remarks>
-    [ProjectSystemContract(ProjectSystemContractScope.Global, ProjectSystemContractProvider.Private, Cardinality = ImportCardinality.ZeroOrMore)]
-    internal interface IPackageService
-    {
-        /// <summary>
-        /// Called when the package is initializing.
-        /// </summary>
-        /// <remarks>
-        /// Always called on the UI thread.
-        /// </remarks>
-        Task InitializeAsync(IAsyncServiceProvider asyncServiceProvider);
-    }
+    Task InitializeAsync(IAsyncServiceProvider asyncServiceProvider);
 }

@@ -12,6 +12,11 @@
         <target state="translated">Argomenti da passare all'applicazione</target>
         <note />
       </trans-unit>
+      <trans-unit id="AuthenticationMode">
+        <source>Au_thentication mode:</source>
+        <target state="translated">Modalità di au_tenticazione:</target>
+        <note />
+      </trans-unit>
       <trans-unit id="DebugPropertyPageTitle">
         <source>Debug</source>
         <target state="translated">Debug</target>
@@ -42,9 +47,59 @@
         <target state="translated">Percorso dell'eseguibile da avviare</target>
         <note />
       </trans-unit>
+      <trans-unit id="FindBtn">
+        <source>_Find...</source>
+        <target state="translated">_Trova...</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="ImplicitUsingEditor_AddUsing">
+        <source>Using</source>
+        <target state="translated">Con</target>
+        <note>Refers to the implicit using "includes" that will be added</note>
+      </trans-unit>
+      <trans-unit id="ImplicitUsingEditor_AddUsingButton">
+        <source>Add Using</source>
+        <target state="translated">Aggiungi tramite</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="ImplicitUsingEditor_ListItemAlias">
+        <source>Alias</source>
+        <target state="translated">Alias</target>
+        <note>Refers to the implicit using "Alias" text when displayed as a list item</note>
+      </trans-unit>
+      <trans-unit id="ImplicitUsingEditor_ListItemDelete">
+        <source>Delete</source>
+        <target state="translated">Elimina</target>
+        <note>The action of deleting an implicit using list item</note>
+      </trans-unit>
+      <trans-unit id="ImplicitUsingEditor_ListItemIncludes">
+        <source>Using Includes</source>
+        <target state="translated">Uso delle inclusioni</target>
+        <note>Refers to the implicit using "Includes" text when displayed as a list item</note>
+      </trans-unit>
+      <trans-unit id="ImplicitUsingEditor_ListItemIsStatic">
+        <source>Static</source>
+        <target state="translated">Statico</target>
+        <note>Refers to the implicit using "Static" value when displayed as a list item</note>
+      </trans-unit>
+      <trans-unit id="ImplicitUsingEditor_ListViewAccessibleName">
+        <source>Implicit global usings list</source>
+        <target state="translated">Elenco di usi globali impliciti</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="ImplicitUsingEditor_ShowImportedUsingsButton">
+        <source>Show imported usings</source>
+        <target state="translated">Mostra usi importati</target>
+        <note />
+      </trans-unit>
       <trans-unit id="InvalidHostName">
         <source>The host name is invalid.</source>
         <target state="translated">Il nome host non è valido.</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="JSWebView2DebuggingAdditionalText">
+        <source>(Requires the JavaScript Diagnostics component)</source>
+        <target state="translated">(Richiede il componente Diagnostica di JavaScript)</target>
         <note />
       </trans-unit>
       <trans-unit id="LaunchUrlWatermark">
@@ -98,8 +153,8 @@
         <note />
       </trans-unit>
       <trans-unit id="RemoteDebug">
-        <source>Use remote m_achine:</source>
-        <target state="translated">Us_a computer remoto:</target>
+        <source>_Use remote machine:</source>
+        <target state="translated">_Usa il computer remoto:</target>
         <note />
       </trans-unit>
       <trans-unit id="RemoteDebugMachineWatermark">
@@ -128,38 +183,38 @@
         <note />
       </trans-unit>
       <trans-unit id="AddBtn">
-        <source>Add</source>
-        <target state="translated">Aggiungi</target>
+        <source>_Add</source>
+        <target state="translated">_Aggiungi</target>
         <note />
       </trans-unit>
       <trans-unit id="ApplicationArguments">
-        <source>Application arguments:</source>
-        <target state="translated">Argomenti applicazione:</target>
+        <source>Application ar_guments:</source>
+        <target state="translated">Ar_gomenti dell'applicazione:</target>
         <note />
       </trans-unit>
       <trans-unit id="BrowseBtn">
-        <source>Browse...</source>
-        <target state="translated">Sfoglia...</target>
+        <source>_Browse...</source>
+        <target state="translated">S_foglia...</target>
         <note />
       </trans-unit>
       <trans-unit id="DeleteBtn">
-        <source>Delete</source>
-        <target state="translated">Elimina</target>
+        <source>_Delete</source>
+        <target state="translated">_Elimina</target>
         <note />
       </trans-unit>
       <trans-unit id="EnvironmentVariables">
-        <source>Environment variables:</source>
-        <target state="translated">Variabili di ambiente:</target>
+        <source>Environ_ment variables:</source>
+        <target state="translated">Variabili di a_mbiente:</target>
         <note />
       </trans-unit>
       <trans-unit id="Executable">
-        <source>Executable:</source>
-        <target state="translated">File eseguibile:</target>
+        <source>_Executable:</source>
+        <target state="translated">_Eseguibile:</target>
         <note />
       </trans-unit>
       <trans-unit id="Launch">
-        <source>Launch:</source>
-        <target state="translated">Avvio:</target>
+        <source>_Launch:</source>
+        <target state="translated">_Avvia:</target>
         <note />
       </trans-unit>
       <trans-unit id="LaunchURL">
@@ -173,18 +228,18 @@
         <note />
       </trans-unit>
       <trans-unit id="NewBtn">
-        <source>New...</source>
-        <target state="translated">Nuovo...</target>
+        <source>_New...</source>
+        <target state="translated">_Nuovo...</target>
         <note />
       </trans-unit>
       <trans-unit id="Profile">
-        <source>Profile:</source>
-        <target state="translated">Profilo:</target>
+        <source>_Profile:</source>
+        <target state="translated">_Profilo:</target>
         <note />
       </trans-unit>
       <trans-unit id="RemoveBtn">
-        <source>Remove</source>
-        <target state="translated">Rimuovi</target>
+        <source>_Remove</source>
+        <target state="translated">_Rimuovi</target>
         <note />
       </trans-unit>
       <trans-unit id="ValueHeader">
@@ -193,8 +248,8 @@
         <note />
       </trans-unit>
       <trans-unit id="WorkingDirectory">
-        <source>Working directory:</source>
-        <target state="translated">Directory di lavoro:</target>
+        <source>_Working directory:</source>
+        <target state="translated">_Directory di lavoro:</target>
         <note />
       </trans-unit>
       <trans-unit id="CancelBtn">
@@ -232,14 +287,19 @@
         <target state="translated">Crea il profilo e torna alla pagina delle proprietà di debug con il nuovo profilo selezionato</target>
         <note />
       </trans-unit>
+      <trans-unit id="chkJSWebView2DebuggingText">
+        <source>Enable JavaScript debugger for Microsoft Edge (Chromium) based WebView2</source>
+        <target state="translated">Abilita il debugger JavaScript per WebView2 basato su Microsoft Edge (Chromium)</target>
+        <note />
+      </trans-unit>
       <trans-unit id="chkLaunchBrowserHelpText">
         <source>Checking enables a textbox to specify an absolute or relative URl</source>
         <target state="translated">Se si seleziona questa casella di controllo, viene abilitata una casella di testo per specificare un URI assoluto o relativo</target>
         <note />
       </trans-unit>
       <trans-unit id="chkNativeCodeDebuggingText">
-        <source>Enable native code debugging</source>
-        <target state="translated">Attiva il debug di codice nativo</target>
+        <source>Enable nati_ve code debugging</source>
+        <target state="translated">Abilita il debug di codice nati_vo</target>
         <note />
       </trans-unit>
       <trans-unit id="chkRemoteDebugEnabledHelpText">
@@ -248,8 +308,8 @@
         <note />
       </trans-unit>
       <trans-unit id="chkSqlCodeDebuggingText">
-        <source>Enable SQL Server debugging</source>
-        <target state="translated">Abilita debug SQL Server</target>
+        <source>Enable _SQL Server debugging</source>
+        <target state="translated">Abilita il debug _SQL Server</target>
         <note />
       </trans-unit>
     </body>

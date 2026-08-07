@@ -1,4 +1,4 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Imports System.Runtime.InteropServices
 Imports System.Windows.Forms
@@ -12,7 +12,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
 
 #Region "Application property pages (VB and C#)"
 
-
     'Property page class hierarchy:
     '
     ' ApplicationPropPageBase
@@ -22,7 +21,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
     '   + ApplicationPropPage
     '       + CSharpApplicationPropPage
     '
-
 
 #Region "ApplicationPropPageComClass (Not directly used, inherited from by C#)"
 
@@ -85,7 +83,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
     <ProvideObject(GetType(WPFApplicationWithMyPropPageComClass))>
     Public NotInheritable Class WPFApplicationWithMyPropPageComClass 'See class hierarchy comments above
         Inherits VBPropPageBase
-
 
         Protected Overrides ReadOnly Property Title As String
             Get
@@ -185,7 +182,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
         Protected Overrides Function CreateControl() As Control
             Return New CompilePropPage2
         End Function
-
 
         Protected Overrides Property DefaultSize As Drawing.Size
             Get

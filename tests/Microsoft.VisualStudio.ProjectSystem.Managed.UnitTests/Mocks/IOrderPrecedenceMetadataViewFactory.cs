@@ -1,21 +1,19 @@
-﻿// Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿// Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using Moq;
+namespace Microsoft.VisualStudio.ProjectSystem;
 
-namespace Microsoft.VisualStudio.ProjectSystem
+internal static class IOrderPrecedenceMetadataViewFactory
 {
-    internal static class IOrderPrecedenceMetadataViewFactory
+    public static IOrderPrecedenceMetadataView Create(string? appliesTo = null, int orderPrecedence = 0)
     {
-        public static IOrderPrecedenceMetadataView Create(string? appliesTo, int orderPrecedence = 0)
-        {
-            var mock = new Mock<IOrderPrecedenceMetadataView>();
-            mock.SetupGet(v => v.AppliesTo)
-                .Returns(appliesTo!);
+        var mock = new Mock<IOrderPrecedenceMetadataView>();
 
-            mock.SetupGet(v => v.OrderPrecedence)
-                .Returns(orderPrecedence);
+        mock.SetupGet(v => v.AppliesTo)
+            .Returns(appliesTo ?? "");
 
-            return mock.Object;
-        }
+        mock.SetupGet(v => v.OrderPrecedence)
+            .Returns(orderPrecedence);
+
+        return mock.Object;
     }
 }

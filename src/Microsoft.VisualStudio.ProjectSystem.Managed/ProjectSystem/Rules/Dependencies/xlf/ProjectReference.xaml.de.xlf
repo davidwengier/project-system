@@ -2,14 +2,24 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
   <file datatype="xml" source-language="en" target-language="de" original="../ProjectReference.xaml">
     <body>
+      <trans-unit id="BoolProperty|TreatAsUsed|Description">
+        <source>Indicates that this reference should be treated as if it were used.</source>
+        <target state="translated">Zeigt an, dass dieser Verweis behandelt werden soll, als würde er verwendet werden.</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="BoolProperty|TreatAsUsed|DisplayName">
+        <source>Treat as used</source>
+        <target state="translated">Als verwendet behandeln</target>
+        <note />
+      </trans-unit>
       <trans-unit id="Rule|ProjectReference|DisplayName">
         <source>Project Reference</source>
         <target state="translated">Projektverweis</target>
         <note />
       </trans-unit>
       <trans-unit id="Rule|ProjectReference|Description">
-        <source>Reference Properties</source>
-        <target state="translated">Verweiseigenschaften</target>
+        <source>Project Reference Properties</source>
+        <target state="translated">Projektverweiseigenschaften</target>
         <note />
       </trans-unit>
       <trans-unit id="BoolProperty|ReferenceOutputAssembly|DisplayName">
@@ -32,12 +42,12 @@
         <target state="translated">Gibt an, ob die Satellitenassemblys des Verweisziels in das Ausgabeverzeichnis dieses Projekts kopiert werden sollen.</target>
         <note />
       </trans-unit>
-      <trans-unit id="BoolProperty|CopyLocal|DisplayName">
+      <trans-unit id="BoolProperty|Private|DisplayName">
         <source>Copy Local</source>
         <target state="translated">Lokale Kopie</target>
         <note />
       </trans-unit>
-      <trans-unit id="BoolProperty|CopyLocal|Description">
+      <trans-unit id="BoolProperty|Private|Description">
         <source>Indicates whether the reference will be copied to the output directory.</source>
         <target state="translated">Gibt an, ob der Verweis in das Ausgabeverzeichnis kopiert wird.</target>
         <note />

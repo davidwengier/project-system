@@ -1,11 +1,10 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Imports System.Drawing
 Imports System.Runtime.InteropServices
 Imports System.Windows.Forms
 
 Imports Microsoft.VisualStudio.Shell.Interop
-
 
 Namespace Microsoft.VisualStudio.Editors.DesignerFramework
 
@@ -45,7 +44,6 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
         '**************************************************************************
         Friend Overloads Shared Sub ReportError(ServiceProvider As IServiceProvider, ErrorMessage As String,
                 HelpLink As String)
-
 
             DesignerMessageBox.Show(ServiceProvider, ErrorMessage, GetDefaultCaption(ServiceProvider),
                     MessageBoxButtons.OK, MessageBoxIcon.Error, HelpLink:=HelpLink)
@@ -174,41 +172,28 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
             Next ChildControl
         End Sub 'SetFontStyles
 
-
-        ''' <summary>
-        ''' Gets the signed hi word of an IntPtr
-        ''' </summary>
-        ''' <param name="Number">The IntPtr to get the word from</param>
-        ''' <returns>The signed hi word</returns>
-        Public Shared Function SignedHiWord(Number As IntPtr) As Integer
-            Return (CType(Number, Integer) >> 16) And &HFFFF
-        End Function
-
-
-        ''' <summary>
-        ''' Gets the signed lo word of an IntPtr
-        ''' </summary>
-        ''' <param name="Number">The IntPtr to get the word from</param>
-        ''' <returns>The signed lo word</returns>
-        Public Shared Function SignedLoWord(Number As IntPtr) As Integer
-            Return CType(Number, Integer) And &HFFFF
-        End Function
-
-
         ''' <summary>
         ''' Calculate the event args for raising the context menu show event for a control.
         ''' </summary>
         ''' <param name="m">Window's message.</param>
         ''' <returns>The context event args to use for raising the event.</returns>
         Public Shared Function GetContextMenuMouseEventArgs(ByRef m As Message) As MouseEventArgs
-            Dim x As Integer = SignedLoWord(m.LParam)
-            Dim y As Integer = SignedHiWord(m.LParam)
+            Dim x As Integer
+            Dim y As Integer
+
+            Dim l As Long = m.LParam.ToInt64
 
             ' Shift-F10 or Context Menu keyboard key will result in LParam being -1.
-            If m.LParam.ToInt64 = -1 Then
+            ' Watson data showed that the value may also be outside the bounds of Int32
+            ' resulting in a crash. We protect against that here too.
+            ' https://dev.azure.com/devdiv/DevDiv/_workitems/edit/1414398
+            If l < 0 OrElse l > Integer.MaxValue Then
                 Dim p As Point = Cursor.Position
                 x = p.X
                 y = p.Y
+            Else
+                x = CType(l And &HFFFF, Integer)
+                y = CType(l And &HFFFFFFFF, Integer) >> 16
             End If
 
             'CONSIDER: If mouse is not in client area, don't show the context menu. 
@@ -310,6 +295,4 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
     End Class 'DesignUtil
 
 End Namespace
-
-
 

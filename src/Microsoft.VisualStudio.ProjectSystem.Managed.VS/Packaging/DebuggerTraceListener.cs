@@ -1,55 +1,59 @@
-﻿// Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿// Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 #if DEBUG
 
-using System;
-using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Reflection;
 using Microsoft.VisualStudio.ProjectSystem;
 using Microsoft.VisualStudio.ProjectSystem.VS;
 using Microsoft.VisualStudio.Shell;
-using Task = System.Threading.Tasks.Task;
 
-namespace Microsoft.VisualStudio.Packaging
+namespace Microsoft.VisualStudio.Packaging;
+
+[Export(typeof(IPackageService))]
+internal sealed class DebuggerTraceListener : TraceListener, IPackageService
 {
-    [Export(typeof(IPackageService))]
-    internal sealed class DebuggerTraceListener : TraceListener, IPackageService
+    public Task InitializeAsync(IAsyncServiceProvider asyncServiceProvider)
     {
-        public Task InitializeAsync(IAsyncServiceProvider asyncServiceProvider)
+        // There's no public API registering a trace listener for a 
+        // non-public trace source, so we need to use reflection
+        string assemblyName = typeof(AppliesToAttribute).Assembly.FullName;
+        string typeName = $"Microsoft.VisualStudio.ProjectSystem.TraceUtilities, {assemblyName}";
+
+        var type = Type.GetType(typeName);
+        if (type is null)
         {
-            // There's no public API registering a trace listener for a 
-            // non-public trace source, so we need to use reflection
-            string assemblyName = typeof(AppliesToAttribute).Assembly.FullName;
-
-            var type = Type.GetType($"Microsoft.VisualStudio.ProjectSystem.TraceUtilities, {assemblyName}");
-            Assumes.NotNull(type);
-
-            FieldInfo field = type.GetField("Source", BindingFlags.NonPublic | BindingFlags.Static);
-            Assumes.NotNull(field);
-
-            var source = (TraceSource)field.GetValue(null);
-
-            source.Switch.Level = SourceLevels.Warning;
-            source.Listeners.Add(this);
-
-            return Task.CompletedTask;
+            Assumes.Fail($"Could not find type '{typeName}'");
         }
 
-        public override void Write(string message)
+        const string sourcePropertyName = "Source";
+        PropertyInfo? property = type.GetProperty(sourcePropertyName, BindingFlags.NonPublic | BindingFlags.Static);
+        if (property is null)
         {
-            if (Debugger.IsLogging())
-            {
-                Debugger.Log(0, null, message);
-            }
+            Assumes.Fail($"Could not find property '{sourcePropertyName}' in type '{typeName}'");
         }
 
-        public override void WriteLine(string message)
+        var source = (TraceSource)property.GetValue(null);
+
+        source.Switch.Level = SourceLevels.Warning;
+        source.Listeners.Add(this);
+
+        return Task.CompletedTask;
+    }
+
+    public override void Write(string message)
+    {
+        if (System.Diagnostics.Debugger.IsLogging())
         {
-            if (Debugger.IsLogging())
-            {
-                Debugger.Log(0, null, message + Environment.NewLine);
-            }
+            System.Diagnostics.Debugger.Log(0, null, message);
+        }
+    }
+
+    public override void WriteLine(string message)
+    {
+        if (System.Diagnostics.Debugger.IsLogging())
+        {
+            System.Diagnostics.Debugger.Log(0, null, message + Environment.NewLine);
         }
     }
 }

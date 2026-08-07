@@ -1,22 +1,19 @@
-﻿// Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿// Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
+namespace Microsoft.VisualStudio.Shell.Interop;
 
-namespace Microsoft.VisualStudio.Shell.Interop
+internal class VsStartupProjectsListService : IVsStartupProjectsListService
 {
-    internal class VsStartupProjectsListService : IVsStartupProjectsListService
+    public Guid? ProjectGuid { get; private set; }
+
+    public void AddProject(ref Guid guidProject)
     {
-        public Guid? ProjectGuid { get; private set; }
+        ProjectGuid = guidProject;
+    }
 
-        public void AddProject(ref Guid guidProject)
-        {
-            ProjectGuid = guidProject;
-        }
-
-        public void RemoveProject(ref Guid guidProject)
-        {
-            if (guidProject == ProjectGuid)
-                ProjectGuid = null;
-        }
+    public void RemoveProject(ref Guid guidProject)
+    {
+        if (guidProject == ProjectGuid)
+            ProjectGuid = null;
     }
 }

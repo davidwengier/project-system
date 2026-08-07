@@ -1,4 +1,4 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Imports System.Configuration
 Imports System.IO
@@ -59,7 +59,7 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
             ' 
             Dim ConfigHelperService As New ConfigurationHelperService()
 
-            ' Let us get all settings that we know about, create SettingsPropeties for 'em
+            ' Let us get all settings that we know about, create SettingsProperties for 'em
             ' and add 'em to a SettingsPropertyCollection.
             Dim UserScopedSettingProps As New SettingsPropertyCollection()
             Dim AppScopedSettingProps As New SettingsPropertyCollection()
@@ -80,7 +80,7 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
                 End If
             Next
 
-            ' Deserialize conenction strings
+            ' Deserialize connection strings
             '
             ' First, we ask the config helper to read all the connection strings....
             Dim DeserializedConnectionStrings As ConnectionStringSettingsCollection =
@@ -135,7 +135,6 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
                 End If
             Next
 
-
             ' Check if we need to add/change any application scoped settings
             '
             For Each SettingsValue As SettingsPropertyValue In DeserializedAppScopedSettingValues
@@ -152,9 +151,9 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
             ' CONSIDER: Include the name of the settings that were added...
             If ((objectDirty And DirtyState.ValueAdded) = DirtyState.ValueAdded) AndAlso mergeMode = MergeValueMode.Prompt Then
                 If UIService IsNot Nothing Then
-                    UIService.ShowMessage(My.Resources.Microsoft_VisualStudio_Editors_Designer.SD_NewValuesAdded, DesignerFramework.DesignUtil.GetDefaultCaption(VBPackage.Instance), Windows.Forms.MessageBoxButtons.OK)
+                    UIService.ShowMessage(My.Resources.Microsoft_VisualStudio_Editors_Designer.SD_NewValuesAdded, DesignerFramework.DesignUtil.GetDefaultCaption(VBPackage.Instance), System.Windows.Forms.MessageBoxButtons.OK)
                 Else
-                    Windows.Forms.MessageBox.Show(My.Resources.Microsoft_VisualStudio_Editors_Designer.SD_NewValuesAdded, DesignerFramework.DesignUtil.GetDefaultCaption(VBPackage.Instance), Windows.Forms.MessageBoxButtons.OK)
+                    System.Windows.Forms.MessageBox.Show(My.Resources.Microsoft_VisualStudio_Editors_Designer.SD_NewValuesAdded, DesignerFramework.DesignUtil.GetDefaultCaption(VBPackage.Instance), System.Windows.Forms.MessageBoxButtons.OK)
                 End If
             End If
 
@@ -190,7 +189,7 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
                     VSErrorHandler.ThrowOnFailure(ProjSpecialFiles.GetFile(__PSFFILEID.PSFFILEID_AppConfig, Flags, AppConfigItemId, AppConfigFileName))
                 Catch ex As System.Runtime.InteropServices.COMException When ex.ErrorCode = Interop.Win32Constant.OLE_E_PROMPTSAVECANCELLED
                     Throw New ComponentModel.Design.CheckoutException(My.Resources.Microsoft_VisualStudio_Editors_Designer.DFX_UnableToCheckout, ex)
-                Catch ex As Exception When Not TypeOf ex Is ComponentModel.Design.CheckoutException
+                Catch ex As Exception When TypeOf ex IsNot ComponentModel.Design.CheckoutException
                     ' VsWhidbey 224145, ProjSpecialFiles.GetFile(create:=true) fails on vbexpress sku
                     AppConfigItemId = VSITEMID.NIL
                     Debug.Fail(String.Format("ProjSpecialFiles.GetFile (create={0}) failed: {1}", CreateIfNotExists, ex))
@@ -239,9 +238,9 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
         ''' <param name="AppConfigDocData"></param>
         Friend Shared Sub Serialize(Settings As DesignTimeSettings, typeCache As SettingsTypeCache, valueCache As SettingsValueCache, ClassName As String, NamespaceName As String, AppConfigDocData As DocData, Hierarchy As IVsHierarchy, SynchronizeUserConfig As Boolean)
             Common.Switches.TraceSDSerializeSettings(TraceLevel.Info, "Serializing {0} settings to App.Config", Settings.Count)
-            Requires.NotNull(Settings, NameOf(Settings))
-            Requires.NotNull(NamespaceName, NameOf(NamespaceName))
-            Requires.NotNull(AppConfigDocData, NameOf(AppConfigDocData))
+            Requires.NotNull(Settings)
+            Requires.NotNull(NamespaceName)
+            Requires.NotNull(AppConfigDocData)
 
             If ClassName = "" Then
                 Debug.Fail("Must provide a valid class name!")
@@ -252,7 +251,6 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
             Dim FullyQualifiedClassName As String = ProjectUtils.FullyQualifiedClassName(NamespaceName, ClassName)
             Serialize(Settings, typeCache, valueCache, ConfigHelperService.GetSectionName(FullyQualifiedClassName, String.Empty), AppConfigDocData, Hierarchy, SynchronizeUserConfig)
         End Sub
-
 
         ''' <summary>
         ''' Write out any and all changes to the app.config file
@@ -433,7 +431,7 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
         ''' <summary>
         ''' If the value in the app.config file differs from the value in the .settings file,
         ''' or the scope has been changed,
-        ''' propmpt the user if they want to update the value in the .settings file
+        ''' prompt the user if they want to update the value in the .settings file
         ''' </summary>
         ''' <param name="DeserializedPropertyValue"></param>
         ''' <param name="Scope">The scope in which the deserialized property value was found</param>

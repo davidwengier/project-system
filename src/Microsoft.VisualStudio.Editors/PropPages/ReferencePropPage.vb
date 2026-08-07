@@ -1,4 +1,4 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Imports System.ComponentModel
 Imports System.ComponentModel.Design
@@ -8,15 +8,15 @@ Imports System.Runtime.InteropServices
 Imports System.Text.RegularExpressions
 Imports System.Threading
 Imports System.Windows.Forms
-
 Imports Microsoft.CodeAnalysis
 Imports Microsoft.CodeAnalysis.VisualBasic
 Imports Microsoft.VisualStudio.ComponentModelHost
 Imports Microsoft.VisualStudio.Editors.Common
 Imports Microsoft.VisualStudio.Editors.Interop
 Imports Microsoft.VisualStudio.LanguageServices
-Imports Microsoft.VisualStudio.Utilities
+Imports Microsoft.VisualStudio.Shell
 Imports Microsoft.VisualStudio.Shell.Interop
+Imports Microsoft.VisualStudio.Utilities
 Imports Microsoft.VisualStudio.WCFReference.Interop
 
 Namespace Microsoft.VisualStudio.Editors.PropertyPages
@@ -57,7 +57,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
         Friend WithEvents ReferencePageSplitContainer As SplitContainer
         Friend WithEvents addUserImportTableLayoutPanel As TableLayoutPanel
         Private _needRefreshImportList As Boolean
-        Private _importListSelectedItem As String = Nothing
+        Private _importListSelectedItem As String
         Private _hidingImportListSelectedItem As Boolean
 
         ' helper object to sort the reference list
@@ -177,7 +177,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             End Get
         End Property
 
-
         Public Overrides Function ReadUserDefinedProperty(PropertyName As String, ByRef Value As Object) As Boolean
             If PropertyName = "ImportList" Then
                 Value = GetCurrentImports()
@@ -274,7 +273,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
                 NativeMethods.PostMessage(Handle, CInt(messageId), 0, 0)
             End If
         End Sub
-
 
         ''' <summary>
         ''' Called when the page is activated or deactivated
@@ -552,9 +550,10 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
 
                     ' We need to find the project that matches by project file path
                     If project.FilePath IsNot Nothing AndAlso String.Compare(project.FilePath, DTEProject.FullName, ignoreCase:=True) = 0 Then
-                        Dim compilationTask = project.GetCompilationAsync(cancellationTokenSource.Token)
-                        compilationTask.Wait(cancellationTokenSource.Token)
-                        Dim compilation = compilationTask.Result
+                        Dim compilation = ThreadHelper.JoinableTaskFactory.Run(
+                            Async Function()
+                                Return Await project.GetCompilationAsync(cancellationTokenSource.Token)
+                            End Function)
 
                         Dim namespaceNames As New List(Of String)
                         Dim namespacesToProcess As New Stack(Of INamespaceSymbol)
@@ -611,7 +610,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
                         Return True
                     End If
 
-                    If typeMember.ContainingAssembly.Equals(compilation.Assembly) OrElse typeMember.ContainingAssembly.GivesAccessTo(compilation.Assembly) Then
+                    If SymbolEqualityComparer.Default.Equals(typeMember.ContainingAssembly, compilation.Assembly) OrElse typeMember.ContainingAssembly.GivesAccessTo(compilation.Assembly) Then
                         Return True
                     End If
                 End If
@@ -1075,7 +1074,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             End Try
         End Sub
 
-
         Private Sub serviceReferenceToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles serviceReferenceToolStripMenuItem.Click
             Dim AddServiceRefDlg As IVsAddWebReferenceDlg3
 
@@ -1173,7 +1171,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
                     ' * The text in the add user import textbox isn't empty AND
                     ' * The import list box doesn't already contain this item
                     EnableAddImportButton = True
-
 
                     ' The "Update user import" button should be enabled iff:
                     ' * There is only one item selected in the imports list box
@@ -1275,7 +1272,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
                 Next
             End Using
         End Sub
-
 
         Private Sub UnusedReferences_Click(sender As Object, e As EventArgs) Handles UnusedReferences.Click
             ' Take a snapshot of the user imports...

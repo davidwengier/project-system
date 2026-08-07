@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information. -->
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
 <Rule Name="ResolvedPackageReference"
-      Description="Package Properties"
-      DisplayName="Package"
+      Description="Package Reference Properties"
+      DisplayName="Package Reference"
       PageTemplate="generic"
       xmlns="http://schemas.microsoft.com/build/2009/properties">
   <Rule.DataSource>
@@ -14,25 +14,30 @@
                 SourceType="TargetResults" />
   </Rule.DataSource>
 
-  <StringListProperty Name="Dependencies"
-                      Separator=";"
-                      Visible="false">
+  <StringListProperty Name="Aliases"
+                      Description="A comma-delimited list of aliases to assembly references contained in this package."
+                      DisplayName="Aliases"
+                      Separator="," >
     <StringListProperty.DataSource>
       <DataSource HasConfigurationCondition="False"
                   ItemType="PackageReference"
-                  Persistence="ResolvedReference"
+                  Persistence="ProjectFile"
                   SourceOfDefaultValue="AfterContext" />
     </StringListProperty.DataSource>
   </StringListProperty>
 
-  <StringProperty Name="Description"
-                  Description="Dependency description."
-                  DisplayName="Description"
-                  ReadOnly="True" />
+   <StringProperty Name="BrowsePath"
+                  ReadOnly="True"
+                  Visible="False">
+    <StringProperty.DataSource>
+      <DataSource PersistedName="Path"
+                  SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
 
   <StringProperty Name="ExcludeAssets"
                   Description="Assets to exclude from this reference."
-                  DisplayName="ExcludeAssets">
+                  DisplayName="Excluded Assets">
     <StringProperty.DataSource>
       <DataSource HasConfigurationCondition="False"
                   ItemType="PackageReference"
@@ -41,17 +46,24 @@
     </StringProperty.DataSource>
   </StringProperty>
 
-  <StringProperty Name="FrameworkName"
+  <StringProperty Name="DiagnosticLevel"
                   ReadOnly="True"
                   Visible="False" />
 
-  <StringProperty Name="FrameworkVersion"
-                  ReadOnly="True"
-                  Visible="False" />
+  <BoolProperty Name="GeneratePathProperty"
+                Description="Indicates whether to generate an MSBuild property with the location of the package's root directory. The generated property name is in the form of 'Pkg[PackageID]', where '[PackageID]' is the ID of the package with any periods '.' replaced with underscores '_'."
+                DisplayName="Generate Path Property">
+    <BoolProperty.DataSource>
+      <DataSource HasConfigurationCondition="False"
+                  ItemType="PackageReference"
+                  Persistence="ProjectFile"
+                  SourceOfDefaultValue="AfterContext" />
+    </BoolProperty.DataSource>
+  </BoolProperty>
 
   <StringProperty Name="IncludeAssets"
                   Description="Assets to include from this reference."
-                  DisplayName="IncludeAssets">
+                  DisplayName="Included Assets">
     <StringProperty.DataSource>
       <DataSource HasConfigurationCondition="False"
                   ItemType="PackageReference"
@@ -64,17 +76,13 @@
                   ReadOnly="True"
                   Visible="False" />
 
-  <BoolProperty Name="IsTopLevelDependency"
-                ReadOnly="True"
-                Visible="False" />
-
   <StringProperty Name="Name"
                   ReadOnly="True"
                   DisplayName="Name" />
 
   <StringProperty Name="NoWarn"
                   Description="Comma-delimited list of warnings that should be suppressed for this package."
-                  DisplayName="NoWarn"
+                  DisplayName="Suppress Warnings"
                   Visible="True">
     <StringProperty.DataSource>
       <DataSource HasConfigurationCondition="False"
@@ -104,14 +112,7 @@
     </StringProperty.DataSource>
   </StringProperty>
 
-  <StringProperty Name="RuntimeIdentifier"
-                  ReadOnly="True"
-                  Visible="False" />
-
-  <StringProperty Name="TargetFramework"
-                  ReadOnly="True"
-                  Visible="False" />
-
+  <!-- NOTE since 16.7 the SDK only returns "Package" items, however we keep this field to allow filtering in the case a user explicitly uses an older SDK version -->
   <StringProperty Name="Type"
                   ReadOnly="True"
                   Visible="False" />
@@ -127,6 +128,10 @@
   </StringProperty>
 
   <BoolProperty Name="Visible"
+                ReadOnly="True"
+                Visible="False" />
+
+  <BoolProperty Name="TreatAsUsed"
                 ReadOnly="True"
                 Visible="False" />
 

@@ -2,14 +2,24 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
   <file datatype="xml" source-language="en" target-language="ja" original="../ResolvedProjectReference.xaml">
     <body>
+      <trans-unit id="BoolProperty|TreatAsUsed|Description">
+        <source>Indicates that this reference should be treated as if it were used.</source>
+        <target state="translated">この参照を使用済みであるかのように扱う必要があることを示しています。</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="BoolProperty|TreatAsUsed|DisplayName">
+        <source>Treat as used</source>
+        <target state="translated">使用済みとして扱う</target>
+        <note />
+      </trans-unit>
       <trans-unit id="Rule|ResolvedProjectReference|DisplayName">
-        <source>Resolved Project Reference</source>
-        <target state="translated">解決されたプロジェクト参照</target>
+        <source>Project Reference</source>
+        <target state="translated">プロジェクト参照</target>
         <note />
       </trans-unit>
       <trans-unit id="Rule|ResolvedProjectReference|Description">
-        <source>Reference Properties</source>
-        <target state="translated">参照プロパティ</target>
+        <source>Project Reference Properties</source>
+        <target state="translated">プロジェクト参照プロパティ</target>
         <note />
       </trans-unit>
       <trans-unit id="StringListProperty|Aliases|DisplayName">
@@ -22,12 +32,12 @@
         <target state="translated">この参照へのエイリアスのコンマ区切りのリストです。</target>
         <note />
       </trans-unit>
-      <trans-unit id="BoolProperty|CopyLocal|DisplayName">
+      <trans-unit id="BoolProperty|Private|DisplayName">
         <source>Copy Local</source>
         <target state="translated">ローカルにコピー</target>
         <note />
       </trans-unit>
-      <trans-unit id="BoolProperty|CopyLocal|Description">
+      <trans-unit id="BoolProperty|Private|Description">
         <source>Indicates whether the reference will be copied to the output directory.</source>
         <target state="translated">参照が出力ディレクトリにコピーされるかどうかを示します。</target>
         <note />

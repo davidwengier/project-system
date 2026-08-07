@@ -1,4 +1,4 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Imports System.ComponentModel
 Imports System.Windows.Forms
@@ -93,7 +93,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             End Get
         End Property
 
-
         ''' <summary>
         ''' Property get for file or assembly version.
         ''' </summary>
@@ -110,7 +109,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             value = Version
             Return True
         End Function
-
 
         ''' <summary>
         ''' Property set for either file or assembly version.
@@ -145,7 +143,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             Return True
         End Function
 
-
         ''' <summary>
         ''' Validates the version numbers entered into the assembly version textboxes from the user.
         ''' </summary>
@@ -153,7 +150,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
         Private Sub ValidateAssemblyVersion(ByRef Version As String)
             ValidateVersion(_assemblyVersionTextBoxes, MaxAssemblyVersionPartValue, My.Resources.Microsoft_VisualStudio_Editors_Designer.PPG_Property_AssemblyVersion, True, Version)
         End Sub
-
 
         ''' <summary>
         ''' Validates the version numbers entered into the assembly version textboxes from the user.
@@ -172,7 +168,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             Common.SetComboBoxDropdownWidth(NeutralLanguageComboBox)
         End Sub
 
-        Private _neutralLanguageWasDroppedDown As Boolean = False
+        Private _neutralLanguageWasDroppedDown As Boolean
 
         ''' <summary>
         ''' For checking if the NeutralLanguageComboBox was DroppedDown when the escape key was pressed.

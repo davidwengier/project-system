@@ -1,4 +1,4 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Option Strict On
 Option Explicit On
@@ -8,7 +8,6 @@ Imports System.Security.Permissions
 Imports System.Xml
 
 Imports Microsoft.Build.Tasks.Deployment.ManifestUtilities
-Imports Microsoft.VisualStudio.Shell
 Imports Microsoft.VisualStudio.Shell.Design.Serialization
 
 Imports NativeMethods = Microsoft.VisualStudio.Editors.Interop.NativeMethods
@@ -21,7 +20,6 @@ Namespace Microsoft.VisualStudio.Editors.VBAttributeEditor
     '   exposed via the IVbPermissionSetService interface.
     '--------------------------------------------------------------------------
     <CLSCompliant(False)>
-    <ProvideService(GetType(Interop.IVbPermissionSetService), ServiceName:="Vb Permission Set Service")>
     Friend NotInheritable Class PermissionSetService
         Implements Interop.IVbPermissionSetService
 
@@ -31,7 +29,7 @@ Namespace Microsoft.VisualStudio.Editors.VBAttributeEditor
             _serviceProvider = sp
         End Sub
 
-        Public Function CreateSecurityElementFromXmlElement(element As XmlElement) As SecurityElement
+        Public Shared Function CreateSecurityElementFromXmlElement(element As XmlElement) As SecurityElement
 
             ' Create the new security element
             Dim securityElement As New SecurityElement(element.Name)
@@ -51,7 +49,7 @@ Namespace Microsoft.VisualStudio.Editors.VBAttributeEditor
             Return securityElement
         End Function
 
-        Public Function LoadPermissionSet(strPermissionSet As String) As PermissionSet
+        Public Shared Function LoadPermissionSet(strPermissionSet As String) As PermissionSet
 
             ' Load the XML
             Dim document As New XmlDocument With {
@@ -203,7 +201,6 @@ Namespace Microsoft.VisualStudio.Editors.VBAttributeEditor
             End If
         End Function
 
-
         Private Shared Function StringToIdentityList(s As String) As String()
             Dim a() As String = s.Split(CChar(";"))
             For i As Integer = 0 To a.Length - 1
@@ -211,7 +208,6 @@ Namespace Microsoft.VisualStudio.Editors.VBAttributeEditor
             Next
             Return a
         End Function
-
 
     End Class
 

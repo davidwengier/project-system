@@ -38,7 +38,7 @@
         <note />
       </trans-unit>
       <trans-unit id="PackageIconUrlWarning.Text">
-        <source>PackageIconUrl detected but is deprecated. Use PackageIcon instead.</source>
+        <source>PackageIconUrl detected but is deprecated. Please use PackageIcon instead.</source>
         <target state="translated">Se ha detectado un objeto PackageIconUrl, pero está en desuso. Use PackageIcon en su lugar.</target>
         <note />
       </trans-unit>
@@ -103,23 +103,23 @@
         <note />
       </trans-unit>
       <trans-unit id="FileVersionRevisionTextBox.AccessibleName">
-        <source>Assembly File Verison Revision</source>
+        <source>Assembly File Version Revision</source>
         <target state="translated">Revisión de la versión del archivo de ensamblado</target>
         <note />
       </trans-unit>
       <trans-unit id="FileVersionBuildTextBox.AccessibleName">
-        <source>Assembly File Verison Build</source>
-        <target state="translated">Compilación de versión de archivo de ensamblado</target>
+        <source>Assembly File Version Build</source>
+        <target state="translated">Compilación de la versión del archivo de ensamblado</target>
         <note />
       </trans-unit>
       <trans-unit id="FileVersionMinorTextBox.AccessibleName">
-        <source>Assembly File Verison Minor</source>
+        <source>Assembly File Version Minor</source>
         <target state="translated">Versión secundaria del archivo de ensamblado</target>
         <note />
       </trans-unit>
       <trans-unit id="FileVersionMajorTextBox.AccessibleName">
-        <source>Assembly File Verison Major</source>
-        <target state="translated">Versión de archivo de ensamblado principal</target>
+        <source>Assembly File Version Major</source>
+        <target state="translated">Versión principal del archivo de ensamblado</target>
         <note />
       </trans-unit>
       <trans-unit id="PackageRequireLicenseAcceptance.Text">
@@ -258,18 +258,18 @@
         <note />
       </trans-unit>
       <trans-unit id="LicenseExpressionRadioButton.AccessibleName">
-        <source>Package License Expression Radio Button</source>
-        <target state="translated">Botón de selección para la expresión de la licencia del paquete</target>
+        <source>Package License Expression</source>
+        <target state="translated">Expresión del paquete de licencia</target>
         <note />
       </trans-unit>
       <trans-unit id="LicenseFileRadioButton.AccessibleName">
-        <source>Package License File Radio Button</source>
-        <target state="translated">Botón de selección del archivo de licencia del paquete</target>
+        <source>Package License File</source>
+        <target state="translated">Archivo de licencia del paquete</target>
         <note />
       </trans-unit>
       <trans-unit id="LicenseUrlWarning.Text">
-        <source>PackageLicenseURL property was detected, but it has been deprecated. Please change to either an Expression or File.</source>
-        <target state="translated">Se ha detectado la propiedad PackageLicenseURL, pero ha quedado obsoleta. Cámbiela por un archivo o una expresión.</target>
+        <source>PackageLicenseURL detected but is deprecated. Please use Expression or File instead.</source>
+        <target state="translated">Se ha detectado el elemento PackageLicenseURL, pero está en desuso. En su lugar, use Expression o File.</target>
         <note />
       </trans-unit>
     </body>

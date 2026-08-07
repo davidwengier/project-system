@@ -1,7 +1,8 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Option Strict On
 Option Explicit On
+Imports System.IO
 Imports System.Xml
 
 Imports EnvDTE90
@@ -36,7 +37,6 @@ Namespace Microsoft.VisualStudio.Editors.MyExtensibility
 
             Dim templateID As String
 
-
             Dim templateVersion As Version
 
             Dim assemblyFullName As String
@@ -45,7 +45,7 @@ Namespace Microsoft.VisualStudio.Editors.MyExtensibility
                 Dim xmlDocument As New XmlDocument With {
                     .XmlResolver = Nothing
                 }
-                Using reader As XmlReader = XmlReader.Create(New IO.StringReader(template.CustomData))
+                Using reader As XmlReader = XmlReader.Create(New StringReader(template.CustomData))
                     xmlDocument.Load(reader)
                 End Using
 

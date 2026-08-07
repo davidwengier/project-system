@@ -1,4 +1,4 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Imports System.ComponentModel
 
@@ -42,7 +42,6 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
                 Return _settings.Count
             End Get
         End Property
-
 
         ''' <summary>
         ''' Is the UseMySettingsClassName flag set in the underlying .settings file?
@@ -111,7 +110,7 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
 
             For Each ExistingInstance As DesignTimeSettingInstance In Me
                 If EqualIdentifiers(Name, ExistingInstance.Name) Then
-                    If Not ExistingInstance Is IgnoreThisInstance Then
+                    If ExistingInstance IsNot IgnoreThisInstance Then
                         Return False
                     End If
                 End If
@@ -199,7 +198,6 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
             End If
         End Function
 
-
 #End Region
 
 #Region "Adding/removing settings"
@@ -255,7 +253,7 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
             _settings.Add(Instance)
             If Site IsNot Nothing AndAlso Site.Container IsNot Nothing Then
                 ' Let's make sure we have this instance in "our" container (if any)
-                If Instance.Site Is Nothing OrElse Not Site.Container Is Instance.Site.Container Then
+                If Instance.Site Is Nothing OrElse Site.Container IsNot Instance.Site.Container Then
                     Static uniqueNumber As Integer
                     uniqueNumber += 1
                     Dim newName As String = "Setting" & uniqueNumber.ToString()

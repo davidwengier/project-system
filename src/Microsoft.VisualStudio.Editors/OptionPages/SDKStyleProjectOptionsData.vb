@@ -1,4 +1,4 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Imports System.ComponentModel
 Imports System.Runtime.CompilerServices
@@ -17,6 +17,8 @@ Namespace Microsoft.VisualStudio.Editors.OptionPages
 
         Private _fastUpToDateCheckEnabled As Boolean = True
         Private _fastUpToDateCheckLogLevel As LogLevel = LogLevel.None
+        Private _nestingIgnoreSolutionAndProjectProfiles As Boolean
+        Private _preferSingleTargetBuildsOnLaunch As Boolean = True
 
         Public Function Clone() As SDKStyleProjectOptionsData
             Dim clonedData = New SDKStyleProjectOptionsData
@@ -27,6 +29,8 @@ Namespace Microsoft.VisualStudio.Editors.OptionPages
         Public Sub CopyFrom(source As SDKStyleProjectOptionsData)
             FastUpToDateCheckEnabled = source.FastUpToDateCheckEnabled
             FastUpToDateCheckLogLevel = source.FastUpToDateCheckLogLevel
+            NestingIgnoreSolutionAndProjectProfiles = source.NestingIgnoreSolutionAndProjectProfiles
+            PreferSingleTargetBuildsOnLaunch = source.PreferSingleTargetBuildsOnLaunch
         End Sub
 
         <SharedSettings("ManagedProjectSystem\FastUpToDateCheckEnabled", False)>
@@ -44,6 +48,21 @@ Namespace Microsoft.VisualStudio.Editors.OptionPages
             End Set
         End Property
 
+        <SharedSettings("Cps.NestingIgnoreSolutionAndProjectProfiles", False)>
+        Public Property NestingIgnoreSolutionAndProjectProfiles As Boolean
+            Get
+                Return _nestingIgnoreSolutionAndProjectProfiles
+            End Get
+            Set
+                If Value = _nestingIgnoreSolutionAndProjectProfiles Then
+                    Return
+                End If
+
+                _nestingIgnoreSolutionAndProjectProfiles = Value
+                SendPropertyChangedNotification()
+            End Set
+        End Property
+
         <SharedSettings("ManagedProjectSystem\FastUpToDateLogLevel", False)>
         Public Property FastUpToDateCheckLogLevel As LogLevel
             Get
@@ -55,6 +74,21 @@ Namespace Microsoft.VisualStudio.Editors.OptionPages
                 End If
 
                 _fastUpToDateCheckLogLevel = value
+                SendPropertyChangedNotification()
+            End Set
+        End Property
+
+        <SharedSettings("ManagedProjectSystem\PreferSingleTargetBuilds", False)>
+        Public Property PreferSingleTargetBuildsOnLaunch As Boolean
+            Get
+                Return _preferSingleTargetBuildsOnLaunch
+            End Get
+            Set
+                If Value = _preferSingleTargetBuildsOnLaunch Then
+                    Return
+                End If
+
+                _preferSingleTargetBuildsOnLaunch = Value
                 SendPropertyChangedNotification()
             End Set
         End Property

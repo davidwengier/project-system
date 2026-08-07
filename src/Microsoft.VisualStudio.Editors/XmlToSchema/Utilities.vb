@@ -1,8 +1,7 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Option Infer On
 Imports System.ComponentModel
-Imports System.Diagnostics.CodeAnalysis
 Imports System.Drawing
 Imports System.Security.Permissions
 Imports System.Windows.Forms
@@ -25,9 +24,9 @@ Namespace Microsoft.VisualStudio.Editors.XmlToSchema
         End Sub
 
         Public Function FilterException(ex As Exception) As Boolean
-            Return Not TypeOf ex Is AccessViolationException AndAlso
-                   Not TypeOf ex Is StackOverflowException AndAlso
-                   Not TypeOf ex Is OutOfMemoryException
+            Return TypeOf ex IsNot AccessViolationException AndAlso
+                   TypeOf ex IsNot StackOverflowException AndAlso
+                   TypeOf ex IsNot OutOfMemoryException
         End Function
     End Module
 
@@ -83,7 +82,6 @@ Namespace Microsoft.VisualStudio.Editors.XmlToSchema
             Return "vb.XmlToSchemaWizard"
         End Function
 
-        <SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")>
         Private Sub ShowHelp()
             Try
                 Dim f1Word = GetF1Keyword()

@@ -1,205 +1,171 @@
-﻿// Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿// Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Microsoft.VisualStudio.ProjectSystem.Build;
 using Microsoft.VisualStudio.ProjectSystem.Input;
+using Microsoft.VisualStudio.ProjectSystem.VS.Build;
 using Microsoft.VisualStudio.Shell.Interop;
-using Task = System.Threading.Tasks.Task;
 
-namespace Microsoft.VisualStudio.ProjectSystem.VS.Input.Commands
+namespace Microsoft.VisualStudio.ProjectSystem.VS.Input.Commands;
+
+internal abstract class AbstractGenerateNuGetPackageCommand : AbstractSingleNodeProjectCommand, IVsUpdateSolutionEvents, IDisposable
 {
-    internal abstract class AbstractGenerateNuGetPackageCommand : AbstractSingleNodeProjectCommand, IVsUpdateSolutionEvents, IDisposable
+    private readonly IProjectThreadingService _threadingService;
+    private readonly ISolutionBuildManager _solutionBuildManager;
+    private readonly GeneratePackageOnBuildPropertyProvider _generatePackageOnBuildPropertyProvider;
+
+    private IAsyncDisposable? _subscription;
+
+    protected AbstractGenerateNuGetPackageCommand(
+        UnconfiguredProject project,
+        IProjectThreadingService threadingService,
+        ISolutionBuildManager vsSolutionBuildManagerService,
+        GeneratePackageOnBuildPropertyProvider generatePackageOnBuildPropertyProvider)
     {
-        private readonly IProjectThreadingService _threadingService;
-        private readonly IVsService<IVsSolutionBuildManager2> _vsSolutionBuildManagerService;
-        private readonly GeneratePackageOnBuildPropertyProvider _generatePackageOnBuildPropertyProvider;
-        private IVsSolutionBuildManager2? _buildManager;
-        private uint _solutionEventsCookie;
+        Requires.NotNull(project);
+        Requires.NotNull(threadingService);
+        Requires.NotNull(vsSolutionBuildManagerService);
+        Requires.NotNull(generatePackageOnBuildPropertyProvider);
 
-        protected AbstractGenerateNuGetPackageCommand(
-            UnconfiguredProject project,
-            IProjectThreadingService threadingService,
-            IVsService<SVsSolutionBuildManager, IVsSolutionBuildManager2> vsSolutionBuildManagerService,
-            GeneratePackageOnBuildPropertyProvider generatePackageOnBuildPropertyProvider)
+        Project = project;
+        _threadingService = threadingService;
+        _solutionBuildManager = vsSolutionBuildManagerService;
+        _generatePackageOnBuildPropertyProvider = generatePackageOnBuildPropertyProvider;
+    }
+
+    protected UnconfiguredProject Project { get; }
+
+    protected abstract string GetCommandText();
+
+    protected abstract bool ShouldHandle(IProjectTree node);
+
+    protected override async Task<CommandStatusResult> GetCommandStatusAsync(IProjectTree node, bool focused, string? commandText, CommandStatus progressiveStatus)
+    {
+        if (ShouldHandle(node))
         {
-            Requires.NotNull(project, nameof(project));
-            Requires.NotNull(threadingService, nameof(threadingService));
-            Requires.NotNull(vsSolutionBuildManagerService, nameof(vsSolutionBuildManagerService));
-            Requires.NotNull(generatePackageOnBuildPropertyProvider, nameof(generatePackageOnBuildPropertyProvider));
-
-            Project = project;
-            _threadingService = threadingService;
-            _vsSolutionBuildManagerService = vsSolutionBuildManagerService;
-            _generatePackageOnBuildPropertyProvider = generatePackageOnBuildPropertyProvider;
+            // Enable the command if the build manager is ready to build.
+            CommandStatus commandStatus = await IsReadyToBuildAsync() ? CommandStatus.Enabled : CommandStatus.Supported;
+            return await GetCommandStatusResult.Handled(GetCommandText(), commandStatus);
         }
 
-        protected UnconfiguredProject Project { get; }
+        return CommandStatusResult.Unhandled;
+    }
 
-        protected abstract string GetCommandText();
+    private async Task<bool> IsReadyToBuildAsync()
+    {
+        // Switch to UI thread for querying the build manager service.
+        await _threadingService.SwitchToUIThread();
 
-        protected abstract bool ShouldHandle(IProjectTree node);
+        // Ensure build manager is initialized.
+        _subscription ??= await _solutionBuildManager.SubscribeSolutionEventsAsync(this);
 
-        protected override async Task<CommandStatusResult> GetCommandStatusAsync(IProjectTree node, bool focused, string? commandText, CommandStatus progressiveStatus)
+        int busy = _solutionBuildManager.QueryBuildManagerBusy();
+        return busy == 0;
+    }
+
+    protected override async Task<bool> TryHandleCommandAsync(IProjectTree node, bool focused, long commandExecuteOptions, IntPtr variantArgIn, IntPtr variantArgOut)
+    {
+        if (!ShouldHandle(node))
         {
-            if (ShouldHandle(node))
-            {
-                // Enable the command if the build manager is ready to build.
-                CommandStatus commandStatus = await IsReadyToBuildAsync() ? CommandStatus.Enabled : CommandStatus.Supported;
-                return await GetCommandStatusResult.Handled(GetCommandText(), commandStatus);
-            }
-
-            return CommandStatusResult.Unhandled;
+            return false;
         }
 
-        private async Task<bool> IsReadyToBuildAsync()
+        if (await IsReadyToBuildAsync())
         {
-            // Ensure build manager is initialized.
-            await EnsureBuildManagerInitializedAsync();
-
-            ErrorHandler.ThrowOnFailure(_buildManager!.QueryBuildManagerBusy(out int busy));
-            return busy == 0;
-        }
-
-        private async Task EnsureBuildManagerInitializedAsync()
-        {
-            // Switch to UI thread for querying the build manager service.
+            // Build manager APIs require UI thread access.
             await _threadingService.SwitchToUIThread();
 
-            if (_buildManager == null)
-            {
-                _buildManager = await _vsSolutionBuildManagerService.GetValueAsync();
-                Assumes.Present(_buildManager);
+            Assumes.NotNull(Project.Services.HostObject);
 
-                // Register for solution build events.
-                _buildManager.AdviseUpdateSolutionEvents(this, out _solutionEventsCookie);
-            }
+            // Save documents before build.
+            var projectVsHierarchy = (IVsHierarchy)Project.Services.HostObject;
+            _solutionBuildManager.SaveDocumentsBeforeBuild(projectVsHierarchy, (uint)VSConstants.VSITEMID.Root, docCookie: 0);
+
+            // We need to make sure dependencies are built so they can go into the package
+            _solutionBuildManager.CalculateProjectDependencies();
+
+            // Assembly our list of projects to build
+            var projects = new List<IVsHierarchy>
+            {
+                projectVsHierarchy
+            };
+
+            projects.AddRange(_solutionBuildManager.GetProjectDependencies(projectVsHierarchy));
+
+            // Turn off "GeneratePackageOnBuild" because otherwise the Pack target will not do a build, even if there is no built output
+            _generatePackageOnBuildPropertyProvider.OverrideGeneratePackageOnBuild(false);
+
+            uint dwFlags = (uint)(VSSOLNBUILDUPDATEFLAGS.SBF_SUPPRESS_SAVEBEFOREBUILD_QUERY | VSSOLNBUILDUPDATEFLAGS.SBF_OPERATION_BUILD);
+
+            uint[] buildFlags = new uint[projects.Count];
+            // We tell the Solution Build Manager to Package our project, which will call the Pack target, which will build if necessary.
+            // Any dependent projects will just do a normal build
+            buildFlags[0] = VSConstants.VS_BUILDABLEPROJECTCFGOPTS_PACKAGE;
+
+            _solutionBuildManager.StartUpdateSpecificProjectConfigurations(projects.ToArray(), buildFlags, dwFlags);
         }
 
-        protected override async Task<bool> TryHandleCommandAsync(IProjectTree node, bool focused, long commandExecuteOptions, IntPtr variantArgIn, IntPtr variantArgOut)
-        {
-            if (!ShouldHandle(node))
-            {
-                return false;
-            }
+        return true;
+    }
 
-            if (await IsReadyToBuildAsync())
+    #region IVsUpdateSolutionEvents members
+    public int UpdateSolution_Begin(ref int pfCancelUpdate)
+    {
+        return HResult.OK;
+    }
+
+    public int UpdateSolution_Done(int fSucceeded, int fModified, int fCancelCommand)
+    {
+        _generatePackageOnBuildPropertyProvider.OverrideGeneratePackageOnBuild(null);
+        return HResult.OK;
+    }
+
+    public int UpdateSolution_Cancel()
+    {
+        _generatePackageOnBuildPropertyProvider.OverrideGeneratePackageOnBuild(null);
+        return HResult.OK;
+    }
+
+    public int UpdateSolution_StartUpdate(ref int pfCancelUpdate)
+    {
+        return HResult.OK;
+    }
+
+    public int OnActiveProjectCfgChange(IVsHierarchy pIVsHierarchy)
+    {
+        return HResult.OK;
+    }
+    #endregion
+
+    #region IDisposable
+    private bool _disposedValue;
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!_disposedValue)
+        {
+            if (disposing && _subscription is not null)
             {
                 // Build manager APIs require UI thread access.
-                await _threadingService.SwitchToUIThread();
-
-                Assumes.NotNull(Project.Services.HostObject);
-
-                // Save documents before build.
-                var projectVsHierarchy = (IVsHierarchy)Project.Services.HostObject;
-                ErrorHandler.ThrowOnFailure(_buildManager!.SaveDocumentsBeforeBuild(projectVsHierarchy, (uint)VSConstants.VSITEMID.Root, 0 /*docCookie*/));
-
-                // We need to make sure dependencies are built so they can go into the package
-                ErrorHandler.ThrowOnFailure(_buildManager.CalculateProjectDependencies());
-
-                // Assembly our list of projects to build
-                var projects = new List<IVsHierarchy>
+                _threadingService.ExecuteSynchronously(async () =>
                 {
-                    projectVsHierarchy
-                };
+                    await _threadingService.SwitchToUIThread();
 
-                // First we find out how many dependent projects there are
-                uint[] dependencyCounts = new uint[1];
-                ErrorHandler.ThrowOnFailure(_buildManager.GetProjectDependencies(projectVsHierarchy, 0, null, dependencyCounts));
-
-                if (dependencyCounts[0] > 0)
-                {
-                    // Get all of the dependent projects, and add them to our list
-                    var projectsArray = new IVsHierarchy[dependencyCounts[0]];
-                    ErrorHandler.ThrowOnFailure(_buildManager.GetProjectDependencies(projectVsHierarchy, dependencyCounts[0], projectsArray, dependencyCounts));
-                    projects.AddRange(projectsArray);
-                }
-
-                // Turn off "GeneratePackageOnBuild" because otherwise the Pack target will not do a build, even if there is no built output
-                _generatePackageOnBuildPropertyProvider.OverrideGeneratePackageOnBuild(false);
-
-                uint dwFlags = (uint)(VSSOLNBUILDUPDATEFLAGS.SBF_SUPPRESS_SAVEBEFOREBUILD_QUERY | VSSOLNBUILDUPDATEFLAGS.SBF_OPERATION_BUILD);
-
-                uint[] buildFlags = new uint[projects.Count];
-                // We tell the Solution Build Manager to Package our project, which will call the Pack target, which will build if necessary.
-                // Any dependent projects will just do a normal build
-                buildFlags[0] = VSConstants.VS_BUILDABLEPROJECTCFGOPTS_PACKAGE;
-
-                ErrorHandler.ThrowOnFailure(_buildManager.StartUpdateSpecificProjectConfigurations(cProjs: (uint)projects.Count,
-                                                                                                   rgpHier: projects.ToArray(),
-                                                                                                   rgpcfg: null,
-                                                                                                   rgdwCleanFlags: null,
-                                                                                                   rgdwBuildFlags: buildFlags,
-                                                                                                   rgdwDeployFlags: null,
-                                                                                                   dwFlags: dwFlags,
-                                                                                                   fSuppressUI: 0));
-            }
-
-            return true;
-        }
-
-        #region IVsUpdateSolutionEvents members
-        public int UpdateSolution_Begin(ref int pfCancelUpdate)
-        {
-            return HResult.OK;
-        }
-
-        public int UpdateSolution_Done(int fSucceeded, int fModified, int fCancelCommand)
-        {
-            _generatePackageOnBuildPropertyProvider.OverrideGeneratePackageOnBuild(null);
-            return HResult.OK;
-        }
-
-        public int UpdateSolution_Cancel()
-        {
-            _generatePackageOnBuildPropertyProvider.OverrideGeneratePackageOnBuild(null);
-            return HResult.OK;
-        }
-
-        public int UpdateSolution_StartUpdate(ref int pfCancelUpdate)
-        {
-            return HResult.OK;
-        }
-
-        public int OnActiveProjectCfgChange(IVsHierarchy pIVsHierarchy)
-        {
-            return HResult.OK;
-        }
-        #endregion
-
-        #region IDisposable
-        private bool _disposedValue = false;
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!_disposedValue)
-            {
-                if (disposing && _buildManager != null)
-                {
-                    // Build manager APIs require UI thread access.
-                    _threadingService.ExecuteSynchronously(async () =>
+                    if (_subscription is not null)
                     {
-                        await _threadingService.SwitchToUIThread();
-
-                        if (_buildManager != null)
-                        {
-                            // Unregister solution build events.
-                            _buildManager.UnadviseUpdateSolutionEvents(_solutionEventsCookie);
-                            _buildManager = null;
-                        }
-                    });
-                }
-
-                _disposedValue = true;
+                        // Unregister solution build events.
+                        await _subscription.DisposeAsync();
+                    }
+                });
             }
-        }
 
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            _disposedValue = true;
         }
-        #endregion
     }
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+    #endregion
 }

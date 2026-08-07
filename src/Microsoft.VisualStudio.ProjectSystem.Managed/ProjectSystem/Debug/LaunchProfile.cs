@@ -1,85 +1,186 @@
-﻿// Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿// Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System.Collections.Immutable;
+using Microsoft.VisualStudio.Threading;
 
-#nullable disable
+namespace Microsoft.VisualStudio.ProjectSystem.Debug;
 
-namespace Microsoft.VisualStudio.ProjectSystem.Debug
+/// <summary>
+/// Represents one launch profile read from the launchSettings file.
+/// </summary>
+internal class LaunchProfile : ILaunchProfile2, IPersistOption
 {
-    /// <summary>
-    /// Represents one launch profile read from the launchSettings file.
-    /// </summary>
-    internal class LaunchProfile : ILaunchProfile, IPersistOption
+    public static LaunchProfile Clone(ILaunchProfile profile)
     {
-        public LaunchProfile()
+        // LaunchProfile is immutable and doesn't need to be cloned.
+        if (profile is LaunchProfile lp)
         {
+            return lp;
         }
 
-        public LaunchProfile(LaunchProfileData data)
+        // Unknown implementation. Make a defensive copy to a new immutable instance.
+        return new LaunchProfile(
+            name: profile.Name,
+            executablePath: profile.ExecutablePath,
+            commandName: profile.CommandName,
+            commandLineArgs: profile.CommandLineArgs,
+            workingDirectory: profile.WorkingDirectory,
+            launchBrowser: profile.LaunchBrowser,
+            launchUrl: profile.LaunchUrl,
+            environmentVariables: profile.FlattenEnvironmentVariables(),
+            otherSettings: profile.FlattenOtherSettings(),
+            doNotPersist: profile.IsInMemoryObject());
+    }
+
+    /// <summary>
+    /// Creates a copy of <paramref name="profile"/> in which tokens are replaced via <paramref name="replaceAsync"/>.
+    /// </summary>
+    /// <remarks>
+    /// Intended to replace tokens such as environment variables and MSBuild properties.
+    /// </remarks>
+    /// <param name="profile">The source profile to copy from.</param>
+    /// <param name="replaceAsync">A function that performs token substitution.</param>
+    /// <returns>A profile with tokens substituted.</returns>
+    internal static async Task<LaunchProfile> ReplaceTokensAsync(ILaunchProfile profile, Func<string, Task<string>> replaceAsync)
+    {
+        return new(
+            name: profile.Name,
+            commandName: profile.CommandName,
+            executablePath: await ReplaceOrNullAsync(profile.ExecutablePath),
+            commandLineArgs: await ReplaceOrNullAsync(profile.CommandLineArgs),
+            workingDirectory: await ReplaceOrNullAsync(profile.WorkingDirectory),
+            launchBrowser: profile.LaunchBrowser,
+            launchUrl: await ReplaceOrNullAsync(profile.LaunchUrl),
+            doNotPersist: profile.IsInMemoryObject(),
+            environmentVariables: await GetEnvironmentVariablesAsync(),
+            otherSettings: await GetOtherSettingsAsync());
+
+        Task<string?> ReplaceOrNullAsync(string? s)
         {
-            Name = data.Name;
-            ExecutablePath = data.ExecutablePath;
-            CommandName = data.CommandName;
-            CommandLineArgs = data.CommandLineArgs;
-            WorkingDirectory = data.WorkingDirectory;
-            LaunchBrowser = data.LaunchBrowser ?? false;
-            LaunchUrl = data.LaunchUrl;
-            EnvironmentVariables = data.EnvironmentVariables?.ToImmutableDictionary();
-            OtherSettings = data.OtherSettings?.ToImmutableDictionary();
-            DoNotPersist = data.InMemoryProfile;
+            if (Strings.IsNullOrWhiteSpace(s))
+            {
+                return TaskResult.Null<string>();
+            }
+
+            return replaceAsync(s)!;
         }
 
-        /// <summary>
-        /// Useful to create a mutable version from an existing immutable profile
-        /// </summary>
-        public LaunchProfile(ILaunchProfile existingProfile)
+        Task<ImmutableArray<(string Key, string Value)>> GetEnvironmentVariablesAsync()
         {
-            Name = existingProfile.Name;
-            ExecutablePath = existingProfile.ExecutablePath;
-            CommandName = existingProfile.CommandName;
-            CommandLineArgs = existingProfile.CommandLineArgs;
-            WorkingDirectory = existingProfile.WorkingDirectory;
-            LaunchBrowser = existingProfile.LaunchBrowser;
-            LaunchUrl = existingProfile.LaunchUrl;
-            EnvironmentVariables = existingProfile.EnvironmentVariables;
-            OtherSettings = existingProfile.OtherSettings;
-            DoNotPersist = existingProfile.IsInMemoryObject();
+            return profile switch
+            {
+                ILaunchProfile2 profile2 => ReplaceValuesAsync(profile2.EnvironmentVariables, replaceAsync),
+                _ => ReplaceValuesAsync(profile.FlattenEnvironmentVariables(), replaceAsync)
+            };
         }
 
-        public LaunchProfile(IWritableLaunchProfile writableProfile)
+        Task<ImmutableArray<(string Key, object Value)>> GetOtherSettingsAsync()
         {
-            Name = writableProfile.Name;
-            ExecutablePath = writableProfile.ExecutablePath;
-            CommandName = writableProfile.CommandName;
-            CommandLineArgs = writableProfile.CommandLineArgs;
-            WorkingDirectory = writableProfile.WorkingDirectory;
-            LaunchBrowser = writableProfile.LaunchBrowser;
-            LaunchUrl = writableProfile.LaunchUrl;
-            DoNotPersist = writableProfile.IsInMemoryObject();
+            return profile switch
+            {
+                ILaunchProfile2 profile2 => ReplaceValuesAsync(profile2.OtherSettings, ReplaceIfStringAsync),
+                _ => ReplaceValuesAsync(profile.FlattenOtherSettings(), ReplaceIfStringAsync)
+            };
 
-            // If there are no env variables or settings we want to set them to null
-            EnvironmentVariables = writableProfile.EnvironmentVariables.Count == 0 ? null : writableProfile.EnvironmentVariables.ToImmutableDictionary();
-            OtherSettings = writableProfile.OtherSettings.Count == 0 ? null : writableProfile.OtherSettings.ToImmutableDictionary();
+            async Task<object> ReplaceIfStringAsync(object o)
+            {
+                return o switch
+                {
+                    string s => await replaceAsync(s),
+                    _ => o
+                };
+            }
         }
 
-        public string Name { get; set; }
-        public string CommandName { get; set; }
-        public string ExecutablePath { get; set; }
-        public string CommandLineArgs { get; set; }
-        public string WorkingDirectory { get; set; }
-        public bool LaunchBrowser { get; set; }
-        public string LaunchUrl { get; set; }
-        public bool DoNotPersist { get; set; }
-
-        public ImmutableDictionary<string, string> EnvironmentVariables { get; set; }
-        public ImmutableDictionary<string, object> OtherSettings { get; set; }
-
-        /// <summary>
-        /// Compares two profile names. Using this function ensures case comparison consistency
-        /// </summary>
-        public static bool IsSameProfileName(string name1, string name2)
+        static async Task<ImmutableArray<(string Key, T Value)>> ReplaceValuesAsync<T>(ImmutableArray<(string Key, T Value)> source, Func<T, Task<T>> replaceAsync)
+            where T : class
         {
-            return string.Equals(name1, name2, StringComparisons.LaunchProfileNames);
+            // We will only allocate a new array if a substituion is made
+            ImmutableArray<(string, T)>.Builder? builder = null;
+
+            for (int index = 0; index < source.Length; index++)
+            {
+                (string key, T value) = source[index];
+
+                T replaced = await replaceAsync(value);
+
+                if (!ReferenceEquals(value, replaced))
+                {
+                    // The value had at least one token substitution.
+                    if (builder is null)
+                    {
+                        // Init the builder.
+                        builder = ImmutableArray.CreateBuilder<(string, T)>(source.Length);
+
+                        if (index != 0)
+                        {
+                            // Copy any unsubstituted values up until this point.
+                            builder.AddRange(source, index);
+                        }
+                    }
+                }
+
+                builder?.Add((key, (T)replaced));
+            }
+
+            // Return the source unchanged if there were no substitutions made.
+            return builder?.MoveToImmutable() ?? source;
         }
+    }
+
+    public LaunchProfile(
+        string? name,
+        string? commandName,
+        string? executablePath = null,
+        string? commandLineArgs = null,
+        string? workingDirectory = null,
+        bool launchBrowser = false,
+        string? launchUrl = null,
+        bool doNotPersist = false,
+        ImmutableArray<(string Key, string Value)> environmentVariables = default,
+        ImmutableArray<(string Key, object Value)> otherSettings = default)
+    {
+        Name = name;
+        CommandName = commandName;
+        ExecutablePath = executablePath;
+        CommandLineArgs = commandLineArgs;
+        WorkingDirectory = workingDirectory;
+        LaunchBrowser = launchBrowser;
+        LaunchUrl = launchUrl;
+        DoNotPersist = doNotPersist;
+
+        EnvironmentVariables = environmentVariables.IsDefault
+            ? []
+            : environmentVariables;
+        OtherSettings = otherSettings.IsDefault
+            ? []
+            : otherSettings;
+    }
+
+    public string? Name { get; }
+    public string? CommandName { get; }
+    public string? ExecutablePath { get; }
+    public string? CommandLineArgs { get; }
+    public string? WorkingDirectory { get; }
+    public bool LaunchBrowser { get; }
+    public string? LaunchUrl { get; }
+    public bool DoNotPersist { get; }
+
+    public ImmutableArray<(string Key, string Value)> EnvironmentVariables { get; }
+    public ImmutableArray<(string Key, object Value)> OtherSettings { get; }
+
+    ImmutableDictionary<string, string>? ILaunchProfile.EnvironmentVariables => EnvironmentVariables.ToImmutableDictionary(pairs => pairs.Key, pairs => pairs.Value, StringComparers.EnvironmentVariableNames);
+    ImmutableDictionary<string, object>? ILaunchProfile.OtherSettings => OtherSettings.ToImmutableDictionary(pairs => pairs.Key, pairs => pairs.Value, StringComparers.LaunchProfileProperties);
+
+    /// <summary>
+    /// Compares two profile names. Using this function ensures case comparison consistency
+    /// </summary>
+    public static bool IsSameProfileName(string? name1, string? name2)
+    {
+        return string.Equals(name1, name2, StringComparisons.LaunchProfileNames);
+    }
+
+    public override string ToString()
+    {
+        return $"Name={Name ?? "<null>"}, Command={CommandName ?? "<null>"}";
     }
 }

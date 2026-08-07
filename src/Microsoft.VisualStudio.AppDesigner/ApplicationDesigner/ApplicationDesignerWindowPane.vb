@@ -1,4 +1,4 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Imports System.ComponentModel.Design
 Imports System.Drawing
@@ -15,9 +15,7 @@ Imports Microsoft.VisualStudio.Shell.Interop
 Imports Common = Microsoft.VisualStudio.Editors.AppDesCommon
 Imports IOleDataObject = Microsoft.VisualStudio.OLE.Interop.IDataObject
 
-
 Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
-
 
     Public NotInheritable Class ApplicationDesignerWindowPane
         Inherits DesignerWindowPane
@@ -32,7 +30,6 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
         Private _uiShell5Service As IVsUIShell5
 
         Private WithEvents _broadcastMessageEventsHelper As Common.ShellUtil.BroadcastMessageEventsHelper
-
 
         ''' <summary>
         ''' Creates a new WinformsWindowPane.
@@ -78,7 +75,6 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
 
         End Sub
 
-
         ''' <summary>
         '''     This method is called when Visual Studio needs to
         '''     evaluate which toolbox items should be enabled.  The
@@ -95,7 +91,6 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
             '  performance, so we simply return False here for all toolbox items
             Return False
         End Function
-
 
         ''' <summary>
         ''' Our view always hands focus to its child.  
@@ -129,7 +124,6 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
                 Return _view
             End Get
         End Property
-
 
         ''' <summary>
         '''  This takes our control UI and populates it with the
@@ -251,6 +245,7 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
                 End If
             Else
                 'App designer already loaded - just navigate to the correct view
+                AppDesignerView.AppDesignerAlreadyLoaded()
                 If Not rguidLogicalView.Equals(Guid.Empty) And Not rguidLogicalView.Equals(GetActiveView()) Then
                     SetActiveView(rguidLogicalView)
                 End If
@@ -275,7 +270,6 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
             End If
         End Function
 
-
         ''' <summary>
         ''' The OnClose method is called by the base class in response to the ClosePane method on
         '''    IVsWindowPane.  The default implementation calls Dispose()
@@ -283,7 +277,6 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
         Protected Overrides Sub OnClose()
             MyBase.OnClose() 'Calls Dispose()
         End Sub
-
 
         Public ReadOnly Property AppDesignerView As ApplicationDesignerView
             Get
@@ -313,7 +306,6 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
             End If
         End Sub
 
-
         ''' <summary>
         ''' Closes the application designer, but first prompts the user which of the open children
         '''   documents they want to save, and saves the ones selected.
@@ -326,7 +318,6 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
 
             Return CloseFrameNoSave()
         End Function
-
 
         ''' <summary>
         ''' Closes the window frame for the project designer.  Any children with unsaved DocData will be discarded
@@ -352,7 +343,6 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
             Return NativeMethods.S_OK
         End Function
 
-
         ''' <summary>
         ''' Closes the window frame for the project designer
         ''' </summary>
@@ -364,7 +354,6 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
                 Return hr
             End If
         End Function
-
 
         ''' <summary>
         ''' Saves the DocDatas for all child DocViews of the project designer (i.e., the resource
@@ -396,7 +385,6 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
 
             Return NativeMethods.S_OK
         End Function
-
 
         ''' <summary>
         ''' Saves the project file associated with the project being displayed in the application designer, without
@@ -497,7 +485,6 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
             End Get
         End Property
 
-
 #Region "IVsBackForwardNavigation"
 #If 0 Then 'CONSIDER implementing
         Public Sub IsEqual(pFrame As Shell.Interop.IVsWindowFrame, bstrData As String, punk As Object, ByRef fReplaceSelf As Integer) Implements Shell.Interop.IVsBackForwardNavigation.IsEqual
@@ -521,7 +508,6 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
         End Function
 #End Region
 
-
         ''' <summary>
         ''' Clears the viewhelper on the frame (our view helper is a CmdTargetHelper class instance)
         ''' </summary>
@@ -540,14 +526,12 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
             Return MyBase.PreProcessMessage(m)
         End Function
 
-
-
 #Region "Dispose/IDisposable"
         ''' <summary>
         ''' Unhook events and prepare for takeoff
         ''' </summary>
         ''' <param name="disposing"></param>
-        Protected Overloads Sub Dispose(disposing As Boolean)
+        Private Overloads Sub Dispose(disposing As Boolean)
             Dim disposedView As Control = _view
 
             Try

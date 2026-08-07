@@ -38,8 +38,8 @@
         <note />
       </trans-unit>
       <trans-unit id="PackageIconUrlWarning.Text">
-        <source>PackageIconUrl detected but is deprecated. Use PackageIcon instead.</source>
-        <target state="translated">PackageIconUrl saptandı ancak kullanım dışı bırakılmış. Bunun yerine PackageIcon kullanın.</target>
+        <source>PackageIconUrl detected but is deprecated. Please use PackageIcon instead.</source>
+        <target state="translated">PackageIconUrl algılandı ancak kullanım dışı bırakılmış. Lütfen bunun yerine PackageIcon kullanın.</target>
         <note />
       </trans-unit>
       <trans-unit id="PackageVersionLabel.Text">
@@ -103,23 +103,23 @@
         <note />
       </trans-unit>
       <trans-unit id="FileVersionRevisionTextBox.AccessibleName">
-        <source>Assembly File Verison Revision</source>
+        <source>Assembly File Version Revision</source>
         <target state="translated">Derleme Dosyası Sürümünü Düzeltme</target>
         <note />
       </trans-unit>
       <trans-unit id="FileVersionBuildTextBox.AccessibleName">
-        <source>Assembly File Verison Build</source>
-        <target state="translated">Derleme Dosya Sürümü Derlemesi</target>
+        <source>Assembly File Version Build</source>
+        <target state="translated">Derleme Dosyası Sürümü Derleme</target>
         <note />
       </trans-unit>
       <trans-unit id="FileVersionMinorTextBox.AccessibleName">
-        <source>Assembly File Verison Minor</source>
-        <target state="translated">Derleme Dosyası Alt Sürümü</target>
+        <source>Assembly File Version Minor</source>
+        <target state="translated">Derleme Dosyası Sürümü Küçük</target>
         <note />
       </trans-unit>
       <trans-unit id="FileVersionMajorTextBox.AccessibleName">
-        <source>Assembly File Verison Major</source>
-        <target state="translated">Derleme Dosyası Ana Sürümü</target>
+        <source>Assembly File Version Major</source>
+        <target state="translated">Derleme Dosyası Sürümü Büyük</target>
         <note />
       </trans-unit>
       <trans-unit id="PackageRequireLicenseAcceptance.Text">
@@ -258,18 +258,18 @@
         <note />
       </trans-unit>
       <trans-unit id="LicenseExpressionRadioButton.AccessibleName">
-        <source>Package License Expression Radio Button</source>
-        <target state="translated">Paket Lisans İfadesi Radyo Düğmesi</target>
+        <source>Package License Expression</source>
+        <target state="translated">Paket Lisans İfadesi</target>
         <note />
       </trans-unit>
       <trans-unit id="LicenseFileRadioButton.AccessibleName">
-        <source>Package License File Radio Button</source>
-        <target state="translated">Paket Lisans Dosyası Radyo Düğmesi</target>
+        <source>Package License File</source>
+        <target state="translated">Paket Lisans Dosyası</target>
         <note />
       </trans-unit>
       <trans-unit id="LicenseUrlWarning.Text">
-        <source>PackageLicenseURL property was detected, but it has been deprecated. Please change to either an Expression or File.</source>
-        <target state="translated">PackageLicenseURL özelliği algılandı ancak kullanım dışı bırakıldı. Lütfen bir İfade veya Dosya olarak değiştirin.</target>
+        <source>PackageLicenseURL detected but is deprecated. Please use Expression or File instead.</source>
+        <target state="translated">PackageLicenseURL algılandı ancak kullanım dışı bırakılmış. Lütfen bunun yerine Expression veya File kullanın.</target>
         <note />
       </trans-unit>
     </body>

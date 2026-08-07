@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information. -->
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
 <Rule Name="NuGetRestore"
       PageTemplate="generic"
       xmlns="http://schemas.microsoft.com/build/2009/properties">
@@ -13,11 +13,31 @@
                   ReadOnly="True"
                   Visible="False" />
 
+  <StringProperty Name="CentralPackageTransitivePinningEnabled"
+                  ReadOnly="True"
+                  Visible="False" />
+
+  <StringProperty Name="CentralPackageVersionOverrideEnabled"
+                  ReadOnly="True"
+                  Visible="False" />
+                  
+  <StringProperty Name="CentralPackageFloatingVersionsEnabled"
+                  ReadOnly="True"
+                  Visible="False" />
+
+  <StringProperty Name="CLRSupport"
+                  ReadOnly="True"
+                  Visible="False" />
+
   <StringProperty Name="DotnetCliToolTargetFramework"
                   ReadOnly="True"
                   Visible="False" />
 
   <StringProperty Name="EmitAssetsLogMessages"
+                  ReadOnly="True"
+                  Visible="False" />
+
+  <StringProperty Name="ManagePackageVersionsCentrally"
                   ReadOnly="True"
                   Visible="False" />
 
@@ -33,7 +53,23 @@
                   ReadOnly="True"
                   Visible="False" />
 
+  <StringProperty Name="NETCoreSdkVersion"
+                  ReadOnly="True"
+                  Visible="False" />
+
   <StringProperty Name="NoWarn"
+                  ReadOnly="True"
+                  Visible="False" />
+
+  <StringProperty Name="NuGetAudit"
+                  ReadOnly="True"
+                  Visible="False" />
+
+  <StringProperty Name="NuGetAuditLevel"
+                  ReadOnly="True"
+                  Visible="False" />
+
+  <StringProperty Name="NuGetAuditMode"
                   ReadOnly="True"
                   Visible="False" />
 
@@ -69,6 +105,14 @@
                   ReadOnly="True"
                   Visible="False" />
 
+  <StringProperty Name="RestoreEnablePackagePruning"
+                  ReadOnly="True"
+                  Visible="False" />
+
+  <StringProperty Name="RestorePackagePruningDefault"
+                  ReadOnly="True"
+                  Visible="False" />
+
   <StringProperty Name="RestoreFallbackFolders"
                   ReadOnly="True"
                   Visible="False" />
@@ -89,6 +133,10 @@
                   ReadOnly="True"
                   Visible="False" />
 
+  <StringProperty Name="RestoreUseLegacyDependencyResolver"
+                  ReadOnly="True"
+                  Visible="False" />
+
   <StringProperty Name="RuntimeIdentifier"
                   ReadOnly="True"
                   Visible="False" />
@@ -105,65 +153,58 @@
                   ReadOnly="True"
                   Visible="False" />
 
+  <StringProperty Name="SdkAnalysisLevel"
+                  ReadOnly="True"
+                  Visible="False" />
+
+  <StringProperty Name="UsingMicrosoftNETSdk"
+                  ReadOnly="True"
+                  Visible="False" />
+
   <StringProperty Name="TargetFramework"
-                  Visible="False">
-    <StringProperty.DataSource>
-      <DataSource HasConfigurationCondition="False"
-                  PersistedName="TargetFramework"
-                  Persistence="ProjectFile"
-                  SourceOfDefaultValue="AfterContext" />
-    </StringProperty.DataSource>
-  </StringProperty>
+                  ReadOnly="True"
+                  Visible="False" />
+
 
   <StringProperty Name="TargetFrameworkIdentifier"
-                  Visible="False">
-    <StringProperty.DataSource>
-      <DataSource HasConfigurationCondition="False"
-                  PersistedName="TargetFrameworkIdentifier"
-                  Persistence="ProjectFile"
-                  SourceOfDefaultValue="AfterContext" />
-    </StringProperty.DataSource>
-  </StringProperty>
+                  ReadOnly="True"
+                  Visible="False" />
+
 
   <StringProperty Name="TargetFrameworkMoniker"
-                  Visible="False">
-    <StringProperty.DataSource>
-      <DataSource HasConfigurationCondition="False"
-                  PersistedName="TargetFrameworkMoniker"
-                  Persistence="ProjectFileWithInterceptionViaSnapshot"
-                  SourceOfDefaultValue="AfterContext" />
-    </StringProperty.DataSource>
-  </StringProperty>
+                  ReadOnly="True"
+                  Visible="False" />
+
 
   <StringProperty Name="TargetFrameworkProfile"
-                  Visible="False">
-    <StringProperty.DataSource>
-      <DataSource HasConfigurationCondition="False"
-                  PersistedName="TargetFrameworkProfile"
-                  Persistence="ProjectFile"
-                  SourceOfDefaultValue="AfterContext" />
-    </StringProperty.DataSource>
-  </StringProperty>
+                  ReadOnly="True"
+                  Visible="False" />
 
   <StringProperty Name="TargetFrameworks"
-                  Visible="False">
-    <StringProperty.DataSource>
-      <DataSource HasConfigurationCondition="False"
-                  PersistedName="TargetFrameworks"
-                  Persistence="ProjectFile"
-                  SourceOfDefaultValue="AfterContext" />
-    </StringProperty.DataSource>
-  </StringProperty>
+                  ReadOnly="True"
+                  Visible="False" />
+
 
   <StringProperty Name="TargetFrameworkVersion"
-                  Visible="False">
-    <StringProperty.DataSource>
-      <DataSource HasConfigurationCondition="False"
-                  PersistedName="TargetFrameworkVersion"
-                  Persistence="ProjectFile"
-                  SourceOfDefaultValue="AfterContext" />
-    </StringProperty.DataSource>
-  </StringProperty>
+                  ReadOnly="True"
+                  Visible="False" />
+
+
+  <StringProperty Name="TargetPlatformMoniker"
+                  ReadOnly="True"
+                  Visible="False" />
+
+  <StringProperty Name="TargetPlatformMinVersion"
+                  ReadOnly="True"
+                  Visible="False" />
+
+  <StringProperty Name="TargetPlatformIdentifier"
+                  ReadOnly="True"
+                  Visible="False" />
+
+  <StringProperty Name="TargetPlatformVersion"
+                  ReadOnly="True"
+                  Visible="False" />                  
 
   <StringProperty Name="TreatWarningsAsErrors"
                   ReadOnly="True"
@@ -182,6 +223,14 @@
                   Visible="False" />
 
   <StringProperty Name="WarningsAsErrors"
+                  ReadOnly="True"
+                  Visible="False" />
+
+  <StringProperty Name="WarningsNotAsErrors"
+                  ReadOnly="True"
+                  Visible="False" />
+
+  <StringProperty Name="WindowsTargetPlatformMinVersion"
                   ReadOnly="True"
                   Visible="False" />
 

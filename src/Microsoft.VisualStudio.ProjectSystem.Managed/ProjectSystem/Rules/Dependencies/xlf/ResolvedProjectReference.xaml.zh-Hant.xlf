@@ -2,14 +2,24 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
   <file datatype="xml" source-language="en" target-language="zh-Hant" original="../ResolvedProjectReference.xaml">
     <body>
+      <trans-unit id="BoolProperty|TreatAsUsed|Description">
+        <source>Indicates that this reference should be treated as if it were used.</source>
+        <target state="translated">表示應將此參考視為已使用。</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="BoolProperty|TreatAsUsed|DisplayName">
+        <source>Treat as used</source>
+        <target state="translated">視為已使用</target>
+        <note />
+      </trans-unit>
       <trans-unit id="Rule|ResolvedProjectReference|DisplayName">
-        <source>Resolved Project Reference</source>
-        <target state="translated">已解析的專案參考</target>
+        <source>Project Reference</source>
+        <target state="translated">專案參考</target>
         <note />
       </trans-unit>
       <trans-unit id="Rule|ResolvedProjectReference|Description">
-        <source>Reference Properties</source>
-        <target state="translated">參考屬性</target>
+        <source>Project Reference Properties</source>
+        <target state="translated">專案參考屬性</target>
         <note />
       </trans-unit>
       <trans-unit id="StringListProperty|Aliases|DisplayName">
@@ -22,12 +32,12 @@
         <target state="translated">這個參考的逗號分隔別名清單。</target>
         <note />
       </trans-unit>
-      <trans-unit id="BoolProperty|CopyLocal|DisplayName">
+      <trans-unit id="BoolProperty|Private|DisplayName">
         <source>Copy Local</source>
         <target state="translated">複製到本機</target>
         <note />
       </trans-unit>
-      <trans-unit id="BoolProperty|CopyLocal|Description">
+      <trans-unit id="BoolProperty|Private|Description">
         <source>Indicates whether the reference will be copied to the output directory.</source>
         <target state="translated">表示是否將參考複製到輸出目錄。</target>
         <note />

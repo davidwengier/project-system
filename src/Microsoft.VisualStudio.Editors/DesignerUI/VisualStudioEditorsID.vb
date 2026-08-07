@@ -1,4 +1,4 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Imports System.ComponentModel.Design
 
@@ -18,59 +18,12 @@ Namespace Microsoft.VisualStudio.Editors
             ' Constants for menu command IDs and GUIDs. 
             ' *** These must match the constants in designerui\VisualStudioEditorsID.h *****
 
-
             ' *********************************************************************
             ' Menu IDs (0x01??)
             ' *********************************************************************
 
-            Private Const IDM_CTX_RESX_ContextMenu As Integer = &H100
             Private Const IDM_CTX_SETTINGSDESIGNER_ContextMenu As Integer = &H110
             Public Const IDM_VS_TOOLBAR_Settings As Integer = &H210
-            Public Const IDM_VS_TOOLBAR_Resources As Integer = &H211
-            Public Const IDM_VS_TOOLBAR_Resources_ResW As Integer = &H212
-
-
-            ' *********************************************************************
-            ' Command Group IDs (0x1???)
-            ' *********************************************************************
-
-
-            ' *********************************************************************
-            ' Command IDs (0x2???)
-            ' *********************************************************************
-
-            Private Const CmdIdRESXImport As Integer = &H2003
-            Private Const CmdIdRESXExport As Integer = &H2004
-            Private Const CmdIdRESXPlay As Integer = &H2005
-
-            Private Const CmdIdRESXAddFixedMenuCommand As Integer = &H2019
-            Private Const CmdIdRESXAddExistingFile As Integer = &H2020
-            Private Const CmdIdRESXAddNewString As Integer = &H2021
-            Private Const CmdIdRESXAddNewImagePNG As Integer = &H2022
-            Private Const CmdIdRESXAddNewImageBMP As Integer = &H2023
-            Private Const CmdIdRESXAddNewImageGIF As Integer = &H2024
-            Private Const CmdIdRESXAddNewImageJPEG As Integer = &H2025
-            Private Const CmdIdRESXAddNewImageTIFF As Integer = &H2026
-            Private Const CmdIdRESXAddNewIcon As Integer = &H2027
-            Private Const CmdIdRESXAddNewTextFile As Integer = &H2028
-            Private Const CmdIdRESXAddDefaultResource As Integer = &H2030
-
-            Private Const CmdIdRESXResTypeStrings As Integer = &H2040
-            Private Const CmdIdRESXResTypeImages As Integer = &H2041
-            Private Const CmdIdRESXResTypeIcons As Integer = &H2042
-            Private Const CmdIdRESXResTypeAudio As Integer = &H2043
-            Private Const CmdIdRESXResTypeFiles As Integer = &H2044
-            Private Const CmdIdRESXResTypeOther As Integer = &H2045
-
-            Private Const CmdIdIDRESXViewsFixedMenuCommand As Integer = &H2018
-            Private Const CmdIdRESXViewsList As Integer = &H2050
-            Private Const CmdIdRESXViewsDetails As Integer = &H2051
-            Private Const CmdIdRESXViewsThumbnails As Integer = &H2052
-
-            Private Const CmdIdRESXGenericRemove As Integer = &H2060
-
-            Private Const CmdIdRESXAccessModifierCombobox As Integer = &H2061
-            Private Const CmdIdRESXGetAccessModifierOptions As Integer = &H2062
 
             Private Const CmdIdSETTINGSDESIGNERViewCode As Integer = &H2104
             Private Const CmdIdSETTINGSDESIGNERSynchronize As Integer = &H2105
@@ -83,8 +36,6 @@ Namespace Microsoft.VisualStudio.Editors
             Private Const CmdIdCOMMONRemoveRow As Integer = &H2F02
 
             ' *********************************************************************
-
-
 
             'Some common stuff
             Public Shared ReadOnly GuidVSStd97 As New Guid("5efc7975-14bc-11cf-9b2b-00aa00573819")
@@ -113,7 +64,6 @@ Namespace Microsoft.VisualStudio.Editors
             Public Const CmdIdEditLabel As Integer = 338
             Public Const ECMD_CANCEL As Integer = 103
 
-
             Public Shared ReadOnly CommandIDVSStd97cmdidCut As New CommandID(GuidVSStd97, CmdIdCut)
             Public Shared ReadOnly CommandIDVSStd97cmdidCopy As New CommandID(GuidVSStd97, CmdIdCopy)
             Public Shared ReadOnly CommandIDVSStd97cmdidPaste As New CommandID(GuidVSStd97, CmdIdPaste)
@@ -125,14 +75,6 @@ Namespace Microsoft.VisualStudio.Editors
             Public Shared ReadOnly CommandIDVSStd97cmdidViewCode As New CommandID(GuidVSStd97, CmdIdViewCode)
             Public Shared ReadOnly CommandIDVSStd2kECMD_CANCEL As New CommandID(GuidVSStd2K, ECMD_CANCEL)
 
-            ' GUID constants.
-            Private Shared ReadOnly s_GUID_RESX_CommandID As New Guid("66BD4C1D-3401-4bcc-A942-E4990827E6F7")
-            'The Command GUID for the resource editor.  It is required for us to correctly hook up key bindings,
-            '  and must be returned from the editor factory.
-            Public Shared ReadOnly GUID_RESXEditorCommandUI As New Guid("fea4dcc9-3645-44cd-92e7-84b55a16465c")
-            Public Const GUID_RESXEditorCommandUIString As String = "fea4dcc9-3645-44cd-92e7-84b55a16465c"
-
-            Public Shared ReadOnly GUID_RESX_MenuGroup As New Guid("54869924-25F5-4878-A9C9-1C7198D99A8A")
             Public Shared ReadOnly GUID_SETTINGSDESIGNER_MenuGroup As New Guid("42b7a61f-81fd-4283-9678-6c448a827e56")
             Private Shared ReadOnly s_GUID_SETTINGSDESIGNER_CommandID As New Guid("c2013470-51ac-4278-9ac5-389c72a1f926")
             'The Command GUID for the settings designer.  It is required for us to correctly hook up key bindings,
@@ -140,44 +82,12 @@ Namespace Microsoft.VisualStudio.Editors
             Public Shared ReadOnly GUID_SETTINGSDESIGNER_CommandUI As New Guid("515231ad-c9dc-4aa3-808f-e1b65e72081c")
             Public Const GUID_SETTINGSDESIGNER_CommandUIString As String = "515231ad-c9dc-4aa3-808f-e1b65e72081c"
 
-
             Private Shared ReadOnly s_GUID_MS_VS_Editors_CommandId As New Guid("E4B9BB05-1963-4774-8CFC-518359E3FCE3")
 
             ' Command ID = GUID + cmdid.
             Public Shared ReadOnly CommandIDVSStd97Open As New CommandID(GuidVSStd97, CmdIdOpen)
             Public Shared ReadOnly CommandIDVSStd97OpenWith As New CommandID(GuidVSStd97, CmdIdOpenWith)
-            Public Shared ReadOnly CommandIDResXImport As New CommandID(s_GUID_RESX_CommandID, CmdIdRESXImport)
-            Public Shared ReadOnly CommandIDResXExport As New CommandID(s_GUID_RESX_CommandID, CmdIdRESXExport)
-            Public Shared ReadOnly CommandIDResXPlay As New CommandID(s_GUID_RESX_CommandID, CmdIdRESXPlay)
 
-            Public Shared ReadOnly CommandIDRESXAddFixedMenuCommand As New CommandID(s_GUID_RESX_CommandID, CmdIdRESXAddFixedMenuCommand)
-            Public Shared ReadOnly CommandIDRESXAddExistingFile As New CommandID(s_GUID_RESX_CommandID, CmdIdRESXAddExistingFile)
-            Public Shared ReadOnly CommandIDRESXAddNewString As New CommandID(s_GUID_RESX_CommandID, CmdIdRESXAddNewString)
-            Public Shared ReadOnly CommandIDRESXAddNewImagePNG As New CommandID(s_GUID_RESX_CommandID, CmdIdRESXAddNewImagePNG)
-            Public Shared ReadOnly CommandIDRESXAddNewImageBMP As New CommandID(s_GUID_RESX_CommandID, CmdIdRESXAddNewImageBMP)
-            Public Shared ReadOnly CommandIDRESXAddNewImageGIF As New CommandID(s_GUID_RESX_CommandID, CmdIdRESXAddNewImageGIF)
-            Public Shared ReadOnly CommandIDRESXAddNewImageJPEG As New CommandID(s_GUID_RESX_CommandID, CmdIdRESXAddNewImageJPEG)
-            Public Shared ReadOnly CommandIDRESXAddNewImageTIFF As New CommandID(s_GUID_RESX_CommandID, CmdIdRESXAddNewImageTIFF)
-            Public Shared ReadOnly CommandIDRESXAddNewIcon As New CommandID(s_GUID_RESX_CommandID, CmdIdRESXAddNewIcon)
-            Public Shared ReadOnly CommandIDRESXAddNewTextFile As New CommandID(s_GUID_RESX_CommandID, CmdIdRESXAddNewTextFile)
-            Public Shared ReadOnly CommandIDRESXAddDefaultResource As New CommandID(s_GUID_RESX_CommandID, CmdIdRESXAddDefaultResource)
-
-            Public Shared ReadOnly CommandIDRESXResTypeStrings As New CommandID(s_GUID_RESX_CommandID, CmdIdRESXResTypeStrings)
-            Public Shared ReadOnly CommandIDRESXResTypeImages As New CommandID(s_GUID_RESX_CommandID, CmdIdRESXResTypeImages)
-            Public Shared ReadOnly CommandIDRESXResTypeIcons As New CommandID(s_GUID_RESX_CommandID, CmdIdRESXResTypeIcons)
-            Public Shared ReadOnly CommandIDRESXResTypeAudio As New CommandID(s_GUID_RESX_CommandID, CmdIdRESXResTypeAudio)
-            Public Shared ReadOnly CommandIDRESXResTypeFiles As New CommandID(s_GUID_RESX_CommandID, CmdIdRESXResTypeFiles)
-            Public Shared ReadOnly CommandIDRESXResTypeOther As New CommandID(s_GUID_RESX_CommandID, CmdIdRESXResTypeOther)
-            Public Shared ReadOnly CommandIDRESXViewsFixedMenuCommand As New CommandID(s_GUID_RESX_CommandID, CmdIdIDRESXViewsFixedMenuCommand)
-            Public Shared ReadOnly CommandIDRESXViewsList As New CommandID(s_GUID_RESX_CommandID, CmdIdRESXViewsList)
-            Public Shared ReadOnly CommandIDRESXViewsDetails As New CommandID(s_GUID_RESX_CommandID, CmdIdRESXViewsDetails)
-            Public Shared ReadOnly CommandIDRESXViewsThumbnails As New CommandID(s_GUID_RESX_CommandID, CmdIdRESXViewsThumbnails)
-
-            Public Shared ReadOnly CommandIDRESXGenericRemove As New CommandID(s_GUID_RESX_CommandID, CmdIdRESXGenericRemove)
-            Public Shared ReadOnly CommandIDRESXAccessModifierCombobox As New CommandID(s_GUID_RESX_CommandID, CmdIdRESXAccessModifierCombobox)
-            Public Shared ReadOnly CommandIDRESXGetAccessModifierOptions As New CommandID(s_GUID_RESX_CommandID, CmdIdRESXGetAccessModifierOptions)
-
-            Public Shared ReadOnly ResXContextMenuID As New CommandID(GUID_RESX_MenuGroup, IDM_CTX_RESX_ContextMenu)
             Public Shared ReadOnly SettingsDesignerContextMenuID As New CommandID(GUID_SETTINGSDESIGNER_MenuGroup, IDM_CTX_SETTINGSDESIGNER_ContextMenu)
             Public Shared ReadOnly SettingsDesignerToolbar As New CommandID(GUID_SETTINGSDESIGNER_MenuGroup, IDM_VS_TOOLBAR_Settings)
 

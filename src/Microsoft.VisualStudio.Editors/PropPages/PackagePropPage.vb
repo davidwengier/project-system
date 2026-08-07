@@ -1,4 +1,4 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Imports System.ComponentModel
 Imports System.Windows.Forms
@@ -22,8 +22,8 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
         Private ReadOnly _packageLicenseFilePropName As String = "PackageLicenseFile"
         Private ReadOnly _packageIconFilePropName As String = "PackageIcon"
         Private ReadOnly _packageIconUrlPropName As String = "PackageIconUrl"
-        Private _licenseUrlDetected As Boolean = False
-        Private _newLicensePropertyDetectedAtInit As Boolean = False
+        Private _licenseUrlDetected As Boolean
+        Private _newLicensePropertyDetectedAtInit As Boolean
         Private _unconfiguredProject As UnconfiguredProject
         Private _configuredProject As ConfiguredProject
         Private _projectSourceItemProvider As IProjectSourceItemProvider
@@ -58,7 +58,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
 
         Private Shared Function GetUnconfiguredProject(hierarchy As IVsHierarchy) As UnconfiguredProject
             Dim context = DirectCast(hierarchy, IVsBrowseObjectContext)
-            If context IsNot Nothing Then
+            If context Is Nothing Then
                 Dim dteProject = DirectCast(GetDTEProject(hierarchy), EnvDTE.Project)
                 If dteProject IsNot Nothing Then
                     context = DirectCast(dteProject.Object, IVsBrowseObjectContext)
@@ -340,7 +340,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             End If
         End Sub
 
-
         Private Sub SetLicenseUrlWarningActive(setActive As Boolean)
             LicenseLineLabel.Visible = Not setActive
             LicenseUrlWarning.Visible = setActive
@@ -494,7 +493,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
 
         Private Sub AddOrChangeItem(oldInclude As String, newInclude As String)
             Dim projectLock = _configuredProject.Services.ExportProvider.GetExportedValue(Of IProjectLockService)()
-#Disable Warning RS0030 ' Do not used banned APIs. The project lock is needed here - there is no IVT for ProjectAccessor
             ThreadHelper.JoinableTaskFactory.Run(
                 Async Function()
                     Await projectLock.WriteLockAsync(
@@ -516,12 +514,10 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
                             Await access.ReleaseAsync()
                         End Function)
                 End Function)
-#Enable Warning RS0030 ' Do not used banned APIs
         End Sub
 
         Private Sub RemoveItem(include As String)
             Dim projectLock = _configuredProject.Services.ExportProvider.GetExportedValue(Of IProjectLockService)()
-#Disable Warning RS0030 ' Do not used banned APIs. The project lock is needed here - there is no IVT for ProjectAccessor
             ThreadHelper.JoinableTaskFactory.Run(
                 Async Function()
                     Await projectLock.WriteLockAsync(
@@ -531,7 +527,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
                             Await access.ReleaseAsync()
                         End Function)
                 End Function)
-#Enable Warning RS0030
         End Sub
 
         Private Function AbsoluteToRelativePath(fileName As String) As String
@@ -539,7 +534,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             Return GetRelativePath(correctDirectory + "\", Path.GetFullPath(fileName))
         End Function
 
-        Private Function RelativeToAbsolutePath(relativePath As String) As String
+        Private Shared Function RelativeToAbsolutePath(relativePath As String) As String
             If relativePath Is Nothing Then
                 Return Nothing
             End If

@@ -1,4 +1,4 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Namespace Microsoft.VisualStudio.Editors.PropertyPages
     Partial Class DebugPropPage
@@ -29,7 +29,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
         Friend WithEvents startOptionsTableLayoutPanel As System.Windows.Forms.TableLayoutPanel
         Friend WithEvents enableDebuggersTableLayoutPanel As System.Windows.Forms.TableLayoutPanel
         Friend WithEvents StartOptionsLabelLine As System.Windows.Forms.Label
-        Friend WithEvents EnableSQLServerDebugging As Windows.Forms.CheckBox
+        Friend WithEvents EnableSQLServerDebugging As System.Windows.Forms.CheckBox
         Private _components As System.ComponentModel.IContainer
 
         Protected Overloads Overrides Sub Dispose(disposing As Boolean)

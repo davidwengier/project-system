@@ -1,26 +1,24 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Imports System.ComponentModel.Design
 Imports System.Drawing
 Imports System.IO
 Imports System.Reflection
 Imports System.Runtime.InteropServices
+Imports System.Runtime.Serialization
+Imports System.Text
 Imports System.Text.RegularExpressions
 Imports System.Windows.Forms
 
 Imports Microsoft.VisualStudio.Shell
+Imports Microsoft.VisualStudio.Shell.Interop
 Imports Microsoft.VisualStudio.Telemetry
 
 Namespace Microsoft.VisualStudio.Editors.AppDesCommon
 
     Friend Module Utils
 
-        'The transparent color used for all bitmaps in the resource editor is lime (R=0, G=255, B=0).
-        '  Any pixels of this color will be converted to transparent if StandardTransparentColor
-        '  is passed to GetManifestBitmap
-        Public ReadOnly StandardTransparentColor As Color = Color.Lime
-
-        Public VBPackageInstance As IVBPackage = Nothing
+        Public VBPackageInstance As IVBPackage
 
         ' The maximal amount of files that can be added at one shot. (copied from other VS features)
         Private Const VSDPLMAXFILES As Integer = 200
@@ -28,7 +26,7 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
         'Property page GUIDs.  These are used only for sorting the tabs in the project designer, and for providing a
         '  unique ID for SQM.  Both cases are optional (we handle getting property pages with GUIDs we don't recognize).
         'PERF: NOTE: Initializing GUIDs from numeric values as below is a lot faster than initializing from strings.
-        Public Class KnownPropertyPageGuids
+        Public NotInheritable Class KnownPropertyPageGuids
             Public Shared ReadOnly GuidApplicationPage_VB As Guid = New Guid(&H8998E48EUI, &HB89AUS, &H4034US, &HB6, &H6E, &H35, &H3D, &H8C, &H1F, &HDC, &H2E)
             Public Shared ReadOnly GuidApplicationPage_VB_WPF As Guid = New Guid(&HAA1F44UI, &H2BA3US, &H4EAAUS, &HB5, &H4A, &HCE, &H18, &H0, &HE, &H6C, &H5D)
             Public Shared ReadOnly GuidApplicationPage_CS As Guid = New Guid(&H5E9A8AC2UI, &H4F34US, &H4521US, CByte(&H85), CByte(&H8F), CByte(&H4C), CByte(&H24), CByte(&H8B), CByte(&HA3), CByte(&H15), CByte(&H32))
@@ -55,7 +53,6 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
             Public Shared ReadOnly GuidServicesPage As Guid = New Guid(&H43E38D2EUI, &H43B8US, &H4204US, CByte(&H82), CByte(&H25), CByte(&H93), CByte(&H57), CByte(&H31), CByte(&H61), CByte(&H37), CByte(&HA4))
             Public Shared ReadOnly GuidWAPWebPage As Guid = New Guid(&H909D16B3UI, &HC8E8US, &H43D1US, CByte(&HA2), CByte(&HB8), CByte(&H26), CByte(&HEA), CByte(&HD), CByte(&H4B), CByte(&H6B), CByte(&H57))
         End Class
-
 
         ''' <summary>
         ''' Helper to convert ItemIds or other 32 bit ID values
@@ -88,7 +85,6 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
             Return DirectCast(GetManifestImage(BitmapID, assembly), Bitmap)
         End Function
 
-
         ''' <summary>
         ''' Retrieves a transparent copy of a given bitmap from the manifest resources.
         ''' </summary>
@@ -106,18 +102,6 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
                 Debug.Fail("Couldn't find internal resource")
                 Throw New Package.InternalException(String.Format(My.Resources.Designer.RSE_Err_Unexpected_NoResource_1Arg, BitmapID))
             End If
-        End Function
-
-
-        ''' <summary>
-        ''' Retrieves a transparent copy of a given bitmap from the manifest resources.
-        ''' </summary>
-        ''' <param name="BitmapID">Name of the bitmap resource (not including the assembly name, e.g. "Link.bmp")</param>
-        ''' <param name="assembly">Name of assembly containing the manifest resource</param>
-        ''' <returns>The retrieved transparent bitmap</returns>
-        ''' <remarks>Throws an internal exception if the bitmap cannot be found or loaded.</remarks>
-        Public Function GetManifestBitmapTransparent(BitmapID As String, Optional ByRef assembly As Assembly = Nothing) As Bitmap
-            Return GetManifestBitmapTransparent(BitmapID, StandardTransparentColor, assembly)
         End Function
 
         ''' <summary>
@@ -144,7 +128,6 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
             Throw New Package.InternalException(String.Format(My.Resources.Designer.RSE_Err_Unexpected_NoResource_1Arg, ImageID))
         End Function
 
-
         ''' <summary>
         ''' Logical implies.  Often useful in Debug.Assert's.  Essentially, it is to be
         '''   read as "a being true implies that b is true".  Therefore, the function returns
@@ -154,7 +137,6 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
         Public Function Implies(a As Boolean, b As Boolean) As Boolean
             Return Not (a And Not b)
         End Function
-
 
         ''' <summary>
         ''' Retrieves the error message from an exception in a manner appropriate for the build.  For release, simply
@@ -174,7 +156,6 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
             Return ex.Message
 #End If
         End Function
-
 
         ''' <summary>
         ''' Attempts to create a string representation of an object, for debug purposes.  Under retail,
@@ -233,7 +214,6 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
             Return True
         End Function
 
-
         ''' <summary>
         ''' Given an exception, returns True if it is a CheckOut exception.
         ''' </summary>
@@ -253,7 +233,6 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
             Return False
         End Function
 
-
         ''' <summary>
         ''' If the given string is Nothing, return "", else return the original string.
         ''' </summary>
@@ -265,7 +244,6 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
                 Return Str
             End If
         End Function
-
 
         ''' <summary>
         ''' If the given string is "", return Nothing, else return the original string.
@@ -293,7 +271,6 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
             End If
         End Function
 
-
         ''' <summary>
         ''' Set the drop-down width of a combobox wide enough to show the text of all entries in it
         ''' </summary>
@@ -303,22 +280,6 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
                 ComboBox.DropDownWidth = Math.Max(MeasureMaxTextWidth(ComboBox, ComboBox.Items), ComboBox.Width)
             Else
                 Debug.Fail("SetComboBoxDropdownWidth: No combobox specified")
-            End If
-        End Sub
-
-        ''' <summary>
-        ''' Set the drop-down width of a datagridviewcomboboxcolumn wide enough to show the text of all entries in it
-        ''' </summary>
-        ''' <param name="column">The column to change the width for</param>
-        ''' <remarks>
-        ''' This does not take the current cell style into account - it uses the font from the parent datagridview (if any)
-        ''' It also makes room for the scrollbar even though it may not be visible...
-        ''' </remarks>
-        Public Sub SetComboBoxColumnDropdownWidth(column As DataGridViewComboBoxColumn)
-            If column IsNot Nothing AndAlso column.DataGridView IsNot Nothing Then
-                column.DropDownWidth = Math.Max(MeasureMaxTextWidth(column.DataGridView, column.Items) + SystemInformation.VerticalScrollBarWidth, column.Width)
-            Else
-                Debug.Fail("SetComboBoxColumnDropdownWidth: No combobox column specified, or the column didn't have a parent datagridview!")
             End If
         End Sub
 
@@ -337,30 +298,6 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
             End Try
             Return False
         End Function
-
-        ''' <summary>
-        ''' Sets error code and error message through IVsUIShell interface
-        ''' </summary>
-        ''' <param name="hr">error code</param>
-        ''' <param name="errorMessage">error message</param>
-        Public Sub SetErrorInfo(sp As ServiceProvider, hr As Integer, errorMessage As String)
-            Dim vsUIShell As Interop.IVsUIShell = Nothing
-
-            If sp IsNot Nothing Then
-                vsUIShell = CType(sp.GetService(GetType(Interop.IVsUIShell)), Interop.IVsUIShell)
-            End If
-
-            If vsUIShell Is Nothing AndAlso Not VBPackageInstance IsNot Nothing Then
-                vsUIShell = CType(VBPackageInstance.GetService(GetType(Interop.IVsUIShell)), Interop.IVsUIShell)
-            End If
-
-            If vsUIShell IsNot Nothing Then
-                vsUIShell.SetErrorInfo(hr, errorMessage, 0, Nothing, Nothing)
-            Else
-                Debug.Fail("Could not get IVsUIShell from service provider. Can't set specific error message.")
-            End If
-        End Sub
-
 
         ''' <summary>
         ''' Sets focus to the first (or last) control inside of a parent HWND.
@@ -425,7 +362,6 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
             End If
         End Function
 
-
         ''' <summary>
         ''' Browses for a File.
         ''' </summary>
@@ -444,8 +380,8 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
                 Optional DefaultFileName As String = Nothing,
                 Optional NeedThrowError As Boolean = False) As ArrayList
 
-            Dim uishell As Interop.IVsUIShell =
-                CType(ServiceProvider.GetService(GetType(Interop.IVsUIShell)), Interop.IVsUIShell)
+            Dim uishell As IVsUIShell =
+                CType(ServiceProvider.GetService(GetType(IVsUIShell)), IVsUIShell)
 
             Dim fileNames As New ArrayList()
 
@@ -461,7 +397,7 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
                 MaxPathName = (AppDesInterop.Win32Constant.MAX_PATH + 1) * VSDPLMAXFILES
             End If
 
-            Dim vsOpenFileName As Interop.VSOPENFILENAMEW()
+            Dim vsOpenFileName As VSOPENFILENAMEW()
 
             Dim defaultName(MaxPathName) As Char
             If DefaultFileName IsNot Nothing Then
@@ -472,7 +408,7 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
             Marshal.Copy(defaultName, 0, stringMemPtr, defaultName.Length)
 
             Try
-                vsOpenFileName = New Interop.VSOPENFILENAMEW(0) {}
+                vsOpenFileName = New VSOPENFILENAMEW(0) {}
                 vsOpenFileName(0).lStructSize = CUInt(Marshal.SizeOf(vsOpenFileName(0)))
                 vsOpenFileName(0).hwndOwner = ParentWindow
                 vsOpenFileName(0).pwzDlgTitle = DialogTitle
@@ -528,7 +464,6 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
             Return fileNames
         End Function
 
-
         ''' <summary>
         ''' Change the Filter String to the format we can use in IVsUIShell function
         ''' </summary>
@@ -575,7 +510,6 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
             Return InitialDirectory
         End Function
 
-
         ''' <summary>
         ''' Helper method to measure the maximum width of a collection of strings given a particular font...
         ''' </summary>
@@ -603,7 +537,7 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
         End Function
 
 #Region "Telemetry"
-        Public Class TelemetryLogger
+        Public NotInheritable Class TelemetryLogger
 
             'A list of known editor guids
             ' Each property page will be reported back to telemetry with the 1-based index in which it is present 
@@ -640,6 +574,12 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
             Private Const UNKNOWN_PAGE As Byte = &HFF
             Private Const DEFAULT_PAGE As Byte = 0
 
+            Private Const ProjectSystemEventNamePrefix As String = "vs/projectsystem/"
+            Private Const AppDesignerEventNamePrefix As String = ProjectSystemEventNamePrefix + "appdesigner/"
+
+            Private Const ProjectSystemPropertyNamePrefix As String = "vs.projectsystem."
+            Private Const AppDesignerPropertyNamePrefix As String = ProjectSystemPropertyNamePrefix + "appdesigner."
+
             ''' <summary>
             ''' Map a known property page or designer id to telemetry display name to log.
             ''' </summary>
@@ -657,28 +597,75 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
                 LogAppDesignerPageOpened(DEFAULT_PAGE)
             End Sub
 
-            Public Shared Sub LogAppDesignerPageOpened(pageGuid As Guid, Optional tabTitle As String = Nothing)
+            Public Shared Sub LogAppDesignerPageOpened(pageGuid As Guid, Optional tabTitle As String = Nothing, Optional alreadyOpened As Boolean = False)
                 Dim pageId = PageGuidToId(pageGuid)
-                LogAppDesignerPageOpened(pageId, pageGuid, tabTitle)
+                LogAppDesignerPageOpened(pageId, pageGuid, tabTitle, alreadyOpened)
             End Sub
 
-            Private Shared Sub LogAppDesignerPageOpened(pageId As Byte, Optional pageGuid As Guid? = Nothing, Optional tabTitle As String = Nothing)
-                Dim userTask = New UserTaskEvent("vs/projectsystem/appdesigner/page-opened", TelemetryResult.Success)
-                userTask.Properties("vs.projectsystem.appdesigner.page-opened") = pageId
+            Private Const PageOpenedEventName As String = AppDesignerEventNamePrefix + "page-opened"
+            Private Const PageOpenedPropertyName As String = AppDesignerPropertyNamePrefix + "page-opened"
+            Private Const PageOpenedPropertyNamePrefix As String = PageOpenedPropertyName + "."
+
+            Private Shared Sub LogAppDesignerPageOpened(pageId As Byte, Optional pageGuid As Guid? = Nothing, Optional tabTitle As String = Nothing, Optional alreadyOpened As Boolean = False)
+                Dim userTask = New UserTaskEvent(PageOpenedEventName, TelemetryResult.Success)
+                userTask.Properties(PageOpenedPropertyName) = pageId
 
                 If pageGuid IsNot Nothing Then
-                    userTask.Properties("vs.projectsystem.appdesigner.page-opened.pageguid") = pageGuid.Value.ToString()
+                    userTask.Properties(PageOpenedPropertyNamePrefix + "pageguid") = pageGuid.Value.ToString()
                 End If
 
                 If tabTitle IsNot Nothing Then
-                    userTask.Properties("vs.projectsystem.appdesigner.page-opened.tabtitle") = tabTitle
+                    userTask.Properties(PageOpenedPropertyNamePrefix + "tabtitle") = tabTitle
                 End If
+
+                userTask.Properties(PageOpenedPropertyNamePrefix + "alreadyopened") = alreadyOpened
 
                 TelemetryService.DefaultSession.PostEvent(userTask)
             End Sub
+
+            Private Const EditorCreationEventName As String = ProjectSystemEventNamePrefix + "propertiespages/createeditor"
+            Private Const EditorCreationPropertyNamePrefix As String = ProjectSystemPropertyNamePrefix + "propertiespages.createeditor."
+
+            Public Shared Sub LogEditorCreation(useNewEditor As Boolean, fileName As String, physicalView As String)
+                Dim telemetryEvent As TelemetryEvent = New TelemetryEvent(EditorCreationEventName)
+                telemetryEvent.Properties(EditorCreationPropertyNamePrefix + "UseNewEditor") = useNewEditor
+                telemetryEvent.Properties(EditorCreationPropertyNamePrefix + "FileName") = New TelemetryPiiProperty(fileName)
+                telemetryEvent.Properties(EditorCreationPropertyNamePrefix + "PhysicalView") = physicalView
+                TelemetryService.DefaultSession.PostEvent(telemetryEvent)
+            End Sub
+
         End Class
 #End Region
 
+        Public NotInheritable Class ObjectSerializer
+
+            ' KnownType information is used by DataContractSerializer for serialization of types that it may not know of currently.
+            ' Size is used in Bitmap and has issues being recognized in DataContractSerializer for the unit tests of this class.
+            Private Shared ReadOnly s_knownTypes As Type() = {GetType(Size)}
+
+            Public Shared Sub Serialize(stream As Stream, value As Object)
+                Requires.NotNull(stream)
+                Requires.NotNull(value)
+                Using writer As New BinaryWriter(stream, Encoding.UTF8, leaveOpen:=True)
+                    Dim valueType = value.GetType()
+                    writer.Write(valueType.AssemblyQualifiedName)
+                    writer.Flush()
+                    Call New DataContractSerializer(valueType, s_knownTypes).WriteObject(stream, value)
+                End Using
+            End Sub
+
+            Public Shared Function Deserialize(stream As Stream) As Object
+                Requires.NotNull(stream)
+                If stream.Length = 0 Then
+                    Throw New SerializationException("The stream contains no content.")
+                End If
+                Using reader As New BinaryReader(stream, Encoding.UTF8, leaveOpen:=True)
+                    Dim valueType = Type.GetType(reader.ReadString())
+                    Return New DataContractSerializer(valueType, s_knownTypes).ReadObject(stream)
+                End Using
+            End Function
+
+        End Class
 
     End Module
 End Namespace

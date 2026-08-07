@@ -1,10 +1,10 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Imports System.ComponentModel
 Imports System.ComponentModel.Design.Serialization
 Imports System.IO
 Imports System.Runtime.Serialization
-Imports System.Runtime.Serialization.Formatters.Binary
+Imports Microsoft.VisualStudio.Editors.Common
 
 Namespace Microsoft.VisualStudio.Editors.DesignerFramework
 
@@ -12,7 +12,6 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
     Friend NotInheritable Class GenericComponentSerializationStore
         Inherits SerializationStore
         Implements ISerializable
-
 
         'The set of objects (IComponent instances or properties) that we wish to
         '  "serialize" into this store.  The actual values won't be serialized
@@ -35,7 +34,6 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
         Public Sub New()
         End Sub
 
-
         ' default impl of abstract base member.  see serialization store for details.
         '	
         Public Overrides ReadOnly Property Errors As ICollection
@@ -43,7 +41,6 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
                 Return Array.Empty(Of Object)
             End Get
         End Property
-
 
         ''' <summary>
         ''' The Close method closes this store and prevents any further objects 
@@ -78,8 +75,6 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
             End If
         End Sub
 
-
-
 #Region "ISerialization implementation"
 
         'Serialization keys for ISerializable
@@ -95,7 +90,6 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
         Public Sub GetObjectData(info As SerializationInfo, context As StreamingContext) Implements ISerializable.GetObjectData
             info.AddValue(KEY_STATE, _serializedState)
         End Sub
-
 
         ''' <summary>
         ''' Constructor used to deserialize ourselves from binary serialization.
@@ -116,8 +110,7 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
         ''' </summary>
         ''' <param name="Stream">The stream to load from</param>
         Public Shared Function Load(Stream As Stream) As GenericComponentSerializationStore
-            Dim f As New BinaryFormatter
-            Return DirectCast(f.Deserialize(Stream), GenericComponentSerializationStore)
+            Return DirectCast(ObjectSerializer.Deserialize(Stream), GenericComponentSerializationStore)
         End Function
 
         ''' <summary>
@@ -129,9 +122,7 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
         ''' <param name="stream">The stream to save to</param>
         Public Overrides Sub Save(Stream As Stream)
             Close()
-
-            Dim f As New BinaryFormatter
-            f.Serialize(Stream, Me)
+            ObjectSerializer.Serialize(Stream, Me)
         End Sub
 
 #End Region
@@ -161,7 +152,6 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
             End With
         End Sub
 
-
         ''' <summary>
         ''' Adds a new property serialization to our list of things to serialize.
         ''' </summary>
@@ -185,7 +175,6 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
                 .Members.Add(Member)
             End With
         End Sub
-
 
         ''' <summary>
         ''' Gets the current data for the given object that is contained in
@@ -211,7 +200,6 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
 
 #Region "Deserialization of the saved objects/properties (used at Undo/Redo time)"
 
-
         ''' <summary>
         ''' Deserializes the saved bits.
         '''     This method deserializes the store, but rather than produce 
@@ -230,7 +218,6 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
             DeserializeHelper(Container, True)
         End Sub
 
-
         ''' <summary>
         ''' Deserializes the saved bits.
         '''     This method deserializes the store to produce a collection of 
@@ -241,7 +228,6 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
         Friend Function Deserialize() As ICollection
             Return DeserializeHelper(Nothing, False)
         End Function
-
 
         ''' <summary>
         ''' Deserializes the saved bits.
@@ -254,7 +240,6 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
         Friend Function Deserialize(Container As IContainer) As ICollection
             Return DeserializeHelper(Container, False)
         End Function
-
 
         ''' <summary>
         ''' This method does the actual deserialization work, based on the given
@@ -346,7 +331,7 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
             ''' </summary>
             ''' <param name="Value">The component from which we want to serialize stuff.</param>
             Public Sub New(Value As Object)
-                Requires.NotNull(Value, NameOf(Value))
+                Requires.NotNull(Value)
 
                 ' If it is an IComponent, we'll try to get its name from 
                 ' its site
@@ -382,7 +367,6 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
                 End Get
             End Property
 
-
             ''' <summary>
             ''' If True, the entire Resource instance should be serialized.  If false,
             '''   then only the properties in PropertiesToSerialize should be serialized.
@@ -398,7 +382,6 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
                     _isEntireObject = Value
                 End Set
             End Property
-
 
             ''' <summary>
             ''' A list of PropertyDescriptors representing the properties on
@@ -437,7 +420,7 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
             ''' </summary>
             ''' <param name="Value">The component from which we want to serialize stuff.</param>
             Friend Sub New(Value As ObjectData)
-                Requires.NotNull(Value, NameOf(Value))
+                Requires.NotNull(Value)
 
                 _objectName = Value.Name
                 _serializedValue = SerializeObject(Value.Value)
@@ -448,8 +431,8 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
             ''' </summary>
             ''' <param name="Value">The component from which we want to serialize stuff.</param>
             Public Sub New(Value As ObjectData, [Property] As PropertyDescriptor)
-                Requires.NotNull(Value, NameOf(Value))
-                Requires.NotNull([Property], NameOf([Property]))
+                Requires.NotNull(Value)
+                Requires.NotNull([Property])
 
                 _objectName = Value.Name
                 _propertyName = [Property].Name
@@ -483,7 +466,7 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
                     Return Array.Empty(Of Byte)
                 Else
                     Dim MemoryStream As New MemoryStream
-                    Call New BinaryFormatter().Serialize(MemoryStream, [Object])
+                    ObjectSerializer.Serialize(MemoryStream, [Object])
                     Return MemoryStream.ToArray()
                 End If
             End Function
@@ -493,7 +476,7 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
                     Return Nothing
                 Else
                     Dim MemoryStream As New MemoryStream(_serializedValue)
-                    Return (New BinaryFormatter).Deserialize(MemoryStream)
+                    Return ObjectSerializer.Deserialize(MemoryStream)
                 End If
             End Function
 

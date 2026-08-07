@@ -1,19 +1,50 @@
-﻿// Copyright(c) Microsoft.All Rights Reserved.Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿// Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using Microsoft.VisualStudio.Composition;
+using Microsoft.VisualStudio.Shell.Interop;
 
-namespace Microsoft.VisualStudio.ProjectSystem
+namespace Microsoft.VisualStudio.ProjectSystem;
+
+/// <summary>
+///     Operations and properties related to the solution.
+/// </summary>
+[ProjectSystemContract(ProjectSystemContractScope.Global, ProjectSystemContractProvider.Private)]
+internal interface ISolutionService
 {
     /// <summary>
-    /// A global service that tracks whether solution-level state.
+    ///     Gets a task that completes when the host recognizes that the solution is loaded.
     /// </summary>
-    [ProjectSystemContract(ProjectSystemContractScope.Global, ProjectSystemContractProvider.Private, Cardinality = ImportCardinality.OneOrZero)]
-    internal interface ISolutionService
+    /// <remarks>
+    ///     Use <see cref="IUnconfiguredProjectTasksService.SolutionLoadedInHost"/> if
+    ///     within project context.
+    /// </remarks>
+    /// <exception cref="OperationCanceledException">
+    ///     Thrown when host is closed without a solution being loaded.
+    /// </exception>
+    Task LoadedInHost
     {
-        /// <summary>
-        /// Gets whether the solution is being closed, which can be useful to avoid doing
-        /// redundant work while tearing down the solution.
-        /// </summary>
-        bool IsSolutionClosing { get; }
+        get;
     }
+
+    /// <summary>
+    ///     Gets the VS solution object.
+    /// </summary>
+    /// <remarks>
+    ///     Must be called from the main thread.
+    /// </remarks>
+    IVsSolution Solution { get; }
+
+    /// <summary>
+    ///     Creates a new subscription for solution events that will call back via <paramref name="eventListener" />.
+    /// </summary>
+    /// <param name="eventListener">The callback for events.</param>
+    /// <param name="cancellationToken">A token whose cancellation marks lost interest in the result of this operation.</param>
+    /// <returns>An object that unsubscribes when disposed.</returns>
+    Task<IAsyncDisposable> SubscribeAsync(IVsSolutionEvents eventListener, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Gets the directory of the current solution.
+    /// </summary>
+    /// <param name="cancellationToken">A token whose cancellation marks lost interest in the result of this operation.</param>
+    /// <returns>The directory of the current solution, or <see langword="null"/> if it cannot be determined.</returns>
+    Task<string?> GetSolutionDirectoryAsync(CancellationToken cancellationToken = default);
 }

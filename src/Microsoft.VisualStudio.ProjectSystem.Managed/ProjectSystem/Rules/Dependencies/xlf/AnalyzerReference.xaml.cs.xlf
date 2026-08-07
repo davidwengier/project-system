@@ -8,8 +8,18 @@
         <note />
       </trans-unit>
       <trans-unit id="Rule|AnalyzerReference|Description">
-        <source>Analyzer Properties</source>
-        <target state="translated">Vlastnosti analyzátoru</target>
+        <source>Analyzer Reference Properties</source>
+        <target state="translated">Vlastnosti odkazu na analyzátor</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="StringProperty|ResolvedPath|Description">
+        <source>Location of the analyzer assembly.</source>
+        <target state="translated">Umístění sestavení analyzátoru</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="StringProperty|ResolvedPath|DisplayName">
+        <source>Path</source>
+        <target state="translated">Cesta</target>
         <note />
       </trans-unit>
     </body>

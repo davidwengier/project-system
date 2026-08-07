@@ -1,29 +1,36 @@
-﻿// Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿// Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System.Collections.Generic;
-using System.Threading.Tasks;
+namespace Microsoft.VisualStudio.ProjectSystem.Properties;
 
-namespace Microsoft.VisualStudio.ProjectSystem.Properties
+/// <summary>
+/// Base intercepting project property provider that intercepts all the callbacks for a specific property name
+/// on the default <see cref="IProjectPropertiesProvider"/> for validation and/or transformation of the property value.
+/// </summary>
+public abstract class InterceptingPropertyValueProviderBase : IInterceptingPropertyValueProvider2
 {
-    /// <summary>
-    /// Base intercepting project property provider that intercepts all the callbacks for a specific property name
-    /// on the default <see cref="IProjectPropertiesProvider"/> for validation and/or transformation of the property value.
-    /// </summary>
-    internal abstract class InterceptingPropertyValueProviderBase : IInterceptingPropertyValueProvider
+    public virtual Task<string> OnGetEvaluatedPropertyValueAsync(string propertyName, string evaluatedPropertyValue, IProjectProperties defaultProperties)
     {
-        public virtual Task<string> OnGetEvaluatedPropertyValueAsync(string evaluatedPropertyValue, IProjectProperties defaultProperties)
-        {
-            return Task.FromResult(evaluatedPropertyValue);
-        }
+        return Task.FromResult(evaluatedPropertyValue);
+    }
 
-        public virtual Task<string> OnGetUnevaluatedPropertyValueAsync(string unevaluatedPropertyValue, IProjectProperties defaultProperties)
-        {
-            return Task.FromResult(unevaluatedPropertyValue);
-        }
+    public virtual Task<string> OnGetUnevaluatedPropertyValueAsync(string propertyName, string unevaluatedPropertyValue, IProjectProperties defaultProperties)
+    {
+        return Task.FromResult(unevaluatedPropertyValue);
+    }
 
-        public virtual Task<string?> OnSetPropertyValueAsync(string unevaluatedPropertyValue, IProjectProperties defaultProperties, IReadOnlyDictionary<string, string>? dimensionalConditions = null)
-        {
-            return Task.FromResult<string?>(unevaluatedPropertyValue);
-        }
+    public virtual Task<string?> OnSetPropertyValueAsync(string propertyName, string unevaluatedPropertyValue, IProjectProperties defaultProperties, IReadOnlyDictionary<string, string>? dimensionalConditions = null)
+    {
+        return Task.FromResult<string?>(unevaluatedPropertyValue);
+    }
+
+    public virtual Task<bool> IsValueDefinedInContextAsync(string propertyName, IProjectProperties defaultProperties)
+    {
+        return IsValueDefinedInContextMSBuildPropertiesAsync(defaultProperties, [propertyName]);
+    }
+
+    internal static async Task<bool> IsValueDefinedInContextMSBuildPropertiesAsync(IProjectProperties defaultProperties, string[] msBuildPropertyNames)
+    {
+        string[] propertiesDefinedInProjectFile = (await defaultProperties.GetDirectPropertyNamesAsync()).ToArray();
+        return !msBuildPropertyNames.Any(static (name, properties) => properties.Contains(name, StringComparers.PropertyNames), propertiesDefinedInProjectFile);
     }
 }

@@ -2,6 +2,16 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
   <file datatype="xml" source-language="en" target-language="de" original="../BuildPropPage.resx">
     <body>
+      <trans-unit id="cboWarningLevel.Items5">
+        <source>5</source>
+        <target state="translated">5</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="chkPreferNativeArm64.Text">
+        <source>&amp;Prefer native ARM64</source>
+        <target state="translated">&amp;Natives ARM64 bevorzugen</target>
+        <note />
+      </trans-unit>
       <trans-unit id="lblConditionalCompilationSymbols.Text">
         <source>Conditional compilation s&amp;ymbols:</source>
         <target state="translated">&amp;Symbole für bedingte Kompilierung:</target>
@@ -12,22 +22,22 @@
         <target state="translated">NULL-&amp;Werte zulassen:</target>
         <note />
       </trans-unit>
-      <trans-unit id="outputLabel.Text">
+      <trans-unit id="outputGroupBox.Text">
         <source>Output</source>
         <target state="translated">Ausgabe</target>
         <note />
       </trans-unit>
-      <trans-unit id="generalLabel.Text">
+      <trans-unit id="generalGroupBox.Text">
         <source>General</source>
         <target state="translated">Allgemein</target>
         <note />
       </trans-unit>
-      <trans-unit id="treatWarningsAsErrorsLabel.Text">
+      <trans-unit id="treatWarningsAsErrorsGroupBox.Text">
         <source>Treat warnings as errors</source>
         <target state="translated">Warnungen als Fehler behandeln</target>
         <note />
       </trans-unit>
-      <trans-unit id="errorsAndWarningsLabel.Text">
+      <trans-unit id="errorsAndWarningsGroupBox.Text">
         <source>Errors and warnings</source>
         <target state="translated">Fehler und Warnungen</target>
         <note />
@@ -145,6 +155,11 @@
       <trans-unit id="txtSpecificWarnings.AccessibleName">
         <source>Specific Warnings To Treat As Errors</source>
         <target state="translated">Spezifische Warnungen, die als Fehler behandelt werden sollen.</target>
+        <note />
+      </trans-unit>
+      <trans-unit id="txtSupressWarnings.AccessibleName">
+        <source>Suppress Warnings</source>
+        <target state="translated">Warnungen unterdrücken</target>
         <note />
       </trans-unit>
       <trans-unit id="txtXMLDocumentationFile.AccessibleName">

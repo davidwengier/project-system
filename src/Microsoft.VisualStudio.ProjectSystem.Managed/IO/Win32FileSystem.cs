@@ -1,132 +1,153 @@
-﻿// Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿// Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.IO;
-using System.Text;
+using System.Diagnostics.CodeAnalysis;
 
-namespace Microsoft.VisualStudio.IO
+namespace Microsoft.VisualStudio.IO;
+
+/// <summary>
+///     Provides an implementation of <see cref="IFileSystem"/> that calls through the <see cref="Directory"/>
+///     and <see cref="File"/> classes, and ultimately through Win32 APIs.
+/// </summary>
+[Export(typeof(IFileSystem))]
+internal class Win32FileSystem : IFileSystem
 {
-    /// <summary>
-    ///     Provides an implementation of <see cref="IFileSystem"/> that calls through the <see cref="Directory"/>
-    ///     and <see cref="File"/> classes, and ultimately through Win32 APIs.
-    /// </summary>
-    [Export(typeof(IFileSystem))]
-    internal class Win32FileSystem : IFileSystem
+    private static readonly DateTime s_minFileTime = DateTime.FromFileTimeUtc(0);
+
+    public void Create(string path)
     {
-        public Stream Create(string path)
-        {
-            return File.Create(path);
-        }
+        File.Create(path).Dispose();
+    }
 
-        public bool FileExists(string path)
-        {
-            return File.Exists(path);
-        }
+    public bool FileExists(string path)
+    {
+        return File.Exists(path);
+    }
 
-        public void RemoveFile(string path)
+    public bool PathExists(string path)
+    {
+        return File.Exists(path) || Directory.Exists(path);
+    }
+
+    public void RemoveFile(string path)
+    {
+        if (FileExists(path))
         {
-            if (FileExists(path))
+            File.Delete(path);
+        }
+    }
+
+    public void CopyFile(string source, string destination, bool overwrite, bool clearReadOnly)
+    {
+        File.Copy(source, destination, overwrite);
+
+        if (clearReadOnly)
+        {
+            FileAttributes attributes = File.GetAttributes(destination);
+            if ((attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
             {
-                File.Delete(path);
+                File.SetAttributes(destination, attributes & ~FileAttributes.ReadOnly);
             }
         }
+    }
 
-        public void CopyFile(string source, string destination, bool overwrite)
+    public async Task<string> ReadAllTextAsync(string path)
+    {
+        using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, bufferSize: 4096, useAsync: true);
+        using var reader = new StreamReader(stream);
+        return await reader.ReadToEndAsync();
+    }
+
+    public Stream OpenTextStream(string path)
+    {
+        return new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, bufferSize: 4096, useAsync: true);
+    }
+
+    public async Task WriteAllTextAsync(string path, string content)
+    {
+        using var stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.Read, bufferSize: 4096, useAsync: true);
+        using var writer = new StreamWriter(stream);
+        await writer.WriteAsync(content);
+    }
+
+    public DateTime GetLastFileWriteTimeOrMinValueUtc(string path)
+    {
+        if (TryGetLastFileWriteTimeUtc(path, out DateTime? result))
         {
-            File.Copy(source, destination, overwrite);
+            return result.Value;
         }
 
-        public string ReadAllText(string path)
-        {
-            return File.ReadAllText(path);
-        }
+        return DateTime.MinValue;
+    }
 
-        public void WriteAllText(string path, string content)
+    public bool TryGetLastFileWriteTimeUtc(string path, [NotNullWhen(true)]out DateTime? result)
+    {
+        try
         {
-            File.WriteAllText(path, content);
-        }
-
-        public void WriteAllText(string path, string content, Encoding encoding)
-        {
-            File.WriteAllText(path, content, encoding);
-        }
-
-        public void WriteAllBytes(string path, byte[] bytes)
-        {
-            File.WriteAllBytes(path, bytes);
-        }
-
-        public DateTime LastFileWriteTimeUtc(string path)
-        {
-            return File.GetLastWriteTimeUtc(path);
-        }
-
-        public long FileLength(string path)
-        {
-            return new FileInfo(path).Length;
-        }
-
-        public bool DirectoryExists(string dirPath)
-        {
-            return Directory.Exists(dirPath);
-        }
-
-        public void CreateDirectory(string dirPath)
-        {
-            Directory.CreateDirectory(dirPath);
-        }
-
-        public void RemoveDirectory(string path, bool recursive)
-        {
-            Directory.Delete(path, recursive);
-        }
-
-        public void SetDirectoryAttribute(string path, FileAttributes newAttribute)
-        {
-            var di = new DirectoryInfo(path);
-            if ((di.Attributes & newAttribute) != newAttribute)
+            result = File.GetLastWriteTimeUtc(path);
+            if (result != s_minFileTime)
             {
-                di.Attributes |= newAttribute;
+                return true;
             }
         }
-
-        public string GetCurrentDirectory()
+        catch (IOException)
         {
-            return Directory.GetCurrentDirectory();
+        }
+        catch (UnauthorizedAccessException)
+        {
+        }
+        catch (NotSupportedException)
+        {
         }
 
-        public void SetCurrentDirectory(string directory)
+        result = null;
+        return false;
+    }
+
+    public bool TryGetFileSizeBytes(string path, out long result)
+    {
+        try
         {
-            Directory.SetCurrentDirectory(directory);
+            result = new FileInfo(path).Length;
+            return true;
+        }
+        catch (IOException)
+        {
+        }
+        catch (UnauthorizedAccessException)
+        {
+        }
+        catch (NotSupportedException)
+        {
         }
 
-        public string GetFullPath(string path)
+        result = default;
+        return false;
+    }
+
+    public (long SizeBytes, DateTime WriteTimeUtc)? GetFileSizeAndWriteTimeUtc(string path)
+    {
+        var info = new FileInfo(path);
+
+        if (info.Exists)
         {
-            return Path.GetFullPath(path);
+            return (info.Length, info.LastWriteTimeUtc);
         }
 
-        public IEnumerable<string> EnumerateDirectories(string path)
-        {
-            return Directory.EnumerateDirectories(path);
-        }
+        return null;
+    }
 
-        public IEnumerable<string> EnumerateDirectories(string path, string searchPattern, SearchOption searchOption)
-        {
-            return Directory.EnumerateDirectories(path, searchPattern, searchOption);
-        }
+    public bool DirectoryExists(string dirPath)
+    {
+        return Directory.Exists(dirPath);
+    }
 
-        public IEnumerable<string> EnumerateFiles(string path, string searchPattern, SearchOption searchOption)
-        {
-            return Directory.EnumerateFiles(path, searchPattern, searchOption);
-        }
+    public void CreateDirectory(string dirPath)
+    {
+        Directory.CreateDirectory(dirPath);
+    }
 
-        public string GetTempDirectoryOrFileName()
-        {
-            string fileNameWithoutPath = Path.GetRandomFileName();
-
-            return Path.Combine(Path.GetTempPath(), fileNameWithoutPath);
-        }
+    public string GetFullPath(string path)
+    {
+        return Path.GetFullPath(path);
     }
 }

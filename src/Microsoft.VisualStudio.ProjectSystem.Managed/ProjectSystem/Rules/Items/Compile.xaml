@@ -1,9 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information. -->
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
 <Rule Name="Compile"
       PageTemplate="generic"
       PropertyPagesHidden="true"
       xmlns="http://schemas.microsoft.com/build/2009/properties">
+
   <Rule.DataSource>
     <DataSource HasConfigurationCondition="false"
                 ItemType="Compile"
@@ -50,16 +51,8 @@
   <BoolProperty Name="DesignTimeSharedInput"
                 Visible="false" />
 
-  <StringProperty Name="FullPath"
-                  ReadOnly="true"
-                  Visible="false">
-    <StringProperty.DataSource>
-      <DataSource ItemType="Compile"
-                  PersistedName="FullPath"
-                  Persistence="Intrinsic"
-                  SourceOfDefaultValue="AfterContext" />
-    </StringProperty.DataSource>
-  </StringProperty>
+  <BoolProperty Name="ExcludeFromCurrentConfiguration"
+                Visible="False" />
 
   <StringProperty Name="Generator" />
 
@@ -72,6 +65,14 @@
       <DataSource PersistenceStyle="Attribute"
                   SourceOfDefaultValue="AfterContext" />
     </StringProperty.DataSource>
+    <StringProperty.Metadata>
+      <NameValuePair Name="DoNotCopyAcrossProjects"
+                     Value="true" />
+    </StringProperty.Metadata>
+  </StringProperty>
+
+  <StringProperty Name="NuGetPackageId"
+                  Visible="false">
     <StringProperty.Metadata>
       <NameValuePair Name="DoNotCopyAcrossProjects"
                      Value="true" />

@@ -1,4 +1,4 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Imports System.Windows.Forms
 
@@ -18,7 +18,6 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
         Private WithEvents _designerView As ApplicationDesignerView
         Private ReadOnly _designerPanel As ApplicationDesignerPanel
         Private ReadOnly _specialFileId As Integer
-
 
         ''' <summary>
         ''' Constructor.
@@ -72,7 +71,6 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
             End Get
         End Property
 
-
         ''' <summary>
         ''' Returns the view control (if already created)
         ''' </summary>
@@ -112,7 +110,6 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
             End If
         End Sub
 
-
 #Region "Dispose/IDisposable"
 
         ''' <summary>
@@ -131,8 +128,6 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
 
     End Class
 
-
-
     ''' <summary>
     ''' Returns the document of a special file by calling through the IVsProjectSpecialFiles interface
     ''' </summary>
@@ -149,7 +144,7 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
         ''' <param name="SpecialFileId">The special file ID for IVsProjectSpecialFiles that will be used to
         '''   obtain the document filename</param>
         Public Sub New(DesignerView As ApplicationDesignerView, SpecialFileId As Integer)
-            Requires.NotNull(DesignerView, NameOf(DesignerView))
+            Requires.NotNull(DesignerView)
 
             _specialFileId = SpecialFileId
             _designerView = DesignerView
@@ -178,6 +173,5 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
         End Function
 
     End Class
-
 
 End Namespace

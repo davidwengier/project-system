@@ -1,4 +1,4 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Imports Microsoft.VisualStudio.Shell.Interop
 
@@ -28,7 +28,7 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
         ''' </summary>
         ''' <param name="sp"></param>
         Public Sub New(sp As IServiceProvider, Hierarchy As IVsHierarchy)
-            Requires.NotNull(sp, NameOf(sp))
+            Requires.NotNull(sp)
             _serviceProvider = sp
         End Sub
 #End Region
@@ -69,7 +69,6 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
                 Next
             End Set
         End Property
-
 
 #End Region
 
@@ -132,8 +131,8 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
         ''' <param name="fileReloaded">Out: Set to true if one or more files were reloaded...</param>
         ''' <remarks>Disallows in memory edits for IVsQueryEditQuerySave2</remarks>
         Public Shared Function QueryEditableFiles(sp As IServiceProvider, files As List(Of String), throwOnFailure As Boolean, checkOnly As Boolean, ByRef fileReloaded As Boolean, Optional allowInMemoryEdits As Boolean = True, Optional allowFileReload As Boolean = True) As Boolean
-            Requires.NotNull(sp, NameOf(sp))
-            Requires.NotNull(files, NameOf(files))
+            Requires.NotNull(sp)
+            Requires.NotNull(files)
 
             If files.Count = 0 Then
                 Return True
@@ -243,8 +242,8 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
         ''' <param name="files">The set of files to check</param>
         ''' <param name="throwOnFailure">Should we throw if the save fails?</param>
         Public Shared Function QuerySave(sp As IServiceProvider, files As List(Of String), throwOnFailure As Boolean) As Boolean
-            Requires.NotNull(sp, NameOf(sp))
-            Requires.NotNull(files, NameOf(files))
+            Requires.NotNull(sp)
+            Requires.NotNull(files)
 
             If files.Count = 0 Then
                 Return True
@@ -261,7 +260,6 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
                 Dim rgrf(files.Count - 1) As UInteger
 
                 Dim flags As UInteger = 0
-
 
                 VSErrorHandler.ThrowOnFailure(qEdit2.QuerySaveFiles(flags, filesToCheckOut.Length, filesToCheckOut, rgrf, Nothing, result))
 

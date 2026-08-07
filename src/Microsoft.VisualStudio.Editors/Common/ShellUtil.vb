@@ -1,4 +1,4 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Imports System.Drawing
 Imports System.Windows.Forms
@@ -8,14 +8,12 @@ Imports EnvDTE
 
 Imports Microsoft.VisualStudio.Shell.Interop
 
-
 Namespace Microsoft.VisualStudio.Editors.Common
 
     ''' <summary>
     ''' Utilities relating to the Visual Studio shell, services, etc.
     ''' </summary>
     Friend NotInheritable Class ShellUtil
-
 
         ''' <summary>
         ''' Gets a color from the shell's color service.  If for some reason this fails, returns the supplied
@@ -27,7 +25,6 @@ Namespace Microsoft.VisualStudio.Editors.Common
         Public Shared Function GetColor(VsUIShell As IVsUIShell, VsSysColorIndex As __VSSYSCOLOREX, DefaultColor As Color) As Color
             Return GetColor(TryCast(VsUIShell, IVsUIShell2), VsSysColorIndex, DefaultColor)
         End Function
-
 
         ''' <summary>
         ''' Gets a color from the shell's color service.  If for some reason this fails, returns the supplied
@@ -49,7 +46,6 @@ Namespace Microsoft.VisualStudio.Editors.Common
             Return DefaultColor
         End Function
 
-
         ''' <summary>
         ''' Converts a COLORREF value (as UInteger) to System.Drawing.Color
         ''' </summary>
@@ -58,22 +54,6 @@ Namespace Microsoft.VisualStudio.Editors.Common
         Private Shared Function COLORREFToColor(abgrValue As UInteger) As Color
             Return Color.FromArgb(CInt(abgrValue And &HFFUI), CInt((abgrValue And &HFF00UI) >> 8), CInt((abgrValue And &HFF0000UI) >> 16))
         End Function
-
-
-        ''' <summary>
-        ''' Retrieves the window that should be used as the owner of all dialogs and messageboxes.
-        ''' </summary>
-        Friend Shared Function GetDialogOwnerWindow(serviceProvider As IServiceProvider) As IWin32Window
-            Dim dialogOwner As IWin32Window = Nothing
-            Dim UIService As IUIService = DirectCast(serviceProvider.GetService(GetType(IUIService)), IUIService)
-            If UIService IsNot Nothing Then
-                dialogOwner = UIService.GetDialogOwnerWindow()
-            End If
-
-            Debug.Assert(dialogOwner IsNot Nothing, "Couldn't get DialogOwnerWindow")
-            Return dialogOwner
-        End Function
-
 
         ''' <summary>
         ''' Given an IVsCfg, get its configuration and platform names.
@@ -105,7 +85,6 @@ Namespace Microsoft.VisualStudio.Editors.Common
             Debug.Assert(ConfigName <> "" AndAlso PlatformName <> "")
         End Sub
 
-
         ''' <summary>
         ''' Returns whether or not we're in simplified config mode for this project, which means that
         '''   we hide the configuration/platform comboboxes.
@@ -124,7 +103,6 @@ Namespace Microsoft.VisualStudio.Editors.Common
 
             Return False 'Default to advanced configs
         End Function
-
 
         ''' <summary>
         ''' Returns whether it's permissible to hide configurations for this project.  This should normally
@@ -185,7 +163,6 @@ Namespace Microsoft.VisualStudio.Editors.Common
             Return ShowValue
         End Function
 
-
         ''' <summary>
         ''' Given an IVsHierarchy, fetch the DTE Project for it, if it exists.  For project types that 
         '''   don't support this, returns Nothing (e.g. C++).
@@ -205,7 +182,6 @@ Namespace Microsoft.VisualStudio.Editors.Common
 
             Return Nothing
         End Function
-
 
         ''' <summary>
         ''' Given a DTE Project, get the hierarchy corresponding to it.
@@ -242,24 +218,6 @@ Namespace Microsoft.VisualStudio.Editors.Common
                 Return Nothing
             End If
             Return TryCast(ConfigProvider, IVsCfgProvider2)
-        End Function
-
-        ''' <summary>
-        ''' Given a hierarchy, determine if this is a devices project...
-        ''' </summary>
-        ''' <param name="hierarchy"></param>
-        Public Shared Function IsDeviceProject(hierarchy As IVsHierarchy) As Boolean
-            If hierarchy Is Nothing Then
-                Debug.Fail("I can't determine if this is a devices project from a NULL hierarchy!?")
-                Return False
-            End If
-
-            Dim vsdProperty As Object = Nothing
-            Dim hr As Integer = hierarchy.GetProperty(VSITEMID.ROOT, 8000, vsdProperty)
-            If Interop.NativeMethods.Succeeded(hr) AndAlso vsdProperty IsNot Nothing AndAlso TryCast(vsdProperty, IVSDProjectProperties) IsNot Nothing Then
-                Return True
-            End If
-            Return False
         End Function
 
         ''' <summary>
@@ -351,8 +309,8 @@ Namespace Microsoft.VisualStudio.Editors.Common
         ''' <param name="editLocks">OUT: Number of edit locks on the document</param>
         ''' <param name="docCookie">OUT: A cookie for the doc, 0 if the doc isn't found in the RDT</param>
         Friend Shared Sub GetDocumentInfo(fileName As String, rdt As IVsRunningDocumentTable, ByRef hierarchy As IVsHierarchy, ByRef readLocks As UInteger, ByRef editLocks As UInteger, ByRef itemid As UInteger, ByRef docCookie As UInteger)
-            Requires.NotNull(fileName, NameOf(fileName))
-            Requires.NotNull(rdt, NameOf(rdt))
+            Requires.NotNull(fileName)
+            Requires.NotNull(rdt)
 
             '
             ' Initialize out parameters...
@@ -454,13 +412,6 @@ Namespace Microsoft.VisualStudio.Editors.Common
 
         End Function
 
-        '''<summary>
-        ''' a fake IVSDProjectProperties definition. We only use this to check whether the project supports this interface, but don't pay attention to the detail.
-        '''</summary>
-        <System.Runtime.InteropServices.ComImport, System.Runtime.InteropServices.ComVisible(False), System.Runtime.InteropServices.Guid("1A27878B-EE15-41CE-B427-58B10390C821"), System.Runtime.InteropServices.InterfaceType(System.Runtime.InteropServices.ComInterfaceType.InterfaceIsDual)>
-        Private Interface IVSDProjectProperties
-        End Interface
-
         ''' <summary>
         ''' Wrapper class for IVsShell.OnBroadcastMessage
         ''' </summary>
@@ -478,7 +429,6 @@ Namespace Microsoft.VisualStudio.Editors.Common
                 _serviceProvider = sp
                 ConnectBroadcastEvents()
             End Sub
-
 
 #Region "Helper methods to advise/unadvise broadcast messages from the IVsShell service"
 
@@ -529,7 +479,7 @@ Namespace Microsoft.VisualStudio.Editors.Common
 
 #Region "Standard dispose pattern - the only thing we need to do is to unadvise events..."
 
-            Private _disposed As Boolean = False
+            Private _disposed As Boolean
 
             ' IDisposable
             Private Overloads Sub Dispose(disposing As Boolean)
@@ -540,8 +490,6 @@ Namespace Microsoft.VisualStudio.Editors.Common
                 End If
                 _disposed = True
             End Sub
-
-
 
 #Region " IDisposable Support "
             ' This code added by Visual Basic to correctly implement the disposable pattern.
@@ -631,7 +579,6 @@ Namespace Microsoft.VisualStudio.Editors.Common
             End Property
         End Class
 
-
         ''' <summary>
         ''' Determine if the specified custom tool is registered for the current project system
         ''' </summary>
@@ -639,8 +586,8 @@ Namespace Microsoft.VisualStudio.Editors.Common
         ''' <param name="customToolName">Name of custom tool to look for</param>
         ''' <returns>True if registered, false otherwise</returns>
         Friend Shared Function IsCustomToolRegistered(hierarchy As IVsHierarchy, customToolName As String) As Boolean
-            Requires.NotNull(hierarchy, NameOf(hierarchy))
-            Requires.NotNull(customToolName, NameOf(customToolName))
+            Requires.NotNull(hierarchy)
+            Requires.NotNull(customToolName)
 
             ' All project systems support empty string (= no custom tool)
             If customToolName.Length = 0 Then Return True
@@ -668,45 +615,6 @@ Namespace Microsoft.VisualStudio.Editors.Common
 
         Public Shared Function GetServiceProvider(dte As DTE) As IServiceProvider
             Return New Shell.ServiceProvider(DirectCast(dte, OLE.Interop.IServiceProvider))
-        End Function
-        ''' <summary>
-        ''' VSHPROPID_IsDefaultNamespaceRefactorNotify only exists in C#.  Other langs will not have this property
-        ''' 
-        ''' C# does not support default namespace rename.  this flag will tell the caller if
-        ''' this is a default renamespace rename or not.
-        ''' </summary>
-        ''' <param name="pHier"></param>
-        ''' <param name="itemId"></param>
-        Public Shared Function IsDefaultNamespaceRename(pHier As IVsHierarchy, itemId As UInteger) As Boolean
-            ' result <<== out
-            Dim result As Object = Nothing
-            Dim success As Boolean = VSErrorHandler.Succeeded(pHier.GetProperty(itemId, CType(__VSHPROPID3.VSHPROPID_IsDefaultNamespaceRefactorNotify, Integer), result))
-
-            If Not success OrElse result Is Nothing Then
-                Return False
-            End If
-
-            Return CType(result, Boolean)
-        End Function
-
-        ''' <summary>
-        ''' Create a Type Resolution Service.
-        ''' </summary>
-        ''' <param name="serviceProvider"></param>
-        ''' <param name="hierarchy"></param>
-        Friend Shared Function CreateTypeResolutionService(serviceProvider As IServiceProvider, hierarchy As IVsHierarchy) As System.ComponentModel.Design.ITypeResolutionService
-            Dim dynamicTypeService As Shell.Design.DynamicTypeService =
-                    TryCast(serviceProvider.GetService(
-                    GetType(Shell.Design.DynamicTypeService)),
-                    Shell.Design.DynamicTypeService)
-
-            Dim trs As System.ComponentModel.Design.ITypeResolutionService = Nothing
-
-            If dynamicTypeService IsNot Nothing Then
-                trs = dynamicTypeService.GetTypeResolutionService(hierarchy, VSITEMID.ROOT)
-            End If
-
-            Return trs
         End Function
 
         ''' <summary>

@@ -1,6 +1,7 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Imports Microsoft.VisualStudio.Shell.Interop
+Imports System.IO
 
 Namespace Microsoft.VisualStudio.Editors.DesignerFramework
 
@@ -22,8 +23,8 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
         ''' <param name="sp"></param>
         ''' <param name="hierarchy"></param>
         Public Sub New(sp As IServiceProvider, hierarchy As IVsHierarchy)
-            Requires.NotNull(sp, NameOf(sp))
-            Requires.NotNull(hierarchy, NameOf(hierarchy))
+            Requires.NotNull(sp)
+            Requires.NotNull(hierarchy)
 
             _serviceProvider = sp
             _hierarchy = hierarchy
@@ -133,7 +134,7 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
         ''' <param name="typeResolutionService"></param>
         ''' <param name="projectOutput"></param>
         Protected Overridable Function AssemblyFromProjectOutput(typeResolutionService As ComponentModel.Design.ITypeResolutionService, projectOutput As String) As System.Reflection.Assembly
-            Requires.NotNull(typeResolutionService, NameOf(typeResolutionService))
+            Requires.NotNull(typeResolutionService)
 
             If typeResolutionService IsNot Nothing Then
                 Try
@@ -142,9 +143,9 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
                         Dim a As System.Reflection.Assembly = typeResolutionService.GetAssembly(an)
                         Return a
                     End If
-                Catch ex As IO.FileNotFoundException
+                Catch ex As FileNotFoundException
                     ' The assembly doesn't exist - it may not have been built yet
-                Catch ex As IO.IOException
+                Catch ex As IOException
                     ' Unknown error when trying to load the file...
                 Catch ex As Security.SecurityException
                     ' We didn't have permissions to load the file...
@@ -154,7 +155,6 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
             End If
             Return Nothing
         End Function
-
 
         ''' <devdoc>
         ''' This method takes a file URL and converts it to a local path.  The trick here is that

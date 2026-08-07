@@ -1,4 +1,4 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 #If DEBUG Then
 Imports System.Text
@@ -9,7 +9,6 @@ Imports Microsoft.VisualStudio.Editors.AppDesInterop
 Imports Microsoft.VisualStudio.Editors.PropertyPages
 
 Namespace Microsoft.VisualStudio.Editors.AppDesCommon
-
 
 #If 0 Then
 
@@ -22,7 +21,7 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
         .
         .
         .
-        Public Shared FileWatcher As New TraceSwitch("FileWatcher", "Trace the resource editor FileWatcher class.")
+        Public Shared FileWatcher As New TraceSwitch("FileWatcher", "Trace the property page editor FileWatcher class.")
         .
         .
         .
@@ -141,81 +140,26 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
 
 #End If
 
-
     ''' <summary>
     ''' Contains predefined switches for enabling/disabling trace output or code instrumentation.
     ''' </summary>
-    Friend Class Switches
-
-        '------------- Resource Editor -------------
-
-        ''' <summary>
-        ''' Trace for the ResourceEditor.FileWatcher class
-        ''' </summary>
-        Public Shared RSEFileWatcher As New TraceSwitch("RSEFileWatcher", "Trace the resource editor FileWatcher class.")
-
-        ''' <summary>
-        ''' Tracing for the ResourceEditor.ResourceSerializationService class
-        ''' </summary>
-        Public Shared RSEResourceSerializationService As New TraceSwitch("RSEResourceSerializationService", "Trace the resource editor ResourceSerializationService class.")
-
-        ''' <summary>
-        ''' Track adding and removing resources in the resource editor
-        ''' </summary>
-        Public Shared RSEAddRemoveResources As New TraceSwitch("RSEAddRemoveResources", "Trace adding/removing resources in the resource editor")
-
-        ''' <summary>
-        ''' Trace virtual mode methods in the resource editor's string table
-        ''' </summary>
-        Public Shared RSEVirtualStringTable As New TraceSwitch("RSEVirtualStringTable", "Trace virtual mode methods in the resource editor's string table")
-
-        ''' <summary>
-        ''' Trace virtual mode methods in the resource editor's listview
-        ''' </summary>
-        Public Shared RSEVirtualListView As New TraceSwitch("RSEVirtualListView", "Trace virtual mode methods in the resource editor's listview")
-
-        ''' <summary>
-        ''' Trace the delayed checking of errors in resources
-        ''' </summary>
-        Public Shared RSEDelayCheckErrors As New TraceSwitch("RSEDelayCheckErrors", "Trace the delayed checking of errors in resources")
-
-        ''' <summary>
-        ''' Disable high-quality options on the Graphics object when creating thumbnails in the resource editor
-        ''' </summary>
-        Public Shared RSEDisableHighQualityThumbnails As New BooleanSwitch("RSEDisableHighQualityThumbnails", "Disable high-quality options on the Graphics object when creating thumbnails in the resource editor")
-
-        ''' <summary>
-        ''' Trace find/replace in the resource editor
-        ''' </summary>
-        Public Shared RSEFindReplace As New TraceSwitch("RSEFindReplace", "Trace find/replace in the resource editor")
-
-
+    Friend NotInheritable Class Switches
 
         '------------- Designer Framework -------------
-
-
 
         ''' <summary>
         ''' Trace the showing of context menus via the base control classes in DesignerFramework
         ''' </summary>
         Public Shared DFContextMenu As New TraceSwitch("DFContextMenu", "Trace the showing of context menus via the base control classes in DesignerFramework")
 
-
-
         '------------- Common switches for Microsoft.VisualStudio.Editors -------------
-
-
 
         ''' <summary>
         ''' Trace source code control integration behavior in Microsoft.VisualStudio.Editors.dll
         ''' </summary>
         Public Shared MSVBE_SCC As New TraceSwitch("MSVBE_SCC", "Trace source code control integration behavior in Microsoft.VisualStudio.Editors.dll")
 
-
-
         '------------- Project Designer -------------
-
-
 
         ''' <summary>
         ''' Trace when the active designer changes in the project designer
@@ -335,13 +279,12 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
         End Function
 #End If
 
-
 #If DEBUG Then
         ''' <summary>
         ''' Formats a Win32 message into a friendly form for debugging/tracing purposes
         ''' </summary>
         ''' <param name="msg"></param>
-        Private Shared Function FormatWin32Message(msg As Windows.Forms.Message) As String
+        Private Shared Function FormatWin32Message(msg As System.Windows.Forms.Message) As String
             Dim str As New StringBuilder()
             Dim MsgType As String = Nothing
             Select Case msg.Msg
@@ -373,11 +316,10 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
                 str.Append(" """ & WindowText & """")
             End If
 
-            str.Append("}")
+            str.Append("}"c)
             Return str.ToString()
         End Function
 #End If
-
 
 #If DEBUG Then
         Private Shared s_timeCodeStart As Date
@@ -406,13 +348,12 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
 #End If
         End Sub
 
-
 #Region "EnumSwitch(Of T)"
 
         ''' <summary>
         ''' A Switch which has a simple enum value (either as integer or string representation)
         ''' </summary>
-        Public Class EnumSwitch(Of T)
+        Public NotInheritable Class EnumSwitch(Of T)
             Inherits Switch
 
             Public Sub New(DisplayName As String, Description As String)
@@ -437,7 +378,7 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
                     Return CType([Enum].Parse(GetType(T), MyBase.Value), T)
                 End Get
                 Set
-                    MyBase.Value = value.ToString()
+                    MyBase.Value = Value.ToString()
                 End Set
             End Property
 
@@ -491,7 +432,6 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
 #End If
         End Sub
 
-
         ''' <summary>
         ''' Trace project designer focus-related events
         ''' </summary>
@@ -504,7 +444,6 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
 #End If
         End Sub
 
-
         ''' <summary>
         ''' Trace the functionality of extender properties
         ''' </summary>
@@ -516,7 +455,6 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
             Trace.WriteLineIf(PDExtenders.Level >= Level, "PDExtenders: " & Format(Message, FormatArguments))
 #End If
         End Sub
-
 
         ''' <summary>
         ''' Trace configuration setup and changes tracking in the project designer
@@ -536,7 +474,6 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
             TracePDConfigs(TraceLevel.Verbose, Message, FormatArguments)
 #End If
         End Sub
-
 
         ''' <summary>
         ''' Trace configuration setup and changes tracking in the project designer
@@ -573,7 +510,7 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
         End Sub
 
         <Conditional("DEBUG")>
-        Public Shared Sub TracePDPerf(e As Windows.Forms.LayoutEventArgs, Message As String, ParamArray FormatArguments() As Object)
+        Public Shared Sub TracePDPerf(e As System.Windows.Forms.LayoutEventArgs, Message As String, ParamArray FormatArguments() As Object)
 #If DEBUG Then
             TracePDPerf(Message, FormatArguments)
             TraceOnLayout(e)
@@ -581,7 +518,7 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
         End Sub
 
 #If DEBUG Then
-        Private Shared Sub TraceOnLayout(e As Windows.Forms.LayoutEventArgs)
+        Private Shared Sub TraceOnLayout(e As System.Windows.Forms.LayoutEventArgs)
             If PDPerf.TraceInfo Then
                 Trace.WriteLine("  AffectedControl=" & DebugToString(e.AffectedControl))
                 Trace.WriteLine("  AffectedComponent=" & DebugToString(e.AffectedComponent))
@@ -592,8 +529,6 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
             End If
         End Sub
 #End If
-
-
 
         ''' <summary>
         ''' Trace configuration setup and changes tracking in the project designer
@@ -607,7 +542,6 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
 #End If
         End Sub
 
-
         ''' <summary>
         ''' Trace Win32 message routing
         ''' </summary>
@@ -615,7 +549,7 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
         ''' <param name="Message"></param>
         ''' <param name="msg"></param>
         <Conditional("DEBUG")>
-        Public Shared Sub TracePDMessageRouting(TraceLevel As TraceLevel, Message As String, msg As Windows.Forms.Message)
+        Public Shared Sub TracePDMessageRouting(TraceLevel As TraceLevel, Message As String, msg As System.Windows.Forms.Message)
 #If DEBUG Then
             If PDMessageRouting.Level >= TraceLevel Then
                 Dim FormattedMessage As String = FormatWin32Message(msg)
@@ -625,7 +559,6 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
             End If
 #End If
         End Sub
-
 
         ''' <summary>
         ''' Trace Win32 message routing
@@ -639,87 +572,11 @@ Namespace Microsoft.VisualStudio.Editors.AppDesCommon
 #End If
         End Sub
 
-        ''' <summary>
-        ''' Traces the access modifier combobox functionality
-        ''' </summary>
         <Conditional("DEBUG")>
-        Public Shared Sub TracePDAccessModifierCombobox(traceLevel As TraceLevel, message As String)
-#If DEBUG Then
-            Trace.WriteLineIf(PDAccessModifierCombobox.Level >= traceLevel, "PDAccessModifierCombobox: " & message)
-#End If
-        End Sub
-
-
-        ''' <summary>
-        ''' Trace serialization of settings
-        ''' </summary>
-        ''' <param name="tracelevel"></param>
-        ''' <param name="message"></param>
-        <Conditional("DEBUG")>
-        Public Overloads Shared Sub TraceSDSerializeSettings(tracelevel As TraceLevel, message As String)
-#If DEBUG Then
-            Trace.WriteLineIf(SDSerializeSettings.Level >= tracelevel, message)
-#End If
-        End Sub
-
-        ''' <summary>
-        ''' Trace serialization of settings
-        ''' </summary>
-        ''' <param name="tracelevel"></param>
-        ''' <param name="formatString"></param>
-        ''' <param name="parameters"></param>
-        <Conditional("DEBUG")>
-        Public Overloads Shared Sub TraceSDSerializeSettings(tracelevel As TraceLevel, formatString As String, ParamArray parameters() As Object)
-#If DEBUG Then
-            Trace.WriteLineIf(SDSerializeSettings.Level >= tracelevel, String.Format(formatString, parameters))
-#End If
-        End Sub
-
-        <Conditional("DEBUG")>
-        Public Overloads Shared Sub TracePDLinqImports(tracelevel As TraceLevel, formatString As String, ParamArray parameters() As Object)
-#If DEBUG Then
-            Trace.WriteLineIf(PDLinqImports.Level >= tracelevel, Format(formatString, parameters))
-#End If
-        End Sub
-
-        ''' <summary>
-        ''' Trace changes to one of the monitored configuration files 
-        ''' </summary>
-        ''' <param name="tracelevel"></param>
-        <Conditional("DEBUG")>
-        Public Overloads Shared Sub TraceWCFConfigFileChangeWatch(tracelevel As TraceLevel, formatString As String, ParamArray parameters() As Object)
-#If DEBUG Then
-            Trace.WriteLineIf(WCF_Config_FileChangeWatch.Level >= tracelevel, String.Format(formatString, parameters))
-#End If
-        End Sub
-
-
-        ''' <summary>
-        ''' Trace changes to one of the monitored configuration files 
-        ''' </summary>
-        ''' <param name="tracelevel"></param>
-        ''' <param name="message"></param>
-        <Conditional("DEBUG")>
-        Public Overloads Shared Sub TraceWCFConfigFileChangeWatch(tracelevel As TraceLevel, message As String)
-#If DEBUG Then
-            Trace.WriteLineIf(WCF_Config_FileChangeWatch.Level >= tracelevel, message)
-#End If
-        End Sub
-
-
-        <Conditional("DEBUG")>
-        Public Shared Sub TracePDPerfBegin(e As Windows.Forms.LayoutEventArgs, Message As String, ParamArray FormatArguments() As Object)
+        Public Shared Sub TracePDPerfBegin(e As System.Windows.Forms.LayoutEventArgs, Message As String, ParamArray FormatArguments() As Object)
 #If DEBUG Then
             TracePDPerfBegin(Message, FormatArguments)
             TraceOnLayout(e)
-#End If
-        End Sub
-
-        <Conditional("DEBUG")>
-        Public Shared Sub TraceMyExtensibility(traceLevel As TraceLevel, message As String)
-#If DEBUG Then
-            Trace.WriteLineIf(MyExtensibilityTraceSwitch.Level >= traceLevel, String.Format("MyExtensibility {0} {1}: ", Date.Now.ToLongDateString(), Date.Now.ToLongTimeString()))
-            Trace.WriteLineIf(MyExtensibilityTraceSwitch.Level >= traceLevel, message)
 #End If
         End Sub
 

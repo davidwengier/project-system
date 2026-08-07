@@ -1,42 +1,34 @@
-﻿// Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿// Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
-using Moq;
+using Microsoft.VisualStudio.ProjectSystem.Utilities;
 
-namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
+namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices;
+
+internal static class IActiveEditorContextTrackerFactory
 {
-    internal static class IActiveEditorContextTrackerFactory
+    public static IActiveEditorContextTracker Create()
     {
-        public static IActiveEditorContextTracker Create()
-        {
-            return Mock.Of<IActiveEditorContextTracker>();
-        }
+        return Mock.Of<IActiveEditorContextTracker>();
+    }
 
-        public static IActiveEditorContextTracker ImplementIsActiveEditorContext(Func<string, bool> action)
-        {
-            var mock = new Mock<IActiveEditorContextTracker>();
-            mock.Setup(t => t.IsActiveEditorContext(It.IsAny<string>()))
-                .Returns(action);
+    public static IActiveEditorContextTracker ImplementIsActiveEditorContext(Func<string, bool> action)
+    {
+        var mock = new Mock<IActiveEditorContextTracker>();
 
-            return mock.Object;
-        }
+        mock.Setup(t => t.IsActiveEditorContext(It.IsAny<string>()))
+            .Returns(action);
 
-        public static IActiveEditorContextTracker ImplementUnregisterContext(Action<string> action)
-        {
-            var mock = new Mock<IActiveEditorContextTracker>();
-            mock.Setup(t => t.UnregisterContext(It.IsAny<string>()))
-                .Callback(action);
+        return mock.Object;
+    }
 
-            return mock.Object;
-        }
+    public static IActiveEditorContextTracker ImplementRegisterContext(Action<string> action, IDisposable? lifetime = null)
+    {
+        var mock = new Mock<IActiveEditorContextTracker>();
 
-        public static IActiveEditorContextTracker ImplementRegisterContext(Action<string> action)
-        {
-            var mock = new Mock<IActiveEditorContextTracker>();
-            mock.Setup(t => t.RegisterContext(It.IsAny<string>()))
-                .Callback(action);
+        mock.Setup(t => t.RegisterContext(It.IsAny<string>()))
+            .Callback(action)
+            .Returns(lifetime ?? EmptyDisposable.Instance);
 
-            return mock.Object;
-        }
+        return mock.Object;
     }
 }

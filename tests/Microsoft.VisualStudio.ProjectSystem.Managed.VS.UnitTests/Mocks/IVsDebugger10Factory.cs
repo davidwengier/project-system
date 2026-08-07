@@ -1,17 +1,14 @@
-﻿// Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿// Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using Moq;
+namespace Microsoft.VisualStudio.Shell.Interop;
 
-namespace Microsoft.VisualStudio.Shell.Interop
+internal static class IVsDebugger10Factory
 {
-    internal static class IVsDebugger10Factory
+    public static IVsDebugger10 ImplementIsIntegratedConsoleEnabled(bool enabled)
     {
-        public static IVsDebugger10 ImplementIsIntegratedConsoleEnabled(bool enabled)
-        {
-            var mock = new Mock<IVsDebugger10>();
-            mock.Setup(d => d.IsIntegratedConsoleEnabled(out enabled));
+        var mock = new Mock<IVsDebugger10>();
+        mock.Setup(d => d.IsIntegratedConsoleEnabled(out enabled));
 
-            return mock.Object;
-        }
+        return mock.Object;
     }
 }

@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿// Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Packaging;
@@ -13,7 +13,12 @@ using Microsoft.VisualStudio.ProjectSystem.VS;
     language: "VisualBasic",
     resourcePackageGuid: ManagedProjectSystemPackage.PackageGuid,
     Capabilities = ProjectTypeCapabilities.VisualBasic,
-    DisableAsynchronousProjectTreeLoad = true)]
+    DisableAsynchronousProjectTreeLoad = true,
+    PossibleProjectExtensions = "vbproj",
+    PreferredPersistProjectTypeGuid = ProjectType.LegacyVisualBasic,
+    NewProjectRequireNewFolderVsTemplate = true,
+    SupportsCodespaces = true,
+    SupportsSolutionChangeWithoutReload = true)]
 [assembly: ProvideDiffSupportedContentType(".vbproj", "")]   // Empty string because content type is not important, we just want to tell the diff that the file type is supported
 [assembly: ProvideEditorFactoryMapping("{f6819a78-a205-47b5-be1c-675b3c7f0b8e}", ".vbproj")] // Use the XML editor
 
@@ -26,7 +31,12 @@ using Microsoft.VisualStudio.ProjectSystem.VS;
     language: "FSharp",
     resourcePackageGuid: ManagedProjectSystemPackage.PackageGuid,
     Capabilities = ProjectTypeCapabilities.FSharp,
-    DisableAsynchronousProjectTreeLoad = true)]
+    DisableAsynchronousProjectTreeLoad = true,
+    PossibleProjectExtensions = "fsproj",
+    PreferredPersistProjectTypeGuid = ProjectType.LegacyFSharp,
+    NewProjectRequireNewFolderVsTemplate = true,
+    SupportsCodespaces = true,
+    SupportsSolutionChangeWithoutReload = true)]
 [assembly: ProvideDiffSupportedContentType(".fsproj", "")]   // Empty string because content type is not important, we just want to tell the diff that the file type is supported
 [assembly: ProvideEditorFactoryMapping("{f6819a78-a205-47b5-be1c-675b3c7f0b8e}", ".fsproj")] // Use the XML editor
 
@@ -39,6 +49,11 @@ using Microsoft.VisualStudio.ProjectSystem.VS;
     language: "CSharp",
     resourcePackageGuid: ManagedProjectSystemPackage.PackageGuid,
     Capabilities = ProjectTypeCapabilities.CSharp,
-    DisableAsynchronousProjectTreeLoad = true)]
+    DisableAsynchronousProjectTreeLoad = true,
+    PossibleProjectExtensions = "csproj",
+    PreferredPersistProjectTypeGuid = ProjectType.LegacyCSharp,
+    NewProjectRequireNewFolderVsTemplate = true,
+    SupportsCodespaces = true,
+    SupportsSolutionChangeWithoutReload = true)]
 [assembly: ProvideDiffSupportedContentType(".csproj", "")]   // Empty string because content type is not important, we just want to tell the diff that the file type is supported
 [assembly: ProvideEditorFactoryMapping("{f6819a78-a205-47b5-be1c-675b3c7f0b8e}", ".csproj")] // Use the XML editor

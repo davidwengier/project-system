@@ -1,121 +1,66 @@
-﻿// Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿// Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
-using System.ComponentModel.Composition;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.VisualStudio.ProjectSystem.Waiting;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Threading;
 
-namespace Microsoft.VisualStudio.ProjectSystem.VS.Waiting
+namespace Microsoft.VisualStudio.ProjectSystem.VS.Waiting;
+
+[Export(typeof(IWaitIndicator))]
+internal partial class VisualStudioWaitIndicator : IWaitIndicator
 {
-    [Export(typeof(IWaitIndicator))]
-    internal partial class VisualStudioWaitIndicator : IWaitIndicator
+    private readonly JoinableTaskContext _joinableTaskContext;
+    private readonly IVsUIService<IVsThreadedWaitDialogFactory> _waitDialogFactoryService;
+
+    [ImportingConstructor]
+    public VisualStudioWaitIndicator(JoinableTaskContext joinableTaskContext,
+                                     IVsUIService<SVsThreadedWaitDialogFactory, IVsThreadedWaitDialogFactory> waitDialogFactoryService)
     {
-        private readonly JoinableTaskContext _joinableTaskContext;
-        private readonly IVsUIService<IVsThreadedWaitDialogFactory> _waitDialogFactoryService;
+        _joinableTaskContext = joinableTaskContext;
+        _waitDialogFactoryService = waitDialogFactoryService;
+    }
 
-        [ImportingConstructor]
-        public VisualStudioWaitIndicator(JoinableTaskContext joinableTaskContext,
-                                         IVsUIService<SVsThreadedWaitDialogFactory, IVsThreadedWaitDialogFactory> waitDialogFactoryService)
+    public async Task<WaitIndicatorResult> RunAsync(string title, string message, bool allowCancel, Func<IWaitContext, Task> asyncMethod, int totalSteps = 0)
+    {
+        await _joinableTaskContext.Factory.SwitchToMainThreadAsync();
+
+        using IWaitContext waitContext = new VisualStudioWaitContext(_waitDialogFactoryService.Value, title, message, allowCancel, totalSteps);
+
+        try
         {
-            _joinableTaskContext = joinableTaskContext;
-            _waitDialogFactoryService = waitDialogFactoryService;
+            await asyncMethod(waitContext);
+
+            return WaitIndicatorResult.Completed;
         }
-
-        public void Wait(string title, string message, bool allowCancel, Action<CancellationToken> action)
+        catch (OperationCanceledException)
         {
-            _ = WaitWithResult(title, message, allowCancel, action);
+            return WaitIndicatorResult.Cancelled;
         }
-
-        public T Wait<T>(string title, string message, bool allowCancel, Func<CancellationToken, T> action)
+        catch (AggregateException aggregate) when (aggregate.InnerExceptions.All(e => e is OperationCanceledException))
         {
-            if (typeof(T) == typeof(Task))
-                throw new ArgumentException("Type argument must not be Task", nameof(T));
-
-            (_, T result) = WaitWithResult(title, message, allowCancel, action);
-            return result;
+            return WaitIndicatorResult.Cancelled;
         }
+    }
 
-        public void WaitForAsyncFunction(string title, string message, bool allowCancel, Func<CancellationToken, Task> asyncFunction)
+    public async Task<WaitIndicatorResult<T>> RunAsync<T>(string title, string message, bool allowCancel, Func<IWaitContext, Task<T>> asyncMethod, int totalSteps = 0)
+    {
+        await _joinableTaskContext.Factory.SwitchToMainThreadAsync();
+
+        using IWaitContext waitContext = new VisualStudioWaitContext(_waitDialogFactoryService.Value, title, message, allowCancel, totalSteps);
+
+        try
         {
-            _ = WaitForAsyncFunctionWithResult(title, message, allowCancel, asyncFunction);
+            T result = await asyncMethod(waitContext);
+
+            return WaitIndicatorResult<T>.FromResult(result);
         }
-
-        public T WaitForAsyncFunction<T>(string title, string message, bool allowCancel, Func<CancellationToken, Task<T>> asyncFunction)
+        catch (OperationCanceledException)
         {
-            (_, T result) = WaitForAsyncFunctionWithResult(title, message, allowCancel, asyncFunction);
-            return result;
+            return WaitIndicatorResult<T>.Cancelled;
         }
-
-        public WaitIndicatorResult WaitForAsyncFunctionWithResult(string title, string message, bool allowCancel, Func<CancellationToken, Task> asyncFunction)
+        catch (AggregateException aggregate) when (aggregate.InnerExceptions.All(e => e is OperationCanceledException))
         {
-            (WaitIndicatorResult waitResult, _) = WaitForOperationImpl(title, message, allowCancel, token =>
-            {
-                _joinableTaskContext.Factory.Run(() => asyncFunction(token));
-                return true;
-            });
-
-            return waitResult;
-        }
-
-        public WaitIndicatorResult WaitWithResult(string title, string message, bool allowCancel, Action<CancellationToken> action)
-        {
-            (WaitIndicatorResult waitResult, _) = WaitForOperationImpl(title, message, allowCancel, token =>
-            {
-                action(token);
-                return true;
-            });
-
-            return waitResult;
-        }
-
-        public (WaitIndicatorResult, T) WaitForAsyncFunctionWithResult<T>(string title, string message, bool allowCancel, Func<CancellationToken, Task<T>> asyncFunction)
-        {
-            return WaitForOperationImpl(title, message, allowCancel, token => _joinableTaskContext.Factory.Run(() => asyncFunction(token)));
-        }
-
-        public (WaitIndicatorResult, T) WaitWithResult<T>(string title, string message, bool allowCancel, Func<CancellationToken, T> function)
-        {
-            return WaitForOperationImpl(title, message, allowCancel, function);
-        }
-
-        private (WaitIndicatorResult, T) WaitForOperationImpl<T>(string title, string message, bool allowCancel, Func<CancellationToken, T> function)
-        {
-            Assumes.True(_joinableTaskContext.IsOnMainThread);
-
-            using IWaitContext waitContext = StartWait(title, message, allowCancel);
-
-            try
-            {
-                T result = function(waitContext.CancellationToken);
-
-                return (WaitIndicatorResult.Completed, result);
-            }
-            catch (OperationCanceledException)
-            {
-                // TODO track https://github.com/dotnet/roslyn/issues/37069 regarding these suppressions
-#pragma warning disable CS8653
-                return (WaitIndicatorResult.Canceled, default);
-#pragma warning restore CS8653
-            }
-            catch (AggregateException aggregate) when (aggregate.InnerExceptions.All(e => e is OperationCanceledException))
-            {
-                // TODO track https://github.com/dotnet/roslyn/issues/37069 regarding these suppressions
-#pragma warning disable CS8653
-                return (WaitIndicatorResult.Canceled, default);
-#pragma warning restore CS8653
-            }
-        }
-
-        private IWaitContext StartWait(string title, string message, bool allowCancel)
-        {
-            IVsThreadedWaitDialogFactory? vsThreadedWaitDialogFactory = _waitDialogFactoryService.Value;
-            Assumes.Present(vsThreadedWaitDialogFactory);
-
-            return new VisualStudioWaitContext(vsThreadedWaitDialogFactory, title, message, allowCancel);
+            return WaitIndicatorResult<T>.Cancelled;
         }
     }
 }

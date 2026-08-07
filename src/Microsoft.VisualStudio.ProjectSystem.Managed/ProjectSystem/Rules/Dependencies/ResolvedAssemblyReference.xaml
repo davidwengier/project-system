@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information. -->
+<!-- Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information. -->
 <Rule Name="ResolvedAssemblyReference"
-      Description="Reference Properties"
-      DisplayName="Resolved Assembly Reference"
+      Description="Assembly Reference Properties"
+      DisplayName="Assembly Reference"
       PageTemplate="generic"
       xmlns="http://schemas.microsoft.com/build/2009/properties">
   <Rule.DataSource>
@@ -25,14 +25,22 @@
                   SourceOfDefaultValue="AfterContext" />
     </StringListProperty.DataSource>
   </StringListProperty>
+  
+  <StringProperty Name="BrowsePath"
+                  ReadOnly="True"
+                  Visible="False">
+    <StringProperty.DataSource>
+      <DataSource PersistedName="Identity"
+                  SourceOfDefaultValue="AfterContext" />
+    </StringProperty.DataSource>
+  </StringProperty>
 
-  <BoolProperty Name="CopyLocal"
+  <BoolProperty Name="Private"
                 Description="Indicates whether the reference will be copied to the output directory."
                 DisplayName="Copy Local">
     <BoolProperty.DataSource>
       <DataSource HasConfigurationCondition="False"
                   ItemType="Reference"
-                  PersistedName="Private"
                   Persistence="ProjectFile"
                   SourceOfDefaultValue="AfterContext" />
     </BoolProperty.DataSource>
@@ -156,5 +164,11 @@
   <BoolProperty Name="WinMDFile"
                 ReadOnly="True"
                 Visible="false" />
+
+  <BoolProperty Name="TreatAsUsed"
+                Description="Indicates that this reference should be treated as if it were used."
+                DisplayName="Treat as used"
+                Visible="True"
+                ReadOnly="True" />
 
 </Rule>

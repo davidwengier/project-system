@@ -1,40 +1,37 @@
-﻿// Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿// Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System.IO;
 using System.Text;
 using Microsoft.Build.Construction;
-using Xunit;
 
-namespace Microsoft.Build
+namespace Microsoft.Build;
+
+public static class MSBuildAssert
 {
-    public static class MSBuildAssert
+    public static void AssertProjectXml(string expected, ProjectRootElement actual)
     {
-        public static void AssertProjectXml(string expected, ProjectRootElement actual)
-        {
-            AssertProjectXml(ProjectRootElementFactory.Create(expected), actual);
-        }
+        AssertProjectXml(ProjectRootElementFactory.Create(expected), actual);
+    }
 
-        public static void AssertProjectXml(ProjectRootElement expected, ProjectRootElement actual)
-        {
-            string expectedXml = ProjectXmlToString(expected);
-            string actualXml = ProjectXmlToString(actual);
+    public static void AssertProjectXml(ProjectRootElement expected, ProjectRootElement actual)
+    {
+        string expectedXml = ProjectXmlToString(expected);
+        string actualXml = ProjectXmlToString(actual);
 
-            Assert.Equal(expectedXml, actualXml);
-        }
+        Assert.Equal(expectedXml, actualXml);
+    }
 
-        private static string ProjectXmlToString(ProjectRootElement projectXml)
-        {
-            using var writer = new StringWriterWithUtf8Encoding();
-            projectXml.Save(writer);
+    private static string ProjectXmlToString(ProjectRootElement projectXml)
+    {
+        using var writer = new StringWriterWithUtf8Encoding();
+        projectXml.Save(writer);
 
-            return writer.ToString();
-        }
+        return writer.ToString();
+    }
 
-        // MSBuild will write out the XML declaration if the encoding isn't UTF8, 
-        // force it into thinking it is to make comparison easier.
-        private class StringWriterWithUtf8Encoding : StringWriter
-        {
-            public override Encoding Encoding => Encoding.UTF8;
-        }
+    // MSBuild will write out the XML declaration if the encoding isn't UTF8, 
+    // force it into thinking it is to make comparison easier.
+    private class StringWriterWithUtf8Encoding : StringWriter
+    {
+        public override Encoding Encoding => Encoding.UTF8;
     }
 }

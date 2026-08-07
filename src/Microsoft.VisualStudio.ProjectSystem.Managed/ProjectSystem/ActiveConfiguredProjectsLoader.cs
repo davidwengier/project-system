@@ -1,70 +1,70 @@
-﻿// Copyright(c) Microsoft.All Rights Reserved.Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿// Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
-using System.ComponentModel.Composition;
-using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 
-namespace Microsoft.VisualStudio.ProjectSystem
+namespace Microsoft.VisualStudio.ProjectSystem;
+
+/// <summary>
+///     Force loads the active <see cref="ConfiguredProject"/> objects so that any configured project-level
+///     services, such as evaluation and build services, are started.
+/// </summary>
+
+internal class ActiveConfiguredProjectsLoader : OnceInitializedOnceDisposed
 {
-    /// <summary>
-    ///     Force loads the active <see cref="ConfiguredProject"/> objects so that any configured project-level 
-    ///     services, such as evaluation and build services, are started.
-    /// </summary>
-    internal class ActiveConfiguredProjectsLoader : OnceInitializedOnceDisposed
+    private readonly UnconfiguredProject _project;
+    private readonly IActiveConfigurationGroupService _activeConfigurationGroupService;
+    private readonly IUnconfiguredProjectTasksService _tasksService;
+    private readonly ITargetBlock<IProjectVersionedValue<IConfigurationGroup<ProjectConfiguration>>> _targetBlock;
+    private IDisposable? _subscription;
+
+    [ImportingConstructor]
+    public ActiveConfiguredProjectsLoader(UnconfiguredProject project, IActiveConfigurationGroupService activeConfigurationGroupService, IUnconfiguredProjectTasksService tasksService)
     {
-        private readonly UnconfiguredProject _project;
-        private readonly IActiveConfigurationGroupService _activeConfigurationGroupService;
-        private readonly IUnconfiguredProjectTasksService _tasksService;
-        private readonly ITargetBlock<IProjectVersionedValue<IConfigurationGroup<ProjectConfiguration>>> _targetBlock;
-        private IDisposable? _subscription;
+        _project = project;
+        _activeConfigurationGroupService = activeConfigurationGroupService;
+        _tasksService = tasksService;
+        _targetBlock = DataflowBlockFactory.CreateActionBlock<IProjectVersionedValue<IConfigurationGroup<ProjectConfiguration>>>(OnActiveConfigurationsChangedAsync, project, ProjectFaultSeverity.LimitedFunctionality);
+    }
 
-        [ImportingConstructor]
-        public ActiveConfiguredProjectsLoader(UnconfiguredProject project, IActiveConfigurationGroupService activeConfigurationGroupService, IUnconfiguredProjectTasksService tasksService)
-            : base(synchronousDisposal: true)
+    [ProjectAutoLoad(startAfter: ProjectLoadCheckpoint.ProjectInitialCapabilitiesEstablished)]
+    // NOTE we use the language service capability here to prevent loading configurations of shared projects.
+    [AppliesTo(ProjectCapability.DotNetLanguageService)]
+    public Task InitializeAsync()
+    {
+        EnsureInitialized();
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Exposed for unit testing only.
+    /// </summary>
+    internal ITargetBlock<IProjectVersionedValue<IConfigurationGroup<ProjectConfiguration>>> TargetBlock => _targetBlock;
+
+    protected override void Initialize()
+    {
+        _subscription = _activeConfigurationGroupService.ActiveConfigurationGroupSource.SourceBlock.LinkTo(
+            target: _targetBlock,
+            linkOptions: DataflowOption.PropagateCompletion);
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
         {
-            _project = project;
-            _activeConfigurationGroupService = activeConfigurationGroupService;
-            _tasksService = tasksService;
-            _targetBlock = DataflowBlockSlim.CreateActionBlock<IProjectVersionedValue<IConfigurationGroup<ProjectConfiguration>>>(OnActiveConfigurationsChanged);
+            _subscription?.Dispose();
+            _targetBlock.Complete();
         }
+    }
 
-        [ProjectAutoLoad(ProjectLoadCheckpoint.ProjectInitialCapabilitiesEstablished)]
-        [AppliesTo(ProjectCapability.DotNetLanguageService)]
-        public Task InitializeAsync()
+    private async Task OnActiveConfigurationsChangedAsync(IProjectVersionedValue<IConfigurationGroup<ProjectConfiguration>> e)
+    {
+        foreach (ProjectConfiguration configuration in e.Value)
         {
-            EnsureInitialized();
-            return Task.CompletedTask;
-        }
-
-        public ITargetBlock<IProjectVersionedValue<IConfigurationGroup<ProjectConfiguration>>> TargetBlock => _targetBlock;
-
-        protected override void Initialize()
-        {
-            _subscription = _activeConfigurationGroupService.ActiveConfigurationGroupSource.SourceBlock.LinkTo(
-                target: _targetBlock,
-                linkOptions: DataflowOption.PropagateCompletion);
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
+            // Make sure we aren't currently unloading, or we don't unload while we load the configuration
+            await _tasksService.LoadedProjectAsync(() =>
             {
-                _subscription?.Dispose();
-                _targetBlock.Complete();
-            }
-        }
-
-        private async Task OnActiveConfigurationsChanged(IProjectVersionedValue<IConfigurationGroup<ProjectConfiguration>> e)
-        {
-            foreach (ProjectConfiguration configuration in e.Value)
-            {
-                // Make sure we aren't currently unloading, or we don't unload while we load the configuration
-                await _tasksService.LoadedProjectAsync(() =>
-                {
-                    return _project.LoadConfiguredProjectAsync(configuration);
-                });
-            }
+                return _project.LoadConfiguredProjectAsync(configuration);
+            });
         }
     }
 }

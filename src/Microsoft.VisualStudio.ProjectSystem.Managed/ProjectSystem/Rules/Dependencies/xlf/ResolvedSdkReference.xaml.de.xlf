@@ -3,8 +3,8 @@
   <file datatype="xml" source-language="en" target-language="de" original="../ResolvedSdkReference.xaml">
     <body>
       <trans-unit id="Rule|ResolvedSdkReference|DisplayName">
-        <source>Resolved SDK Reference</source>
-        <target state="translated">Aufgelöster SDK-Verweis</target>
+        <source>SDK Reference</source>
+        <target state="translated">SDK-Verweis</target>
         <note />
       </trans-unit>
       <trans-unit id="Rule|ResolvedSdkReference|Description">
@@ -24,7 +24,7 @@
       </trans-unit>
       <trans-unit id="BoolProperty|CopyPayload|DisplayName">
         <source>Copy Payload</source>
-        <target state="translated">Nutzlast kopieren</target>
+        <target state="translated">Nutzdaten kopieren</target>
         <note />
       </trans-unit>
       <trans-unit id="BoolProperty|ExpandContent|DisplayName">
@@ -59,7 +59,7 @@
       </trans-unit>
       <trans-unit id="StringProperty|CopyPayloadToSubDirectory|DisplayName">
         <source>Copy Payload to Subdirectory</source>
-        <target state="translated">Nutzlast in Unterverzeichnis kopieren</target>
+        <target state="translated">Nutzdaten in Unterverzeichnis kopieren</target>
         <note />
       </trans-unit>
     </body>

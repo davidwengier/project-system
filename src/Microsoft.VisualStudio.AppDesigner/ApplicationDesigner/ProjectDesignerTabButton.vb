@@ -1,4 +1,4 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Imports System.Drawing
 Imports System.Windows.Forms
@@ -13,7 +13,6 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
         Private _index As Integer
         Private _dirtyIndicator As Boolean
         Private _focusedFromKeyboardNav As Boolean
-
 
         Public Sub New()
             SetStyle(ControlStyles.SupportsTransparentBackColor, True)
@@ -32,7 +31,6 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
             TabStop = True
         End Sub 'New
 
-
         ''' <summary>
         ''' True if the dirty indicator should be display
         ''' </summary>
@@ -47,7 +45,6 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
                 End If
             End Set
         End Property
-
 
         ''' <summary>
         ''' Returns the text of the tab button, with the dirty indicator if it is on.
@@ -64,7 +61,6 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
             End Get
         End Property
 
-
         ''' <summary>
         ''' The location of the button.  Should not be changed directly except
         '''   by the tab control itself.
@@ -78,7 +74,6 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
             End Set
         End Property
 
-
         Public ReadOnly Property ButtonIndex As Integer
             Get
                 Return _index
@@ -89,13 +84,11 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
             _index = index
         End Sub
 
-
         Private ReadOnly Property ParentTabControl As ProjectDesignerTabControl
             Get
                 Return DirectCast(Parent, ProjectDesignerTabControl)
             End Get
         End Property
-
 
         Protected Overrides Sub OnPaint(e As PaintEventArgs)
             Dim parent As ProjectDesignerTabControl = ParentTabControl
@@ -113,7 +106,6 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
             End If
         End Sub
 
-
         Protected Overrides Sub OnMouseEnter(e As EventArgs)
             MyBase.OnMouseEnter(e)
             Dim parent As ProjectDesignerTabControl = ParentTabControl
@@ -121,7 +113,6 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
                 parent.OnItemEnter(e, Me)
             End If
         End Sub
-
 
         Protected Overrides Sub OnMouseLeave(e As EventArgs)
             MyBase.OnMouseLeave(e)
@@ -217,7 +208,6 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
             FocusedFromKeyboardNav = False
         End Sub
 
-
         ''' <summary>
         ''' Create customized accessible object
         ''' </summary>
@@ -242,7 +232,7 @@ Namespace Microsoft.VisualStudio.Editors.ApplicationDesigner
         '''<summary>
         ''' custom build accessible object class
         '''</summary>
-        Private Class DesignerTabButtonAccessibleObject
+        Private NotInheritable Class DesignerTabButtonAccessibleObject
             Inherits ButtonBaseAccessibleObject
 
             ' button which this accessible object belongs to

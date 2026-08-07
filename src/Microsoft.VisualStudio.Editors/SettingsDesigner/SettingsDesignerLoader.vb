@@ -1,4 +1,4 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Imports System.ComponentModel.Design
 Imports System.ComponentModel.Design.Serialization
@@ -194,10 +194,7 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
                     SettingsReader = New DocDataTextReader(m_DocData)
                     SettingsSerializer.Deserialize(RootComponent, SettingsReader, False)
                 Catch ex As Exception
-                    If SerializationManager IsNot Nothing Then
-                        ex.HelpLink = HelpIDs.Err_LoadingSettingsFile
-                        SerializationManager.ReportError(ex)
-                    End If
+                    ReportSerializationError(SerializationManager, ex)
                     Throw New InvalidOperationException(My.Resources.Microsoft_VisualStudio_Editors_Designer.SD_Err_CantLoadSettingsFile, ex)
                 Finally
                     If SettingsReader IsNot Nothing Then
@@ -210,13 +207,29 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
                 ' The buffer was empty - no panic, this is probably just a new file
             End If
 
-
             AttachAppConfigDocData(False)
-
 
             If _appConfigDocData IsNot Nothing Then
                 Switches.TraceSDSerializeSettings(TraceLevel.Verbose, "Loading app.config")
                 LoadAppConfig()
+            End If
+        End Sub
+
+        Private Shared Sub ReportSerializationError(SerializationManager As IDesignerSerializationManager, ex As Exception)
+            If SerializationManager IsNot Nothing Then
+                Dim userErrorMessage As String =
+                    ex.Message +
+                    Environment.NewLine +
+                    Environment.NewLine +
+                    My.Resources.Microsoft_VisualStudio_Editors_Designer.SD_Err_CantLoadSettingsFile +
+                    Environment.NewLine +
+                    Environment.NewLine +
+                    My.Resources.Microsoft_VisualStudio_Editors_Designer.SD_ERR_HelpMessage_SuggestFileOpenWith
+
+                Dim exWithHelp = New Exception(userErrorMessage) With {
+                    .HelpLink = HelpIDs.Err_LoadingSettingsFile
+                }
+                SerializationManager.ReportError(exWithHelp)
             End If
         End Sub
 
@@ -277,7 +290,6 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
             End If
             Return _appConfigDocData IsNot Nothing
         End Function
-
 
         ''' <summary>
         ''' Make sure that we have a custom tool associated with this file
@@ -392,7 +404,6 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
                             Return
                         End If
 
-
                         Dim FindSettingsPropertyFilter As New ProjectUtils.FindPropertyFilter(ce, DirectCast(e.OldValue, String))
                         Dim pce As EnvDTE.CodeElement = ProjectUtils.FindElement(SettingsFileProjectItem, True, True, FindSettingsPropertyFilter)
 
@@ -483,7 +494,7 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
                                                     cfgHelper.GetSectionName(ProjectUtils.FullyQualifiedClassName(GeneratedClassNamespace(True), GeneratedClassName), String.Empty),
                                                     _appConfigDocData,
                                                     AppConfigSerializer.MergeValueMode.Prompt,
-                                                    CType(GetService(GetType(Windows.Forms.Design.IUIService)), Windows.Forms.Design.IUIService))
+                                                    CType(GetService(GetType(System.Windows.Forms.Design.IUIService)), System.Windows.Forms.Design.IUIService))
                 If objectDirty <> AppConfigSerializer.DirtyState.NoChange Then
                     ' Set flag if we make changes to the settings object during load that should
                     ' set the docdata to dirty immediately after we have loaded.
@@ -549,7 +560,6 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
                 End Try
             End If
         End Sub
-
 
         ''' <summary>
         ''' Called when the document's window is activated or deactivated

@@ -1,23 +1,26 @@
-﻿// Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿// Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
-namespace Microsoft.VisualStudio.ProjectSystem.OperationProgress
+namespace Microsoft.VisualStudio.ProjectSystem.OperationProgress;
+
+internal class ProgressTrackerOutputDataSource : IProgressTrackerOutputDataSource
 {
-    internal class ProgressTrackerOutputDataSource : IProgressTrackerOutputDataSource
+    public ProgressTrackerOutputDataSource(object owner, ConfiguredProject configuredProject, string operationProgressStageId, string name, string displayMessage)
     {
-        public ProgressTrackerOutputDataSource(ConfiguredProject configuredProject, string operationProgressStageId, string name, string displayMessage)
-        {
-            ConfiguredProject = configuredProject;
-            OperationProgressStageId = operationProgressStageId;
-            Name = name;
-            DisplayMessage = displayMessage;
-        }
-
-        public ConfiguredProject ConfiguredProject { get; }
-
-        public string OperationProgressStageId { get; }
-
-        public string Name { get; }
-
-        public string DisplayMessage { get; }
+        Owner = owner;
+        ConfiguredProject = configuredProject;
+        OperationProgressStageId = operationProgressStageId;
+        Name = name;
+        DisplayMessage = displayMessage;
     }
+
+    // For inspection of dumps
+    public object Owner { get; }
+
+    public ConfiguredProject ConfiguredProject { get; }
+
+    public string OperationProgressStageId { get; }
+
+    public string Name { get; }
+
+    public string DisplayMessage { get; }
 }

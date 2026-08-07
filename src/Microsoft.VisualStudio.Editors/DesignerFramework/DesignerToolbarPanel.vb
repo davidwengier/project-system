@@ -1,4 +1,4 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Option Strict On
 Option Explicit On
@@ -47,7 +47,7 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
         Public Sub Activate(h As IntPtr)
             ' It seems that designers don't set the active secondary toolbar when activated -
             ' this should take care of that!
-            _toolbarHost.ProcessMouseActivation(h, Win32Constant.WM_SETFOCUS, 0, 0)
+            _toolbarHost.ProcessMouseActivation(h, Win32Constant.WM_SETFOCUS, CType(0, IntPtr), CType(0, IntPtr))
         End Sub
 
         ''' <summary>
@@ -130,7 +130,6 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
             End If
         End Sub
 
-
         ''' <summary>
         ''' WndProc for the DesignerToolbarPanel
         ''' </summary>
@@ -145,7 +144,7 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
                 '  back to the last child control which had it.
                 If Parent IsNot Nothing Then
                     Dim c As Control = Parent
-                    While c IsNot Nothing AndAlso Not TypeOf c Is ContainerControl
+                    While c IsNot Nothing AndAlso TypeOf c IsNot ContainerControl
                         c = c.Parent
                     End While
                     If c IsNot Nothing Then
@@ -158,7 +157,6 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
             End If
             MyBase.WndProc(m)
         End Sub
-
 
 #Region "IVsToolWindowToolbar implementation"
 

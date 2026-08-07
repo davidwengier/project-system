@@ -1,4 +1,4 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 'This is the C# version of the Compile property page.  'CompilePropPage2.vb is the VB version.
 
@@ -21,7 +21,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
 
         Protected DocumentationFile() As String
         'True when we're changing control values ourselves
-        Protected InsideInternalUpdate As Boolean = False
+        Protected InsideInternalUpdate As Boolean
 
         ' Stored conditional compilation symbols. We need these to calculate the new strings
         '   to return for the conditional compilation constants when the user changes any
@@ -54,7 +54,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
                 New ComboItem("annotations", My.Resources.Microsoft_VisualStudio_Editors_Designer.PPG_BuildSettings_Nullable_Annotations)})
         End Sub
 
-
         Public Enum TreatWarningsSetting
             WARNINGS_ALL
             WARNINGS_SPECIFIC
@@ -86,6 +85,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
                      New SingleConfigPropertyControlData(SingleConfigPropertyControlData.Configs.Release,
                         VsProjPropId80.VBPROJPROPID_GenerateSerializationAssemblies, "GenerateSerializationAssemblies", cboSGenOption, New Control() {lblSGenOption}),
                      New PropertyControlData(VsProjPropId110.VBPROJPROPID_Prefer32Bit, "Prefer32Bit", chkPrefer32Bit, AddressOf Prefer32BitSet, AddressOf Prefer32BitGet),
+                     New PropertyControlData(17311, "PreferNativeArm64", chkPreferNativeArm64, AddressOf PreferNativeArm64Set, AddressOf PreferNativeArm64Get),
                      New HiddenIfMissingPropertyControlData(1, "Nullable", cboNullable, AddressOf NullableSet, AddressOf NullableGet, ControlDataFlags.None, New Control() {lblNullable}),
                      New PropertyControlData(CSharpProjPropId.CSPROJPROPID_LanguageVersion, "LanguageVersion", Nothing, AddressOf LanguageVersionSet, Nothing, ControlDataFlags.None, Nothing)
                      }
@@ -167,6 +167,7 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             rbWarningSpecific.Enabled = rbWarningAll.Enabled
 
             RefreshEnabledStatusForPrefer32Bit(chkPrefer32Bit)
+            RefreshEnabledStatusForPreferNativeArm64(chkPreferNativeArm64)
             RefreshVisibleStatusForNullable()
         End Sub
 
@@ -265,6 +266,8 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             If Not m_fInsideInit AndAlso Not InsideInternalUpdate Then
                 ' Changes to the OutputType may affect whether Prefer32Bit is enabled
                 RefreshEnabledStatusForPrefer32Bit(chkPrefer32Bit)
+                ' Changes to the Prefer32Bit may affect whether PreferNativeArm64 is enabled
+                RefreshEnabledStatusForPreferNativeArm64(chkPreferNativeArm64)
             End If
 
             Return True
@@ -279,9 +282,9 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
                 propRegisterForCOM = GetPropertyDescriptor("RegisterForComInterop")
                 obj = TryGetNonCommonPropertyValue(propRegisterForCOM)
 
-                If Not obj Is PropertyControlData.MissingProperty Then
-                    If Not obj Is PropertyControlData.Indeterminate Then
-                        bRegisterForCOM = If(CType(obj, String) = "", False, CType(obj, Boolean))
+                If obj IsNot PropertyControlData.MissingProperty Then
+                    If obj IsNot PropertyControlData.Indeterminate Then
+                        bRegisterForCOM = CType(obj, String) IsNot "" AndAlso CType(obj, Boolean)
                     End If
 
                     chkRegisterForCOM.Checked = bRegisterForCOM
@@ -510,7 +513,24 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
 
         Private Function WarningLevelSet(control As Control, prop As PropertyDescriptor, value As Object) As Boolean
             If Not PropertyControlData.IsSpecialValue(value) Then
-                cboWarningLevel.SelectedIndex = CType(value, Integer)
+                Dim warningLevel = CType(value, Integer)
+                Dim indexAsString = warningLevel.ToString()
+                ' Lookup the index of the given warning level in the combobox
+                Dim indexLocation = If(warningLevel = 9999, GetIndexLocation(My.Resources.Strings.preview), GetIndexLocation(indexAsString))
+
+                If indexLocation <> -1 Then
+                    ' If there is an existing entry use that
+                    cboWarningLevel.SelectedIndex = indexLocation
+                ElseIf warningLevel = 9999 Then
+                    ' Otherwise add a new entry
+                    ' 9999 is a special value meaning use the preview warning level
+                    cboWarningLevel.Items.Add(My.Resources.Strings.preview)
+                    cboWarningLevel.SelectedIndex = cboWarningLevel.Items.Count - 1
+                Else
+                    ' any non - negative number can be specified but we only want to show them in the combo box if the value is set
+                    cboWarningLevel.Items.Add(indexAsString)
+                    cboWarningLevel.SelectedIndex = cboWarningLevel.Items.Count - 1
+                End If
                 Return True
             Else
                 ' Indeterminate. Let the architecture handle
@@ -519,8 +539,19 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             End If
         End Function
 
+        Private Function GetIndexLocation(indexToSearchFor As String) As Integer
+            Return cboWarningLevel.Items.Cast(Of String).ToList().FindIndex(Function(s)
+                                                                                Return s = indexToSearchFor
+                                                                            End Function)
+        End Function
+
         Private Function WarningLevelGet(control As Control, prop As PropertyDescriptor, ByRef value As Object) As Boolean
-            value = CType(cboWarningLevel.SelectedIndex, Integer)
+            Dim selectedItem = cboWarningLevel.Items.Cast(Of String).ToList()(cboWarningLevel.SelectedIndex)
+            If selectedItem = My.Resources.Strings.preview Then
+                value = 9999
+            Else
+                value = CType(selectedItem, Integer)
+            End If
             Return True
         End Function
 
@@ -698,7 +729,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             End If
         End Sub
 
-
         ''' <summary>
         ''' Fired when the conditional compilations constants textbox has changed.  We are manually handling
         '''   events associated with this control, so we need to recalculate related values
@@ -721,8 +751,19 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
                 Return
             End If
 
-            ' Changes to the PlatformTarget may affect whether Prefer32Bit is enabled
+            ' Changes to the PlatformTarget may affect whether Prefer32Bit/PreferNativeArm64 are enabled
             RefreshEnabledStatusForPrefer32Bit(chkPrefer32Bit)
+            RefreshEnabledStatusForPreferNativeArm64(chkPreferNativeArm64)
+        End Sub
+
+        Private Sub Prefer32Bit_PreferNativeArm64_CheckboxChangeCommitted(sender As Object, e As EventArgs) Handles chkPrefer32Bit.CheckedChanged, chkPreferNativeArm64.CheckedChanged
+            If m_fInsideInit OrElse InsideInternalUpdate Then
+                Return
+            End If
+
+            ' Changes to the PreferNativeArm64 may affect whether Prefer32Bit is enabled
+            RefreshEnabledStatusForPrefer32Bit(chkPrefer32Bit)
+            RefreshEnabledStatusForPreferNativeArm64(chkPreferNativeArm64)
         End Sub
 
 #Region "Special handling of the conditional compilation constants textbox and the Define DEBUG/TRACE checkboxes"
@@ -746,9 +787,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
         'Note: a minor disadvantage with the current implementation is that the property page architecture doesn't know about
         '  the virtual "DEBUG" and "TRACE" properties that we've created, so the undo/redo descriptions for changes to these
         '  properties will always just say "DefineConstants"
-
-
-
 
         ''' <summary>
         ''' Fired when the conditional compilations constants textbox has changed.  We are manually handling
@@ -785,7 +823,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             End If
         End Sub
 
-
         ''' <summary>
         ''' Fired when the "Define DEBUG Constant" check has changed.  We are manually handling
         '''   events associated with this control, so we need to recalculate related values.
@@ -821,7 +858,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             End If
         End Sub
 
-
         ''' <summary>
         ''' Fired when the "Define DEBUG Constant" check has changed.  We are manually handling
         '''   events associated with this control, so we need to recalculate related values.
@@ -844,7 +880,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
                 SetDirty(VsProjPropId.VBPROJPROPID_DefineConstants, True)
             End If
         End Sub
-
 
         ''' <summary>
         ''' Given DefineConstants string, parse it into a DEBUG value, a TRACE value, and everything else
@@ -873,7 +908,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
                 TraceDefined = False
             End If
         End Sub
-
 
         ''' <summary>
         ''' Multi-value setter for the conditional compilation constants value.  We parse the values and determine
@@ -958,7 +992,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             Return True
         End Function
 
-
         ''' <summary>
         ''' Multi-value getter for the conditional compilation constants values.
         ''' </summary>
@@ -969,7 +1002,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             CondCompSymbols.CopyTo(values, 0)
             Return True
         End Function
-
 
         ''' <summary>
         ''' Searches in the RawPropertiesObjects for a configuration object whose name matches the name passed in,
@@ -1009,7 +1041,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             Return -1
         End Function
 
-
         ''' <summary>
         ''' Returns whether or not we're in simplified config mode for this project, which means that
         '''   we hide the configuration/platform comboboxes.
@@ -1017,7 +1048,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
         Public Function IsSimplifiedConfigs() As Boolean
             Return ShellUtil.GetIsSimplifiedConfigMode(ProjectHierarchy)
         End Function
-
 
         ''' <summary>
         ''' Given a string containing conditional compilation constants, adds the given constant to it, if it
@@ -1046,7 +1076,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             If Not bFound Then
                 ' Add it to the beginning
                 Dim stNewConstants As String = stSymbol
-
 
                 If stOldCondCompConstants <> "" Then
                     stNewConstants += ";"
@@ -1081,7 +1110,6 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
             End If
             Return False
         End Function
-
 
         ''' <summary>
         ''' Given a string containing conditional compilation constants, removes the given constant from it, if it

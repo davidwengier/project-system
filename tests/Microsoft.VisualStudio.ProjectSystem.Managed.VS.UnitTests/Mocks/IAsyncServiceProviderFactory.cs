@@ -1,26 +1,23 @@
-﻿// Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿// Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
-using Moq;
 using IAsyncServiceProvider = Microsoft.VisualStudio.Shell.IAsyncServiceProvider;
 
-namespace Microsoft.VisualStudio.ProjectSystem.VS
+namespace Microsoft.VisualStudio.ProjectSystem.VS;
+
+internal static class IAsyncServiceProviderFactory
 {
-    internal static class IAsyncServiceProviderFactory
+    public static IAsyncServiceProvider Create()
     {
-        public static IAsyncServiceProvider Create()
-        {
-            return Mock.Of<IAsyncServiceProvider>();
-        }
+        return Mock.Of<IAsyncServiceProvider>();
+    }
 
-        public static IAsyncServiceProvider ImplementGetServiceAsync(Func<Type, object?> action)
-        {
-            var mock = new Mock<IAsyncServiceProvider>();
+    public static IAsyncServiceProvider ImplementGetServiceAsync(Func<Type, object?> action)
+    {
+        var mock = new Mock<IAsyncServiceProvider>();
 
-            mock.Setup(s => s.GetServiceAsync(It.IsAny<Type>()))
-                             .ReturnsAsync(action);
+        mock.Setup(s => s.GetServiceAsync(It.IsAny<Type>()))
+                         .ReturnsAsync(action);
 
-            return mock.Object;
-        }
+        return mock.Object;
     }
 }

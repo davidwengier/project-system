@@ -1,6 +1,7 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Imports System.ComponentModel.Design
+Imports System.IO
 Imports System.Runtime.InteropServices
 
 Imports Microsoft.VisualStudio.Editors.OptionPages
@@ -11,7 +12,6 @@ Imports Microsoft.VisualStudio.XmlEditor
 <Assembly: Guid("832BFEE6-9036-423E-B90A-EA4C582DA1D2")>
 
 Namespace Microsoft.VisualStudio.Editors
-
 
     '*
     '* This is the Visual Studio package for the Microsoft.VisualStudio.Editors assembly.  It will be CoCreated by
@@ -37,9 +37,12 @@ Namespace Microsoft.VisualStudio.Editors
     ProvideEditorFactory(GetType(ApplicationDesigner.ApplicationDesignerEditorFactory), 1300, True, TrustLevel:=__VSEDITORTRUSTLEVEL.ETL_AlwaysTrusted),
     ProvideEditorFactory(GetType(SettingsDesigner.SettingsDesignerEditorFactory), 1200, True, TrustLevel:=__VSEDITORTRUSTLEVEL.ETL_AlwaysTrusted, CommonPhysicalViewAttributes:=3),
     ProvideEditorFactory(GetType(PropPageDesigner.PropPageDesignerEditorFactory), 1400, False, TrustLevel:=__VSEDITORTRUSTLEVEL.ETL_AlwaysTrusted),
-    ProvideEditorFactory(GetType(ResourceEditor.ResourceEditorFactory), 1100, True, TrustLevel:=__VSEDITORTRUSTLEVEL.ETL_AlwaysTrusted, CommonPhysicalViewAttributes:=3),
+    ProvideService(GetType(AddImports.IVBAddImportsDialogService), ServiceName:="Add Imports Dialog Service"),
+    ProvideService(GetType(XmlIntellisense.IXmlIntellisenseService), ServiceName:="Vb Xml Intellisense Service"),
+    ProvideService(GetType(VBAttributeEditor.Interop.IVbPermissionSetService), ServiceName:="Vb Permission Set Service"),
+    ProvideService(GetType(Interop.IVsBuildEventCommandLineDialogService), ServiceName:="Vb Build Event Command Line Dialog Service"),
+    ProvideService(GetType(VBRefChangedSvc.Interop.IVbReferenceChangedService), ServiceName:="VB Project Reference Changed Service"),
     ProvideKeyBindingTable(Constants.MenuConstants.GUID_SETTINGSDESIGNER_CommandUIString, 1200, AllowNavKeyBinding:=False),
-    ProvideKeyBindingTable(Constants.MenuConstants.GUID_RESXEditorCommandUIString, 1100, AllowNavKeyBinding:=False),
     CLSCompliant(False)
     >
     Friend Class VBPackage
@@ -50,7 +53,6 @@ Namespace Microsoft.VisualStudio.Editors
         Private _xmlIntellisenseService As XmlIntellisense.XmlIntellisenseService
         Private _buildEventCommandLineDialogService As PropertyPages.BuildEventCommandLineDialogService
         Private _vbReferenceChangedService As VBRefChangedSvc.VBReferenceChangedService
-        Private _resourceEditorRefactorNotify As ResourceEditor.ResourceEditorRefactorNotify
         Private _userConfigCleaner As UserConfigCleaner
         Private _addImportsDialogService As AddImports.AddImportsDialogService
 
@@ -88,13 +90,8 @@ Namespace Microsoft.VisualStudio.Editors
                 Throw
             End Try
             Try
-                RegisterEditorFactory(New ResourceEditor.ResourceEditorFactory)
-            Catch ex As Exception When Common.ReportWithoutCrash(ex, "Exception registering resource editor factory", NameOf(VBPackage))
-                Throw
-            End Try
-            Try
                 RegisterEditorFactory(New ApplicationDesigner.ApplicationDesignerEditorFactory)
-            Catch ex As Exception When Common.ReportWithoutCrash(ex, "Exception registering application resource editor factory", NameOf(VBPackage))
+            Catch ex As Exception When Common.ReportWithoutCrash(ex, "Exception registering application designer editor factory", NameOf(VBPackage))
                 Throw
             End Try
             Try
@@ -117,9 +114,6 @@ Namespace Microsoft.VisualStudio.Editors
 
             ' Expose IVsBuildEventCommandLineDialogService
             ServiceContainer.AddService(GetType(Interop.IVsBuildEventCommandLineDialogService), CallBack, True)
-
-            ' Expose IVsRefactorNotify through the ResourceEditorFactory
-            ServiceContainer.AddService(GetType(ResourceEditor.ResourceEditorRefactorNotify), CallBack, True)
 
             'Expose Add Imports Dialog Service
             ServiceContainer.AddService(GetType(AddImports.IVBAddImportsDialogService), CallBack, True)
@@ -167,15 +161,6 @@ Namespace Microsoft.VisualStudio.Editors
 
                 ' Return cached BuildEventCommandLineDialogService
                 Return _buildEventCommandLineDialogService
-            End If
-
-            If serviceType Is GetType(ResourceEditor.ResourceEditorRefactorNotify) Then
-                If _resourceEditorRefactorNotify Is Nothing Then
-                    _resourceEditorRefactorNotify = New ResourceEditor.ResourceEditorRefactorNotify()
-                End If
-
-                ' return cached refactor-notify implementer
-                Return _resourceEditorRefactorNotify
             End If
 
             If serviceType Is GetType(AddImports.IVBAddImportsDialogService) Then
@@ -255,9 +240,9 @@ Namespace Microsoft.VisualStudio.Editors
         ''' </summary>
         ''' <param name="key">Added in the constructor using AddOptionKey </param>
         ''' <param name="stream">Stream to read from</param>
-        Protected Overrides Sub OnLoadOptions(key As String, stream As IO.Stream)
+        Protected Overrides Sub OnLoadOptions(key As String, stream As Stream)
             If String.Equals(key, ProjectDesignerSUOKey, StringComparison.Ordinal) Then
-                Dim reader As New IO.BinaryReader(stream)
+                Dim reader As New BinaryReader(stream)
                 Dim buf(15) As Byte ' Space enough for a GUID - 16 bytes...
                 Try
                     While reader.Read(buf, 0, buf.Length) = buf.Length
@@ -281,7 +266,7 @@ Namespace Microsoft.VisualStudio.Editors
         ''' </summary>
         ''' <param name="key">Added in the constructor using AddOptionKey</param>
         ''' <param name="stream">Stream to read data from</param>
-        Protected Overrides Sub OnSaveOptions(key As String, stream As IO.Stream)
+        Protected Overrides Sub OnSaveOptions(key As String, stream As Stream)
             If String.Equals(key, ProjectDesignerSUOKey, StringComparison.Ordinal) Then
                 ' This is the project designer's last active tab
                 If _lastViewedProjectDesignerTab IsNot Nothing Then
@@ -461,8 +446,6 @@ Namespace Microsoft.VisualStudio.Editors
                 Return Interop.NativeMethods.S_OK
             End Function
 
-
-
 #Region "IVsSolutionEvents methods that simply return S_OK"
 
             Public Function OnAfterLoadProject(pStubHierarchy As IVsHierarchy, pRealHierarchy As IVsHierarchy) As Integer Implements IVsSolutionEvents.OnAfterLoadProject
@@ -500,7 +483,7 @@ Namespace Microsoft.VisualStudio.Editors
             End Function
 #End Region
 
-            Private _disposed As Boolean = False
+            Private _disposed As Boolean
 
             ' IDisposable
             Private Overloads Sub Dispose(disposing As Boolean)

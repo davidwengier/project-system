@@ -1,71 +1,60 @@
-﻿// Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿// Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
-using System.Threading.Tasks;
 using Microsoft.VisualStudio.Threading;
-using Task = System.Threading.Tasks.Task;
 
-namespace Microsoft.VisualStudio.ProjectSystem
+namespace Microsoft.VisualStudio.ProjectSystem;
+
+internal partial class IProjectThreadingServiceFactory
 {
-    internal partial class IProjectThreadingServiceFactory
+    private class ProjectThreadingService(bool verifyOnUIThread = true) : IProjectThreadingService
     {
-        private class ProjectThreadingService : IProjectThreadingService
+        public JoinableTaskContextNode JoinableTaskContext { get; } = new JoinableTaskContextNode(new JoinableTaskContext());
+
+        public JoinableTaskFactory JoinableTaskFactory => JoinableTaskContext.Factory;
+
+        public bool IsOnMainThread => !verifyOnUIThread || JoinableTaskContext.IsOnMainThread;
+
+        public void ExecuteSynchronously(Func<Task> asyncAction)
         {
-            private readonly bool _verifyOnUIThread;
+            JoinableTaskFactory.Run(asyncAction);
+        }
 
-            public ProjectThreadingService(bool verifyOnUIThread = true) => _verifyOnUIThread = verifyOnUIThread;
+        public T ExecuteSynchronously<T>(Func<Task<T>> asyncAction)
+        {
+            return JoinableTaskFactory.Run(asyncAction);
+        }
 
-            public JoinableTaskContextNode JoinableTaskContext { get; } = new JoinableTaskContextNode(new JoinableTaskContext());
-
-            public JoinableTaskFactory JoinableTaskFactory
+        public void VerifyOnUIThread()
+        {
+            if (verifyOnUIThread && !IsOnMainThread)
             {
-                get { return JoinableTaskContext.Factory; }
+                throw new InvalidOperationException();
             }
+        }
 
-            public bool IsOnMainThread
+        public IDisposable SuppressProjectExecutionContext()
+        {
+            return DisposableObject.Instance;
+        }
+
+        public void Fork(
+            Func<Task> asyncAction,
+            JoinableTaskFactory? factory = null,
+            UnconfiguredProject? project = null,
+            ConfiguredProject? configuredProject = null,
+            ErrorReportSettings? watsonReportSettings = null,
+            ProjectFaultSeverity faultSeverity = ProjectFaultSeverity.Recoverable,
+            ForkOptions options = ForkOptions.Default)
+        {
+            JoinableTaskFactory.Run(asyncAction);
+        }
+
+        private class DisposableObject : IDisposable
+        {
+            public static IDisposable Instance { get; } = new DisposableObject();
+
+            public void Dispose()
             {
-                get
-                {
-                    if (!_verifyOnUIThread)
-                        return true;
-
-                    return JoinableTaskContext.IsOnMainThread;
-                }
-            }
-
-            public void ExecuteSynchronously(Func<Task> asyncAction)
-            {
-                JoinableTaskFactory.Run(asyncAction);
-            }
-
-            public T ExecuteSynchronously<T>(Func<Task<T>> asyncAction)
-            {
-                return JoinableTaskFactory.Run(asyncAction);
-            }
-
-            public void VerifyOnUIThread()
-            {
-                if (!_verifyOnUIThread)
-                    return;
-
-                if (!IsOnMainThread)
-                    throw new InvalidOperationException();
-            }
-
-            public IDisposable SuppressProjectExecutionContext()
-            {
-                throw new NotImplementedException();
-            }
-
-            public void Fork(Func<Task> asyncAction,
-                      JoinableTaskFactory? factory = null,
-                      UnconfiguredProject? project = null,
-                      ConfiguredProject? configuredProject = null,
-                      ErrorReportSettings? watsonReportSettings = null,
-                      ProjectFaultSeverity faultSeverity = ProjectFaultSeverity.Recoverable,
-                      ForkOptions options = ForkOptions.Default)
-            {
-                JoinableTaskFactory.Run(asyncAction);
             }
         }
     }

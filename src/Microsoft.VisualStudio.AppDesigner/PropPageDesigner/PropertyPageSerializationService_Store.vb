@@ -1,11 +1,10 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Imports System.ComponentModel
 Imports System.ComponentModel.Design
 Imports System.IO
 Imports System.Runtime.Serialization
-Imports System.Runtime.Serialization.Formatters.Binary
-
+Imports Microsoft.VisualStudio.Editors.AppDesCommon
 
 Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
 
@@ -97,7 +96,6 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
                 End If
             End Sub
 
-
 #Region "ISerialization implementation"
 
             'Serialization keys for ISerializable
@@ -113,7 +111,6 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
                 info.AddValue(KEY_STATE, _serializedState)
             End Sub
 
-
             ''' <summary>
             ''' Constructor used to deserialize ourselves from binary serialization.
             '''   Only needed if you're using the store for copy/paste implementation.
@@ -126,7 +123,6 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
 
 #End Region
 
-
 #Region "Load/Save the store from/to a stream"
 
             ''' <summary>
@@ -134,8 +130,7 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
             ''' </summary>
             ''' <param name="Stream">The stream to load from</param>
             Public Shared Function Load(Stream As Stream) As PropertyPageSerializationStore
-                Dim f As New BinaryFormatter
-                Return DirectCast(f.Deserialize(Stream), PropertyPageSerializationStore)
+                Return DirectCast(ObjectSerializer.Deserialize(Stream), PropertyPageSerializationStore)
             End Function
 
             ''' <summary>
@@ -147,13 +142,10 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
             ''' <param name="stream">The stream to save to</param>
             Public Overrides Sub Save(Stream As Stream)
                 Close()
-
-                Dim f As New BinaryFormatter
-                f.Serialize(Stream, Me)
+                ObjectSerializer.Serialize(Stream, Me)
             End Sub
 
 #End Region
-
 
 #Region "Add properties to be serialized at Close"
 
@@ -172,7 +164,6 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
                     .IsEntireObject = True
                 End With
             End Sub
-
 
             ''' <summary>
             ''' Adds a new property serialization to our list of things to serialize.
@@ -195,7 +186,6 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
                 End With
             End Sub
 
-
             ''' <summary>
             ''' Gets the current data for the given component that is contained in
             '''   m_HashedObjectsToSerialize.  Or, if there isn't one already, creates a
@@ -216,9 +206,7 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
 
 #End Region
 
-
 #Region "Deserialization of the saved components/properties (used at Undo/Redo time)"
-
 
             ''' <summary>
             ''' Deserializes the saved bits.
@@ -238,7 +226,6 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
                 DeserializeHelper(Container)
             End Sub
 
-
             ''' <summary>
             ''' Deserializes the saved bits.
             '''     This method deserializes the store to produce a collection of 
@@ -249,7 +236,6 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
             Public Function Deserialize() As ICollection
                 Return DeserializeHelper(Nothing)
             End Function
-
 
             ''' <summary>
             ''' Deserializes the saved bits.
@@ -262,7 +248,6 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
             Public Function Deserialize(Container As IContainer) As ICollection
                 Return DeserializeHelper(Container)
             End Function
-
 
             ''' <summary>
             ''' This method does the actual deserialization work, based on the given
@@ -345,8 +330,6 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
 
 #End Region
 
-
-
 #Region "Private class - DataToSerialize"
 
             ''' <summary>
@@ -361,8 +344,6 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
                 Private _propertiesToSerialize As ArrayList 'Of PropertyDescriptor
                 Private ReadOnly _component As PropPageDesignerRootComponent
 
-
-
                 ''' <summary>
                 ''' Constructor
                 ''' </summary>
@@ -375,8 +356,6 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
                     _component = Component
                 End Sub
 
-
-
                 ''' <summary>
                 ''' The component from which we want to serialize stuff.
                 ''' </summary>
@@ -385,7 +364,6 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
                         Return _component
                     End Get
                 End Property
-
 
                 ''' <summary>
                 ''' If True, the entire Component instance should be serialized.  If false,
@@ -404,7 +382,6 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
                     End Set
                 End Property
 
-
                 ''' <summary>
                 ''' A list of PropertyDescriptors representing the properties on
                 '''   the Component which should be serialized.
@@ -418,13 +395,12 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
                     End Get
                 End Property
 
-
                 ''' <summary>
                 ''' Adds a property to be serialized to the list.
                 ''' </summary>
                 ''' <param name="Member">The property (must be a PropertyDescriptor) to be serialized.</param>
                 Public Sub AddPropertyToSerialize(Member As MemberDescriptor)
-                    Requires.NotNull(Member, NameOf(Member))
+                    Requires.NotNull(Member)
 
                     If TypeOf Member Is PropertyDescriptor Then
                         Dim Prop As PropertyDescriptor = DirectCast(Member, PropertyDescriptor)
@@ -437,7 +413,6 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
             End Class 'DataToSerialize
 
 #End Region
-
 
 #Region "Private class - SerializedProperty"
 
@@ -455,8 +430,6 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
 
                 'The serialized property (if m_PropertyName <> "") or Component instance
                 Private ReadOnly _serializedValue As Byte()
-
-
 
                 ''' <summary>
                 ''' Constructor used for serializing just one property from a Component
@@ -481,7 +454,6 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
                     End If
                 End Sub
 
-
                 ''' <summary>
                 ''' Constructor used for serializing an entire Component
                 ''' </summary>
@@ -497,7 +469,6 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
                     _serializedValue = SerializeObject(ComponentAsEntireObject)
                 End Sub
 
-
                 ''' <summary>
                 ''' Gets the name of the component from which this was serialized.
                 ''' </summary>
@@ -506,7 +477,6 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
                         Return _componentName
                     End Get
                 End Property
-
 
                 ''' <summary>
                 ''' Gets the name of the property which was serialized (or Nothing if
@@ -518,7 +488,6 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
                     End Get
                 End Property
 
-
                 ''' <summary>
                 ''' Returns True iff an entire Component object has been serialized, as opposed
                 '''   to just a property from it.
@@ -529,7 +498,6 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
                     End Get
                 End Property
 
-
                 ''' <summary>
                 ''' Serializes an object
                 ''' </summary>
@@ -537,10 +505,9 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
                 ''' <returns>The binary serialized object.</returns>
                 Private Shared Function SerializeObject([Object] As Object) As Byte()
                     Dim MemoryStream As New MemoryStream
-                    Call (New BinaryFormatter).Serialize(MemoryStream, [Object])
+                    ObjectSerializer.Serialize(MemoryStream, [Object])
                     Return MemoryStream.ToArray()
                 End Function
-
 
                 ''' <summary>
                 ''' Deserializes an entire Component instance which has been serialized.
@@ -552,9 +519,8 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
                     End If
 
                     Dim MemoryStream As New MemoryStream(_serializedValue)
-                    Return DirectCast((New BinaryFormatter).Deserialize(MemoryStream), PropPageDesignerRootComponent)
+                    Return DirectCast(ObjectSerializer.Deserialize(MemoryStream), PropPageDesignerRootComponent)
                 End Function
-
 
                 ''' <summary>
                 ''' Deserializes a property value which has been serialized.
@@ -570,7 +536,7 @@ Namespace Microsoft.VisualStudio.Editors.PropPageDesigner
                     End If
 
                     Dim MemoryStream As New MemoryStream(_serializedValue)
-                    Return (New BinaryFormatter).Deserialize(MemoryStream)
+                    Return ObjectSerializer.Deserialize(MemoryStream)
                 End Function
 
             End Class 'SerializedProperty

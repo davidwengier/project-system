@@ -1,24 +1,20 @@
-﻿// Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿// Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
-using Moq;
+namespace Microsoft.VisualStudio.ProjectSystem.Properties;
 
-namespace Microsoft.VisualStudio.ProjectSystem.Properties
+internal static class IVsProjectDesignerPageServiceFactory
 {
-    internal static class IVsProjectDesignerPageServiceFactory
+    public static IVsProjectDesignerPageService Create()
     {
-        public static IVsProjectDesignerPageService Create()
-        {
-            return Mock.Of<IVsProjectDesignerPageService>();
-        }
+        return Mock.Of<IVsProjectDesignerPageService>();
+    }
 
-        public static IVsProjectDesignerPageService ImplementIsProjectDesignerSupported(Func<bool> action)
-        {
-            var mock = new Mock<IVsProjectDesignerPageService>();
-            mock.SetupGet(s => s.IsProjectDesignerSupported)
-                .Returns(action);
+    public static IVsProjectDesignerPageService ImplementIsProjectDesignerSupported(Func<bool> action)
+    {
+        var mock = new Mock<IVsProjectDesignerPageService>();
+        mock.SetupGet(s => s.IsProjectDesignerSupported)
+            .Returns(action);
 
-            return mock.Object;
-        }
+        return mock.Object;
     }
 }

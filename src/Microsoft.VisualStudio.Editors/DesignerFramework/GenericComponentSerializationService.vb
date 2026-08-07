@@ -1,4 +1,4 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Imports System.ComponentModel
 Imports System.ComponentModel.Design.Serialization
@@ -6,10 +6,8 @@ Imports System.IO
 
 Namespace Microsoft.VisualStudio.Editors.DesignerFramework
 
-
     Friend Class GenericComponentSerializationService
         Inherits ComponentSerializationService
-
 
         Private _serviceProvider As IServiceProvider
 
@@ -33,7 +31,6 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
             Return New GenericComponentSerializationStore
         End Function
 
-
         ''' <summary>
         ''' This method loads a SerializationStore and from the given
         '''   stream.  This store can then be used to deserialize objects by passing it to 
@@ -42,11 +39,10 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
         ''' <param name="Stream">The stream to load from.</param>
         ''' <returns>The loaded store for objects.</returns>
         Public Overrides Function LoadStore(Stream As Stream) As SerializationStore
-            Requires.NotNull(Stream, NameOf(Stream))
+            Requires.NotNull(Stream)
 
             Return GenericComponentSerializationStore.Load(Stream)
         End Function
-
 
         ''' <summary>
         ''' This method serializes the given object to the store.  The store 
@@ -56,8 +52,8 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
         ''' <param name="Store">The store to serialize into.</param>
         ''' <param name="Value">The object to serialize into the store.</param>
         Public Overrides Sub Serialize(Store As SerializationStore, Value As Object)
-            Requires.NotNull(Store, NameOf(Store))
-            Requires.NotNull(Value, NameOf(Value))
+            Requires.NotNull(Store)
+            Requires.NotNull(Value)
 
             Dim RFStore As GenericComponentSerializationStore = TryCast(Store, GenericComponentSerializationStore)
             If RFStore Is Nothing Then
@@ -70,7 +66,6 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
         Public Overrides Sub SerializeAbsolute(store As SerializationStore, value As Object)
             Serialize(store, value)
         End Sub
-
 
         ''' <summary>
         ''' This method serializes the given member on the given object.  This method 
@@ -87,22 +82,21 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
         '''   *want* to serialize it.  It will actually get serialized when the store is closed.
         ''' </remarks>
         Public Overrides Sub SerializeMember(Store As SerializationStore, OwningObject As Object, Member As MemberDescriptor)
-            Requires.NotNull(Store, NameOf(Store))
-            Requires.NotNull(OwningObject, NameOf(OwningObject))
-            Requires.NotNull(Member, NameOf(Member))
+            Requires.NotNull(Store)
+            Requires.NotNull(OwningObject)
+            Requires.NotNull(Member)
 
             Dim RFStore As GenericComponentSerializationStore = TryCast(Store, GenericComponentSerializationStore)
             If RFStore Is Nothing Then
                 Throw Common.CreateArgumentException(NameOf(Store))
             End If
 
-            If Not TypeOf Member Is PropertyDescriptor Then
+            If TypeOf Member IsNot PropertyDescriptor Then
                 Throw Common.CreateArgumentException(NameOf(Member))
             End If
 
             RFStore.AddMember(OwningObject, DirectCast(Member, PropertyDescriptor))
         End Sub
-
 
         ''' <summary>
         ''' This method serializes the given member on the given object, 
@@ -122,7 +116,6 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
             SerializeMember(Store, OwningObject, Member)
         End Sub
 
-
         ''' <summary>
         '''     This method deserializes the given store to produce a collection of 
         '''     objects contained within it.  If a container is provided, objects 
@@ -131,7 +124,7 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
         ''' <param name="Store">The store to serialize into.</param>
         ''' <returns>The set of components that were deserialized.</returns>
         Public Overrides Function Deserialize(Store As SerializationStore) As ICollection
-            Requires.NotNull(Store, NameOf(Store))
+            Requires.NotNull(Store)
 
             Dim RFStore As GenericComponentSerializationStore = TryCast(Store, GenericComponentSerializationStore)
             If RFStore Is Nothing Then
@@ -140,7 +133,6 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
 
             Return RFStore.Deserialize()
         End Function
-
 
         ''' <summary>
         '''     This method deserializes the given store to produce a collection of 
@@ -151,8 +143,8 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
         ''' <param name="Container">The container to add deserialized objects to (or Nothing if none)</param>
         ''' <returns>The list of objects that were deserialized.</returns>
         Public Overrides Function Deserialize(Store As SerializationStore, Container As IContainer) As ICollection
-            Requires.NotNull(Store, NameOf(Store))
-            Requires.NotNull(Container, NameOf(Container))
+            Requires.NotNull(Store)
+            Requires.NotNull(Container)
 
             Dim RFStore As GenericComponentSerializationStore = TryCast(Store, GenericComponentSerializationStore)
             If RFStore Is Nothing Then
@@ -161,7 +153,6 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
 
             Return RFStore.Deserialize(Container)
         End Function
-
 
         ''' <summary>
         '''     This method deserializes the given store, but rather than produce 
@@ -178,8 +169,8 @@ Namespace Microsoft.VisualStudio.Editors.DesignerFramework
         ''' <param name="Store">The store to serialize into.</param>
         ''' <param name="Container">The container to add deserialized objects to (or Nothing if none)</param>
         Public Overrides Sub DeserializeTo(Store As SerializationStore, Container As IContainer, ValidateRecycledTypes As Boolean, applyDefaults As Boolean)
-            Requires.NotNull(Store, NameOf(Store))
-            Requires.NotNull(Container, NameOf(Container))
+            Requires.NotNull(Store)
+            Requires.NotNull(Container)
 
             Dim RFStore As GenericComponentSerializationStore = TryCast(Store, GenericComponentSerializationStore)
             If RFStore Is Nothing Then

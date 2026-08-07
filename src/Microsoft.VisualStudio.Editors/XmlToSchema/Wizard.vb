@@ -1,4 +1,4 @@
-﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 Option Infer On
 Imports System.IO
@@ -25,7 +25,6 @@ Namespace Microsoft.VisualStudio.Editors.XmlToSchema
         Public Sub RunFinished() Implements IWizard.RunFinished
         End Sub
 
-        <System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")>
         Public Sub RunStarted(automationObject As Object,
                               replacementsDictionary As Dictionary(Of String, String),
                               runKind As WizardRunKind,

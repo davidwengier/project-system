@@ -1,89 +1,101 @@
-﻿// Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿// Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System.ComponentModel.Composition;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.VisualStudio.ProjectSystem.Utilities;
+using Microsoft.Internal.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Settings;
-using Microsoft.VisualStudio.Threading;
 
-namespace Microsoft.VisualStudio.ProjectSystem.VS
+namespace Microsoft.VisualStudio.ProjectSystem.VS;
+
+[Export(typeof(IProjectSystemOptions))]
+internal class ProjectSystemOptions : IProjectSystemOptions
 {
-    [Export(typeof(IProjectSystemOptions))]
-    internal class ProjectSystemOptions : IProjectSystemOptions
+    private const string FastUpToDateEnabledSettingKey = @"ManagedProjectSystem\FastUpToDateCheckEnabled";
+    private const string FastUpToDateLogLevelSettingKey = @"ManagedProjectSystem\FastUpToDateLogLevel";
+    private const string UseDesignerByDefaultSettingKey = @"ManagedProjectSystem\UseDesignerByDefault";
+    private const string PreferSingleTargetBuildsForStartupProjects = @"ManagedProjectSystem\PreferSingleTargetBuilds";
+
+    // This setting exists as an option in Roslyn repo: 'FeatureOnOffOptions.SkipAnalyzersForImplicitlyTriggeredBuilds'.
+    // Do not change this setting key unless the Roslyn option name is changed.
+    internal const string SkipAnalyzersForImplicitlyTriggeredBuildSettingKey = "TextEditor.SkipAnalyzersForImplicitlyTriggeredBuilds";
+
+    private readonly IVsService<ISettingsManager> _settingsManager;
+    private readonly IVsService<SVsFeatureFlags, IVsFeatureFlags> _featureFlagsService;
+
+    [ImportingConstructor]
+    public ProjectSystemOptions(
+        IVsService<SVsSettingsPersistenceManager, ISettingsManager> settingsManager,
+        IVsService<SVsFeatureFlags, IVsFeatureFlags> featureFlagsService,
+        IProjectThreadingService threadingService)
     {
-        private const string FastUpToDateEnabledSettingKey = @"ManagedProjectSystem\FastUpToDateCheckEnabled";
-        private const string FastUpToDateLogLevelSettingKey = @"ManagedProjectSystem\FastUpToDateLogLevel";
-        private const string UseDesignerByDefaultSettingKey = @"ManagedProjectSystem\UseDesignerByDefault";
+        _settingsManager = settingsManager;
+        _featureFlagsService = featureFlagsService;
+    }
 
-        private readonly IEnvironmentHelper _environment;
-        private readonly IVsUIService<ISettingsManager> _settingsManager;
-        private readonly JoinableTaskContext _joinableTaskContext;
-        private bool? _isProjectOutputPaneEnabled;
+    public Task<bool> GetIsFastUpToDateCheckEnabledAsync(CancellationToken cancellationToken)
+    {
+        return GetSettingValueOrDefaultAsync(FastUpToDateEnabledSettingKey, defaultValue: true, cancellationToken);
+    }
 
-        [ImportingConstructor]
-        public ProjectSystemOptions(IEnvironmentHelper environment, IVsUIService<SVsSettingsPersistenceManager, ISettingsManager> settingsManager, JoinableTaskContext joinableTaskContext)
-        {
-            _environment = environment;
-            _settingsManager = settingsManager;
-            _joinableTaskContext = joinableTaskContext;
-        }
+    public Task<LogLevel> GetFastUpToDateLoggingLevelAsync(CancellationToken cancellationToken)
+    {
+        return GetSettingValueOrDefaultAsync(FastUpToDateLogLevelSettingKey, defaultValue: LogLevel.None, cancellationToken);
+    }
 
-        public bool IsProjectOutputPaneEnabled
-        {
-            get { return IsEnvironmentVariableEnabled("PROJECTSYSTEM_PROJECTOUTPUTPANEENABLED", ref _isProjectOutputPaneEnabled); }
-        }
+    public Task<bool> GetUseDesignerByDefaultAsync(string designerCategory, bool defaultValue, CancellationToken cancellationToken)
+    {
+        return GetSettingValueOrDefaultAsync(UseDesignerByDefaultSettingKey + "\\" + designerCategory, defaultValue, cancellationToken);
+    }
 
-        public Task<bool> GetIsFastUpToDateCheckEnabledAsync(CancellationToken cancellationToken = default)
-        {
-            return GetSettingValueOrDefault(FastUpToDateEnabledSettingKey, true, cancellationToken);
-        }
+    public Task SetUseDesignerByDefaultAsync(string designerCategory, bool value, CancellationToken cancellationToken)
+    {
+        return SetSettingValueAsync(UseDesignerByDefaultSettingKey + "\\" + designerCategory, value, cancellationToken);
+    }
 
-        public Task<LogLevel> GetFastUpToDateLoggingLevelAsync(CancellationToken cancellationToken = default)
-        {
-            return GetSettingValueOrDefault(FastUpToDateLogLevelSettingKey, LogLevel.None, cancellationToken);
-        }
+    public Task<bool> GetSkipAnalyzersForImplicitlyTriggeredBuildAsync(CancellationToken cancellationToken)
+    {
+        return GetSettingValueOrDefaultAsync(SkipAnalyzersForImplicitlyTriggeredBuildSettingKey, defaultValue: true, cancellationToken);
+    }
 
-        public Task<bool> GetUseDesignerByDefaultAsync(string designerCategory, bool defaultValue, CancellationToken cancellationToken = default)
-        {
-            return GetSettingValueOrDefault(UseDesignerByDefaultSettingKey + "\\" + designerCategory, defaultValue, cancellationToken);
-        }
+    public Task<bool> GetPreferSingleTargetBuildsForStartupProjectsAsync(CancellationToken cancellationToken)
+    {
+        return GetSettingValueOrDefaultAsync(PreferSingleTargetBuildsForStartupProjects, defaultValue: true, cancellationToken);
+    }
 
-        public Task SetUseDesignerByDefaultAsync(string designerCategory, bool value, CancellationToken cancellationToken = default)
-        {
-            return SetSettingValueAsync(UseDesignerByDefaultSettingKey + "\\" + designerCategory, value, cancellationToken);
-        }
+    private async Task<T> GetSettingValueOrDefaultAsync<T>(string name, T defaultValue, CancellationToken cancellationToken)
+    {
+        ISettingsManager settingsManager = await _settingsManager.GetValueAsync(cancellationToken);
 
-        private async Task<T> GetSettingValueOrDefault<T>(string name, T defaultValue, CancellationToken cancellationToken)
-        {
-            await _joinableTaskContext.Factory.SwitchToMainThreadAsync(cancellationToken);
+        return settingsManager.GetValueOrDefault(name, defaultValue);
+    }
 
-            ISettingsManager? settingsManager = _settingsManager.Value;
-            Assumes.Present(settingsManager);
+    private async Task SetSettingValueAsync(string name, object value, CancellationToken cancellationToken)
+    {
+        ISettingsManager settingsManager = await _settingsManager.GetValueAsync(cancellationToken);
 
-            return settingsManager.GetValueOrDefault(name, defaultValue);
-        }
+        await settingsManager.SetValueAsync(name, value, isMachineLocal: false);
+    }
 
-        private async Task SetSettingValueAsync(string name, object value, CancellationToken cancellationToken)
-        {
-            await _joinableTaskContext.Factory.SwitchToMainThreadAsync(cancellationToken);
+    public ValueTask<bool> IsIncrementalBuildFailureOutputLoggingEnabledAsync(CancellationToken cancellationToken)
+    {
+        return IsFlagEnabledAsync(FeatureFlagNames.EnableIncrementalBuildFailureOutputLogging, defaultValue: false, cancellationToken);
+    }
 
-            ISettingsManager? settingsManager = _settingsManager.Value;
-            Assumes.Present(settingsManager);
+    public ValueTask<bool> IsIncrementalBuildFailureTelemetryEnabledAsync(CancellationToken cancellationToken)
+    {
+        return IsFlagEnabledAsync(FeatureFlagNames.EnableIncrementalBuildFailureTelemetry, defaultValue: false, cancellationToken);
+    }
 
-            await settingsManager.SetValueAsync(name, value, isMachineLocal: false);
-        }
+    public ValueTask<bool> IsBuildAccelerationEnabledByDefaultAsync(CancellationToken cancellationToken)
+    {
+        return IsFlagEnabledAsync(FeatureFlagNames.EnableBuildAccelerationByDefault, defaultValue: false, cancellationToken);
+    }
 
-        private bool IsEnvironmentVariableEnabled(string variable, ref bool? result)
-        {
-            if (result == null)
-            {
-                string value = _environment.GetEnvironmentVariable(variable);
+    public ValueTask<bool> IsCorDebugWebAssemblyDebuggerEnabledAsync(CancellationToken cancellationToken)
+        => IsFlagEnabledAsync(FeatureFlagNames.EnableCorDebugWebAssemblyDebugger, defaultValue: false, cancellationToken);
 
-                result = string.Equals(value, "1", StringComparisons.EnvironmentVariables);
-            }
+    private async ValueTask<bool> IsFlagEnabledAsync(string featureName, bool defaultValue, CancellationToken cancellationToken)
+    {
+        IVsFeatureFlags featureFlags = await _featureFlagsService.GetValueAsync(cancellationToken);
 
-            return result.Value;
-        }
+        return featureFlags.IsFeatureEnabled(featureName, defaultValue);
     }
 }

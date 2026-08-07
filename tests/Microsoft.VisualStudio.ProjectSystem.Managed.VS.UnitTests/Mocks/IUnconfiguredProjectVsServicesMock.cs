@@ -1,42 +1,40 @@
-﻿// Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿// Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using Microsoft.VisualStudio.Shell.Interop;
-using Moq;
 
-namespace Microsoft.VisualStudio.ProjectSystem.VS
+namespace Microsoft.VisualStudio.ProjectSystem.VS;
+
+internal class IUnconfiguredProjectVsServicesMock : AbstractMock<IUnconfiguredProjectVsServices>
 {
-    internal class IUnconfiguredProjectVsServicesMock : AbstractMock<IUnconfiguredProjectVsServices>
+    public IUnconfiguredProjectVsServicesMock ImplementVsHierarchy(IVsHierarchy? hierarchy)
     {
-        public IUnconfiguredProjectVsServicesMock ImplementVsHierarchy(IVsHierarchy? hierarchy)
-        {
-            SetupGet<IVsHierarchy?>(m => m.VsHierarchy)
-                .Returns(hierarchy);
+        SetupGet<IVsHierarchy?>(m => m.VsHierarchy)
+            .Returns(hierarchy);
 
-            return this;
-        }
+        return this;
+    }
 
-        public IUnconfiguredProjectVsServicesMock ImplementVsProject(IVsProject4 project)
-        {
-            SetupGet(m => m.VsProject)
-                .Returns(project);
+    public IUnconfiguredProjectVsServicesMock ImplementVsProject(IVsProject4 project)
+    {
+        SetupGet(m => m.VsProject)
+            .Returns(project);
 
-            return this;
-        }
+        return this;
+    }
 
-        public IUnconfiguredProjectVsServicesMock ImplementThreadingService(IProjectThreadingService threadingService)
-        {
-            SetupGet(m => m.ThreadingService)
-                .Returns(threadingService);
+    public IUnconfiguredProjectVsServicesMock ImplementThreadingService(IProjectThreadingService threadingService)
+    {
+        SetupGet(m => m.ThreadingService)
+            .Returns(threadingService);
 
-            return this;
-        }
+        return this;
+    }
 
-        public IUnconfiguredProjectVsServicesMock ImplementActiveConfiguredProjectProperties(ProjectProperties? projectProperties)
-        {
-            SetupGet<ProjectProperties?>(m => m.ActiveConfiguredProjectProperties)
-                .Returns(projectProperties);
+    public IUnconfiguredProjectVsServicesMock ImplementActiveConfiguredProjectProperties(ProjectProperties? projectProperties)
+    {
+        SetupGet<ProjectProperties?>(m => m.ActiveConfiguredProjectProperties)
+            .Returns(projectProperties);
 
-            return this;
-        }
+        return this;
     }
 }
